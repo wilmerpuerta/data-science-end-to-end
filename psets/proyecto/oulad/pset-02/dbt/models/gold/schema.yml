@@ -1,0 +1,335 @@
+{
+  "version": 2,
+  "models": [
+    {
+      "name": "dim_student",
+      "description": "Gold v1: grano y reglas en docs/gold.md; etiquetas y retiro separados de antecedentes.",
+      "columns": [
+        {
+          "name": "id_student",
+          "data_tests": [
+            "not_null",
+            "unique"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dim_edition",
+      "description": "Gold v1: grano y reglas en docs/gold.md; etiquetas y retiro separados de antecedentes.",
+      "columns": [
+        {
+          "name": "edition_key",
+          "data_tests": [
+            "not_null",
+            "unique"
+          ]
+        },
+        {
+          "name": "module_presentation_length",
+          "data_tests": [
+            "not_null"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dim_resource",
+      "description": "Gold v1: grano y reglas en docs/gold.md; etiquetas y retiro separados de antecedentes.",
+      "columns": [
+        {
+          "name": "resource_key",
+          "data_tests": [
+            "not_null",
+            "unique"
+          ]
+        },
+        {
+          "name": "edition_key",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('dim_edition')",
+                "field": "edition_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "activity_type",
+          "data_tests": [
+            "not_null"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dim_enrollment",
+      "description": "Gold v1: grano y reglas en docs/gold.md; etiquetas y retiro separados de antecedentes.",
+      "columns": [
+        {
+          "name": "enrollment_key",
+          "data_tests": [
+            "not_null",
+            "unique"
+          ]
+        },
+        {
+          "name": "id_student",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('dim_student')",
+                "field": "id_student"
+              }
+            }
+          ]
+        },
+        {
+          "name": "edition_key",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('dim_edition')",
+                "field": "edition_key"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dim_relative_day",
+      "description": "Gold v1: grano y reglas en docs/gold.md; etiquetas y retiro separados de antecedentes.",
+      "columns": [
+        {
+          "name": "relative_day",
+          "data_tests": [
+            "not_null",
+            "unique"
+          ]
+        },
+        {
+          "name": "is_observation_cutoff",
+          "data_tests": [
+            "not_null"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fact_enrollment",
+      "description": "Gold v1: grano y reglas en docs/gold.md; etiquetas y retiro separados de antecedentes.",
+      "columns": [
+        {
+          "name": "enrollment_key",
+          "data_tests": [
+            "not_null",
+            "unique",
+            {
+              "relationships": {
+                "to": "ref('dim_enrollment')",
+                "field": "enrollment_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "id_student",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('dim_student')",
+                "field": "id_student"
+              }
+            }
+          ]
+        },
+        {
+          "name": "edition_key",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('dim_edition')",
+                "field": "edition_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "enrollment_count",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "initial_registration_status",
+          "data_tests": [
+            "not_null"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fact_activity_daily",
+      "description": "Gold v1: grano y reglas en docs/gold.md; etiquetas y retiro separados de antecedentes.",
+      "columns": [
+        {
+          "name": "enrollment_key",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('dim_enrollment')",
+                "field": "enrollment_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "id_student",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('dim_student')",
+                "field": "id_student"
+              }
+            }
+          ]
+        },
+        {
+          "name": "edition_key",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('dim_edition')",
+                "field": "edition_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "resource_key",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('dim_resource')",
+                "field": "resource_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "activity_day",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('dim_relative_day')",
+                "field": "relative_day"
+              }
+            }
+          ]
+        },
+        {
+          "name": "click_count",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "source_row_count",
+          "data_tests": [
+            "not_null"
+          ]
+        }
+      ],
+      "data_tests": [
+        {
+          "unique_key": {
+            "columns": [
+              "code_module",
+              "code_presentation",
+              "id_student",
+              "id_site",
+              "activity_day"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "enrollment_withdrawal",
+      "description": "Gold v1: grano y reglas en docs/gold.md; etiquetas y retiro separados de antecedentes.",
+      "columns": [
+        {
+          "name": "enrollment_key",
+          "data_tests": [
+            "not_null",
+            "unique",
+            {
+              "relationships": {
+                "to": "ref('fact_enrollment')",
+                "field": "enrollment_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "has_no_recorded_withdrawal",
+          "data_tests": [
+            "not_null"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "outcome_enrollment",
+      "description": "Gold v1: grano y reglas en docs/gold.md; etiquetas y retiro separados de antecedentes.",
+      "columns": [
+        {
+          "name": "enrollment_key",
+          "data_tests": [
+            "not_null",
+            "unique",
+            {
+              "relationships": {
+                "to": "ref('fact_enrollment')",
+                "field": "enrollment_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "target_class",
+          "data_tests": [
+            "not_null",
+            {
+              "accepted_values": {
+                "values": [
+                  "Fail",
+                  "Withdrawn",
+                  "Approved"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "final_result",
+          "data_tests": [
+            "not_null"
+          ]
+        }
+      ]
+    }
+  ]
+}

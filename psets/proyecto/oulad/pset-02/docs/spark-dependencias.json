@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "spark": "3.5.6",
+  "scala": "2.12.18",
+  "java_major": 17,
+  "spark_connector": "3.2.3-spark_3.5",
+  "jdbc": "4.4.1",
+  "parquet_avro": "1.13.1",
+  "commons_lang3": "3.18.0",
+  "source_pom": "https://repo.maven.apache.org/maven2/net/snowflake/spark-snowflake_2.12/3.2.3-spark_3.5/spark-snowflake_2.12-3.2.3-spark_3.5.pom",
+  "lock": "../spark/jars.lock.json",
+  "python_requirements": "../spark/requirements.txt",
+  "note": "El artefacto 3.2.3 usa sufijo spark_3.5 en Maven; dependencias descargadas y verificadas al construir. Scala/Avro/Parquet base inspeccionados. Conexión Spark real verificada por separado."
+}

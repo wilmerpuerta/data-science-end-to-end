@@ -1,0 +1,5 @@
+*
+!Dockerfile
+!requirements.txt
+!fetch_jars.py
+!jars.lock.json

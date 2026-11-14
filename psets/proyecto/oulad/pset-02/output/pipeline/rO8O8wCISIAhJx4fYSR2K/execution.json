@@ -1,0 +1,29 @@
+{
+  "checked_at_utc": "2026-11-13T14:57:59.267596+00:00",
+  "execution_id": "rO8O8wCISIAhJx4fYSR2K",
+  "state": "FAILED",
+  "flow": "pset2.oulad/oulad_pipeline",
+  "tasks": [
+    {
+      "task_id": "raw",
+      "state": "SUCCESS",
+      "attempts": 1,
+      "started_at": "2026-11-13T14:55:15.264859Z",
+      "finished_at": "2026-11-13T14:55:50.012355Z"
+    },
+    {
+      "task_id": "gate",
+      "state": "FAILED",
+      "attempts": 2,
+      "started_at": "2026-11-13T14:55:50.402056Z",
+      "finished_at": "2026-11-13T14:55:56.259095Z"
+    }
+  ],
+  "inputs": {
+    "force_reload": false,
+    "retry_probe": false,
+    "fail_after_raw": true,
+    "source_file": "all"
+  },
+  "raw_execution_id": "2F0pkAiiqXPCaxJ4SVg0Os"
+}

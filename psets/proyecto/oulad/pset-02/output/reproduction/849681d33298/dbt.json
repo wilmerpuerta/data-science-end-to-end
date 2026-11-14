@@ -1,0 +1,1649 @@
+{
+  "status": "ok",
+  "returncode": 0,
+  "results": [
+    {
+      "unique_id": "model.pset2_oulad.stg_courses",
+      "status": "success",
+      "execution_time": 1.0747053623199463,
+      "failures": null
+    },
+    {
+      "unique_id": "model.pset2_oulad.stg_student_info",
+      "status": "success",
+      "execution_time": 1.4137909412384033,
+      "failures": null
+    },
+    {
+      "unique_id": "model.pset2_oulad.stg_student_registration",
+      "status": "success",
+      "execution_time": 0.8329339027404785,
+      "failures": null
+    },
+    {
+      "unique_id": "model.pset2_oulad.stg_student_vle",
+      "status": "success",
+      "execution_time": 0.958824634552002,
+      "failures": null
+    },
+    {
+      "unique_id": "test.pset2_oulad.contract_courses",
+      "status": "pass",
+      "execution_time": 0.45838141441345215,
+      "failures": 0
+    },
+    {
+      "unique_id": "model.pset2_oulad.stg_vle",
+      "status": "success",
+      "execution_time": 1.1372654438018799,
+      "failures": null
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_courses_code_module.6268da2000",
+      "status": "pass",
+      "execution_time": 0.25138330459594727,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_courses_edition_key.eacd515ff1",
+      "status": "pass",
+      "execution_time": 0.21614670753479004,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_courses_code_presentation.fbd0836500",
+      "status": "pass",
+      "execution_time": 0.28986096382141113,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_key_stg_courses_source_sha256__source_row_number.b1cfc47fe4",
+      "status": "pass",
+      "execution_time": 0.23236441612243652,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_stg_courses_edition_key.433b4ffa6f",
+      "status": "pass",
+      "execution_time": 0.22213125228881836,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.accepted_values_stg_student_info_final_result__Fail__Withdrawn__Pass__Distinction.bceea6e235",
+      "status": "pass",
+      "execution_time": 0.27906346321105957,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.contract_student_info",
+      "status": "pass",
+      "execution_time": 0.2937297821044922,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_info_code_module.84dc7b304b",
+      "status": "pass",
+      "execution_time": 0.2203977108001709,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_info_code_presentation.eab9d1e8ef",
+      "status": "pass",
+      "execution_time": 0.24170494079589844,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_info_final_result.e95abcd605",
+      "status": "pass",
+      "execution_time": 0.2045896053314209,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_info_enrollment_key.bba9ddb646",
+      "status": "pass",
+      "execution_time": 0.3169722557067871,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_info_id_student.557e076270",
+      "status": "pass",
+      "execution_time": 0.2096118927001953,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_stg_student_info_edition_key__edition_key__ref_stg_courses_.fe8b5852d2",
+      "status": "pass",
+      "execution_time": 0.34665393829345703,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_key_stg_student_info_source_sha256__source_row_number.f89022afbf",
+      "status": "pass",
+      "execution_time": 0.22966527938842773,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_stg_student_info_enrollment_key.0ec6369841",
+      "status": "pass",
+      "execution_time": 0.2550547122955322,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.contract_student_registration",
+      "status": "pass",
+      "execution_time": 0.29141807556152344,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_registration_code_module.d1f535b9f0",
+      "status": "pass",
+      "execution_time": 0.3670628070831299,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_registration_code_presentation.04b291586c",
+      "status": "pass",
+      "execution_time": 0.2850983142852783,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_registration_id_student.f4c5f14935",
+      "status": "pass",
+      "execution_time": 0.2142932415008545,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_registration_enrollment_key.69d05cd845",
+      "status": "pass",
+      "execution_time": 0.32012009620666504,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_stg_student_registration_edition_key__edition_key__ref_stg_courses_.4e197e3ccd",
+      "status": "pass",
+      "execution_time": 0.3323535919189453,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_stg_student_registration_enrollment_key__enrollment_key__ref_stg_student_info_.f570780e59",
+      "status": "pass",
+      "execution_time": 0.35443758964538574,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_key_stg_student_registration_source_sha256__source_row_number.95be1150df",
+      "status": "pass",
+      "execution_time": 0.21977710723876953,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_stg_student_registration_enrollment_key.3cb6ea3e67",
+      "status": "pass",
+      "execution_time": 0.23700428009033203,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_vle_code_module.d00e928e0f",
+      "status": "pass",
+      "execution_time": 0.5920553207397461,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_vle_code_presentation.d29814d03e",
+      "status": "pass",
+      "execution_time": 0.3662989139556885,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.contract_student_vle",
+      "status": "pass",
+      "execution_time": 1.2433111667633057,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_vle_date.ce309c2f6c",
+      "status": "pass",
+      "execution_time": 0.34095144271850586,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_vle_id_site.c49f44506a",
+      "status": "pass",
+      "execution_time": 0.3675217628479004,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_vle_id_student.c702b00938",
+      "status": "pass",
+      "execution_time": 0.37152791023254395,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_vle_sum_click.f44e375f02",
+      "status": "pass",
+      "execution_time": 0.32312774658203125,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_stg_student_vle_edition_key__edition_key__ref_stg_courses_.31833807d3",
+      "status": "pass",
+      "execution_time": 0.7494981288909912,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_key_stg_student_vle_source_sha256__source_row_number.d917d3aca6",
+      "status": "pass",
+      "execution_time": 0.9162659645080566,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_stg_student_vle_enrollment_key__enrollment_key__ref_stg_student_info_.67686cc5ba",
+      "status": "pass",
+      "execution_time": 1.5462336540222168,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_vle_code_module.5157d4f5ae",
+      "status": "pass",
+      "execution_time": 0.23958683013916016,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.contract_vle",
+      "status": "pass",
+      "execution_time": 0.2759428024291992,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_vle_code_presentation.095267ea83",
+      "status": "pass",
+      "execution_time": 0.4664306640625,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_vle_resource_key.90c0592bad",
+      "status": "pass",
+      "execution_time": 0.3035244941711426,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_vle_id_site.8e550dcbb9",
+      "status": "pass",
+      "execution_time": 0.8069422245025635,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_stg_vle_edition_key__edition_key__ref_stg_courses_.0eedbd0958",
+      "status": "pass",
+      "execution_time": 0.4385035037994385,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_key_stg_vle_source_sha256__source_row_number.86bfbc0dbe",
+      "status": "pass",
+      "execution_time": 0.22326993942260742,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_stg_vle_resource_key.02ce7e1104",
+      "status": "pass",
+      "execution_time": 0.2332460880279541,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_stg_student_vle_resource_key__resource_key__ref_stg_vle_.0f902f9710",
+      "status": "pass",
+      "execution_time": 1.0599048137664795,
+      "failures": 0
+    },
+    {
+      "unique_id": "model.pset2_oulad.slv_editions",
+      "status": "success",
+      "execution_time": 2.270707845687866,
+      "failures": null
+    },
+    {
+      "unique_id": "model.pset2_oulad.slv_enrollments",
+      "status": "success",
+      "execution_time": 2.3338418006896973,
+      "failures": null
+    },
+    {
+      "unique_id": "model.pset2_oulad.slv_registration",
+      "status": "success",
+      "execution_time": 1.8874671459197998,
+      "failures": null
+    },
+    {
+      "unique_id": "model.pset2_oulad.slv_resources",
+      "status": "success",
+      "execution_time": 1.8344061374664307,
+      "failures": null
+    },
+    {
+      "unique_id": "model.pset2_oulad.dq_bronze_profile",
+      "status": "success",
+      "execution_time": 5.589831829071045,
+      "failures": null
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_editions_code_module.84624e94eb",
+      "status": "pass",
+      "execution_time": 0.35207676887512207,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_editions_code_presentation.1f29af98ac",
+      "status": "pass",
+      "execution_time": 0.2817695140838623,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_editions_edition_key.8a66422c83",
+      "status": "pass",
+      "execution_time": 0.2919161319732666,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_editions_module_presentation_length.a6949d074b",
+      "status": "pass",
+      "execution_time": 0.19895219802856445,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.slv_editions_keys_preserved",
+      "status": "pass",
+      "execution_time": 0.48792004585266113,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_slv_editions_edition_key.eeb6fc305b",
+      "status": "pass",
+      "execution_time": 0.30234646797180176,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_enrollments_edition_key.954b52b469",
+      "status": "pass",
+      "execution_time": 0.26938891410827637,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_enrollments_enrollment_key.2379d008e1",
+      "status": "pass",
+      "execution_time": 0.3106386661529541,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_enrollments_id_student.37ebd3884b",
+      "status": "pass",
+      "execution_time": 0.2916905879974365,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_enrollments_is_imd_missing.c3567b2080",
+      "status": "pass",
+      "execution_time": 0.45131969451904297,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_slv_enrollments_edition_key__edition_key__ref_slv_editions_.db79840738",
+      "status": "pass",
+      "execution_time": 0.29523253440856934,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.silver_enrollment_columns",
+      "status": "pass",
+      "execution_time": 1.5275850296020508,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.slv_enrollments_keys_preserved",
+      "status": "pass",
+      "execution_time": 0.4675159454345703,
+      "failures": 0
+    },
+    {
+      "unique_id": "model.pset2_oulad.slv_activity_daily",
+      "status": "success",
+      "execution_time": 14.754061460494995,
+      "failures": null
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_slv_enrollments_enrollment_key.df12107358",
+      "status": "pass",
+      "execution_time": 0.2222144603729248,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.accepted_values_slv_registration_initial_registration_status__missing_registration__registered_after_start__registered_by_start.34fbee6b49",
+      "status": "pass",
+      "execution_time": 0.3127319812774658,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_registration_edition_key.24a8935a99",
+      "status": "pass",
+      "execution_time": 0.19724369049072266,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_registration_enrollment_key.8bc6c918d9",
+      "status": "pass",
+      "execution_time": 0.26135826110839844,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_registration_initial_registration_status.aec4989f08",
+      "status": "pass",
+      "execution_time": 0.18683171272277832,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_slv_registration_edition_key__edition_key__ref_slv_editions_.2fd33642a8",
+      "status": "pass",
+      "execution_time": 0.29187440872192383,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_registration_is_registered_at_start.433b620b9e",
+      "status": "pass",
+      "execution_time": 0.49417543411254883,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_slv_registration_enrollment_key__enrollment_key__ref_slv_enrollments_.9262dcb103",
+      "status": "pass",
+      "execution_time": 0.3611586093902588,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.silver_registration_policy",
+      "status": "pass",
+      "execution_time": 0.20639729499816895,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_slv_registration_enrollment_key.62c23ab0e9",
+      "status": "pass",
+      "execution_time": 0.19385933876037598,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.slv_registration_keys_preserved",
+      "status": "pass",
+      "execution_time": 0.37912845611572266,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_resources_activity_type.d9550bde29",
+      "status": "pass",
+      "execution_time": 0.28139638900756836,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_resources_edition_key.97be5d765d",
+      "status": "pass",
+      "execution_time": 0.27207279205322266,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_resources_is_schedule_unknown.04c24afd25",
+      "status": "pass",
+      "execution_time": 0.26587653160095215,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_resources_resource_key.f2d7b15d5a",
+      "status": "pass",
+      "execution_time": 0.1809217929840088,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_slv_resources_edition_key__edition_key__ref_slv_editions_.92341760ed",
+      "status": "pass",
+      "execution_time": 0.27438807487487793,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.slv_resources_keys_preserved",
+      "status": "pass",
+      "execution_time": 0.3527376651763916,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_slv_resources_resource_key.b276d84e56",
+      "status": "pass",
+      "execution_time": 0.3149447441101074,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.valid_domains_bronze",
+      "status": "pass",
+      "execution_time": 0.3136918544769287,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_activity_daily_activity_day.333a4a7342",
+      "status": "pass",
+      "execution_time": 0.28539466857910156,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_activity_daily_click_count.3593e8c601",
+      "status": "pass",
+      "execution_time": 0.19567012786865234,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_activity_daily_edition_key.efd50cce69",
+      "status": "pass",
+      "execution_time": 0.23206305503845215,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_activity_daily_enrollment_key.2b826f9c44",
+      "status": "pass",
+      "execution_time": 0.28620052337646484,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_activity_daily_resource_key.047a5d9403",
+      "status": "pass",
+      "execution_time": 0.2836158275604248,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_activity_daily_source_row_count.8a071c9263",
+      "status": "pass",
+      "execution_time": 0.18499374389648438,
+      "failures": 0
+    },
+    {
+      "unique_id": "model.pset2_oulad.dim_edition",
+      "status": "success",
+      "execution_time": 1.721221685409546,
+      "failures": null
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_activity_daily_source_sha256.93ff7bc090",
+      "status": "pass",
+      "execution_time": 0.18535780906677246,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_slv_activity_daily_edition_key__edition_key__ref_slv_editions_.41ba2a3283",
+      "status": "pass",
+      "execution_time": 0.31104040145874023,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_slv_activity_daily_enrollment_key__enrollment_key__ref_slv_enrollments_.90d41b3564",
+      "status": "pass",
+      "execution_time": 0.3396291732788086,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_slv_activity_daily_resource_key__resource_key__ref_slv_resources_.463cae3ec5",
+      "status": "pass",
+      "execution_time": 0.32141828536987305,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.silver_activity_domains",
+      "status": "pass",
+      "execution_time": 0.2193307876586914,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.silver_activity_reconciliation",
+      "status": "pass",
+      "execution_time": 2.3736300468444824,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_key_slv_activity_daily_code_module__code_presentation__id_student__id_site__activity_day.93a93c55bb",
+      "status": "pass",
+      "execution_time": 0.7709581851959229,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.silver_activity_keys_preserved",
+      "status": "pass",
+      "execution_time": 4.270007371902466,
+      "failures": 0
+    },
+    {
+      "unique_id": "model.pset2_oulad.dim_enrollment",
+      "status": "success",
+      "execution_time": 1.9108788967132568,
+      "failures": null
+    },
+    {
+      "unique_id": "model.pset2_oulad.dim_student",
+      "status": "success",
+      "execution_time": 1.5675990581512451,
+      "failures": null
+    },
+    {
+      "unique_id": "model.pset2_oulad.enrollment_withdrawal",
+      "status": "success",
+      "execution_time": 1.964226245880127,
+      "failures": null
+    },
+    {
+      "unique_id": "model.pset2_oulad.fact_enrollment",
+      "status": "success",
+      "execution_time": 1.8444092273712158,
+      "failures": null
+    },
+    {
+      "unique_id": "model.pset2_oulad.slv_outcomes",
+      "status": "success",
+      "execution_time": 1.9148104190826416,
+      "failures": null
+    },
+    {
+      "unique_id": "test.pset2_oulad.dim_edition_keys_preserved",
+      "status": "pass",
+      "execution_time": 0.4142475128173828,
+      "failures": 0
+    },
+    {
+      "unique_id": "model.pset2_oulad.dim_resource",
+      "status": "success",
+      "execution_time": 1.7667312622070312,
+      "failures": null
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_dim_edition_edition_key.95ea910d00",
+      "status": "pass",
+      "execution_time": 0.30823731422424316,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_dim_edition_module_presentation_length.e6ff6f23ee",
+      "status": "pass",
+      "execution_time": 0.24480199813842773,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_dim_edition_edition_key.b404e3c356",
+      "status": "pass",
+      "execution_time": 0.21725749969482422,
+      "failures": 0
+    },
+    {
+      "unique_id": "model.pset2_oulad.dim_relative_day",
+      "status": "success",
+      "execution_time": 2.367239236831665,
+      "failures": null
+    },
+    {
+      "unique_id": "test.pset2_oulad.dim_enrollment_keys_preserved",
+      "status": "pass",
+      "execution_time": 0.6143765449523926,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_dim_enrollment_edition_key.136896c2ce",
+      "status": "pass",
+      "execution_time": 0.3204939365386963,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_dim_enrollment_enrollment_key.5f43856b3f",
+      "status": "pass",
+      "execution_time": 0.44162917137145996,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_dim_enrollment_id_student.959ebbb770",
+      "status": "pass",
+      "execution_time": 0.23789286613464355,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_dim_enrollment_edition_key__edition_key__ref_dim_edition_.0829222dc9",
+      "status": "pass",
+      "execution_time": 0.3301560878753662,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_dim_enrollment_enrollment_key.72ed952d7d",
+      "status": "pass",
+      "execution_time": 0.192518949508667,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.dim_student_keys_preserved",
+      "status": "pass",
+      "execution_time": 0.38798093795776367,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_dim_student_id_student.f9d46e4617",
+      "status": "pass",
+      "execution_time": 0.26667070388793945,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_dim_enrollment_id_student__id_student__ref_dim_student_.fbecd041cf",
+      "status": "pass",
+      "execution_time": 0.34079527854919434,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_dim_student_id_student.ec5fd4b47b",
+      "status": "pass",
+      "execution_time": 0.20923066139221191,
+      "failures": 0
+    },
+    {
+      "unique_id": "model.pset2_oulad.fact_activity_daily",
+      "status": "success",
+      "execution_time": 5.822088241577148,
+      "failures": null
+    },
+    {
+      "unique_id": "test.pset2_oulad.enrollment_withdrawal_keys_preserved",
+      "status": "pass",
+      "execution_time": 0.43616771697998047,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_enrollment_withdrawal_enrollment_key.10a20e3fd8",
+      "status": "pass",
+      "execution_time": 0.2044994831085205,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_enrollment_withdrawal_has_no_recorded_withdrawal.1b592fa3ec",
+      "status": "pass",
+      "execution_time": 0.19699931144714355,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_enrollment_withdrawal_enrollment_key.83bb81f7cf",
+      "status": "pass",
+      "execution_time": 0.2916386127471924,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.fact_enrollment_keys_preserved",
+      "status": "pass",
+      "execution_time": 0.4081892967224121,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.gold_enrollment_context",
+      "status": "pass",
+      "execution_time": 0.42181921005249023,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_fact_enrollment_edition_key.2e7045761a",
+      "status": "pass",
+      "execution_time": 0.24432611465454102,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_fact_enrollment_enrollment_count.3e8d9058ee",
+      "status": "pass",
+      "execution_time": 0.2217235565185547,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.gold_enrollment_join",
+      "status": "pass",
+      "execution_time": 0.8018581867218018,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_fact_enrollment_enrollment_key.6743125a10",
+      "status": "pass",
+      "execution_time": 0.2771334648132324,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_fact_enrollment_id_student.d34b145892",
+      "status": "pass",
+      "execution_time": 0.20068812370300293,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_fact_enrollment_initial_registration_status.998cd42206",
+      "status": "pass",
+      "execution_time": 0.25313234329223633,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_enrollment_withdrawal_enrollment_key__enrollment_key__ref_fact_enrollment_.5329d8d320",
+      "status": "pass",
+      "execution_time": 0.5530054569244385,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_fact_enrollment_edition_key__edition_key__ref_dim_edition_.a84439dcdb",
+      "status": "pass",
+      "execution_time": 0.3843100070953369,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_fact_enrollment_enrollment_key__enrollment_key__ref_dim_enrollment_.0430af8f09",
+      "status": "pass",
+      "execution_time": 0.399275541305542,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_fact_enrollment_id_student__id_student__ref_dim_student_.2554418200",
+      "status": "pass",
+      "execution_time": 0.4005148410797119,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_fact_enrollment_enrollment_key.2a805651bb",
+      "status": "pass",
+      "execution_time": 0.26888442039489746,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.accepted_values_slv_outcomes_final_result__Fail__Withdrawn__Pass__Distinction.ec2e71347a",
+      "status": "pass",
+      "execution_time": 0.584174394607544,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.accepted_values_slv_outcomes_target_class__Fail__Withdrawn__Approved.65db2201b4",
+      "status": "pass",
+      "execution_time": 0.31097912788391113,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_outcomes_enrollment_key.ca1d76eee4",
+      "status": "pass",
+      "execution_time": 0.19388985633850098,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_outcomes_edition_key.ac008923b5",
+      "status": "pass",
+      "execution_time": 0.2968463897705078,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_outcomes_target_class.53f9531441",
+      "status": "pass",
+      "execution_time": 0.19357824325561523,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_slv_outcomes_final_result.3a924e7b1b",
+      "status": "pass",
+      "execution_time": 0.33065056800842285,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_slv_outcomes_edition_key__edition_key__ref_slv_editions_.29a4bc2a07",
+      "status": "pass",
+      "execution_time": 0.25306272506713867,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_slv_outcomes_enrollment_key__enrollment_key__ref_slv_enrollments_.11a0b00c41",
+      "status": "pass",
+      "execution_time": 0.2869558334350586,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.silver_outcomes_preserved",
+      "status": "pass",
+      "execution_time": 0.3540966510772705,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.slv_outcomes_keys_preserved",
+      "status": "pass",
+      "execution_time": 0.47979140281677246,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_slv_outcomes_enrollment_key.9d91512f69",
+      "status": "pass",
+      "execution_time": 0.21730327606201172,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_dim_resource_activity_type.9e717bb6cd",
+      "status": "pass",
+      "execution_time": 0.2945289611816406,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_dim_resource_edition_key.a656f49af1",
+      "status": "pass",
+      "execution_time": 0.20311260223388672,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.dim_resource_keys_preserved",
+      "status": "pass",
+      "execution_time": 0.5815534591674805,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_dim_resource_resource_key.ac817260bb",
+      "status": "pass",
+      "execution_time": 0.19674992561340332,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_dim_resource_resource_key.be387c15da",
+      "status": "pass",
+      "execution_time": 0.1978604793548584,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_dim_resource_edition_key__edition_key__ref_dim_edition_.4b1d69b308",
+      "status": "pass",
+      "execution_time": 0.48160219192504883,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.gold_relative_day_contract",
+      "status": "pass",
+      "execution_time": 0.352445125579834,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_dim_relative_day_is_observation_cutoff.671732efa3",
+      "status": "pass",
+      "execution_time": 0.2271571159362793,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_dim_relative_day_relative_day.c24ba38270",
+      "status": "pass",
+      "execution_time": 0.29731059074401855,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_dim_relative_day_relative_day.42ef1e3b82",
+      "status": "pass",
+      "execution_time": 0.32113170623779297,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.gold_activity_context",
+      "status": "pass",
+      "execution_time": 1.8069562911987305,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.gold_activity_keys_preserved",
+      "status": "pass",
+      "execution_time": 2.184522867202759,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.gold_activity_reconciliation",
+      "status": "pass",
+      "execution_time": 0.4014103412628174,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.gold_dimensional_join",
+      "status": "pass",
+      "execution_time": 1.0926616191864014,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_fact_activity_daily_activity_day.00a65fa04a",
+      "status": "pass",
+      "execution_time": 0.20009589195251465,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.gold_feature_column_allowlist",
+      "status": "pass",
+      "execution_time": 1.4207885265350342,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_fact_activity_daily_click_count.6732f0b432",
+      "status": "pass",
+      "execution_time": 0.34458327293395996,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_fact_activity_daily_edition_key.0c54a6374c",
+      "status": "pass",
+      "execution_time": 0.27684664726257324,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_fact_activity_daily_enrollment_key.1ae625d9c0",
+      "status": "pass",
+      "execution_time": 0.1869831085205078,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_fact_activity_daily_id_student.899e9c8639",
+      "status": "pass",
+      "execution_time": 0.2092905044555664,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_fact_activity_daily_resource_key.66b4e1b75c",
+      "status": "pass",
+      "execution_time": 0.20295429229736328,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_fact_activity_daily_source_row_count.6e0bc0b372",
+      "status": "pass",
+      "execution_time": 0.19060635566711426,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_fact_activity_daily_activity_day__relative_day__ref_dim_relative_day_.ad62fd43bd",
+      "status": "pass",
+      "execution_time": 0.2935948371887207,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_fact_activity_daily_edition_key__edition_key__ref_dim_edition_.e90bf75dc9",
+      "status": "pass",
+      "execution_time": 0.2709085941314697,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_fact_activity_daily_id_student__id_student__ref_dim_student_.6811b66393",
+      "status": "pass",
+      "execution_time": 0.35501527786254883,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_fact_activity_daily_enrollment_key__enrollment_key__ref_dim_enrollment_.963e1744b5",
+      "status": "pass",
+      "execution_time": 0.39136719703674316,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_key_fact_activity_daily_code_module__code_presentation__id_student__id_site__activity_day.8d6c4a68ef",
+      "status": "pass",
+      "execution_time": 0.6161556243896484,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_fact_activity_daily_resource_key__resource_key__ref_dim_resource_.be613e4512",
+      "status": "pass",
+      "execution_time": 0.7836270332336426,
+      "failures": 0
+    },
+    {
+      "unique_id": "model.pset2_oulad.outcome_enrollment",
+      "status": "success",
+      "execution_time": 1.8779876232147217,
+      "failures": null
+    },
+    {
+      "unique_id": "test.pset2_oulad.accepted_values_outcome_enrollment_target_class__Fail__Withdrawn__Approved.41fb50468e",
+      "status": "pass",
+      "execution_time": 0.36825108528137207,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.gold_outcomes_preserved",
+      "status": "pass",
+      "execution_time": 0.5557363033294678,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_outcome_enrollment_enrollment_key.595f405639",
+      "status": "pass",
+      "execution_time": 0.2844686508178711,
+      "failures": 0
+    },
+    {
+      "unique_id": "model.pset2_oulad.dq_silver_profile",
+      "status": "success",
+      "execution_time": 3.262146234512329,
+      "failures": null
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_outcome_enrollment_final_result.e7633a9ba6",
+      "status": "pass",
+      "execution_time": 0.20425653457641602,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.outcome_enrollment_keys_preserved",
+      "status": "pass",
+      "execution_time": 0.2911252975463867,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_outcome_enrollment_target_class.4219dd3967",
+      "status": "pass",
+      "execution_time": 0.6436734199523926,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_outcome_enrollment_enrollment_key__enrollment_key__ref_fact_enrollment_.173fdbffe5",
+      "status": "pass",
+      "execution_time": 0.2707500457763672,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_outcome_enrollment_enrollment_key.19b1dc1ecd",
+      "status": "pass",
+      "execution_time": 0.20673036575317383,
+      "failures": 0
+    },
+    {
+      "unique_id": "model.pset2_oulad.dq_gold_profile",
+      "status": "success",
+      "execution_time": 2.6364212036132812,
+      "failures": null
+    }
+  ],
+  "models_succeeded": 23,
+  "tests_passed": 168,
+  "elapsed_seconds": 74.13,
+  "build_checked_at_utc": "2026-11-13T15:50:31.518210+00:00",
+  "quality": {
+    "bronze": [
+      {
+        "dataset": "courses",
+        "metric": "invalid_duration",
+        "value": 0,
+        "denominator": 22
+      },
+      {
+        "dataset": "courses",
+        "metric": "rows",
+        "value": 22,
+        "denominator": 22
+      },
+      {
+        "dataset": "outcomes",
+        "metric": "other_outcome_with_date",
+        "value": 9,
+        "denominator": 32593
+      },
+      {
+        "dataset": "outcomes",
+        "metric": "withdrawn_without_date",
+        "value": 93,
+        "denominator": 32593
+      },
+      {
+        "dataset": "registration",
+        "metric": "late_registration",
+        "value": 234,
+        "denominator": 32593
+      },
+      {
+        "dataset": "registration",
+        "metric": "missing_registration",
+        "value": 45,
+        "denominator": 32593
+      },
+      {
+        "dataset": "registration",
+        "metric": "no_recorded_withdrawal",
+        "value": 22521,
+        "denominator": 32593
+      },
+      {
+        "dataset": "registration",
+        "metric": "rows",
+        "value": 32593,
+        "denominator": 32593
+      },
+      {
+        "dataset": "registration",
+        "metric": "withdrawal_before_registration",
+        "value": 0,
+        "denominator": 32593
+      },
+      {
+        "dataset": "student_info",
+        "metric": "invalid_background",
+        "value": 0,
+        "denominator": 32593
+      },
+      {
+        "dataset": "student_info",
+        "metric": "missing_imd",
+        "value": 1111,
+        "denominator": 32593
+      },
+      {
+        "dataset": "student_info",
+        "metric": "rows",
+        "value": 32593,
+        "denominator": 32593
+      },
+      {
+        "dataset": "student_info",
+        "metric": "unique_people",
+        "value": 28785,
+        "denominator": 32593
+      },
+      {
+        "dataset": "student_vle",
+        "metric": "max_day",
+        "value": 269,
+        "denominator": null
+      },
+      {
+        "dataset": "student_vle",
+        "metric": "min_day",
+        "value": -25,
+        "denominator": null
+      },
+      {
+        "dataset": "student_vle",
+        "metric": "negative_clicks",
+        "value": 0,
+        "denominator": 10655280
+      },
+      {
+        "dataset": "student_vle",
+        "metric": "prestart_rows",
+        "value": 688988,
+        "denominator": 10655280
+      },
+      {
+        "dataset": "student_vle",
+        "metric": "repeated_exact_value_excess",
+        "value": 787170,
+        "denominator": 10655280
+      },
+      {
+        "dataset": "student_vle",
+        "metric": "repeated_natural_key_excess",
+        "value": 2195960,
+        "denominator": 10655280
+      },
+      {
+        "dataset": "student_vle",
+        "metric": "rows",
+        "value": 10655280,
+        "denominator": 10655280
+      },
+      {
+        "dataset": "student_vle",
+        "metric": "total_clicks",
+        "value": 39605099,
+        "denominator": null
+      },
+      {
+        "dataset": "student_vle",
+        "metric": "zero_clicks",
+        "value": 0,
+        "denominator": 10655280
+      },
+      {
+        "dataset": "vle",
+        "metric": "missing_week_from",
+        "value": 5243,
+        "denominator": 6364
+      },
+      {
+        "dataset": "vle",
+        "metric": "missing_week_to",
+        "value": 5243,
+        "denominator": 6364
+      },
+      {
+        "dataset": "vle",
+        "metric": "reversed_weeks",
+        "value": 0,
+        "denominator": 6364
+      },
+      {
+        "dataset": "vle",
+        "metric": "rows",
+        "value": 6364,
+        "denominator": 6364
+      }
+    ],
+    "silver": [
+      {
+        "dataset": "activity_daily",
+        "metric": "clicks",
+        "value": 39605099,
+        "denominator": null
+      },
+      {
+        "dataset": "activity_daily",
+        "metric": "exact_value_excess",
+        "value": 787170,
+        "denominator": 10655280
+      },
+      {
+        "dataset": "activity_daily",
+        "metric": "multiple_source_groups",
+        "value": 1614505,
+        "denominator": 8459320
+      },
+      {
+        "dataset": "activity_daily",
+        "metric": "natural_key_excess",
+        "value": 2195960,
+        "denominator": 10655280
+      },
+      {
+        "dataset": "activity_daily",
+        "metric": "prestart_clicks",
+        "value": 2147947,
+        "denominator": 39605099
+      },
+      {
+        "dataset": "activity_daily",
+        "metric": "prestart_groups",
+        "value": 600241,
+        "denominator": 8459320
+      },
+      {
+        "dataset": "activity_daily",
+        "metric": "rows",
+        "value": 8459320,
+        "denominator": 8459320
+      },
+      {
+        "dataset": "activity_daily",
+        "metric": "source_rows",
+        "value": 10655280,
+        "denominator": null
+      },
+      {
+        "dataset": "editions",
+        "metric": "rows",
+        "value": 22,
+        "denominator": 22
+      },
+      {
+        "dataset": "enrollments",
+        "metric": "missing_imd",
+        "value": 1111,
+        "denominator": 32593
+      },
+      {
+        "dataset": "enrollments",
+        "metric": "registered_at_start_without_activity",
+        "value": 3309,
+        "denominator": 32593
+      },
+      {
+        "dataset": "enrollments",
+        "metric": "rows",
+        "value": 32593,
+        "denominator": 32593
+      },
+      {
+        "dataset": "enrollments",
+        "metric": "without_activity",
+        "value": 3365,
+        "denominator": 32593
+      },
+      {
+        "dataset": "outcomes",
+        "metric": "Approved",
+        "value": 15385,
+        "denominator": 32593
+      },
+      {
+        "dataset": "outcomes",
+        "metric": "Fail",
+        "value": 7052,
+        "denominator": 32593
+      },
+      {
+        "dataset": "outcomes",
+        "metric": "Withdrawn",
+        "value": 10156,
+        "denominator": 32593
+      },
+      {
+        "dataset": "outcomes",
+        "metric": "other_outcome_with_date",
+        "value": 9,
+        "denominator": 32593
+      },
+      {
+        "dataset": "outcomes",
+        "metric": "rows",
+        "value": 32593,
+        "denominator": 32593
+      },
+      {
+        "dataset": "outcomes",
+        "metric": "withdrawn_without_date",
+        "value": 93,
+        "denominator": 32593
+      },
+      {
+        "dataset": "registration",
+        "metric": "late_registration",
+        "value": 234,
+        "denominator": 32593
+      },
+      {
+        "dataset": "registration",
+        "metric": "missing_registration",
+        "value": 45,
+        "denominator": 32593
+      },
+      {
+        "dataset": "registration",
+        "metric": "registered_at_start",
+        "value": 32314,
+        "denominator": 32593
+      },
+      {
+        "dataset": "registration",
+        "metric": "rows",
+        "value": 32593,
+        "denominator": 32593
+      },
+      {
+        "dataset": "registration",
+        "metric": "withdrawn_by_start",
+        "value": 3062,
+        "denominator": 32314
+      },
+      {
+        "dataset": "resources",
+        "metric": "rows",
+        "value": 6364,
+        "denominator": 6364
+      },
+      {
+        "dataset": "resources",
+        "metric": "unknown_schedule",
+        "value": 5243,
+        "denominator": 6364
+      },
+      {
+        "dataset": "sensitivity",
+        "metric": "clicks_if_exact_deduplicated",
+        "value": 38343063,
+        "denominator": null
+      }
+    ],
+    "gold": [
+      {
+        "dataset": "dim_edition",
+        "metric": "rows",
+        "value": 22,
+        "denominator": 22
+      },
+      {
+        "dataset": "dim_enrollment",
+        "metric": "rows",
+        "value": 32593,
+        "denominator": 32593
+      },
+      {
+        "dataset": "dim_relative_day",
+        "metric": "cutoffs",
+        "value": 4,
+        "denominator": null
+      },
+      {
+        "dataset": "dim_relative_day",
+        "metric": "max_day",
+        "value": 269,
+        "denominator": null
+      },
+      {
+        "dataset": "dim_relative_day",
+        "metric": "min_day",
+        "value": -25,
+        "denominator": null
+      },
+      {
+        "dataset": "dim_relative_day",
+        "metric": "rows",
+        "value": 295,
+        "denominator": 295
+      },
+      {
+        "dataset": "dim_resource",
+        "metric": "rows",
+        "value": 6364,
+        "denominator": 6364
+      },
+      {
+        "dataset": "dim_student",
+        "metric": "rows",
+        "value": 28785,
+        "denominator": 28785
+      },
+      {
+        "dataset": "dimensional_join",
+        "metric": "clicks",
+        "value": 39605099,
+        "denominator": null
+      },
+      {
+        "dataset": "dimensional_join",
+        "metric": "rows",
+        "value": 8459320,
+        "denominator": 8459320
+      },
+      {
+        "dataset": "eligibility_day_14",
+        "metric": "expected_enrollments",
+        "value": 27881,
+        "denominator": null
+      },
+      {
+        "dataset": "eligibility_day_28",
+        "metric": "expected_enrollments",
+        "value": 27307,
+        "denominator": null
+      },
+      {
+        "dataset": "eligibility_day_42",
+        "metric": "expected_enrollments",
+        "value": 26795,
+        "denominator": null
+      },
+      {
+        "dataset": "eligibility_day_56",
+        "metric": "expected_enrollments",
+        "value": 26294,
+        "denominator": null
+      },
+      {
+        "dataset": "enrollment_withdrawal",
+        "metric": "rows",
+        "value": 32593,
+        "denominator": 32593
+      },
+      {
+        "dataset": "fact_activity_daily",
+        "metric": "clicks",
+        "value": 39605099,
+        "denominator": null
+      },
+      {
+        "dataset": "fact_activity_daily",
+        "metric": "rows",
+        "value": 8459320,
+        "denominator": 8459320
+      },
+      {
+        "dataset": "fact_activity_daily",
+        "metric": "source_rows",
+        "value": 10655280,
+        "denominator": null
+      },
+      {
+        "dataset": "fact_enrollment",
+        "metric": "enrollment_count",
+        "value": 32593,
+        "denominator": 32593
+      },
+      {
+        "dataset": "fact_enrollment",
+        "metric": "registered_at_start",
+        "value": 32314,
+        "denominator": 32593
+      },
+      {
+        "dataset": "fact_enrollment",
+        "metric": "rows",
+        "value": 32593,
+        "denominator": 32593
+      },
+      {
+        "dataset": "fact_enrollment",
+        "metric": "without_activity",
+        "value": 3365,
+        "denominator": null
+      },
+      {
+        "dataset": "outcome_enrollment",
+        "metric": "Approved",
+        "value": 15385,
+        "denominator": 32593
+      },
+      {
+        "dataset": "outcome_enrollment",
+        "metric": "Fail",
+        "value": 7052,
+        "denominator": 32593
+      },
+      {
+        "dataset": "outcome_enrollment",
+        "metric": "Withdrawn",
+        "value": 10156,
+        "denominator": 32593
+      },
+      {
+        "dataset": "outcome_enrollment",
+        "metric": "rows",
+        "value": 32593,
+        "denominator": 32593
+      }
+    ]
+  },
+  "quality_checked_at_utc": {
+    "bronze": "2026-11-13T15:50:35.007416+00:00",
+    "silver": "2026-11-13T15:50:37.993841+00:00",
+    "gold": "2026-11-13T15:50:40.322843+00:00"
+  },
+  "component": "dbt",
+  "execution_id": "5Q6X4LdUa2UgmMlZAkoifn",
+  "attempt": 1,
+  "job_id": "42a1305c20509ee1aebfb9b2cff65bbb",
+  "started_at_utc": "2026-11-13T15:49:10.429921+00:00",
+  "finished_at_utc": "2026-11-13T15:50:40.323061+00:00"
+}

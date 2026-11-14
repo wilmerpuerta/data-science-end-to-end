@@ -1,0 +1,135 @@
+{
+  "execution": {
+    "checked_at_utc": "2026-11-13T15:07:03.927419+00:00",
+    "execution_id": "6X7mzEdM0yvoBSbp8MnALv",
+    "state": "SUCCESS",
+    "flow": "pset2.oulad/oulad_pipeline",
+    "tasks": [
+      {
+        "task_id": "raw",
+        "state": "SUCCESS",
+        "attempts": 1,
+        "started_at": "2026-11-13T15:00:08.049518Z",
+        "finished_at": "2026-11-13T15:00:38.133511Z"
+      },
+      {
+        "task_id": "gate",
+        "state": "SUCCESS",
+        "attempts": 2,
+        "started_at": "2026-11-13T15:00:38.495051Z",
+        "finished_at": "2026-11-13T15:00:44.240537Z"
+      },
+      {
+        "task_id": "dbt",
+        "state": "SUCCESS",
+        "attempts": 1,
+        "started_at": "2026-11-13T15:00:44.282925Z",
+        "finished_at": "2026-11-13T15:02:44.753705Z"
+      },
+      {
+        "task_id": "spark",
+        "state": "SUCCESS",
+        "attempts": 1,
+        "started_at": "2026-11-13T15:02:44.929336Z",
+        "finished_at": "2026-11-13T15:07:02.038925Z"
+      },
+      {
+        "task_id": "verificar",
+        "state": "SUCCESS",
+        "attempts": 1,
+        "started_at": "2026-11-13T15:07:02.491326Z",
+        "finished_at": "2026-11-13T15:07:03.010447Z"
+      }
+    ],
+    "inputs": {
+      "force_reload": false,
+      "retry_probe": true,
+      "fail_after_raw": false,
+      "source_file": "all"
+    },
+    "raw_execution_id": "1tO0m3BdzY1gz3ZRkkR8sQ"
+  },
+  "verification": {
+    "checked_at_utc": "2026-11-13T15:07:02.976254+00:00",
+    "execution_id": "6X7mzEdM0yvoBSbp8MnALv",
+    "status": "ok",
+    "raw_execution_id": "1tO0m3BdzY1gz3ZRkkR8sQ",
+    "raw_files": [
+      {
+        "file": "studentInfo.csv",
+        "status": "NOOP",
+        "rows": 32593
+      },
+      {
+        "file": "studentRegistration.csv",
+        "status": "NOOP",
+        "rows": 32593
+      },
+      {
+        "file": "courses.csv",
+        "status": "NOOP",
+        "rows": 22
+      },
+      {
+        "file": "vle.csv",
+        "status": "NOOP",
+        "rows": 6364
+      },
+      {
+        "file": "studentVle.csv",
+        "status": "NOOP",
+        "rows": 10655280
+      }
+    ],
+    "raw_selected_rows": 10726852,
+    "dbt_tests_passed": 168,
+    "dbt_models_succeeded": 23,
+    "spark_run_id": "6e944512032a677434f15a762defb3d2",
+    "obt_rows": 108277,
+    "obt_columns": 35,
+    "obt_unique_keys": 108277,
+    "stage_order_verified": true,
+    "temporal_tests_passed": 4,
+    "readback_all_columns_equal": true,
+    "content_sha256_by_cutoff": {
+      "28": "ad7fc9fb0696d2c1a45da251d7b5432da155741ef1ad31bdb1e3601689cf6af0",
+      "14": "106029f6653ce3ce8bc2ac3ca528bd3e6e2ec7b5c999e8c7a910e148306de765",
+      "42": "6cd15278feedecdf2f7d6cc6e0dc6bec406c91b45b89e021b4a7456a46cf873c",
+      "56": "05d4f7c0a3e29e3ef7a4b3885f8b4a07605958e6c9a580c5bb3a536b2dd0228b"
+    },
+    "per_cutoff": [
+      {
+        "cutoff_day": 14,
+        "rows": 27881,
+        "without_recorded_activity": 1582,
+        "recorded_clicks": 6040639,
+        "window_clicks": 3701848,
+        "future_perturbation_unchanged": true
+      },
+      {
+        "cutoff_day": 28,
+        "rows": 27307,
+        "without_recorded_activity": 881,
+        "recorded_clicks": 9796266,
+        "window_clicks": 3817443,
+        "future_perturbation_unchanged": true
+      },
+      {
+        "cutoff_day": 42,
+        "rows": 26795,
+        "without_recorded_activity": 684,
+        "recorded_clicks": 12357596,
+        "window_clicks": 2674353,
+        "future_perturbation_unchanged": true
+      },
+      {
+        "cutoff_day": 56,
+        "rows": 26294,
+        "without_recorded_activity": 576,
+        "recorded_clicks": 14773890,
+        "window_clicks": 2571891,
+        "future_perturbation_unchanged": true
+      }
+    ]
+  }
+}

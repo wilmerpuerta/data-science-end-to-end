@@ -1,0 +1,7 @@
+id: infra_smoke
+namespace: pset2.local
+description: Comprobación local de ejecución y persistencia, sin acceso cloud.
+tasks:
+  - id: mensaje
+    type: io.kestra.plugin.core.log.Log
+    message: Infraestructura local PSet 2 disponible

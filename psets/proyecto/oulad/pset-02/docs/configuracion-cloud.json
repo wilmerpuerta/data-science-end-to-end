@@ -1,0 +1,7 @@
+{
+  "checked_at_utc": "2026-11-12T22:59:41.614668+00:00",
+  "status": "ok",
+  "expected_session_context_verified": true,
+  "private_configuration_created": true,
+  "scope": "Configuración privada y prueba del host. Sin carga de CSV ni conexión desde contenedores."
+}

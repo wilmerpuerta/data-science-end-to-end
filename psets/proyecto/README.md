@@ -1,31 +1,30 @@
-# [Nombre de tu proyecto]
+# Apoyo académico a tiempo con OULAD
 
-> Este es el README de tu proyecto: reemplaza cada sección entre corchetes a medida que avanzas. Escríbelo para alguien que clona tu fork sin haber estado en clase y necesita entender qué hace el proyecto y correrlo, no como una nota para ti.
+Wilmer Puerta · Proyecto académico de ciencia de datos.
 
-[Un párrafo: qué problema de negocio resuelve, para quién, y qué predice el modelo. Sale de tu propuesta del PSet 1, que está completa en `docs/`.]
+Evaluar si la actividad digital longitudinal permite detectar futuras reprobaciones con los mismos cupos de revisión preventiva. El contexto es una universidad hipotética; todavía no hay entrenamiento ni impacto educativo demostrado.
 
-**Métrica de éxito:** [la métrica de negocio y el umbral de decisión del PSet 1]
+La implementación y los entregables revisados viven en [oulad/](oulad/README.md). Allí se conserva una estructura por etapas, con datos compartidos identificados y comandos reproducibles.
 
-## Datos
+## Entregas disponibles
 
-| Fuente | Qué contiene | Cómo se obtiene | Dónde queda |
-|---|---|---|---|
-| [nombre de la fuente] | [qué filas y columnas trae, desde qué fecha] | [la URL, la API o el procedimiento exacto] | `data/raw/[archivo]` |
+- [PSet 1: propuesta, Canvas, notebook y pitch](oulad/pset-01/README.md).
+- [PSet 2: pipeline Kestra, Snowflake, dbt y Spark](oulad/pset-02/README.md).
+- [Memo técnico PSet 2, seis páginas](oulad/pset-02/output/pdf/PSet2_memo_Puerta_Wilmer.pdf).
+- [Revisión del paquete y límites de la evidencia](oulad/pset-02/docs/revision-paquete.md).
 
-Los datos no están en el repositorio. Para regenerarlos desde cero: [los comandos, en orden]. Se completa con el PSet 1.
+PSet 3 y PSet 4 permanecen pendientes de sus enunciados específicos. No se declaran modelos entrenados ni servicio de predicción.
 
-## Cómo correr el pipeline de datos
+## Datos y ejecución
 
-[Los comandos, en orden y desde qué carpeta, para ir de la fuente al warehouse: levantar la infraestructura, construir la imagen, subir el flow a Kestra, limpiar, cargar y correr dbt. Cada paso dice qué archivo deja y dónde. Se completa con el PSet 2.]
+Los cinco CSV originales OULAD se obtienen según [datasets/README.md](oulad/datasets/README.md) y se verifican contra su manifiesto. No se distribuyen datos originales ni credenciales en Git.
 
-## Cómo entrenar y evaluar el modelo
+Desde la raíz del fork, entrar en el paquete antes de seguir sus comandos:
 
-[Qué notebook corre cada etapa del modelado, en qué orden, y qué necesita levantado (MLflow). Se completa con el PSet 3.]
+```bash
+cd psets/proyecto/oulad
+```
 
-## Modelo final
+Seguir el [recorrido desde una copia nueva](oulad/pset-02/README.md#recorrido-desde-una-copia-nueva) para preparar autenticación privada, levantar Compose y ejecutar Kestra, dbt y Spark. El entorno probado y las limitaciones están documentados; esta publicación no afirma ejecución del pipeline en Codespaces.
 
-[El modelo elegido, su `run_id` en MLflow y la métrica que lo sostiene. El razonamiento completo está en `docs/decision_modelo.md`. Se completa con el PSet 3.]
-
-## Cómo correr el servicio
-
-[Cómo se construye y se levanta el contenedor de `servicio/`, qué versión del modelo carga desde el registro, y un ejemplo de petición con su respuesta. Se completa con el PSet 4.]
+El enunciado específico aplicado al PSet 2 es [el documento entregado por el autor](oulad/pset-02/enunciado.md), con Snowflake como destino. Se conserva además el material general del curso en las carpetas de enunciados, laboratorios y configuración.

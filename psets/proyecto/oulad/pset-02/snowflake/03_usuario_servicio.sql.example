@@ -1,0 +1,15 @@
+-- PLANTILLA. No ejecutar sin generar la copia local con la clave pública.
+-- Si PSET2_SVC ya existe, detenerse: no sustituir usuario ni claves existentes.
+USE ROLE USERADMIN;
+CREATE USER PSET2_SVC
+    TYPE = SERVICE
+    DEFAULT_ROLE = PSET2_PIPELINE
+    DEFAULT_WAREHOUSE = PSET2_WH
+    DEFAULT_NAMESPACE = 'PSET2_OULAD.RAW'
+    RSA_PUBLIC_KEY = '__PUBLIC_KEY_BODY__'
+    COMMENT = 'Cliente no interactivo del pipeline OULAD PSet 2';
+
+USE ROLE SECURITYADMIN;
+GRANT ROLE PSET2_PIPELINE TO USER PSET2_SVC;
+SHOW GRANTS TO USER PSET2_SVC;
+-- No se concede SYSADMIN ni ACCOUNTADMIN al usuario de servicio.

@@ -1,0 +1,15 @@
+{
+  "checked_at_utc": "2026-11-12T23:43:04.677964+00:00",
+  "execution_id": "5XSG2Kwy2wmOIhVhbbJsBs",
+  "state": "SUCCESS",
+  "task_attempt_counts": [
+    1
+  ],
+  "flow": "pset2.oulad/oulad_raw",
+  "inputs": {
+    "check_connection": false,
+    "force_reload": true,
+    "retry_probe": false,
+    "source_file": "courses.csv"
+  }
+}

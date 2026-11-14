@@ -1,0 +1,98 @@
+{
+  "checked_at_utc": "2026-11-13T16:03:58.461688+00:00",
+  "status": "ok",
+  "run_id": "849681d33298",
+  "project_name": "pset2repro_849681d33298",
+  "source_mode": "Exportación limpia de archivos versionables desde el árbol de trabajo; no es un clon remoto.",
+  "exported_files": 214,
+  "export_sha256": "34b0580f953837e27336ed47783804cae6a551a727b210dd24bcc885482f124c",
+  "code_sha256": "04a762962f70b7e1e2100c81889cb4ecff6e7b8cad506c89e89c12e3ce7e4928",
+  "separate_working_directory": true,
+  "export_files_unchanged": true,
+  "initial_runtime_paths_absent": [
+    ".venv",
+    "pset-02/.venv",
+    "pset-02/.local",
+    "pset-02/.env.infra",
+    "pset-02/.env.cloud",
+    "pset-02/output"
+  ],
+  "fresh_local_passwords": true,
+  "external_credentials_referenced_only": true,
+  "new_compose_project_and_volumes": true,
+  "kestra_port": 18080,
+  "management_port": 18081,
+  "own_images_rebuilt_without_layer_cache": true,
+  "base_images_pinned_and_reused": true,
+  "snowflake_resources_reused": true,
+  "raw_force_reloaded": true,
+  "raw_rows": 10726852,
+  "execution_id": "5Q6X4LdUa2UgmMlZAkoifn",
+  "dbt_models_succeeded": 23,
+  "dbt_tests_passed": 168,
+  "obt_rows": 108277,
+  "obt_columns": 35,
+  "content_sha256_matches_previous": true,
+  "future_perturbation_tests_passed": 4,
+  "readback_all_columns_equal": true,
+  "steps": [
+    {
+      "step": "stop_original",
+      "finished_at_utc": "2026-11-13T15:46:01.016634+00:00",
+      "returncode": 0
+    },
+    {
+      "step": "validate",
+      "finished_at_utc": "2026-11-13T15:46:01.261067+00:00",
+      "returncode": 0
+    },
+    {
+      "step": "pull",
+      "finished_at_utc": "2026-11-13T15:46:02.548939+00:00",
+      "returncode": 0
+    },
+    {
+      "step": "build_no_cache",
+      "finished_at_utc": "2026-11-13T15:47:21.107329+00:00",
+      "returncode": 0
+    },
+    {
+      "step": "up_new_volumes",
+      "finished_at_utc": "2026-11-13T15:47:44.220099+00:00",
+      "returncode": 0
+    },
+    {
+      "step": "smoke_seed",
+      "finished_at_utc": "2026-11-13T15:47:46.062649+00:00",
+      "returncode": 0
+    },
+    {
+      "step": "smoke_auth",
+      "finished_at_utc": "2026-11-13T15:47:48.434318+00:00",
+      "returncode": 0
+    },
+    {
+      "step": "deploy",
+      "finished_at_utc": "2026-11-13T15:47:49.511192+00:00",
+      "returncode": 0
+    },
+    {
+      "step": "pipeline_force_reload",
+      "finished_at_utc": "2026-11-13T15:54:19.061162+00:00",
+      "returncode": 0
+    },
+    {
+      "step": "stop_reproduction",
+      "finished_at_utc": "2026-11-13T15:54:22.615627+00:00",
+      "returncode": 0
+    },
+    {
+      "step": "restore_original",
+      "finished_at_utc": "2026-11-13T15:54:47.866916+00:00",
+      "returncode": 0
+    }
+  ],
+  "reproduction_stopped": true,
+  "original_stack_restored": true,
+  "scope": "Directorio, estado Kestra/PostgreSQL, volúmenes y contraseñas locales nuevos. CSV y secretos externos identificados; cuenta/rol/warehouse/esquemas Snowflake existentes. No prueba alta de cuenta nueva ni clon remoto."
+}

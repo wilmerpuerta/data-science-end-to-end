@@ -1,0 +1,9 @@
+{
+  "checked_at_utc": "2026-11-12T23:13:03.349883+00:00",
+  "execution_id": "r1LqZg1v9JkEQEq1LgAnO",
+  "state": "SUCCESS",
+  "task_attempt_counts": [
+    1
+  ],
+  "flow": "pset2.oulad/oulad_raw"
+}

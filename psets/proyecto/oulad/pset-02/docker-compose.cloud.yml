@@ -1,0 +1,151 @@
+services:
+  kestra:
+    image: pset2-kestra:v1.0.0-snowflake4.7.4
+    build:
+      context: ./ingestion
+    volumes:
+      - type: bind
+        source: ${SNOWFLAKE_CONNECTION_HOST_PATH:?Ejecutar configurar_cloud.py}
+        target: /run/secrets/snowflake_connection.json
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${SNOWFLAKE_PRIVATE_KEY_HOST_PATH:?Ejecutar configurar_cloud.py}
+        target: /run/secrets/snowflake_key.p8
+        read_only: true
+        bind:
+          create_host_path: false
+      - ./ingestion:/workspace/ingestion:ro
+      - ./output/raw:/workspace/output
+      - ./orchestration:/workspace/orchestration:ro
+      - ./output/pipeline:/workspace/pipeline
+      - type: bind
+        source: ../pset-01/docs/auditoria-resultados.json
+        target: /workspace/reference/audit.json
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./spark/feature-contract.json
+        target: /workspace/reference/feature-contract.json
+        read_only: true
+        bind:
+          create_host_path: false
+  spark:
+    image: pset2-spark:3.5.6-snowflake3.2.3
+    build:
+      context: ./spark
+    user: "0:0"
+    volumes:
+      - ./.local/spark:/workspace/artifacts
+      - ./output/spark:/workspace/output
+      - type: bind
+        source: ${SNOWFLAKE_CONNECTION_HOST_PATH:?Ejecutar configurar_cloud.py}
+        target: /run/secrets/snowflake_connection.json
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${SNOWFLAKE_PRIVATE_KEY_HOST_PATH:?Ejecutar configurar_cloud.py}
+        target: /run/secrets/snowflake_key.p8
+        read_only: true
+        bind:
+          create_host_path: false
+  dbt:
+    # Cliente puntual: root permite leer los dos archivos 0600 del host.
+    # No hay socket Docker ni puertos; código y secretos son de solo lectura.
+    user: "0:0"
+    volumes:
+      - ./dbt:/workspace/dbt:ro
+      - ./.local/dbt:/workspace/artifacts
+      - type: bind
+        source: ${SNOWFLAKE_CONNECTION_HOST_PATH:?Ejecutar configurar_cloud.py}
+        target: /run/secrets/snowflake_connection.json
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${SNOWFLAKE_PRIVATE_KEY_HOST_PATH:?Ejecutar configurar_cloud.py}
+        target: /run/secrets/snowflake_key.p8
+        read_only: true
+        bind:
+          create_host_path: false
+  dbt-runner:
+    image: pset2-dbt:core1.10.13-snowflake1.10.2
+    build:
+      context: ./dbt
+    platform: linux/amd64
+    user: "0:0"
+    entrypoint: [python, /workspace/orchestration/runner_service.py, dbt]
+    working_dir: /workspace/dbt
+    environment:
+      DBT_SEND_ANONYMOUS_USAGE_STATS: 'false'
+      PYTHONDONTWRITEBYTECODE: '1'
+    volumes:
+      - ./dbt:/workspace/dbt:ro
+      - ./orchestration:/workspace/orchestration:ro
+      - ./.local/orchestration/dbt:/workspace/artifacts
+      - ./output/pipeline:/workspace/pipeline
+      - type: bind
+        source: ${SNOWFLAKE_CONNECTION_HOST_PATH:?Ejecutar configurar_cloud.py}
+        target: /run/secrets/snowflake_connection.json
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${SNOWFLAKE_PRIVATE_KEY_HOST_PATH:?Ejecutar configurar_cloud.py}
+        target: /run/secrets/snowflake_key.p8
+        read_only: true
+        bind:
+          create_host_path: false
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8090/health',timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+    mem_limit: 1536m
+    restart: unless-stopped
+  spark-runner:
+    image: pset2-spark:3.5.6-snowflake3.2.3
+    build:
+      context: ./spark
+    platform: linux/amd64
+    user: "0:0"
+    entrypoint: [python3, /workspace/orchestration/runner_service.py, spark]
+    working_dir: /workspace/spark
+    environment:
+      SPARK_LOCAL_IP: 127.0.0.1
+      PYSPARK_PYTHON: python3
+      PYTHONDONTWRITEBYTECODE: '1'
+    volumes:
+      - ./spark:/workspace/spark:ro
+      - ./orchestration:/workspace/orchestration:ro
+      - ./.local/orchestration/spark:/workspace/artifacts
+      - ./output/pipeline:/workspace/pipeline
+      - ./output/spark:/workspace/output
+      - type: bind
+        source: ${OULAD_DATA_DIR:-../datasets}
+        target: /datasets
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${SNOWFLAKE_CONNECTION_HOST_PATH:?Ejecutar configurar_cloud.py}
+        target: /run/secrets/snowflake_connection.json
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${SNOWFLAKE_PRIVATE_KEY_HOST_PATH:?Ejecutar configurar_cloud.py}
+        target: /run/secrets/snowflake_key.p8
+        read_only: true
+        bind:
+          create_host_path: false
+    healthcheck:
+      test: [CMD, python3, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8090/health',timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+    mem_limit: 2304m
+    restart: unless-stopped

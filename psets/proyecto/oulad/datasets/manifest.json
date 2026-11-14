@@ -1,0 +1,46 @@
+{
+  "dataset": "OULAD",
+  "source": "https://research.stem.open.ac.uk/ouanalyse/dataset/",
+  "license": "CC BY 4.0",
+  "release": "histórico 2013–2014, publicación 2017; versión de descarga no aportada",
+  "audited_at": "2026-11-12T15:25:33.765580+00:00",
+  "files": {
+    "studentInfo.csv": {
+      "sha256": "7e6f3e474a5eee00639d2a414a6c7e928745823c2d2c2563ca1780145f99b0d6",
+      "bytes": 3461652,
+      "local_mtime_utc": "2026-11-12T14:53:20.025944+00:00",
+      "original_download_date": "no proporcionada",
+      "rows": 32593
+    },
+    "studentRegistration.csv": {
+      "sha256": "0d32676285372aaf2e7a80304e5b274b4fba24313e2ca4c04317225e1ec90170",
+      "bytes": 1109984,
+      "local_mtime_utc": "2026-11-12T14:53:20.008804+00:00",
+      "original_download_date": "no proporcionada",
+      "rows": 32593
+    },
+    "courses.csv": {
+      "sha256": "4f16eee7454b15e109b0a21a0e43be820e6846ed6f9301bb7feb5ab5ad737a75",
+      "bytes": 526,
+      "local_mtime_utc": "2026-11-12T14:53:20.069978+00:00",
+      "original_download_date": "no proporcionada",
+      "rows": 22
+    },
+    "vle.csv": {
+      "sha256": "d1b28303dea802ad87b4484e1196e878e06824850b9a4fe8aa34693439fe87e9",
+      "bytes": 260126,
+      "local_mtime_utc": "2026-11-12T14:53:19.978167+00:00",
+      "original_download_date": "no proporcionada",
+      "rows": 6364
+    },
+    "studentVle.csv": {
+      "sha256": "52668253d876c5becbcb72185977152700cecab2942aca807fecc3dd54b937f0",
+      "bytes": 453836331,
+      "local_mtime_utc": "2026-11-12T14:53:19.953528+00:00",
+      "original_download_date": "no proporcionada",
+      "rows": 10655280
+    }
+  },
+  "publication_doi": "https://doi.org/10.1038/sdata.2017.171",
+  "published_archive_reference": "https://doi.org/10.6084/m9.figshare.5081998.v1"
+}

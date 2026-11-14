@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "sources": [
+    {
+      "name": "oulad_raw",
+      "database": "PSET2_OULAD",
+      "schema": "RAW",
+      "description": "CSV originales: texto y linaje t\u00e9cnico; vac\u00edos preservados.",
+      "tables": [
+        {
+          "name": "studentinfo",
+          "identifier": "STUDENTINFO"
+        },
+        {
+          "name": "studentregistration",
+          "identifier": "STUDENTREGISTRATION"
+        },
+        {
+          "name": "courses",
+          "identifier": "COURSES"
+        },
+        {
+          "name": "vle",
+          "identifier": "VLE"
+        },
+        {
+          "name": "studentvle",
+          "identifier": "STUDENTVLE"
+        }
+      ]
+    }
+  ]
+}

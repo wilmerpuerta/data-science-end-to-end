@@ -1,0 +1,364 @@
+[
+  {
+    "title": "Apoyo académico a tiempo",
+    "message": "Identificar mejor a quién apoyar, con la misma capacidad preventiva.",
+    "objects": [
+      {
+        "text": "Wilmer Puerta",
+        "x": 64,
+        "y": 290,
+        "w": 1000,
+        "h": 42,
+        "size": 28,
+        "color": "87CEEB",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Señales  →  Prioridad  →  Revisión del tutor",
+        "x": 64,
+        "y": 405,
+        "w": 1130,
+        "h": 80,
+        "size": 37,
+        "color": "FFFFFF",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Prueba de concepto con OULAD · Universidad hipotética",
+        "x": 64,
+        "y": 610,
+        "w": 1100,
+        "h": 40,
+        "size": 22,
+        "color": "87CEEB",
+        "bold": false,
+        "fill": null
+      }
+    ],
+    "visual": "Flujo horizontal editable de señales a revisión del tutor.",
+    "notes": "No existe socio institucional comprometido. El sistema propone una prioridad y el tutor siempre revisa contexto y decide. No hay contactos reales ni sanciones automáticas.",
+    "sources": "Propuesta del proyecto y documentación oficial de OULAD, doi:10.1038/sdata.2017.171."
+  },
+  {
+    "title": "El riesgo cambia durante el módulo",
+    "message": "Una lista fija puede omitir trayectorias que empeoran.",
+    "objects": [
+      {
+        "text": "21,64 %",
+        "x": 64,
+        "y": 265,
+        "w": 550,
+        "h": 100,
+        "size": 76,
+        "color": "FF354B",
+        "bold": true,
+        "fill": null
+      },
+      {
+        "text": "7.052 Fail de 32.593 matrículas originales",
+        "x": 64,
+        "y": 367,
+        "w": 1150,
+        "h": 50,
+        "size": 32,
+        "color": "FFFFFF",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Retiros: 10.156 (31,16 %) · Aprobación: 15.385 (47,20 %)",
+        "x": 64,
+        "y": 437,
+        "w": 1150,
+        "h": 48,
+        "size": 26,
+        "color": "FFFFFF",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Revisión temprana: día 14  →  28  →  42  →  56",
+        "x": 64,
+        "y": 525,
+        "w": 1150,
+        "h": 55,
+        "size": 32,
+        "color": "87CEEB",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Fuente: auditoría local OULAD, 12-nov-2026. No es una tasa institucional actual.",
+        "x": 64,
+        "y": 625,
+        "w": 1150,
+        "h": 42,
+        "size": 20,
+        "color": "87CEEB",
+        "bold": false,
+        "fill": null
+      }
+    ],
+    "visual": "Cifra central y línea de cuatro cortes, todo editable.",
+    "notes": "Denominador original: 32.593 matrículas, 28.785 personas únicas. Población inicialmente registrada hasta día 0: 32.314. Al día 56: 26.294 elegibles, 6.972 Fail y 4.056 Withdrawn; se excluyen retiros ya ocurridos y registros tardíos o sin fecha. La cifra central cuantifica el histórico completo, no una universidad actual. La trayectoria de riesgo es una hipótesis a evaluar, no una curva ya estimada.",
+    "sources": "datasets/manifest.json; docs/auditoria-datos.md; docs/poblaciones-por-edicion.csv."
+  },
+  {
+    "title": "Una prioridad de revisión que se actualiza",
+    "message": "El tutor decide el apoyo a partir de una lista quincenal.",
+    "objects": [
+      {
+        "text": "Observar actividad  →  Estimar P(Fail)",
+        "x": 64,
+        "y": 260,
+        "w": 1150,
+        "h": 66,
+        "size": 38,
+        "color": "87CEEB",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Ordenar K cupos  →  Tutor revisa y decide",
+        "x": 64,
+        "y": 346,
+        "w": 1150,
+        "h": 66,
+        "size": 38,
+        "color": "FFFFFF",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Presupuesto preventivo simulado: 10 % por edición y corte",
+        "x": 64,
+        "y": 455,
+        "w": 1150,
+        "h": 52,
+        "size": 30,
+        "color": "FFFFFF",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "K = floor(0.10 × N) · Sensibilidad: 5 % y 20 %",
+        "x": 64,
+        "y": 522,
+        "w": 1150,
+        "h": 50,
+        "size": 28,
+        "color": "FFFFFF",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Comparador operativo: recencia frente a priorización con modelos",
+        "x": 64,
+        "y": 610,
+        "w": 1150,
+        "h": 50,
+        "size": 25,
+        "color": "87CEEB",
+        "bold": false,
+        "fill": null
+      }
+    ],
+    "visual": "Dos pasos de flujo con textos nativos editables.",
+    "notes": "Cortes 14, 28, 42 y 56. Ordenar por P(Fail), umbral último caso admitido, desempate estable por clave sin etiqueta. Recencia descendente desde última interacción <= corte. Nunca activos con cobertura comprobada: contar desde inicio; desconocidos: marcar insuficiencia y fijar política común antes de evaluar. La regla usa tiempo y es adicional. Comparación principal: estático/longitudinal, mismo algoritmo, N y K. Los clics no demuestran intención. Repeticiones consumen cupos y TP acumulados cuentan una vez por matrícula.",
+    "sources": "Decisiones metodológicas del proyecto; auditoría local de elegibilidad."
+  },
+  {
+    "title": "Viabilidad, evaluación y producto concreto",
+    "message": "Datos disponibles y una comparación retrospectiva delimitada.",
+    "objects": [
+      {
+        "text": "OULAD auditado: 5 archivos · 10.655.280 registros de actividad",
+        "x": 64,
+        "y": 262,
+        "w": 1150,
+        "h": 68,
+        "size": 30,
+        "color": "87CEEB",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Regresión logística multinomial y Random Forest",
+        "x": 64,
+        "y": 344,
+        "w": 1150,
+        "h": 44,
+        "size": 29,
+        "color": "FFFFFF",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Estático frente a longitudinal · Ediciones posteriores compatibles",
+        "x": 64,
+        "y": 405,
+        "w": 1150,
+        "h": 55,
+        "size": 27,
+        "color": "FFFFFF",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Estudiantes separados · Igual capacidad · PR-AUC y TP@K",
+        "x": 64,
+        "y": 467,
+        "w": 1150,
+        "h": 55,
+        "size": 28,
+        "color": "FFFFFF",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "MVP previsto: preparación, puntuaciones por corte, listas, evolución y reporte",
+        "x": 64,
+        "y": 554,
+        "w": 1150,
+        "h": 78,
+        "size": 29,
+        "color": "FFFFFF",
+        "bold": false,
+        "fill": null
+      }
+    ],
+    "visual": "Secuencia de datos, validación y producto descrita con objetos editables.",
+    "notes": "El target distingue Fail, Withdrawn y Pass/Distinction. Etiquetas maduras antes de predicción simulada; transformaciones aprendidas solo con entrenamiento. Familias estática/longitudinal comparadas por algoritmo; sin notas de evaluaciones. PR-AUC para Fail, calibración e incertidumbre. La auditoría no demuestra todavía viabilidad de particiones temporales. No se entrenaron modelos ni se construyó el MVP. PSet 2 preparará Kestra, dbt, Spark y Snowflake.",
+    "sources": "Kuzilek et al., 2017, doi:10.1038/sdata.2017.171; auditoría local y contrato preliminar de datos."
+  },
+  {
+    "title": "Beneficio medible y condiciones de éxito",
+    "message": "Meta provisional: +10 % relativo de detecciones al día 56, a igual K.",
+    "objects": [
+      {
+        "text": "40  →  44",
+        "x": 64,
+        "y": 250,
+        "w": 540,
+        "h": 90,
+        "size": 65,
+        "color": "FF354B",
+        "bold": true,
+        "fill": null
+      },
+      {
+        "text": "Futuras reprobaciones identificadas con 100 revisiones",
+        "x": 64,
+        "y": 345,
+        "w": 1150,
+        "h": 45,
+        "size": 28,
+        "color": "FFFFFF",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Ejemplo ilustrativo, no resultado obtenido ni reprobaciones evitadas",
+        "x": 64,
+        "y": 400,
+        "w": 1150,
+        "h": 45,
+        "size": 24,
+        "color": "87CEEB",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "R1 Mejora incierta: comparar con incertidumbre\nR2 Calidad y fuga: auditar fechas y cobertura\nR3 Capacidad y efecto: simular carga y evaluar piloto\nR4 Equidad y confianza: revisar errores y mantener juicio humano",
+        "x": 64,
+        "y": 468,
+        "w": 1150,
+        "h": 157,
+        "size": 24,
+        "color": "FFFFFF",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Piloto posterior: aprobación entre grupos asignados a oferta de apoyo o atención habitual",
+        "x": 64,
+        "y": 640,
+        "w": 1150,
+        "h": 45,
+        "size": 20,
+        "color": "87CEEB",
+        "bold": false,
+        "fill": null
+      }
+    ],
+    "visual": "Ejemplo numérico y cuatro riesgos compactos, editables.",
+    "notes": "Gravedades R1 alta, R2 crítica, R3 alta, R4 alta. R1 supone aporte transferible; R2 información disponible y comparable; R3 capacidad viable y apoyo útil; R4 errores aceptables entre grupos. El ejemplo equivale a +4 puntos de precisión (40 % a 44 %) y +10 % relativo en TP. No es rendimiento medido de recencia. Si TP estático=0 informar diferencia absoluta. Los ocho riesgos ampliados se agrupan R1={1,4}, R2={2,3,8}, R3={5,6}, R4={7}. El piloto estimaría oferta de un programa, no efectos individuales ni superioridad causal de selección longitudinal.",
+    "sources": "Meta y ejemplo hipotéticos del proyecto; protocolo de impacto posterior. No hay retorno financiero estimado."
+  },
+  {
+    "title": "Respaldar una prueba de concepto y una decisión informada",
+    "message": "Avanzar al piloto solo con evidencia favorable y condiciones acordadas.",
+    "objects": [
+      {
+        "text": "Se necesita un responsable académico y un referente de tutorías",
+        "x": 64,
+        "y": 263,
+        "w": 1150,
+        "h": 65,
+        "size": 31,
+        "color": "87CEEB",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Validar el presupuesto preventivo y la capacidad de revisión",
+        "x": 64,
+        "y": 340,
+        "w": 1150,
+        "h": 55,
+        "size": 29,
+        "color": "FFFFFF",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Auditar y cuantificar  →  Comparar y demostrar  →  Decidir sobre piloto",
+        "x": 64,
+        "y": 425,
+        "w": 1150,
+        "h": 85,
+        "size": 32,
+        "color": "FFFFFF",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Criterios: mejora e incertidumbre, calidad, carga y equidad",
+        "x": 64,
+        "y": 535,
+        "w": 1150,
+        "h": 52,
+        "size": 28,
+        "color": "FFFFFF",
+        "bold": false,
+        "fill": null
+      },
+      {
+        "text": "Piloto posterior: oferta aleatoria de apoyo vs atención habitual\nMedir aprobación, retiro, participación y costos",
+        "x": 64,
+        "y": 606,
+        "w": 1150,
+        "h": 80,
+        "size": 23,
+        "color": "87CEEB",
+        "bold": false,
+        "fill": null
+      }
+    ],
+    "visual": "Hitos y criterio de avance en una composición editorial editable.",
+    "notes": "La auditoría descriptiva ya está realizada, con cobertura y temporalidad aún por validar. No hay plazo inventado ni compromiso de reducción de Fail. Piloto: aleatorización por persona con estratificación pertinente, asignación coherente de múltiples matrículas; controlar contaminación o ajustar por agrupamiento. Intención de tratar, diferencia absoluta de aprobación e intervalo de confianza. Informar también Fail, Withdrawn, oferta, contacto, participación, otras ayudas, tiempos y costos. Calcular muestra según tasa inicial, efecto mínimo, potencia y pérdidas. Aprobación = Pass + Distinction. Mantener apoyo habitual. El piloto requiere institución y autorizaciones futuras.",
+    "sources": "Diseño del proyecto. OU Analyse: https://research.stem.open.ac.uk/ouanalyse/ respalda plausibilidad operativa, no causalidad. Klenke et al., arXiv:2102.08803, efecto positivo impreciso en otro contexto."
+  }
+]

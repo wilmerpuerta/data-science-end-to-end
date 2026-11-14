@@ -1,0 +1,7 @@
+# Respuesta al feedback
+
+1. Problema y métrica: se conserva la pregunta estática/longitudinal, se separan PR-AUC, TP@K y aprobación del piloto. Propuesta secciones 1 y 3, Canvas y revisión metodológica del proyecto completo. El piloto posterior define oferta aleatoria por persona, estratificación, coherencia de matrículas múltiples, intención de tratar, diferencia absoluta de aprobación e intervalo, con Fail y Withdrawn separados; muestra pendiente según supuestos y potencia.
+2. Seguimiento: comparador de recencia descendente, N y K comunes, nunca activos y cobertura desconocida explícitos, cuatro listas, repetidos consumen cupos, TP acumulados por matrícula y personas únicas. Protocolo de seguimiento futuro registra oferta, contacto, participación, otras ayudas, acciones, tiempos y costos. La simulación no modifica trayectorias ni demuestra efecto educativo.
+3. Pitch: seis diapositivas con tasa auditada y denominador, fuente, modelos y evaluación, alcance del MVP, ejemplo ilustrativo de beneficio, cuatro grupos de riesgos y solicitud. Auditoría: 7.052 Fail de 32.593, 21,64 %. Retiros separados, sin extrapolación. Día 56: 26.294 elegibles y 2.619 cupos, sin ranking entrenado.
+
+Cuantificación descriptiva cerrada para esta copia; cobertura y particiones finales por validar. La mejora del 10 % no está demostrada. Impacto, costos y capacidad reales siguen sin datos institucionales. La elección de módulos puede acotarse con criterios de calidad previos a mirar resultados. Colab pendiente de acceso y sincronización verificable.

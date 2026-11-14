@@ -1,0 +1,14 @@
+{
+  "checked_at_utc": "2026-11-13T00:56:59.402790+00:00",
+  "status": "ok",
+  "checks": {
+    "aggregate_metrics_identical": true,
+    "same_model_count": true,
+    "same_passed_test_count": true
+  },
+  "first_build_checked_at_utc": "2026-11-13T00:53:00.295576+00:00",
+  "second_build_checked_at_utc": "2026-11-13T00:55:30.065855+00:00",
+  "compared_metric_count": 27,
+  "tests_passed_per_build": 101,
+  "scope": "Invariantes agregados idénticos; tests de claves y reconciliación aprobados en ambos builds."
+}

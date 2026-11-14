@@ -1,0 +1,90 @@
+{
+  "checked_on": "2026-11-13",
+  "status": "pipeline_y_reproduccion_limpia_verificados",
+  "scope": "Cadena integral y reproducción desde exportación limpia comprobadas; memo y revisión final pendientes.",
+  "images": [
+    {
+      "component": "kestra",
+      "tag": "kestra/kestra:v1.0.0",
+      "platform": "linux/amd64",
+      "platform_manifest_digest": "sha256:3eb172635bf54cfa8856ac633d4d76391da2c366a14e2e4ba760b96ec5b1759e"
+    },
+    {
+      "component": "postgresql",
+      "tag": "postgres:17.6",
+      "platform": "linux/amd64",
+      "platform_manifest_digest": "sha256:b86568d3e0fe1dfaeff52714f9da36f206a30e4c49131b82bf96982d78627409"
+    },
+    {
+      "component": "spark",
+      "tag": "spark:3.5.6-scala2.12-java17-python3-ubuntu",
+      "platform": "linux/amd64",
+      "platform_manifest_digest": "sha256:fee303e5788e8f3875aac670611f0be12012e866f09147ad59386d5e6239232c"
+    }
+  ],
+  "pending": [
+    "Medir costo monetario y cerrar memo técnico.",
+    "Activar y observar calendario al cerrar operación, si se decide activarlo."
+  ],
+  "dbt": {
+    "base": "python:3.11.13-slim-bookworm",
+    "base_platform_digest": "sha256:cec9aa7aa96eea4fa036e9b82be1e6b325f2e3707f462d885868df51ec0a4b47",
+    "core": "1.10.13",
+    "snowflake_adapter": "1.10.2",
+    "requirements": "../dbt/requirements.txt",
+    "installation_verified": true,
+    "connection_verified": true,
+    "layers_verified": [
+      "BRONZE",
+      "SILVER",
+      "GOLD"
+    ],
+    "tests_passed": 168
+  },
+  "kestra_ingestion": {
+    "image": "pset2-kestra:v1.0.0-snowflake4.7.4",
+    "base_platform_digest": "sha256:3eb172635bf54cfa8856ac633d4d76391da2c366a14e2e4ba760b96ec5b1759e",
+    "python": "3.10.12",
+    "connector": "4.7.4",
+    "requirements": "../ingestion/requirements.txt",
+    "connection_verified": true,
+    "raw_load_verified": true
+  },
+  "spark_obt": {
+    "image": "pset2-spark:3.5.6-snowflake3.2.3",
+    "spark": "3.5.6",
+    "scala": "2.12.18",
+    "jdbc": "4.4.1",
+    "connector": "3.2.3-spark_3.5",
+    "jars_lock": "../spark/jars.lock.json",
+    "requirements": "../spark/requirements.txt",
+    "connection_verified": true,
+    "obt_verified": true,
+    "report": "obt-verificacion.json"
+  },
+  "orchestration": {
+    "flow": "pset2.oulad/oulad_pipeline",
+    "verified": true,
+    "success_execution_id": "6X7mzEdM0yvoBSbp8MnALv",
+    "failure_execution_id": "rO8O8wCISIAhJx4fYSR2K",
+    "internal_services": [
+      "dbt-runner",
+      "spark-runner"
+    ],
+    "docker_socket_mounted": false,
+    "calendars_enabled": false,
+    "evidence": "pipeline-pruebas.json"
+  },
+  "reproduction": {
+    "run_id": "849681d33298",
+    "execution_id": "5Q6X4LdUa2UgmMlZAkoifn",
+    "source_mode": "clean_worktree_export",
+    "fresh_volumes": true,
+    "own_images_no_cache": true,
+    "external_inputs_reused": true,
+    "snowflake_resources_reused": true,
+    "raw_force_reloaded": true,
+    "original_stack_restored": true,
+    "evidence": "reproduccion-limpia.json"
+  }
+}

@@ -1,0 +1,283 @@
+{
+  "checked_at_utc": "2026-11-13T00:19:51.367221+00:00",
+  "action": "test-bronze",
+  "status": "ok",
+  "returncode": 0,
+  "dbt_core": "1.10.13",
+  "dbt_snowflake": "1.10.2",
+  "elapsed_seconds": 13.58,
+  "results": [
+    {
+      "unique_id": "test.pset2_oulad.accepted_values_stg_student_info_final_result__Fail__Withdrawn__Pass__Distinction.bceea6e235",
+      "status": "pass",
+      "execution_time": 0.3591275215148926,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.contract_student_info",
+      "status": "pass",
+      "execution_time": 0.6691989898681641,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.contract_courses",
+      "status": "pass",
+      "execution_time": 1.1578657627105713,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.contract_student_registration",
+      "status": "pass",
+      "execution_time": 0.5797693729400635,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.contract_vle",
+      "status": "pass",
+      "execution_time": 0.3396639823913574,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_courses_code_module.6268da2000",
+      "status": "pass",
+      "execution_time": 0.24468350410461426,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.contract_student_vle",
+      "status": "pass",
+      "execution_time": 1.0601370334625244,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_courses_edition_key.eacd515ff1",
+      "status": "pass",
+      "execution_time": 0.26880574226379395,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_courses_code_presentation.fbd0836500",
+      "status": "pass",
+      "execution_time": 0.31806278228759766,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_info_code_module.84dc7b304b",
+      "status": "pass",
+      "execution_time": 0.2397165298461914,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_info_code_presentation.eab9d1e8ef",
+      "status": "pass",
+      "execution_time": 0.20891952514648438,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_info_final_result.e95abcd605",
+      "status": "pass",
+      "execution_time": 0.3240666389465332,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_info_enrollment_key.bba9ddb646",
+      "status": "pass",
+      "execution_time": 0.4893379211425781,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_info_id_student.557e076270",
+      "status": "pass",
+      "execution_time": 0.2839994430541992,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_registration_code_module.d1f535b9f0",
+      "status": "pass",
+      "execution_time": 0.20936012268066406,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_registration_code_presentation.04b291586c",
+      "status": "pass",
+      "execution_time": 0.23294878005981445,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_registration_enrollment_key.69d05cd845",
+      "status": "pass",
+      "execution_time": 0.2246387004852295,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_registration_id_student.f4c5f14935",
+      "status": "pass",
+      "execution_time": 0.27603936195373535,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_vle_code_module.d00e928e0f",
+      "status": "pass",
+      "execution_time": 0.2487180233001709,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_vle_code_presentation.d29814d03e",
+      "status": "pass",
+      "execution_time": 0.22565007209777832,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_vle_date.ce309c2f6c",
+      "status": "pass",
+      "execution_time": 0.3720839023590088,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_vle_id_student.c702b00938",
+      "status": "pass",
+      "execution_time": 0.2636759281158447,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_vle_id_site.c49f44506a",
+      "status": "pass",
+      "execution_time": 0.2860908508300781,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_vle_code_module.5157d4f5ae",
+      "status": "pass",
+      "execution_time": 0.3164680004119873,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_student_vle_sum_click.f44e375f02",
+      "status": "pass",
+      "execution_time": 0.3349151611328125,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_vle_code_presentation.095267ea83",
+      "status": "pass",
+      "execution_time": 0.23766636848449707,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_vle_resource_key.90c0592bad",
+      "status": "pass",
+      "execution_time": 0.2664341926574707,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.not_null_stg_vle_id_site.8e550dcbb9",
+      "status": "pass",
+      "execution_time": 0.7133283615112305,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_stg_student_info_edition_key__edition_key__ref_stg_courses_.fe8b5852d2",
+      "status": "pass",
+      "execution_time": 0.26696133613586426,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_stg_student_registration_edition_key__edition_key__ref_stg_courses_.4e197e3ccd",
+      "status": "pass",
+      "execution_time": 0.30153870582580566,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_stg_student_vle_edition_key__edition_key__ref_stg_courses_.31833807d3",
+      "status": "pass",
+      "execution_time": 0.18536090850830078,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_stg_student_vle_enrollment_key__enrollment_key__ref_stg_student_info_.67686cc5ba",
+      "status": "pass",
+      "execution_time": 0.3653855323791504,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_stg_student_registration_enrollment_key__enrollment_key__ref_stg_student_info_.f570780e59",
+      "status": "pass",
+      "execution_time": 0.8676145076751709,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_stg_student_vle_resource_key__resource_key__ref_stg_vle_.0f902f9710",
+      "status": "pass",
+      "execution_time": 0.2456672191619873,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.relationships_stg_vle_edition_key__edition_key__ref_stg_courses_.0eedbd0958",
+      "status": "pass",
+      "execution_time": 0.2541825771331787,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_key_stg_courses_source_sha256__source_row_number.b1cfc47fe4",
+      "status": "pass",
+      "execution_time": 0.2249126434326172,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_key_stg_student_info_source_sha256__source_row_number.f89022afbf",
+      "status": "pass",
+      "execution_time": 0.2829442024230957,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_key_stg_student_registration_source_sha256__source_row_number.95be1150df",
+      "status": "pass",
+      "execution_time": 0.2154390811920166,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_key_stg_student_vle_source_sha256__source_row_number.d917d3aca6",
+      "status": "pass",
+      "execution_time": 0.2103571891784668,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_key_stg_vle_source_sha256__source_row_number.86bfbc0dbe",
+      "status": "pass",
+      "execution_time": 0.28577089309692383,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_stg_courses_edition_key.433b4ffa6f",
+      "status": "pass",
+      "execution_time": 0.2836880683898926,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_stg_student_info_enrollment_key.0ec6369841",
+      "status": "pass",
+      "execution_time": 0.23933887481689453,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_stg_student_registration_enrollment_key.3cb6ea3e67",
+      "status": "pass",
+      "execution_time": 0.19765615463256836,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.unique_stg_vle_resource_key.02ce7e1104",
+      "status": "pass",
+      "execution_time": 0.21915006637573242,
+      "failures": 0
+    },
+    {
+      "unique_id": "test.pset2_oulad.valid_domains_bronze",
+      "status": "pass",
+      "execution_time": 0.22133255004882812,
+      "failures": 0
+    }
+  ],
+  "models_succeeded": 0,
+  "tests_passed": 45
+}

@@ -1,0 +1,103 @@
+{
+  "version": "pset2.obt.v1",
+  "grain": [
+    "enrollment_key",
+    "cutoff_day"
+  ],
+  "cutoff_days": [
+    14,
+    28,
+    42,
+    56
+  ],
+  "identifier_columns": [
+    "enrollment_key",
+    "cutoff_day",
+    "id_student",
+    "edition_key",
+    "code_module",
+    "code_presentation"
+  ],
+  "static_predictor_columns": [
+    "gender",
+    "region",
+    "highest_education",
+    "imd_band",
+    "age_band",
+    "num_of_prev_attempts",
+    "studied_credits",
+    "disability",
+    "is_imd_missing",
+    "module_presentation_length",
+    "registration_days_before_start"
+  ],
+  "activity_predictor_columns": [
+    "clicks_through_cutoff",
+    "clicks_since_start",
+    "clicks_prestart",
+    "clicks_day_zero",
+    "active_days_through_cutoff",
+    "resources_through_cutoff",
+    "activity_types_through_cutoff",
+    "clicks_current_14d",
+    "active_days_current_14d",
+    "clicks_forum_current_14d",
+    "clicks_oucontent_current_14d",
+    "clicks_previous_14d",
+    "click_change_14d",
+    "click_ratio_14d",
+    "recency_days",
+    "has_recorded_activity"
+  ],
+  "audit_columns": [
+    "last_activity_day",
+    "log_coverage_known"
+  ],
+  "output_columns": [
+    "enrollment_key",
+    "cutoff_day",
+    "id_student",
+    "edition_key",
+    "code_module",
+    "code_presentation",
+    "gender",
+    "region",
+    "highest_education",
+    "imd_band",
+    "age_band",
+    "num_of_prev_attempts",
+    "studied_credits",
+    "disability",
+    "is_imd_missing",
+    "module_presentation_length",
+    "registration_days_before_start",
+    "clicks_through_cutoff",
+    "clicks_since_start",
+    "clicks_prestart",
+    "clicks_day_zero",
+    "active_days_through_cutoff",
+    "resources_through_cutoff",
+    "activity_types_through_cutoff",
+    "clicks_current_14d",
+    "active_days_current_14d",
+    "clicks_forum_current_14d",
+    "clicks_oucontent_current_14d",
+    "clicks_previous_14d",
+    "click_change_14d",
+    "click_ratio_14d",
+    "last_activity_day",
+    "recency_days",
+    "has_recorded_activity",
+    "log_coverage_known"
+  ],
+  "forbidden_columns": [
+    "final_result",
+    "target_class",
+    "target_fail",
+    "date_unregistration",
+    "is_withdrawn_without_date",
+    "is_other_outcome_with_withdrawal"
+  ],
+  "empty_activity_policy": "Cero en contadores de registros; recencia NULL y cobertura desconocida. No imputación aprendida.",
+  "window_policy": "Actual de 14 días; anterior comparable desde corte 28. Día 0 y negativos separados."
+}

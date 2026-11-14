@@ -1,0 +1,45 @@
+{
+  "checked_at_utc": "2026-11-12T19:50:41.637084+00:00",
+  "machine": {
+    "os": "Darwin",
+    "architecture": "x86_64",
+    "python": "3.14.7",
+    "disk_free_gib": 39.7
+  },
+  "docker_client": {
+    "status": "ok",
+    "value": "Docker version 29.9.2, build a82e528"
+  },
+  "compose": {
+    "status": "ok",
+    "value": "Docker Compose version v5.6.1"
+  },
+  "docker_engine": {
+    "status": "ok",
+    "value": "\"29.9.2\" \"linux\" \"x86_64\" 4 8323649536"
+  },
+  "data": {
+    "studentInfo.csv": {
+      "status": "ok",
+      "bytes": 3461652
+    },
+    "studentRegistration.csv": {
+      "status": "ok",
+      "bytes": 1109984
+    },
+    "courses.csv": {
+      "status": "ok",
+      "bytes": 526
+    },
+    "vle.csv": {
+      "status": "ok",
+      "bytes": 260126
+    },
+    "studentVle.csv": {
+      "status": "ok",
+      "bytes": 453836331
+    }
+  },
+  "scope": "Solo diagnóstico local. Sin servicios desplegados ni conexión Snowflake.",
+  "ready_for_local_infrastructure": true
+}

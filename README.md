@@ -4,6 +4,10 @@ Repositorio base del curso.
 
 Aquí viven los laboratorios y los PSets, construidos en torno a un único proyecto de ciencia de datos que cada estudiante define y lleva a cabo de principio a fin durante la clase. Es la fuente de la verdad: todo tu trabajo del semestre va aquí, no en otro lado.
 
+## Proyecto de Wilmer Puerta
+
+[Apoyo académico a tiempo con OULAD](psets/proyecto/README.md): [PSet 1](psets/proyecto/oulad/pset-01/README.md), [pipeline y reproducción PSet 2](psets/proyecto/oulad/pset-02/README.md) y [memo técnico](psets/proyecto/oulad/pset-02/output/pdf/PSet2_memo_Puerta_Wilmer.pdf).
+
 ## Antes de empezar
 
 No clones ni hagas push a este repositorio directamente. Cada estudiante trabaja en su propio fork:

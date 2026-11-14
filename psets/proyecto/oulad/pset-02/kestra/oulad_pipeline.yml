@@ -1,0 +1,88 @@
+id: oulad_pipeline
+namespace: pset2.oulad
+description: Raw -> dbt Bronze/Silver/Gold -> Spark OBT; un escritor, pruebas antes de avanzar.
+concurrency:
+  limit: 1
+  behavior: QUEUE
+inputs:
+  - id: source_file
+    type: SELECT
+    defaults: all
+    values: [all, studentInfo.csv, studentRegistration.csv, courses.csv, vle.csv, studentVle.csv]
+  - id: force_reload
+    type: BOOLEAN
+    defaults: false
+  - id: retry_probe
+    type: BOOLEAN
+    defaults: false
+  - id: fail_after_raw
+    type: BOOLEAN
+    defaults: false
+tasks:
+  - id: raw
+    type: io.kestra.plugin.core.flow.Subflow
+    namespace: pset2.oulad
+    flowId: oulad_raw
+    wait: true
+    transmitFailed: true
+    inputs:
+      source_file: '{{ inputs.source_file }}'
+      force_reload: '{{ inputs.force_reload }}'
+      check_connection: false
+      retry_probe: false
+  - id: gate
+    type: io.kestra.plugin.scripts.shell.Commands
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - >-
+        python3 /workspace/orchestration/gate.py --execution-id '{{ execution.id }}'
+        {% if inputs.retry_probe %}--retry-probe{% endif %}
+        {% if inputs.fail_after_raw %}--fail-after-raw{% endif %}
+    retry:
+      type: constant
+      interval: PT5S
+      maxAttempt: 2
+  - id: dbt
+    type: io.kestra.plugin.scripts.shell.Commands
+    timeout: PT20M
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - python3 /workspace/orchestration/job_client.py --kind dbt --execution-id '{{ execution.id }}'
+    retry:
+      type: exponential
+      interval: PT10S
+      maxInterval: PT30S
+      maxAttempt: 3
+  - id: spark
+    type: io.kestra.plugin.scripts.shell.Commands
+    timeout: PT25M
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - python3 /workspace/orchestration/job_client.py --kind spark --execution-id '{{ execution.id }}'
+    retry:
+      type: exponential
+      interval: PT10S
+      maxInterval: PT30S
+      maxAttempt: 2
+  - id: verificar
+    type: io.kestra.plugin.scripts.shell.Commands
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - >-
+        python3 /workspace/orchestration/verify_pipeline.py --execution-id '{{ execution.id }}'
+        --raw-execution-id '{{ outputs.raw.executionId }}' --source-file '{{ inputs.source_file }}'
+triggers:
+  - id: revision_integral
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: '0 9 1,15 * *'
+    timezone: America/Guayaquil
+    disabled: true
+    inputs:
+      source_file: all
+      force_reload: false
+      retry_probe: false
+      fail_after_raw: false

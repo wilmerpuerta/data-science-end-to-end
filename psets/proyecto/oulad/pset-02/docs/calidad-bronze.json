@@ -1,0 +1,167 @@
+{
+  "checked_at_utc": "2026-11-13T15:02:36.319390+00:00",
+  "action": "quality-export",
+  "status": "ok",
+  "returncode": 0,
+  "dbt_core": "1.10.13",
+  "dbt_snowflake": "1.10.2",
+  "pipeline_execution_id": "6X7mzEdM0yvoBSbp8MnALv",
+  "metrics": [
+    {
+      "dataset": "courses",
+      "metric": "invalid_duration",
+      "value": 0,
+      "denominator": 22
+    },
+    {
+      "dataset": "courses",
+      "metric": "rows",
+      "value": 22,
+      "denominator": 22
+    },
+    {
+      "dataset": "outcomes",
+      "metric": "other_outcome_with_date",
+      "value": 9,
+      "denominator": 32593
+    },
+    {
+      "dataset": "outcomes",
+      "metric": "withdrawn_without_date",
+      "value": 93,
+      "denominator": 32593
+    },
+    {
+      "dataset": "registration",
+      "metric": "late_registration",
+      "value": 234,
+      "denominator": 32593
+    },
+    {
+      "dataset": "registration",
+      "metric": "missing_registration",
+      "value": 45,
+      "denominator": 32593
+    },
+    {
+      "dataset": "registration",
+      "metric": "no_recorded_withdrawal",
+      "value": 22521,
+      "denominator": 32593
+    },
+    {
+      "dataset": "registration",
+      "metric": "rows",
+      "value": 32593,
+      "denominator": 32593
+    },
+    {
+      "dataset": "registration",
+      "metric": "withdrawal_before_registration",
+      "value": 0,
+      "denominator": 32593
+    },
+    {
+      "dataset": "student_info",
+      "metric": "invalid_background",
+      "value": 0,
+      "denominator": 32593
+    },
+    {
+      "dataset": "student_info",
+      "metric": "missing_imd",
+      "value": 1111,
+      "denominator": 32593
+    },
+    {
+      "dataset": "student_info",
+      "metric": "rows",
+      "value": 32593,
+      "denominator": 32593
+    },
+    {
+      "dataset": "student_info",
+      "metric": "unique_people",
+      "value": 28785,
+      "denominator": 32593
+    },
+    {
+      "dataset": "student_vle",
+      "metric": "max_day",
+      "value": 269,
+      "denominator": null
+    },
+    {
+      "dataset": "student_vle",
+      "metric": "min_day",
+      "value": -25,
+      "denominator": null
+    },
+    {
+      "dataset": "student_vle",
+      "metric": "negative_clicks",
+      "value": 0,
+      "denominator": 10655280
+    },
+    {
+      "dataset": "student_vle",
+      "metric": "prestart_rows",
+      "value": 688988,
+      "denominator": 10655280
+    },
+    {
+      "dataset": "student_vle",
+      "metric": "repeated_exact_value_excess",
+      "value": 787170,
+      "denominator": 10655280
+    },
+    {
+      "dataset": "student_vle",
+      "metric": "repeated_natural_key_excess",
+      "value": 2195960,
+      "denominator": 10655280
+    },
+    {
+      "dataset": "student_vle",
+      "metric": "rows",
+      "value": 10655280,
+      "denominator": 10655280
+    },
+    {
+      "dataset": "student_vle",
+      "metric": "total_clicks",
+      "value": 39605099,
+      "denominator": null
+    },
+    {
+      "dataset": "student_vle",
+      "metric": "zero_clicks",
+      "value": 0,
+      "denominator": 10655280
+    },
+    {
+      "dataset": "vle",
+      "metric": "missing_week_from",
+      "value": 5243,
+      "denominator": 6364
+    },
+    {
+      "dataset": "vle",
+      "metric": "missing_week_to",
+      "value": 5243,
+      "denominator": 6364
+    },
+    {
+      "dataset": "vle",
+      "metric": "reversed_weeks",
+      "value": 0,
+      "denominator": 6364
+    },
+    {
+      "dataset": "vle",
+      "metric": "rows",
+      "value": 6364,
+      "denominator": 6364
+    }
+  ]
+}

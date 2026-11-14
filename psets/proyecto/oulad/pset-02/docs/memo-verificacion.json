@@ -1,0 +1,66 @@
+{
+  "status": "ok",
+  "pages": 6,
+  "checks": {
+    "six_pages_and_six_source_sections": true,
+    "pdf_metadata_matches_source_sha256": true,
+    "every_source_fragment_on_corresponding_pdf_page": true,
+    "literal_cron_preserved": true,
+    "two_vector_diagrams": true,
+    "text_inside_page": true,
+    "minimum_font_8pt": true,
+    "no_replacement_or_black_square_glyphs": true,
+    "no_personal_paths_or_private_material_in_memo": true,
+    "evidence_reports_success": true,
+    "23_models_and_168_tests_match_real_build": true,
+    "raw_file_counts_match_manifest": true,
+    "silver_gold_counts_and_clicks_reconciled": true,
+    "obt_shape_matches_reproduction": true,
+    "temporal_and_readback_evidence": true,
+    "controlled_failure_scope": true,
+    "clean_reproduction_scope": true,
+    "page_1_metrics_match_json": true,
+    "page_2_metrics_match_json": true,
+    "page_3_metrics_match_json": true,
+    "page_4_metrics_match_json": true,
+    "page_5_metrics_match_json": true,
+    "page_6_metrics_match_json": true,
+    "reproduction_ports_match_json": true,
+    "calidad-bronze-resultados.md_matches_generator": true,
+    "silver-resultados.md_matches_generator": true,
+    "gold-resultados.md_matches_generator": true,
+    "obt-resultados.md_matches_generator": true,
+    "reproduccion-resultados.md_matches_generator": true,
+    "pipeline_markdown_matches_json": true,
+    "readme_and_memo_guide_links_exist": true
+  },
+  "source_sha256": "2b884238967d25b9a5f627b4d3be40e69faed5019fee92ed073bc1081c45867d",
+  "pdf_sha256": "fb62e40e67957b292b9d93968a60ac5cfa95a246f8e720f03d34ff2b64b78cad",
+  "generator_sha256": "342320282ce0f61f7568b5e1511f9c189481f2481ba6659ca23d559942a5e2ff",
+  "evidence_sha256": {
+    "docs/ingesta-raw-verificacion.json": "7df260a01a1951f336041ec8940497b1922191786b19a8ba319c061b04fcc7bf",
+    "docs/calidad-bronze.json": "56ce5c49e1d0e511a07782f6edea36fea4b92277d59204b8e6371b366a6c3e1e",
+    "docs/calidad-silver.json": "07eb3082a6bf506b3ab9d0947520abb0aff4a6960d83005c1487c3881df57fce",
+    "docs/calidad-gold.json": "0c959a554461b93f613c54de6ee87af04453f6a19f4de9a6c4113f26f4655ff5",
+    "docs/obt-verificacion.json": "dc0ff33303a01a53d67c2fe622f7555c18194e88e7549e30ca6a1a817cd7c61c",
+    "spark/feature-contract.json": "d646b574c265bbfd3a9278ce9473e91957492e1b6daedf0905001ea19e07906c",
+    "docs/pipeline-pruebas.json": "971ea2fac87f728ad8b08062517a9211e03f67520e1480fdf1c6e9d32279b3ae",
+    "docs/reproduccion-limpia.json": "b06b55e054eac9fc3a072ac4dc372b5f072325774a6d3d60881d70faf3dce199",
+    "README.md": "93eae95e81ba1e860daec2c3a4140a899d99991d88f8090c5e010e2a6da7d4a7"
+  },
+  "minimum_font_pt": 8.0,
+  "diagrams": [
+    {
+      "page": 1,
+      "nodes": 11,
+      "edges": 11
+    },
+    {
+      "page": 4,
+      "nodes": 7,
+      "edges": 8
+    }
+  ],
+  "missing_fragments": [],
+  "scope": "Coherencia textual por página, cifras contra JSON, geometría y Markdown derivados. La legibilidad de diagramas requiere además revisión visual de las seis páginas."
+}

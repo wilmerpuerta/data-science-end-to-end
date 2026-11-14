@@ -1,0 +1,15 @@
+{
+  "checked_at_utc": "2026-11-13T02:53:55.855250+00:00",
+  "action": "check-connection",
+  "run_id": "47e5b374c9874ebfb54c916bb6f0eb07",
+  "status": "ok",
+  "published": false,
+  "spark_version": "3.5.6",
+  "scala_version": "2.12.18",
+  "spark_connector": "3.2.3-spark_3.5",
+  "jdbc": "4.4.1",
+  "session_context_verified": true,
+  "autopushdown": false,
+  "scope": "Conexión real desde Spark y contexto esperado; sin escritura de tablas.",
+  "elapsed_seconds": 14.11
+}
