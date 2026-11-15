@@ -194,7 +194,7 @@ La propuesta detallada de la sección 3 desarrolla la idea 1 seleccionada.
 
 **Título:** Predicción temprana del riesgo de reprobación mediante características longitudinales de actividad digital para priorizar el acompañamiento académico.
 
-Esta sección respalda el memo de cinco páginas y el pitch de seis diapositivas. La revisión del 15-nov-2026 incorpora objetivo de negocio calculable, tres políticas con igual capacidad y alcance explícito del MVP. Los descriptivos y la preparación de datos están verificados; el rendimiento de los modelos y la simulación de políticas siguen pendientes.
+Esta sección respalda el memo breve de dos páginas, su versión extendida de cinco páginas y el pitch de seis diapositivas. La revisión del 15-nov-2026 incorpora objetivo de negocio calculable, tres políticas con igual capacidad y alcance explícito del MVP. Los descriptivos y la preparación de datos están verificados; el rendimiento de los modelos y la simulación de políticas siguen pendientes.
 
 ## **3.1. Problema de negocio y formulación de ciencia de datos**
 
@@ -380,7 +380,7 @@ El MVP utiliza exclusivamente OULAD. Quedan fuera tutorías reales, contacto, sa
 
 La extensión institucional posterior requerirá aprobación formal y revisión del responsable o delegado de protección de datos. Los registros WiFi vinculables pueden revelar ubicación; se deberán justificar legitimación, finalidad, minimización, seguridad y evaluación de impacto cuando corresponda conforme a la LOPDP [8]. La autorización académica por sí sola no resuelve esos requisitos y el uso de D2L también requiere revisión del tratamiento de datos personales.
 
-El memo conserva cuatro secciones en cinco páginas, según el límite actualizado por el usuario el 15-nov-2026; el pitch mantiene seis diapositivas. Este documento y su notebook preservan las tres ideas, matriz, selección, metodología y auditoría originales, con la revisión de los tres gaps y el estado real de implementación.
+Los memos breve (dos páginas) y extendido (cinco páginas) conservan cuatro secciones; ambos sintetizan el protocolo posterior de tutorías fuera del MVP. El pitch mantiene seis diapositivas. Este documento y su notebook preservan las tres ideas, matriz, selección, metodología y auditoría originales, con la revisión de los tres gaps y el estado real de implementación.
 
 # Revisión metodológica vigente
 
@@ -489,7 +489,7 @@ Seis diapositivas: problema cuantificado; capacidad y oportunidad temporal; tres
 
 12-nov-2026: reconstrucción de tres ideas, matriz, propuesta y auditoría descriptiva. 13-nov-2026: preparación y pipeline PSet 2 verificados según sus propios informes. 14-nov-2026: primera publicación del paquete en el fork del curso. 15-nov-2026: revisión local de los tres gaps del PSet 1, métricas de cobertura y anticipación, tres políticas con presupuesto común y MVP explícito en propuesta y pitch.
 
-La revisión recupera viabilidad, evaluación y MVP del memo original. Por indicación del usuario del 15-nov-2026, el memo vigente tiene cinco páginas; el límite histórico se conserva en la rúbrica y el prompt. Colab sigue pendiente de acceso y sincronización. Este documento es la fuente del notebook y PDF; los generadores no deben sobrescribirlo.
+La revisión conserva el memo extendido de cinco páginas con síntesis del piloto posterior y deriva un memo breve de dos páginas con el nombre original, por solicitud final del usuario del 15-nov-2026. Colab sigue pendiente. Este documento es la fuente del notebook y PDF; los generadores no deben sobrescribirlo.
 
 # Referencias
 

@@ -32,3 +32,9 @@ El autor solicitó actualizar todos los archivos revisados de PSet 1 y PSet 2 en
 El memo técnico PSet 2 conserva la instantánea de ejecución de los días 12-13 de noviembre y sus seis páginas. Las referencias a publicación pendiente dentro de ese memo o de informes previos corresponden a la fecha de esas verificaciones; no se reescribe evidencia histórica para aparentar una nueva ejecución. El estado de publicación se verifica en el historial de commits del destino y en GitHub Actions. Colab sigue pendiente de sincronización.
 
 La copia de publicación se actualiza desde la lista de archivos candidatos revisados, se compara con el contenido local y se confirma que el diff se limita a psets/proyecto/oulad/. Se conserva el historial de master y se usa push normal. No se incluyen CSV, credenciales, entornos, respaldos ni archivos temporales; no se cambian materiales o configuración del curso.
+
+## Actualización final de los memos PSet 1
+
+El usuario autorizó publicar la síntesis del protocolo posterior de tutorías en ambas variantes: memo breve de dos páginas con nombre original y memo de cinco páginas con sufijo _version_extendida, ambos en pset-01/output/pdf/. La ejecución del piloto continúa fuera del MVP. Se incluyen las dos fuentes Markdown, notebook y documento completo sincronizados, README, trazabilidad, mapa de rúbrica, generadores e informes de verificación.
+
+La actualización conserva el directorio psets/proyecto/oulad/ y el historial de master. No modifica código de ejecución del pipeline, las 35 columnas de la OBT ni recursos cloud; el memo técnico PSet 2 mantiene sus seis páginas. Los informes anteriores de revisión visual o compatibilidad conservan el estado de publicación en que fueron generados; el resultado del envío se verifica en GitHub.

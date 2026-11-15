@@ -2,14 +2,15 @@
 
 Wilmer Puerta · Revisión local del 15-nov-2026. Se incorporan los tres gaps docentes: objetivo de negocio calculable, comparación de procesos y pitch con viabilidad técnica, evaluación, MVP y beneficio esperado. Universidad hipotética; modelos y simulación de políticas todavía pendientes.
 
-El límite vigente del memo es cinco páginas, por indicación del usuario del 15-nov-2026. El límite anterior de 1-2 páginas procedía del encargo local y de la rúbrica transcrita; ambos se conservan como antecedentes, sin prevalecer sobre esta actualización. La cobertura de criterios y gaps se documenta por separado.
+La solicitud final del usuario del 15-nov-2026 define dos variantes coherentes: memo breve de dos páginas con el nombre original y versión extendida de cinco páginas con sufijo _version_extendida. Ambas sintetizan el protocolo de evaluación de tutorías y mantienen su ejecución fuera del MVP. La rúbrica histórica se conserva intacta; la cobertura de criterios y gaps se documenta por separado.
 
 ## Entregables y fuentes controladas
 
 | Entregable | Fuente y exportación |
 |---|---|
 | Canvas | [Markdown](canvas-wilmer-puerta.md) |
-| Memo de propuesta | [Markdown](propuesta-pset1.md) y [memo PDF de cinco páginas](output/pdf/PSet1_memo_Puerta_Wilmer.pdf) |
+| Memo breve | [Markdown](propuesta-pset1.md) y [PDF de dos páginas, nombre original](output/pdf/PSet1_memo_Puerta_Wilmer.pdf) |
+| Memo extendido | [Markdown extendido](propuesta-pset1_version_extendida.md) y [PDF de cinco páginas](output/pdf/PSet1_memo_Puerta_Wilmer_version_extendida.pdf) |
 | Pitch | [Texto visible y notas](pset01-presentacion.md), [PPTX editable](output/pitch/PSet1_pitch_Puerta_Wilmer.pptx) y [PPT real](output/pitch/PSet1_pitch_Puerta_Wilmer.ppt), seis diapositivas |
 | Proyecto ampliado | [Markdown íntegro](proyecto-completo-pset1.md), [notebook completo](notebooks/PSet1_notebook_completo_Puerta_Wilmer.ipynb) y [PDF completo](output/pdf/PSet1_notebook_completo_Puerta_Wilmer.pdf) |
 | Evaluación docente | [Rúbrica preservada](rubrica.md), [respuesta a los tres gaps](docs/respuesta-feedback.md) y [cobertura de la rúbrica en el memo](docs/cobertura-rubrica-memo.md) |
@@ -48,7 +49,7 @@ Desde la raíz, con Python y [requirements.txt](scripts/requirements.txt) instal
 
 preparar_documentacion.py actualiza únicamente métricas descriptivas de negocio. generar_contenidos.py valida las fuentes editoriales vigentes; ya no reconstruye textos desde el prompt histórico. cerrar_documentacion.py comprueba documentación y enlaces sin reemplazar README o dependencias. Los scripts anteriores de bootstrap se preservan en el respaldo local de la revisión. El prompt original permanece intacto.
 
-Editar propuesta-pset1.md, canvas-wilmer-puerta.md y proyecto-completo-pset1.md como fuentes editoriales controladas; editar scripts/pitch-contenido.json como fuente del pitch. generar_pitch.py deriva el Markdown exacto y objetos nativos PPTX usando pitch-base.json, una base técnica normalizada por PowerPoint sin contenido de diapositivas ni propiedades personales. exportar_documentos.py conserva íntegro el Markdown ampliado en el notebook y PDF. Los cambios editoriales se revisan con validar_fuentes.py para mantener los tres gaps.
+Editar propuesta-pset1.md (breve), propuesta-pset1_version_extendida.md (extendido), canvas-wilmer-puerta.md y proyecto-completo-pset1.md como fuentes editoriales controladas; editar scripts/pitch-contenido.json como fuente del pitch. generar_pitch.py deriva el Markdown exacto y objetos nativos PPTX usando pitch-base.json, una base técnica normalizada por PowerPoint sin contenido de diapositivas ni propiedades personales. exportar_documentos.py conserva íntegro el Markdown ampliado en el notebook y PDF y exporta cada memo desde su propia fuente Markdown. El verificador exige exactamente dos y cinco páginas para las variantes breve y extendida, respectivamente. Los cambios editoriales se revisan con validar_fuentes.py para mantener los tres gaps.
 
 Para exportar el PPT binario y los PDF temporales de revisión en este Mac:
 
@@ -67,6 +68,6 @@ La auditoría descriptiva original se reproduce, si es necesario, con auditar_da
 
 1. Objetivo de negocio: cobertura y anticipación potencial, con meta provisional, presupuesto y denominadores explícitos.
 2. Viabilidad de negocio: tres políticas, igualdad de capacidad y límites de lo validable por simulación; D2L/WiFi institucionales fuera del MVP.
-3. Pitch y propuesta: problema cuantificado, viabilidad técnica y evaluación, MVP y apoyo solicitado visibles, con cifras observadas separadas de metas y márgenes potenciales.
+3. Pitch y propuesta: problema cuantificado, viabilidad técnica y evaluación, MVP y apoyo solicitado visibles, con cifras observadas separadas de metas y márgenes potenciales. Ambos memos sintetizan el piloto posterior: asignación aleatoria por estudiante, aprobación al cierre, intención de tratar e intervalo de confianza; ejecución fuera del MVP.
 
 Los modelos y la simulación aún deben ejecutarse. Cobertura externa de logs y disponibilidad histórica de atributos/etiquetas requieren validación. Colab continúa pendiente de acceso identificable y sincronización; el notebook local es la fuente derivada actual. La publicación inicial del 14-nov-2026 se conserva en el historial. El autor autorizó actualizar el mismo destino con esta revisión el 15-nov-2026; ver la [guía de publicación](../pset-02/docs/publicacion-github.md).

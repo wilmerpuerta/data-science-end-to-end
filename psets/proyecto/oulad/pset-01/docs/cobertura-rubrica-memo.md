@@ -1,31 +1,34 @@
-# Cobertura del memo: rúbrica y tres gaps
+# Cobertura de los memos: rúbrica y tres gaps
 
-Revisión del 15-nov-2026. Este mapa documenta cobertura, no asigna una nota ni acredita resultados predictivos todavía no obtenidos.
+Revisión final del 15-nov-2026. Este mapa documenta cobertura, no asigna una nota ni acredita resultados predictivos o intervenciones no ejecutados.
 
-## Extensión vigente
+## Dos variantes vigentes
 
-El usuario indicó expresamente que el memo puede tener hasta cinco páginas. Esa actualización prevalece sobre el límite anterior de 1-2 páginas del prompt y la rúbrica transcrita. La [rúbrica original](../rubrica.md) se conserva sin modificaciones; no se atribuye al profesor una nueva redacción. El [memo vigente](../output/pdf/PSet1_memo_Puerta_Wilmer.pdf) tiene cinco páginas y mantiene el orden de cuatro secciones: problema/métrica, viabilidad técnica, viabilidad de negocio y riesgos.
+Por solicitud final del usuario, el [memo breve](../output/pdf/PSet1_memo_Puerta_Wilmer.pdf) tiene dos páginas y conserva el nombre original. La [versión extendida](../output/pdf/PSet1_memo_Puerta_Wilmer_version_extendida.pdf) tiene cinco páginas y añade _version_extendida al nombre en el mismo directorio. Ambas mantienen cuatro secciones: problema/métrica, viabilidad técnica, viabilidad de negocio y riesgos. La [rúbrica histórica](../rubrica.md) y el prompt no se modifican; el cambio previo de extensión a cinco páginas queda como antecedente, ahora conservado en la variante extendida.
 
 ## Criterios de la rúbrica
 
-| Criterio | Ubicación en el memo | Evidencia y límites |
-|---|---|---|
-| Formulación del problema y métrica de éxito | Página 1, sección 1 | Decisión, actores, población, target de tres clases, cortes; cobertura, TP y anticipación; K, umbral y error prioritario; meta relativa con baseline cero y ejemplo explícitamente hipotético |
-| Viabilidad técnica | Páginas 2-3, sección 2 | Cinco fuentes, grano y acceso; datos no disponibles; preparación realmente verificada; modelos estático/longitudinal, validación temporal, etiquetas maduras, estudiantes separados, transformaciones en entrenamiento e incertidumbre |
-| Viabilidad de negocio | Página 4, sección 3 | Reactiva, estática y longitudinal con igual cohorte/capacidad; presupuesto total común para cuatro cortes, repeticiones; responsables y juicio; resultados validables sin institución y apoyo solicitado |
-| Riesgos | Página 5, sección 4 | R1-R4 con supuesto, gravedad, verificación y respuesta; transferencia, calidad/fuga, capacidad/impacto y equidad/confianza; correspondencia con ocho riesgos ampliados |
-| Calidad profesional y coherencia | Páginas 1-5 y exportaciones | Texto autónomo, referencias, cifras observadas separadas de metas; MVP explícito en página 3; fuentes comunes con Canvas, documento ampliado y pitch; cinco páginas por instrucción vigente del usuario |
+| Criterio | Memo breve | Memo extendido | Contenido común |
+|---|---|---|---|
+| Problema y métrica de éxito | Página 1, sección 1 | Página 1, sección 1 | Decisión, actores, matrícula, tres clases, cortes; cobertura y anticipación; K, umbral y error prioritario; meta relativa y baseline cero. El ejemplo numérico hipotético se desarrolla en la extendida |
+| Viabilidad técnica | Página 1, sección 2 | Páginas 2-3, sección 2 | Cinco fuentes y acceso, datos no disponibles, preparación comprobada, algoritmos, validación temporal, estudiantes separados y transformaciones aprendidas solo en entrenamiento |
+| Viabilidad de negocio | Página 2, sección 3 | Página 4, sección 3 | Reactiva/estática/longitudinal a igual cohorte/capacidad; presupuesto B, repeticiones, juicio humano, resultados validables y apoyo solicitado |
+| Riesgos | Página 2, sección 4 | Página 5, sección 4 | R1-R4 con tipo, supuesto, gravedad, verificación y respuesta; correspondencia con el documento ampliado |
+| Calidad profesional | Páginas 1-2 | Páginas 1-5 | Texto autónomo, referencias, cifras observadas separadas de metas, evaluación y MVP explícitos; diferencias de detalle sin contradicción metodológica |
 
-## Tres gaps acordados
+## Tres gaps y síntesis de tutorías
 
-| Gap | Corrección en el memo | Separación necesaria |
-|---|---|---|
-| 1. Objetivo de negocio calculable | Página 1: cobertura preventiva con mismos cupos, omisiones, casos por 100 revisiones y semanas potenciales; página 4: N, Fail, K y límite ideal de cobertura | Ni el margen temporal ni el +10 % son desempeño demostrado; una selección no es una tutoría realizada ni una reprobación evitada |
-| 2. Proceso de comparación y viabilidad | Página 4: tres políticas con igual cohorte y K; presupuesto B común en múltiples cortes; roles, carga y límites | La reactiva puede cubrir casos después; no recibe capacidad ilimitada. El histórico conserva sus resultados y no demuestra impacto educativo |
-| 3. Pitch y propuesta completos | Páginas 2-3: factibilidad, evaluación y MVP con etapas/aceptación; páginas 1 y 4: problema y beneficio esperado cuantificados y apoyo solicitado | El pitch de seis diapositivas contiene los mismos mensajes; el patrocinio respalda la evaluación, sin retorno financiero inventado |
+| Punto | Memo breve | Memo extendido | Límite preservado |
+|---|---|---|---|
+| 1. Objetivo de negocio calculable | Secciones 1 y 3 | Secciones 1 y 3 | Cobertura con mismos cupos, anticipación potencial y omisiones; no tutorías realizadas ni reprobaciones evitadas |
+| 2. Proceso de comparación | Sección 3 | Sección 3 | Igual cohorte/K y presupuesto total común; reactiva con cobertura posterior separada y sin capacidad ilimitada |
+| 3. Viabilidad, evaluación y MVP | Secciones 1-3 | Secciones 1-3 | Problema cuantificado, preparación real, MVP, métricas y apoyo solicitado; efecto educativo no demostrado |
+| Evaluación posterior de tutorías | Página 2, sección 3 | Página 4, sección 3 | Aleatorización por estudiante, oferta/atención habitual, aprobación al cierre, intención de tratar e intervalo de confianza. Ejecución fuera del MVP |
 
-## Límites y estado
+La síntesis del piloto mantiene apoyo habitual en ambos grupos, asignación coherente en matrículas múltiples, seguimiento de participación y otras ayudas y cálculo posterior de muestra. El documento completo conserva el protocolo íntegro, incluido posible agrupamiento y límites de inferencia. No se atribuyen efectos individuales ni superioridad causal de la selección longitudinal a ese ensayo.
 
-OULAD es la única fuente del MVP. D2L/WiFi quedan fuera para una fase posterior con aprobación formal y revisión institucional LOPDP. Entrenamiento, evaluación, simulación y demostración predictiva aún deben ejecutarse; los controles del PSet 2 prueban preparación de datos. El efecto de tutorías es una hipótesis posterior, no un requisito para validar el MVP retrospectivo.
+## Fuentes y verificación
 
-El texto íntegro del memo se controla en [propuesta-pset1.md](../propuesta-pset1.md). El [verificador](../scripts/verificar_entregables.py) comprueba todos sus fragmentos y SHA de fuente, geometría y máximo de cinco páginas; la inspección visual complementa esos controles. El [informe visual](revision-visual.json) identifica las salidas revisadas. Colab y la publicación de esta revisión en GitHub siguen pendientes.
+La [fuente breve](../propuesta-pset1.md) resume la [fuente extendida](../propuesta-pset1_version_extendida.md). Cada PDF conserva íntegro su propio Markdown y registra su SHA-256. El [verificador](../scripts/verificar_entregables.py) exige dos/cinco páginas, texto completo, geometría y coherencia de cifras, riesgos, MVP y protocolo. El [informe visual](revision-visual.json) identifica las salidas inspeccionadas.
+
+Entrenamiento, simulación, demostración predictiva y efecto de tutorías siguen pendientes; OULAD es la única fuente del MVP. D2L/WiFi institucionales quedan para una fase posterior con aprobación formal y revisión LOPDP. Colab continúa pendiente de sincronización. Estos ajustes son posteriores a la publicación f9c9932; el usuario autorizó su publicación en el mismo destino. El historial del repositorio y GitHub Actions registran el resultado de esa actualización.

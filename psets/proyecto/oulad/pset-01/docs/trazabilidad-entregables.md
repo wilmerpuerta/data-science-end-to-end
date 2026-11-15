@@ -1,10 +1,11 @@
 # Trazabilidad de entregables revisados
 
-Revisión local del 15-nov-2026, posterior a la publicación del 14-nov-2026. Se respaldó el árbol anterior del PSet 1 y el memo original de cinco páginas antes de editar. Respaldos y PNG/PDF de revisión quedan en backups/ y tmp/, excluidos de Git. Se mantienen los nombres finales canónicos, sin dos versiones divergentes del mismo entregable.
+Revisión local del 15-nov-2026, posterior a la publicación del 14-nov-2026. Se respaldó el árbol anterior del PSet 1 y el memo original de cinco páginas antes de editar. Respaldos y PNG/PDF de revisión quedan en backups/ y tmp/, excluidos de Git. El nombre canónico identifica el memo breve; el sufijo _version_extendida distingue el memo ampliado solicitado. Son dos variantes coherentes con fuentes y verificaciones independientes.
 
 | Fuente controlada | Derivado | Comprobación |
 |---|---|---|
-| propuesta-pset1.md | Memo PDF | Cinco páginas, cuatro secciones, fuentes y todos los fragmentos del Markdown |
+| propuesta-pset1.md | Memo breve PDF, nombre original | Dos páginas, cuatro secciones, protocolo posterior, fuentes y texto íntegro del Markdown |
+| propuesta-pset1_version_extendida.md | Memo PDF _version_extendida | Cinco páginas, detalle ampliado y síntesis del mismo protocolo posterior; texto íntegro de su fuente |
 | proyecto-completo-pset1.md | Notebook y PDF completo | Celdas Markdown concatenadas idénticas; texto íntegro; paginación verificada, tres ideas, matriz 16/13/16, selección, ocho riesgos y auditoría |
 | scripts/pitch-contenido.json | pset01-presentacion.md y PPTX | Seis títulos, mensajes, texto visible y notas exactos; objetos nativos editables |
 | PPTX | PPT binario y PDF temporal de revisión | Conversión real de PowerPoint; seis diapositivas; comparación textual y revisión visual |
@@ -31,10 +32,10 @@ ReportLab exporta PDF, nbformat valida notebook y PyMuPDF extrae texto y renderi
 
 ## Estado y pendientes
 
-El [informe de verificación](verificacion.json) registra formato, texto, datos y los tres gaps. La [revisión visual](revision-visual.json) registra las 5 páginas del memo, las 20 del documento completo y las 6 diapositivas; los renders de PPTX y PPT coinciden píxel a píxel. Esta revisión complementa la extracción; esta última no prueba legibilidad por sí sola. El [inventario](entregables-manifest.json) se actualiza al cerrar el paquete. Modelos, simulación, incertidumbre predictiva, disponibilidad temporal de atributos/etiquetas y transferencia institucional aún deben verificarse. Colab continúa pendiente de acceso y sincronización. La revisión local no actualiza por sí sola GitHub.
+El [informe de verificación](verificacion.json) registra formato, texto, datos y los tres gaps. La [revisión visual](revision-visual.json) registra las 2 páginas del memo breve y las 5 de su versión extendida, las 20 del documento completo y las 6 diapositivas; los renders de PPTX y PPT coinciden píxel a píxel. Esta revisión complementa la extracción; esta última no prueba legibilidad por sí sola. El [inventario](entregables-manifest.json) se actualiza al cerrar el paquete. Modelos, simulación, incertidumbre predictiva, disponibilidad temporal de atributos/etiquetas y transferencia institucional aún deben verificarse. Colab continúa pendiente de acceso y sincronización. La revisión local no actualiza por sí sola GitHub.
 
 ## Extensión actualizada y acceso al pitch
 
-Por indicación del usuario del 15-nov-2026, el memo admite hasta cinco páginas. El generador y el verificador aplican ese límite; el [mapa de cobertura de rúbrica y gaps](cobertura-rubrica-memo.md) permite revisar cada criterio. La rúbrica y el prompt históricos conservan sus textos originales, incluida la extensión anterior; no se presentan como requisitos de extensión vigentes. La revisión previa se preserva en backups/, excluido de Git.
+Por la solicitud final del usuario del 15-nov-2026, se conserva una versión extendida de cinco páginas y el nombre original pasa a la síntesis de dos páginas. El generador y el verificador distinguen ambas variantes y comprueban el protocolo posterior en las dos; el [mapa de cobertura de rúbrica y gaps](cobertura-rubrica-memo.md) permite revisar cada criterio. La rúbrica y el prompt históricos conservan sus textos originales, incluida la extensión anterior; no se presentan como requisitos de extensión vigentes. La revisión previa se preserva en backups/, excluido de Git.
 
 Se reintentó el acceso al pitch local mediante Microsoft PowerPoint: apertura del PPTX sin aviso de reparación, seis miniaturas con notas y diapositiva de alcance/MVP visible. No había una sesión de documento conectada al conector, por lo que la comprobación se hizo en la aplicación nativa. Se cerró sin modificar su contenido.

@@ -15,7 +15,7 @@ def validate():
     selected=metrics['per_cutoff'][-1]
     check('primary_population_and_capacity',selected['eligible_enrollments']==26294 and selected['future_failures']==6972 and selected['capacity_slots']==2619)
     check('available_lead_not_model_performance',selected['lead_weeks_display']=='25,4-30,4' and round(selected['oracle_upper_coverage_pct'],1)==37.6)
-    for name in ['propuesta-pset1.md','canvas-wilmer-puerta.md','proyecto-completo-pset1.md']:
+    for name in ['propuesta-pset1.md','propuesta-pset1_version_extendida.md','canvas-wilmer-puerta.md','proyecto-completo-pset1.md']:
         text=(ROOT/'pset-01'/name).read_text().casefold()
         check(name+'_three_policies',all(word in text for word in ['reactiva','estática','longitudinal']))
         check(name+'_coverage_and_lead',all(word in text for word in ['cobertura preventiva','anticipación potencial','25,4-30,4','primera selección']))
@@ -24,6 +24,9 @@ def validate():
         check(name+'_technical_feasibility',all(word in text for word in ['108.277','35 columnas','168 pruebas dbt','random forest','pr-auc']))
         check(name+'_mvp_scope',all(word in text for word in ['mvp','selector','versionad','d2l','wifi','lopdp','fase posterior']))
         check(name+'_separate_intervention_hypothesis',all(word in text for word in ['hipótesis','costos','participación','personas únicas']))
+    for name in ['propuesta-pset1.md','propuesta-pset1_version_extendida.md','proyecto-completo-pset1.md']:
+        text=(ROOT/'pset-01'/name).read_text().casefold()
+        check(name+'_tutoring_protocol',all(word in text for word in ['aleatoria por estudiante','atención habitual','aprobación','pass','distinction','intención de tratar','intervalo de confianza','matrículas múltiples','fuera del mvp']))
     slides=json.loads((ROOT/'pset-01/scripts/pitch-contenido.json').read_text())
     check('pitch_six_slides',len(slides)==6)
     visible=['\n'.join([s['title'],s['message']]+[o['text'] for o in s['objects']]).casefold() for s in slides]

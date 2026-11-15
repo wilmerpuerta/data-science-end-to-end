@@ -24,9 +24,10 @@ def main():
  for name,value in validate().items():check('revision_'+name,value)
  nb=nbformat.read(ROOT/'pset-01/notebooks/PSet1_notebook_completo_Puerta_Wilmer.ipynb',as_version=4);nbformat.validate(nb)
  full=ROOT/'pset-01/proyecto-completo-pset1.md';check('notebook_exact_source',''.join(c.source for c in nb.cells)==full.read_text())
- for name,src in [('memo','propuesta-pset1.md'),('notebook_completo','proyecto-completo-pset1.md')]:
-  pdf=pymupdf.open(ROOT/f'pset-01/output/pdf/PSet1_{name}_Puerta_Wilmer.pdf');result[name+'_pages']=len(pdf)
-  if name=='memo':check('memo_up_to_5_pages',1<=len(pdf)<=5)
+ for name,src,filename in [('memo','propuesta-pset1.md','PSet1_memo_Puerta_Wilmer.pdf'),('memo_extendido','propuesta-pset1_version_extendida.md','PSet1_memo_Puerta_Wilmer_version_extendida.pdf'),('notebook_completo','proyecto-completo-pset1.md','PSet1_notebook_completo_Puerta_Wilmer.pdf')]:
+  pdf=pymupdf.open(ROOT/'pset-01/output/pdf'/filename);result[name+'_pages']=len(pdf)
+  if name=='memo':check('memo_brief_exactly_2_pages',len(pdf)==2)
+  if name=='memo_extendido':check('memo_extended_exactly_5_pages',len(pdf)==5)
   check(name+'_source_hash',pdf.metadata['subject']=='Fuente SHA-256 '+hashlib.sha256((ROOT/'pset-01'/src).read_bytes()).hexdigest())
   extracted=''.join(''.join(span['text'] for b in p.get_text('dict')['blocks'] if 'lines' in b for line in b['lines'] for span in line['spans'] if span['bbox'][1]<800) for p in pdf)
   text=compact(extracted);missing=[]
@@ -68,7 +69,7 @@ def main():
   check('unchanged_'+name,h.hexdigest()==meta['sha256'] and path.stat().st_size==meta['bytes'])
  a=json.loads((ROOT/'pset-01/docs/auditoria-resultados.json').read_text())['populations']
  for k,v in [('original',a['original']),('initial',a['initial'])]+list(a['cuts'].items()):check('class_sum_'+k,v['N']==v['Fail']+v['Withdrawn']+v['Approved'])
- for name in ['canvas-wilmer-puerta.md','propuesta-pset1.md','proyecto-completo-pset1.md','pset01-presentacion.md']:
+ for name in ['canvas-wilmer-puerta.md','propuesta-pset1.md','propuesta-pset1_version_extendida.md','proyecto-completo-pset1.md','pset01-presentacion.md']:
   t=(ROOT/'pset-01'/name).read_text();check('no_personal_paths_'+name,'/Users/' not in t and 'Downloads' not in t)
   check('four_risk_groups_'+name,all('R'+str(i) in t for i in range(1,5)))
  # La etapa 2 ya puede tener implementación real; exigir evidencia local
@@ -81,5 +82,5 @@ def main():
  for n in ['pset-03','pset-04']:check(n+'_prepared',(ROOT/n/'.gitkeep').exists())
  (ROOT/'pset-01/docs/verificacion.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
  actualizar_inventario()
- print(f"OK: {len(result['checks'])} verificaciones. Memo {result['memo_pages']} páginas; completo {result['notebook_completo_pages']} páginas; pitch 6 diapositivas.")
+ print(f"OK: {len(result['checks'])} verificaciones. Memo breve {result['memo_pages']} páginas; extendido {result['memo_extendido_pages']} páginas; completo {result['notebook_completo_pages']} páginas; pitch 6 diapositivas.")
 if __name__=='__main__':main()

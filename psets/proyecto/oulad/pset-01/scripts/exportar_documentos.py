@@ -18,8 +18,8 @@ def plain(t):
 def markup(t):
  t=html.escape(plain(t)); t=re.sub(r'\*\*(.+?)\*\*',r'<b>\1</b>',t); t=re.sub(r'(?<!\*)\*([^*]+)\*(?!\*)',r'<i>\1</i>',t)
  return t
-def render_md(src,dest,memo=False):
- text=src.read_text(); story=[]; base=10.5; leading=14.3 if memo else 14.7; references=False
+def render_md(src,dest,memo=False,brief=False):
+ text=src.read_text(); story=[]; base=10.2 if brief else 10.5; leading=13.6 if brief else (14.3 if memo else 14.7); references=False
  normal=ParagraphStyle('normal',fontName='Body',fontSize=base,leading=leading,spaceAfter=6,splitLongWords=True,allowWidows=False,allowOrphans=False)
  tiny=ParagraphStyle('cell',parent=normal,fontSize=8.5,leading=11.3,spaceAfter=2)
  reference_style=ParagraphStyle('reference',parent=normal,fontSize=9.5,leading=12,spaceAfter=3)
@@ -45,7 +45,8 @@ def render_md(src,dest,memo=False):
   m=re.match(r'^(#{1,6})\s+(.*)',l)
   if m:
    if m[2] in ['Referencias','Referencias y evidencia local']: references=True
-   if memo and m[2] in ['2. Viabilidad técnica, evaluación y alcance del MVP','2.3. Validación temporal y alcance del MVP','3. Viabilidad de negocio y comparación del seguimiento','4. Riesgos, respuestas y límites institucionales']: story.append(PageBreak())
+   if brief and m[2]=='3. Viabilidad de negocio y evaluación de tutorías': story.append(PageBreak())
+   elif memo and not brief and m[2] in ['2. Viabilidad técnica, evaluación y alcance del MVP','2.3. Validación temporal y alcance del MVP','3. Viabilidad de negocio y comparación del seguimiento','4. Riesgos, respuestas y límites institucionales']: story.append(PageBreak())
    story.append(Paragraph(markup(m[2]),styles[min(len(m[1]),3)]));i+=1;continue
   para=[l];i+=1
   while i<len(lines) and lines[i].strip() and not re.match(r'^(#|\||- )',lines[i].strip()): para.append(lines[i].strip());i+=1
@@ -63,7 +64,8 @@ def main():
  sections=re.split(r'(?m)(?=^#{1,3} )',text);nb=nbformat.v4.new_notebook();nb.cells=[nbformat.v4.new_markdown_cell(s) for s in sections if s]
  nb.metadata={'language_info':{'name':'python'},'authors':[{'name':'Wilmer Puerta'}],'source_sha256':hashlib.sha256(full.read_bytes()).hexdigest(),'evidence':'Revisión de tres gaps del PSet 1; auditoría real y preparación PSet 2 verificadas, sin entrenamiento ni simulación de políticas ejecutados','revision':'2026-11-15'}
  nbformat.validate(nb);dest=ROOT/'pset-01/notebooks/PSet1_notebook_completo_Puerta_Wilmer.ipynb';dest.parent.mkdir(exist_ok=True);nbformat.write(nb,dest)
- render_md(ROOT/'pset-01/propuesta-pset1.md',ROOT/'pset-01/output/pdf/PSet1_memo_Puerta_Wilmer.pdf',True)
+ render_md(ROOT/'pset-01/propuesta-pset1.md',ROOT/'pset-01/output/pdf/PSet1_memo_Puerta_Wilmer.pdf',memo=True,brief=True)
+ render_md(ROOT/'pset-01/propuesta-pset1_version_extendida.md',ROOT/'pset-01/output/pdf/PSet1_memo_Puerta_Wilmer_version_extendida.pdf',memo=True)
  render_md(full,ROOT/'pset-01/output/pdf/PSet1_notebook_completo_Puerta_Wilmer.pdf')
- print('Notebook válido y dos PDF exportados desde Markdown íntegro')
+ print('Notebook válido y tres PDF exportados desde sus fuentes Markdown: memo breve, extendido y documento completo')
 if __name__=='__main__': main()
