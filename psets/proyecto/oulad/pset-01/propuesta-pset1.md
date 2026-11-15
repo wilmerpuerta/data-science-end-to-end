@@ -1,33 +1,118 @@
-# Apoyo académico a tiempo
+# Predicción temprana del riesgo de reprobación
 
-Wilmer Puerta · PSet 1 · 12 de noviembre de 2026
+Actividad digital longitudinal para priorizar el acompañamiento académico
 
-## 1. El problema de negocio y la métrica de éxito
+Wilmer Puerta · PSet 1 · Revisión del 15 de noviembre de 2026
 
-Una universidad hipotética con tutorías limitadas necesita decidir a quién revisar antes del cierre de cada módulo. Una lista inicial puede omitir estudiantes cuya situación cambia. El proyecto evaluará si la evolución de la actividad digital mejora la focalización preventiva con los mismos cupos; no promete reducir reprobaciones sin evaluar posteriormente el apoyo.
+## 1. Problema de negocio y métrica de éxito
 
-Para cada matrícula estudiante–módulo–edición se estimarán probabilidades de reprobación, retiro y aprobación al cierre, usando información hasta los días 14, 28, 42 y 56. Se compararán regresión logística multinomial y Random Forest con antecedentes estáticos frente a los mismos algoritmos enriquecidos con actividad longitudinal. PR-AUC para reprobación será la métrica técnica principal. La meta provisional es identificar en el día 56 al menos un 10 % relativo más de futuras reprobaciones que el baseline estático, a igual población y capacidad. Se seleccionarán las K puntuaciones más altas, con K = floor(0.10 × N) de matrículas elegibles por edición; el umbral será la última puntuación que cabe en esos cupos. Se considera prioritario reducir omisiones de estudiantes que posteriormente reprueban, sin ignorar que las falsas alertas consumen recursos. Capacidad y costos relativos son supuestos por validar.
+### Problema, decisión y población
 
-## 2. Viabilidad técnica
+Una universidad hipotética con capacidad limitada necesita decidir a quién revisar y cuándo ofrecer apoyo. El proceso de referencia simulado espera a conocer la reprobación; la propuesta prioriza la revisión antes del cierre del módulo. No se atribuye ese proceso como práctica comprobada de la USFQ, The Open University o la mayoría de universidades. Los afectados son estudiantes, tutores y responsables de acompañamiento.
 
-OULAD es público y los cinco archivos se auditaron localmente [1], [2]. `studentInfo.csv` aporta antecedentes y resultado; `studentVle.csv`, actividad fechada; `vle.csv`, recursos; `courses.csv`, edición y duración; y `studentRegistration.csv`, registro y retiro. Los cinco tienen acceso confirmado. Auditoría local del 12 de noviembre de 2026: 7.052 Fail (21.64 %). 10.156 Withdrawn (31.16 %) y 15.385 aprobaciones (47.20 %). sobre 32.593 matrículas. En la población inicialmente registrada hasta el día 0, 6.980 Fail (21.60 %). 10.068 Withdrawn (31.16 %) y 15.266 aprobaciones (47.24 %). sobre 32.314 matrículas. Son matrículas, no personas únicas ni una tasa institucional actual.
+En la copia local de OULAD hay **7.052 Fail entre 32.593 matrículas: 21,64 %**; corresponden a 28.785 personas únicas. Son resultados históricos de 2013-2014, no una tasa institucional actual. Reprobar o retirarse de un módulo no demuestra deserción institucional [1, E1]. La unidad analítica es una matrícula estudiante-módulo-edición. La población inicial incluye registros conocidos hasta el día 0; en cada corte se excluyen solo retiros ya ocurridos. Los retiros posteriores permanecen como resultados futuros.
 
-Se construirán características de nivel, recencia y cambio quincenal, distinguiendo inactividad de falta de cobertura y sin usar información futura. La prueba utilizará ediciones posteriores compatibles y estudiantes no usados para ajustar el modelo; las etiquetas históricas deberán estar disponibles antes de cada predicción simulada. Se comparará también una regla operativa de recencia a igual capacidad. El MVP ofrecerá preparación reproducible, inferencia por corte, listas, evolución del riesgo y reporte comparativo. La infraestructura de datos se desarrollará progresivamente en la siguiente etapa con Kestra, dbt, Spark y Snowflake. No hay acceso confirmado a registros institucionales de capacidad, costos o intervenciones.
+**Objetivo de negocio:** cubrir más futuras reprobaciones con los mismos cupos y cuantificar las semanas de anticipación potencial respecto al cierre. **Pregunta analítica:** ¿añadir actividad longitudinal mejora esa cobertura frente a los mismos algoritmos con antecedentes estáticos? Se estiman probabilidades de Fail, Withdrawn y aprobación (Pass + Distinction), ordenando por P(Fail). Los cortes son días 14, 28, 42 y 56; ocho semanas es observación temprana, no duración total del módulo.
 
-## 3. Viabilidad de negocio
+### Métricas, umbral y beneficio esperado
 
-La propuesta cambia la asignación de revisión preventiva: una lista quincenal sustituye la selección fija o reactiva del escenario hipotético. El coordinador define cupos; el tutor revisa contexto y decide apoyo. El sistema ordena prioridades y no ejecuta sanciones. La simulación comparará regla de recencia, baseline estático y modelos longitudinales con igual población y presupuesto, midiendo detecciones, omisiones, anticipación y revisiones repetidas. El 10 % de capacidad corresponde a un presupuesto preventivo simulado; preservar otros servicios no demuestra disponibilidad de personal adicional.
+**Cobertura preventiva (%) = 100 × TP seleccionados antes del cierre / Fail elegibles.** TP cuenta matrículas seleccionadas que finalmente reprueban. Se reportarán casos cubiertos, casos por cada 100 revisiones, omisiones, carga repetida y personas únicas. La etiqueta se consulta al evaluar, nunca como predictor temprano.
 
-El impacto académico se evaluaría en un piloto posterior: asignar aleatoriamente estudiantes elegibles a oferta de acompañamiento definido o atención habitual y comparar la proporción que aprueba al cierre, por grupo asignado, con intervalo de confianza. Se observarán también retiro, reprobación, participación, tiempos y costos. La muestra dependerá de la tasa inicial y del efecto mínimo relevante. El PSet actual diseña este protocolo; OULAD permite evaluar focalización retrospectiva, no el efecto causal de nuestra intervención ni ahorros.
+El caso principal fija la cohorte elegible del día 56 y **K = floor(0.10 × N) por edición**. El umbral será la última puntuación dentro de K, con desempate estable independiente del resultado. Se priorizan omisiones por la oportunidad de apoyo perdida; las falsas alertas consumen cupos. Capacidad y costos relativos son supuestos por validar, con sensibilidad al 5 % y 20 %.
 
-## 4. Riesgos principales
+La meta provisional es **+10 % relativo de TP longitudinal frente a TP estático**, con idéntica población y K: 100 × (TP longitudinal - TP estático) / TP estático. Si TP estático = 0 se informa diferencia absoluta. Ejemplo exclusivamente ilustrativo: pasar de 40 a 44 casos con 100 revisiones representa cuatro casos adicionales y 10 % relativo; no cuatro reprobaciones evitadas. No es rendimiento obtenido.
 
-**R1. Mejora insuficiente o poco transferible; alta.** Se rompe el supuesto de aporte longitudinal consistente. Comparar a igual K por edición, con incertidumbre; conservar el baseline o limitar el alcance si no se sostiene.
+**Anticipación potencial = (duración de la edición - día de primera selección) / 7.** Al día 56 quedan 25,4-30,4 semanas en esta copia. Se resumirá mediana y dispersión para los TP; los casos omitidos permanecen en la cobertura. El cierre aproxima la referencia reactiva: OULAD no aporta fechas reales de tutoría o comunicación de notas. Ese margen disponible no es una anticipación lograda por un modelo [E2]. El beneficio esperado para el patrocinador es una asignación preventiva mejor evaluada, no una reducción demostrada de reprobación.
 
-**R2. Información futura o actividad mal representada; crítica.** Se rompe la disponibilidad y comparabilidad al corte. Auditar fechas, etiquetas, cobertura, claves y transformaciones; reconstruir cualquier evaluación afectada. Medir factibilidad de procesamiento y acotar módulos con criterios previos si hace falta.
+## 2. Viabilidad técnica, evaluación y alcance del MVP
 
-**R3. Capacidad inviable o apoyo sin efecto; alta.** Se rompe la viabilidad de revisión e intervención útil. Simular cupos del 5 %, 10 % y 20 %, repeticiones y carga; medir participación y resultados solo en el piloto posterior. No afirmar eficiencia monetaria sin costos.
+### 2.1. Fuentes, acceso y preparación comprobada
 
-**R4. Errores desiguales o pérdida de confianza; alta.** Se rompe una priorización aceptable entre grupos. Revisar errores por subgrupos con volumen suficiente y el lenguaje de alertas; ajustar reglas y preservar juicio humano y vías habituales de apoyo.
+OULAD es público, anonimizado y publicado con licencia CC BY 4.0; se mantendrá su atribución [1, 2]. Los cinco CSV están disponibles en datasets/, identificados por bytes y SHA-256 y auditados descriptivamente. La publicación describe siete módulos y 22 ediciones. Los identificadores sirven para unir y separar estudiantes, no para memorizarlos como predictores.
 
-Referencias: [1] J. Kuzilek, M. Hlosta y Z. Zdrahal, “Open University learning analytics dataset,” Scientific Data, 4, 170171, 2017. https://doi.org/10.1038/sdata.2017.171. [2] The Open University, “Open dataset”, https://research.stem.open.ac.uk/ouanalyse/dataset/. Evidencia local: datasets/manifest.json y docs/auditoria-datos.md (12-nov-2026).
+| Fuente y grano | Acceso y contenido | Control o límite relevante |
+|---|---|---|
+| studentInfo.csv, matrícula | Local confirmado; antecedentes y resultado final | Claves y categorías auditadas; verificar disponibilidad inicial de cada atributo; final_result solo como etiqueta |
+| studentVle.csv, actividad diaria por recurso | Local confirmado; 10.655.280 aportes | Filtrar al corte, consolidar repeticiones y revisar cobertura; clics no acreditan intención |
+| vle.csv, recurso-edición | Local confirmado; tipo y contexto | Claves, recursos y diferencias entre ediciones; contexto no necesariamente disponible por igual |
+| courses.csv, módulo-edición | Local confirmado; duración | Permite horizonte de cierre aproximado; verificar compatibilidad temporal de ediciones |
+| studentRegistration.csv, matrícula | Local confirmado; registro y retiro | Elegibilidad con fechas conocidas al corte; retiro futuro no es predictor |
+| Capacidad, costos e intervenciones | No disponibles ni acceso confirmado | Cupos simulados; no hay registros de tutorías ni efectos educativos para validar |
+
+assessments y studentAssessment no son necesarios: las notas quedan fuera para aislar el aporte de interacción digital. D2L y WiFi institucionales tampoco forman parte de los datos del MVP. La calidad de la copia no demuestra representatividad ni exactitud respecto de la realidad externa.
+
+### 2.2. Factibilidad y características del modelo
+
+El PSet 2 ya implementó Fuente → Kestra → Snowflake Raw → dbt Bronze/Silver/Gold → Spark OBT. La OBT tiene **108.277 filas y 35 columnas**, con grano matrícula-corte; **168 pruebas dbt** aprobaron. La reproducción limpia mantuvo cuatro huellas por corte. Es evidencia de preparación reproducible, no de un modelo entrenado ni de utilidad predictiva [E3].
+
+Se compararán regresión logística multinomial y Random Forest, cada uno estático frente al mismo algoritmo enriquecido con actividad. Antecedentes candidatos: educación previa, intentos, créditos y contexto de matrícula, previa verificación de disponibilidad. Actividad: clics acumulados y quincenales, días activos, recencia, variedad y cambios. El primer corte no tiene dos quincenas completas para comparar; recencia sin registros permanece desconocida. Se preservan matrículas sin clics, distinguiendo ausencia de registros de inactividad real. Se medirán tiempos y recursos de entrenamiento e inferencia; aún no están cuantificados.
+
+### 2.3. Validación temporal y alcance del MVP
+
+La evaluación reservará ediciones posteriores compatibles y estudiantes no utilizados para ajustar. Cada etiqueta histórica de entrenamiento deberá haber madurado antes de la predicción simulada; el año de inicio por sí solo no lo garantiza. Se auditarán duración y disponibilidad del resultado, se mantendrán todos los cortes de una matrícula en la misma partición y se contabilizarán estudiantes repetidos excluidos de la prueba principal. Si no existen pares suficientes, se acotarán módulos y conclusiones antes de consultar resultados finales.
+
+Imputación, escalado, codificación, selección y parámetros aprendidos se ajustarán únicamente con entrenamiento/validación; el test permanecerá reservado. La disponibilidad histórica de todos los atributos y la cobertura semántica de logs siguen pendientes. Cambiar eventos futuros no debe alterar características de un corte anterior. La regla de recencia queda como sensibilidad adicional, sin reemplazar las tres políticas principales.
+
+PR-AUC para Fail frente al resto, precisión/recobrado, matriz de confusión y calibración respaldarán la evaluación técnica. Se fijará la implementación de PR-AUC antes de comparar. Se reportarán ambos algoritmos por edición y corte, con diferencias absolutas/relativas e incertidumbre mediante remuestreo agrupado por estudiante cuando sea viable. La métrica de negocio seguirá siendo cobertura con igual capacidad y anticipación potencial; se admitirán resultados negativos.
+
+### 2.4. Producto, etapas y criterios de aceptación
+
+**MVP previsto:** demostración con OULAD y selector de edición, corte y capacidad para consultar listas priorizadas y evolución del riesgo y reproducir un reporte de las tres políticas. Incluirá modelo y transformaciones versionados e instrucciones de ejecución. La demostración se ejecutará en un entorno controlado separado del ajuste. El resultado final solo aparecerá en una vista de evaluación retrospectiva. Una entrada inválida impedirá emitir una predicción normal.
+
+| Etapa | Evidencia para completar el MVP |
+|---|---|
+| Datos y exploración | Inventario, diccionario, atribución, claves, elegibilidad, exclusiones y análisis de clases/cobertura; preparación ya implementada, límites documentados |
+| Características | Versiones estática y longitudinal reproducibles; cortes correctos y prueba de que el futuro no altera el pasado |
+| Modelo y políticas | Validación temporal, prueba reservada, comparación de dos algoritmos y tres políticas con igual presupuesto y métricas con incertidumbre |
+| Despliegue | Modelo más transformaciones coherentes, entradas validadas y demostración ejecutable con instrucciones |
+| Monitoreo | Versión, faltantes, volúmenes, distribución de puntuaciones y tamaño de listas; desempeño solo cuando existan etiquetas |
+
+El monitoreo se probará mediante reproducción histórica y rangos definidos en entrenamiento/validación. Un cambio relevante generará revisión, no reentrenamiento automático ni una afirmación de caída de precisión sin etiquetas. **Aceptar el MVP** exige reproducción, control temporal, presupuestos comparables y resultados trazables; alcanzar +10 % es una hipótesis separada. Preparación está implementada; entrenamiento, evaluación, simulación y demostración predictiva siguen pendientes.
+
+## 3. Viabilidad de negocio y comparación del seguimiento
+
+### Tres políticas con la misma capacidad
+
+El proceso de referencia espera a conocer Fail y revisa después; las alternativas anticipan la selección. Se simula una decisión histórica, manteniendo fijos los resultados académicos observados. La comparación principal usa la misma cohorte del día 56 y el mismo K por edición, sin dar capacidad ilimitada a la política reactiva.
+
+| Política simulada | Información y selección | Momento y lectura del resultado |
+|---|---|---|
+| Reactiva | Hasta K Fail conocidos de la cohorte, con desempate prefijado | Después del cierre; anticipación y cobertura preventiva cero por escenario, cobertura posterior informada aparte |
+| Estática | Top K por P(Fail), con antecedentes disponibles al inicio | Día 56, para comparar el aporte de variables sobre la misma población |
+| Longitudinal | Top K con esos antecedentes más actividad hasta el corte | Mismo día 56 y capacidad; cobertura y anticipación antes del cierre |
+
+El modelo estático podría utilizarse antes; evaluarlo al día 56 aísla el aporte longitudinal sin afirmar que carezca de uso temprano. La reactiva puede cubrir casos después y conoce su resultado: no es un clasificador temprano y su precisión posterior no se interpreta como superioridad predictiva. La comparación con ella mide oportunidad preventiva; estática frente a longitudinal mide focalización.
+
+En el histórico completo del día 56 hay **26.294 elegibles, 6.972 Fail y 2.619 cupos**, suma de floor(0.10 × N) por edición. Incluso una selección perfecta cubriría como máximo **37,6 %** de los Fail. Es una cota de capacidad, no resultado de un modelo. N, Fail, K y la cota se recalcularán en las ediciones reservadas [E2].
+
+### Carga, responsables y valor validable
+
+Para cuatro listas sucesivas se fijará un presupuesto total B común por edición y una regla previa de reparto/reserva; las revisiones sumarán como máximo B. Cada revisión repetida consume un cupo y cada matrícula cuenta una vez en cobertura acumulada. Se informarán personas únicas y reservas no usadas. La reactiva puede gastar su presupuesto tras el cierre. Las capacidades descriptivas por corte no dan cuatro presupuestos gratuitos a una política.
+
+El coordinador valida cupos y prioridades; el tutor revisa contexto y contactos previos y decide orientación, tutoría o derivación; el responsable analítico controla calidad, versiones y evaluación. El sistema calcula y ordena: no contacta estudiantes, decide causas ni aplica sanciones. Quienes no figuren conservarían vías habituales de apoyo. Son roles propuestos, sin institución participante comprometida.
+
+Sin una institución se pueden validar preparación, reglas, calidad predictiva, casos cubiertos, cobertura, omisiones, anticipación potencial y carga simulada. No se pueden demostrar aceptación, capacidad real, participación, eficacia de tutorías, ahorro, reducción de deserción ni transferencia a la USFQ. La hipótesis de que ofrecer apoyo mejora la aprobación corresponde a un piloto posterior con autorizaciones y comparación adecuada, no es requisito del MVP actual.
+
+**Apoyo solicitado:** respaldar la prueba de concepto y designar referentes académicos para revisar utilidad y cupos hipotéticos. El patrocinador recibirá una comparación reproducible con incertidumbre, límites y criterios para decidir un piloto. Si el longitudinal no aporta valor suficiente, se reportará y conservará el baseline o se limitará el alcance; no se inventa retorno financiero ni presupuesto monetario.
+
+## 4. Riesgos, respuestas y límites institucionales
+
+**R1. Aporte insuficiente o transferencia limitada. Técnico/negocio; gravedad alta.** Supuesto: la actividad aporta información útil y consistente fuera del ajuste. Verificación: comparación emparejada por algoritmo, corte y edición, incertidumbre y subgrupos con volumen suficiente. Respuesta: reportar resultados negativos, conservar el estático, recalibrar o restringir población; exigir validación externa antes de adopción. No se presenta la meta del 10 % como un resultado.
+
+**R2. Fuga, cobertura o procesamiento inadecuados. Técnico; gravedad crítica.** Supuesto: datos y etiquetas eran conocidos al corte y la actividad es comparable. Verificación: fechas, claves, maduración, particiones, transformaciones y cobertura por edición; pruebas temporales y medición de recursos. Respuesta: reconstruir toda evaluación afectada, marcar datos desconocidos y acotar módulos antes de la prueba final. Ausencia de clics no acredita desinterés; los registros digitales no demuestran intencionalidad.
+
+**R3. Capacidad inviable, baja adopción o apoyo sin efecto. Negocio/adopción; gravedad alta.** Supuesto: las listas podrían utilizarse con los recursos disponibles y un apoyo posterior sería útil. Verificación actual: sensibilidad de cupos, repeticiones y carga; revisión de utilidad con referentes si se consigue participación. Costos, tiempos reales, aceptación y efecto académico se medirían en otra fase. Respuesta: ajustar frecuencia y reglas, mantener vías de apoyo y limitar la conclusión a focalización; no afirmar ahorro ni aprobación ganada.
+
+**R4. Errores desiguales o pérdida de confianza. Adopción; gravedad alta.** Supuesto: la priorización no perjudica desproporcionadamente a grupos y las alertas son comprensibles. Verificación: omisiones y falsas alertas por subgrupos con tamaño suficiente, revisión de atributos demográficos y lenguaje con usuarios en una fase posterior. Respuesta: ajustar variables o reglas, declarar incertidumbre, preservar juicio humano y evitar etiquetas sancionatorias. Los cuatro grupos conservan la correspondencia con los ocho riesgos del documento ampliado.
+
+**Fuera de alcance:** integración universitaria, captura en tiempo real, tutorías efectivas, sanciones, predicción de deserción institucional, inferencia de intencionalidad, demostración causal y ahorro monetario. El MVP utiliza exclusivamente OULAD. D2L y WiFi de la USFQ quedan para una fase posterior, con aprobación formal y revisión de cumplimiento LOPDP por los responsables institucionales. Los registros vinculables de WiFi pueden revelar ubicación; deberán justificarse legitimación, finalidad, minimización y seguridad, y evaluar impacto cuando corresponda. Una autorización académica por sí sola no sustituye esa revisión [3]. Los modelos complejos de secuencias no son requisito.
+
+### Referencias y evidencia local
+
+[1] J. Kuzilek, M. Hlosta y Z. Zdrahal, “Open University learning analytics dataset”, Scientific Data, vol. 4, art. 170171, 2017, doi:10.1038/sdata.2017.171.
+
+[2] The Open University, documentación de OULAD: https://research.stem.open.ac.uk/ouanalyse/open-dataset-more/.
+
+[3] SPDP, oficio SPDP-IGRD-2026-514-O. Orientación general sobre legitimación, principios, riesgos y evaluación de impacto; no autorización específica para WiFi universitario. https://www.spdp.gob.ec/docs/consultas-absueltas/2026-2/oficio-n-spdp-igrd-2026-514-o/. Consultado: 15-nov-2026.
+
+[E1] datasets/manifest.json; pset-01/docs/auditoria-resultados.json y poblaciones-por-edicion.csv. [E2] pset-01/docs/metricas-negocio.json: descriptivos, margen temporal y cota de capacidad, sin modelo. [E3] pset-02/docs/reproduccion-limpia.json: preparación y reproducción verificadas, sin entrenamiento ni simulación de políticas.

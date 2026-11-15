@@ -24,3 +24,11 @@ Publicar los archivos no levanta la infraestructura en Codespaces, no carga dato
 El conftest.py del paquete excluye de la colección pytest dos entradas de spark-submit: requieren argumentos CLI o CSV montados, y ejecutarlas al importar produciría un error ajeno a las pruebas unitarias. Los cuatro tests de invariantes Raw siguen disponibles sin datos originales ni Snowflake. Las siete pruebas sintéticas Spark se ejecutan con el comando test-features del pipeline, como antes.
 
 No se modifica la configuración .devcontainer/ o .github/ del curso, ni se crean etiquetas de entrega académica como parte de esta publicación. El historial previo se mantiene mediante un commit descendiente de master, sin push forzado.
+
+## Actualización autorizada del 15-nov-2026
+
+El autor solicitó actualizar todos los archivos revisados de PSet 1 y PSet 2 en el mismo destino psets/proyecto/oulad/, rama master. La publicación incluye el memo PSet 1 ampliado a cinco páginas, Canvas, Markdown, notebook, PDF completo y pitch de seis diapositivas en PPTX/PPT, junto con generadores y verificaciones. El README y el contrato de datos de PSet 2 incorporan objetivo de cobertura/anticipación, tres políticas, presupuesto común, separación de futuras salidas de simulación y límites del MVP. El [diagnóstico de compatibilidad](impacto-revision-pset1.md) explica por qué no cambian el runtime ni las 35 columnas de la OBT.
+
+El memo técnico PSet 2 conserva la instantánea de ejecución de los días 12-13 de noviembre y sus seis páginas. Las referencias a publicación pendiente dentro de ese memo o de informes previos corresponden a la fecha de esas verificaciones; no se reescribe evidencia histórica para aparentar una nueva ejecución. El estado de publicación se verifica en el historial de commits del destino y en GitHub Actions. Colab sigue pendiente de sincronización.
+
+La copia de publicación se actualiza desde la lista de archivos candidatos revisados, se compara con el contenido local y se confirma que el diff se limita a psets/proyecto/oulad/. Se conserva el historial de master y se usa push normal. No se incluyen CSV, credenciales, entornos, respaldos ni archivos temporales; no se cambian materiales o configuración del curso.

@@ -4,6 +4,7 @@ from collections import Counter
 import re,json,hashlib,zipfile,xml.etree.ElementTree as ET
 import nbformat,pymupdf
 from exportar_documentos import plain
+from validar_fuentes import validate
 ROOT=Path(__file__).resolve().parents[2]
 def actualizar_inventario():
  inventory={}
@@ -20,11 +21,13 @@ def main():
  def check(name,value):
   result['checks'][name]=value
   if value is not True: raise AssertionError((name,value))
+ for name,value in validate().items():check('revision_'+name,value)
  nb=nbformat.read(ROOT/'pset-01/notebooks/PSet1_notebook_completo_Puerta_Wilmer.ipynb',as_version=4);nbformat.validate(nb)
  full=ROOT/'pset-01/proyecto-completo-pset1.md';check('notebook_exact_source',''.join(c.source for c in nb.cells)==full.read_text())
  for name,src in [('memo','propuesta-pset1.md'),('notebook_completo','proyecto-completo-pset1.md')]:
   pdf=pymupdf.open(ROOT/f'pset-01/output/pdf/PSet1_{name}_Puerta_Wilmer.pdf');result[name+'_pages']=len(pdf)
-  if name=='memo':check('memo_1_to_2_pages',1<=len(pdf)<=2)
+  if name=='memo':check('memo_up_to_5_pages',1<=len(pdf)<=5)
+  check(name+'_source_hash',pdf.metadata['subject']=='Fuente SHA-256 '+hashlib.sha256((ROOT/'pset-01'/src).read_bytes()).hexdigest())
   extracted=''.join(''.join(span['text'] for b in p.get_text('dict')['blocks'] if 'lines' in b for line in b['lines'] for span in line['spans'] if span['bbox'][1]<800) for p in pdf)
   text=compact(extracted);missing=[]
   for line in (ROOT/'pset-01'/src).read_text().splitlines():

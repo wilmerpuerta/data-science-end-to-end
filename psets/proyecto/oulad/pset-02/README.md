@@ -2,7 +2,17 @@
 
 Wilmer Puerta · Continuidad del [PSet 1](../pset-01/README.md).
 
-El pipeline reproduce Fuente → Kestra → Snowflake Raw → dbt Bronze/Staging → dbt Silver → dbt Gold estrella → Spark OBT → Snowflake. La cadena integral terminó SUCCESS y la reproducción desde exportación limpia está verificada. El [memo técnico de seis páginas](output/pdf/PSet2_memo_Puerta_Wilmer.pdf) explica la implementación y sus límites; su [fuente Markdown](memo-pset2.md) y sus comandos de exportación están disponibles. La [revisión del paquete](docs/revision-paquete.md) documenta las comprobaciones previas a publicar. El costo monetario sigue sin cuantificar. GitHub queda para el final.
+El pipeline reproduce Fuente → Kestra → Snowflake Raw → dbt Bronze/Staging → dbt Silver → dbt Gold estrella → Spark OBT → Snowflake. La cadena integral terminó SUCCESS y la reproducción desde exportación limpia está verificada. El [memo técnico de seis páginas](output/pdf/PSet2_memo_Puerta_Wilmer.pdf) explica la implementación y sus límites; su [fuente Markdown](memo-pset2.md) y sus comandos de exportación están disponibles. La [revisión del paquete](docs/revision-paquete.md) documenta las comprobaciones previas a publicar. El costo monetario sigue sin cuantificar. La [guía de publicación](docs/publicacion-github.md) identifica el destino GitHub y la actualización autorizada del 15-nov-2026.
+
+## Alineación con el PSet 1 revisado al 15-nov-2026
+
+El objetivo es cubrir más futuras reprobaciones con los mismos cupos y medir anticipación potencial antes del cierre. La evaluación futura comparará tres políticas: reactiva tras conocer Fail, estática con antecedentes iniciales y longitudinal con esos antecedentes más actividad hasta el corte. El pipeline actual ya aporta los datos necesarios; la [revisión de compatibilidad](docs/impacto-revision-pset1.md) reconcilia población, variables y las 99 huellas de archivos de ejecución frente a la reproducción limpia.
+
+El caso principal fija la misma cohorte del día 56 y K = floor(0.10 × N) por edición. En el histórico completo son 26.294 elegibles, 6.972 Fail y 2.619 cupos; se recalcularán sobre la prueba reservada. La OBT conserva todos los elegibles: no se reduce al 10 %. Para cuatro listas se fijará presupuesto total B común por edición; cada revisión repetida consume un cupo y cada matrícula cuenta una vez en cobertura acumulada. Se informarán personas únicas. La reactiva puede cubrir casos después del cierre y no recibe capacidad ilimitada.
+
+OBT_FEATURES ya contiene duración, corte, claves y grupos de variables estáticas/actividad; OUTCOME_ENROLLMENT mantiene las etiquetas aparte. La simulación futura registrará puntuaciones, selecciones, primeras detecciones y revisiones repetidas. Esas salidas no forman parte de las 35 columnas actuales. Anticipación potencial = (duración - día de primera selección) / 7; al día 56 quedan 25,4-30,4 semanas, margen disponible y no desempeño conseguido. La meta +10 % relativa y el efecto de las tutorías siguen pendientes de evaluación. El [contrato](docs/contrato-datos.md#continuidad-con-la-revisión-de-pset-1-del-15-nov-2026) fija la separación entre preparación y decisión.
+
+El MVP usa exclusivamente OULAD; D2L/WiFi institucionales quedan fuera y requieren una fase posterior con aprobación formal y revisión institucional de protección de datos. PSet 2 termina con preparación reproducible: no incluye entrenamiento, simulación ni intervención. El máximo de cinco páginas del memo PSet 1 no cambia el máximo de seis del memo técnico PSet 2.
 
 ## Estado real al 13-nov-2026
 
@@ -24,7 +34,7 @@ El pipeline reproduce Fuente → Kestra → Snowflake Raw → dbt Bronze/Staging
 | Reproducción limpia | SUCCESS en carpeta/proyecto/volúmenes nuevos; cinco CSV recargados, 168 tests y cuatro huellas OBT idénticas |
 | Memo técnico | Seis páginas, dos diagramas vectoriales y [verificación de coherencia](docs/memo-verificacion.json) |
 | Revisión del paquete | Comprobaciones locales, entregables, enlaces y exclusiones según [informe](docs/revision-paquete.md) |
-| Pendiente | Medición de costo monetario y decisión de publicación GitHub |
+| Pendiente | Medición de costo monetario; permanecen los límites técnicos y de datos documentados |
 
 La conexión del host y la del ejecutor Kestra están verificadas. Raw está cargado y Bronze construido con tests aprobados. dbt ya construyó Bronze, Silver y Gold; Spark cloud y OBT también se comprobaron; ver la sección Spark. Los permisos Raw, Bronze, Silver y Gold funcionaron; el timeout configurado en el warehouse aún necesita evidencia específica. [Estado detallado](docs/estado-ejecucion.md) e [informe de infraestructura](docs/infraestructura-verificacion.json).
 
@@ -241,7 +251,7 @@ El proyecto y los puertos se parametrizan en .env.infra mediante PSET2_COMPOSE_P
 
 ## Continuación del pipeline
 
-La carga Raw ya utiliza checksum/run_id/partición por fichero, publicación transaccional e idempotencia. Se probaron retry con un fallo controlado y backfill de courses.csv. El calendario está definido para días 1 y 15, pero desactivado hasta cerrar la operación del pipeline; no equivale a un disparo periódico probado. OULAD es un histórico estático: frecuencia de ejecución no implica nuevos datos. Bronze usa source(), ref() y tests de negocio. Silver, Gold y Spark/OBT están construidos; la orquestación integral y la reproducción desde exportación limpia están verificadas. El memo está generado y la revisión local está documentada; la publicación requiere decidir el destino GitHub. La OBT tiene grano matrícula–corte, elegibilidad antes de actividad y separación de target y predictores, conforme al contrato.
+La carga Raw ya utiliza checksum/run_id/partición por fichero, publicación transaccional e idempotencia. Se probaron retry con un fallo controlado y backfill de courses.csv. El calendario está definido para días 1 y 15, pero desactivado hasta cerrar la operación del pipeline; no equivale a un disparo periódico probado. OULAD es un histórico estático: frecuencia de ejecución no implica nuevos datos. Bronze usa source(), ref() y tests de negocio. Silver, Gold y Spark/OBT están construidos; la orquestación integral y la reproducción desde exportación limpia están verificadas. El memo está generado y la revisión local está documentada; el destino GitHub y la actualización autorizada se registran en docs/publicacion-github.md. La OBT tiene grano matrícula–corte, elegibilidad antes de actividad y separación de target y predictores, conforme al contrato.
 
 Los comandos Raw ya se ejecutaron y verificaron. La cadena completa se ejecutó desde Kestra y desde una exportación limpia con volúmenes nuevos y dependencias cloud documentadas. Batch basta para revisión quincenal. Streaming requeriría fuente continua y necesidad validada de baja latencia; no se implementará. El costo monetario no está cuantificado; mantener auto-suspend y documentar suspensión/limpieza.
 

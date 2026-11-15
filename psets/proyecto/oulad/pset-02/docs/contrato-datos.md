@@ -64,3 +64,37 @@ ELT calcula reglas deterministas y agregaciones por corte. Imputación aprendida
 Tests: unicidad y no nulos de claves; relaciones completas; suma de eventos y clics Raw–Silver–Gold reconciliada con exclusiones; clases válidas; N elegible calculado independientemente igual a filas OBT por corte; anti-join de claves antes/después; ausencia de multiplicación en joins; matrículas sin actividad preservadas; perturbación de eventos futuros no cambia features pasadas; idempotencia de una partición. Cuantificar reglas fallidas y documentar tratamiento sin correcciones silenciosas.
 
 Completitud mide presencia respecto a campos esperados, validez conformidad a dominios/rangos y consistencia coherencia entre tablas/reglas. Exactitud respecto a la realidad externa permanece sin demostrar sin evidencia adicional. Los nulos de retiro pueden representar continuidad, no faltante genérico.
+
+## Continuidad con la revisión de PSet 1 del 15-nov-2026
+
+Esta actualización aclara el uso futuro de los datos; mantiene el contrato de columnas pset2.obt.v1, la población, los cuatro cortes y el runtime verificado. La [revisión de compatibilidad](impacto-revision-pset1.md) documenta las comprobaciones locales; no representa una nueva ejecución cloud ni un modelo validado.
+
+### Población y presupuesto comparables
+
+La comparación principal usa la misma cohorte elegible del día 56 para reactiva, estática y longitudinal. K = floor(0.10 × N) por edición; el total es suma de esos K, no floor sobre el agregado. En el histórico completo N = 26.294, Fail = 6.972 y K total = 2.619. Se recalcularán los denominadores en las ediciones reservadas. Sensibilidades 5 % y 20 % prefijadas. La OBT mantiene todos los elegibles, no solo los futuros seleccionados.
+
+Para cuatro listas sucesivas se fijará antes de comparar un presupuesto total B común por edición y reglas de reparto/reserva. La suma de revisiones no excederá B; cada repetición consume capacidad. Cada matrícula cuenta una vez en cobertura acumulada, y también se informan personas únicas. Los K descriptivos por corte no equivalen automáticamente a cuatro presupuestos gratuitos. La reactiva puede gastar su presupuesto después del cierre.
+
+### Tres políticas y separación de información
+
+| Política | Datos y momento de selección | Límite |
+|---|---|---|
+| Reactiva | Hasta K Fail conocidos después del cierre, con desempate prefijado, dentro de la misma cohorte del día 56 | Cero cobertura/anticipación preventiva por escenario; cobertura posterior informada aparte. No es un clasificador temprano |
+| Estática | Top K por P(Fail) al día 56 con lista permitida de antecedentes iniciales | Puede utilizarse antes; el corte común aísla el aporte de variables |
+| Longitudinal | Top K al mismo corte con los mismos antecedentes más actividad observada hasta ese día | Sin resultados finales, retiro futuro ni notas de evaluaciones como predictores |
+
+OBT_FEATURES contiene 6 identificadores, 11 variables estáticas, 16 de actividad y 2 campos de auditoría según feature-contract.json. La selección final de predictores requiere verificar disponibilidad histórica y justificar atributos; IDs y auditoría no son automáticamente predictores. OUTCOME_ENROLLMENT se une por enrollment_key exclusivamente en la evaluación retrospectiva o, para la reactiva, cuando el resultado ya es conocido. No se incorpora target a OBT_FEATURES. Los resultados académicos observados permanecen fijos en las tres simulaciones.
+
+### Métricas y futuras salidas de simulación
+
+Cobertura preventiva (%) = 100 × TP seleccionados antes del cierre / Fail elegibles. Se informarán TP, casos por 100 revisiones, omisiones, revisiones repetidas y personas únicas. La mejora relativa longitudinal/estática al día 56 tiene meta provisional +10 %, a igual N y K; con TP estático = 0 se informa diferencia absoluta. La cota ideal histórica de 37,6 % es un límite de capacidad, no desempeño obtenido.
+
+Anticipación potencial = (module_presentation_length - día de primera selección) / 7. Duración y cutoff_day ya existen; la primera selección se producirá en la simulación. Al día 56 hay un margen de 25,4-30,4 semanas hasta el cierre aproximado. No se conoce la fecha real de tutoría o comunicación de notas. La mediana y dispersión temporal se evaluarán en TP; las omisiones no desaparecen de la cobertura.
+
+La futura simulación registrará versión, algoritmo, política, enrollment_key, corte, puntuación cuando corresponda, selección y consumo de cupos. Esas salidas se conservarán aparte de la OBT; no son tablas o columnas implementadas en PSet 2. No se filtran filas ni se altera ELT para aparentar que ya hay un ranking o una política evaluados.
+
+### Alcance y validación pendientes
+
+Antes de entrenar se comprobarán ediciones compatibles, etiquetas maduras, separación por estudiante y transformaciones aprendidas solo en entrenamiento; la evidencia temporal actual protege las agregaciones de actividad, no acredita por sí sola esas condiciones. La calidad predictiva, la simulación de políticas y el MVP de consulta/inferencia siguen pendientes.
+
+El MVP usa únicamente OULAD. D2L/WiFi institucionales pertenecen a una fase posterior con aprobación formal y revisión institucional LOPDP. Este pipeline no demuestra efecto de tutorías, ahorro, deserción o intencionalidad. Esas exclusiones no requieren nuevas fuentes, infraestructura ni columnas en el contrato actual.

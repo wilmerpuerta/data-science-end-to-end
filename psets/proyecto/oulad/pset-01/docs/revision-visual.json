@@ -1,0 +1,112 @@
+{
+  "checked_at_utc": "2026-11-15T05:52:21.058785+00:00",
+  "revision": "2026-11-15",
+  "status": "ok",
+  "scope": "Revisión visual y conversión de los entregables locales; no acredita entrenamiento, simulación de políticas ni intervención académica.",
+  "file_sha256": {
+    "pset-01/output/pdf/PSet1_memo_Puerta_Wilmer.pdf": "728fb62ac96a07aeb0ec68832b8c2e659655519f066c589045974fb82eeb6767",
+    "pset-01/output/pdf/PSet1_notebook_completo_Puerta_Wilmer.pdf": "7294af44f4fbe5cae8a48985215c1bb482b40d4ea0b02357b4818dd16a533809",
+    "pset-01/output/pitch/PSet1_pitch_Puerta_Wilmer.pptx": "2f15b4fae45840464cd2a6ad03f7ffe2d48680a10b52ab154c5594f21aca5c5b",
+    "pset-01/output/pitch/PSet1_pitch_Puerta_Wilmer.ppt": "37ff5c3d871417e907559409427dff137aad4f035154dff49045b8fca83b5785"
+  },
+  "manual_visual_review": {
+    "memo_pdf_pages": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "complete_pdf_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "pitch_slides": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "findings_unresolved": [],
+    "complete_pdf_pages_rechecked_this_revision": [
+      8,
+      16,
+      20
+    ],
+    "remaining_complete_pdf_pages_pixel_identical_to_previous_revision": true
+  },
+  "native_powerpoint_conversion": {
+    "pptx_opened_without_repair": true,
+    "genuine_ppt_saved_and_reopened": true,
+    "slides_each": 6,
+    "slide_comparisons": [
+      {
+        "slide": 1,
+        "powerpoint_pptx_ppt_render_identical": true
+      },
+      {
+        "slide": 2,
+        "powerpoint_pptx_ppt_render_identical": true
+      },
+      {
+        "slide": 3,
+        "powerpoint_pptx_ppt_render_identical": true
+      },
+      {
+        "slide": 4,
+        "powerpoint_pptx_ppt_render_identical": true
+      },
+      {
+        "slide": 5,
+        "powerpoint_pptx_ppt_render_identical": true
+      },
+      {
+        "slide": 6,
+        "powerpoint_pptx_ppt_render_identical": true
+      }
+    ]
+  },
+  "tools_used": [
+    "ReportLab para exportar PDF",
+    "PyMuPDF para extracción y render de PDF",
+    "Microsoft PowerPoint para abrir, convertir a PPT y renderizar ambos formatos",
+    "Pillow para comparar los renders"
+  ],
+  "limitations": [
+    "Colab no sincronizado.",
+    "La mejora relativa y la utilidad de las políticas aún deben evaluarse.",
+    "Revisión preparada localmente; no publicada en GitHub."
+  ],
+  "memo_page_limit": {
+    "maximum": 5,
+    "instruction": "Indicación expresa del usuario del 15-nov-2026; se conserva intacta la rúbrica histórica."
+  },
+  "native_powerpoint_access_recheck": {
+    "status": "ok",
+    "pptx_opened_without_repair": true,
+    "slides_with_notes": 6,
+    "mvp_slide_and_notes_visible": true,
+    "document_connector_session_available": false,
+    "method": "Microsoft PowerPoint mediante interfaz nativa; cerrado sin guardar cambios."
+  }
+}

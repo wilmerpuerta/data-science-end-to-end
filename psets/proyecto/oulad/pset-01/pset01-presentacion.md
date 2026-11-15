@@ -1,183 +1,187 @@
 # Pitch revisado: seis diapositivas
 
-Wilmer Puerta · 12-nov-2026. Fuente visible exacta del PPTX. Los bloques de notas y fuentes no son texto visible. Paleta: negro/rojo, azul cielo y blanco.
+Wilmer Puerta · Revisión del 15-nov-2026. Fuente visible exacta del PPTX. Notas y fuentes se conservan aparte. Se mantiene el diseño editorial y los objetos nativos editables.
 
 ## Diapositiva 1
 
 ### Contenido visible exacto
 
-Apoyo académico a tiempo
+Apoyo académico antes del cierre
 
-Identificar mejor a quién apoyar, con la misma capacidad preventiva.
+La decisión de negocio es a quién revisar con los mismos cupos.
+
+21,64 %
+
+7.052 Fail de 32.593 matrículas OULAD
+
+Reprobación histórica de un módulo
 
 Wilmer Puerta
-
-Señales  →  Prioridad  →  Revisión del tutor
-
-Prueba de concepto con OULAD · Universidad hipotética
+Universidad hipotética, sin institución participante
 
 ### Visual propuesto
 
-Flujo horizontal editable de señales a revisión del tutor.
+Composición editorial con textos y cifras nativos editables; fondo, tipografía y paleta del pitch previo.
 
 ### Notas del presentador
 
-No existe socio institucional comprometido. El sistema propone una prioridad y el tutor siempre revisa contexto y decide. No hay contactos reales ni sanciones automáticas.
+Cifra auditada, no una tasa actual de la USFQ. Hay 28.785 personas únicas: matrícula y persona no son intercambiables. Fail no prueba deserción institucional. Escenario de negocio: revisión posterior a conocer una reprobación. El beneficio de tutorías sigue siendo hipótesis. Revisión de los tres gaps del PSet 1: 15-nov-2026.
 
 ### Fuentes
 
-Propuesta del proyecto y documentación oficial de OULAD, doi:10.1038/sdata.2017.171.
+datasets/manifest.json; pset-01/docs/auditoria-resultados.json; OULAD, doi:10.1038/sdata.2017.171.
 
 ## Diapositiva 2
 
 ### Contenido visible exacto
 
-El riesgo cambia durante el módulo
+Cobertura y anticipación con capacidad limitada
 
-Una lista fija puede omitir trayectorias que empeoran.
+Meta por validar: +10 % relativo de casos cubiertos frente al estático.
 
-21,64 %
+Día 56: 26.294 elegibles y 6.972 futuros Fail
 
-7.052 Fail de 32.593 matrículas originales
+2.619 cupos de revisión
 
-Retiros: 10.156 (31,16 %) · Aprobación: 15.385 (47,20 %)
+Cobertura: Fail incluidos antes del cierre / Fail elegibles
 
-Revisión temprana: día 14  →  28  →  42  →  56
+25,4-30,4 semanas disponibles hasta el cierre
 
-Fuente: auditoría local OULAD, 12-nov-2026. No es una tasa institucional actual.
+Margen potencial de la copia histórica. Rendimiento aún por evaluar.
 
 ### Visual propuesto
 
-Cifra central y línea de cuatro cortes, todo editable.
+Composición editorial con textos y cifras nativos editables; fondo, tipografía y paleta del pitch previo.
 
 ### Notas del presentador
 
-Denominador original: 32.593 matrículas, 28.785 personas únicas. Población inicialmente registrada hasta día 0: 32.314. Al día 56: 26.294 elegibles, 6.972 Fail y 4.056 Withdrawn; se excluyen retiros ya ocurridos y registros tardíos o sin fecha. La cifra central cuantifica el histórico completo, no una universidad actual. La trayectoria de riesgo es una hipótesis a evaluar, no una curva ya estimada.
+K = floor(0.10 × N) por edición desde la cohorte elegible al día 56; suma 2.619, no floor del agregado. Misma población y K entre modelos. Cobertura preventiva (%) = 100 × TP antes del cierre / Fail elegibles. La meta +10 % relativa equivale a 100 × (TP longitudinal - TP estático) / TP estático; con baseline cero informar diferencia absoluta. Anticipación potencial = (duración de la edición - día de primera selección) / 7. Duraciones de 234-269 días, sin fecha de tutoría o de comunicación de notas. No son casos detectados todavía ni reprobaciones evitadas. La cota ideal con estos cupos es 37,6 %. Recalcular cifras en la prueba reservada.
 
 ### Fuentes
 
-datasets/manifest.json; docs/auditoria-datos.md; docs/poblaciones-por-edicion.csv.
+pset-01/docs/metricas-negocio.json; pset-01/docs/poblaciones-por-edicion.csv; datasets/courses.csv.
 
 ## Diapositiva 3
 
 ### Contenido visible exacto
 
-Una prioridad de revisión que se actualiza
+Tres políticas de seguimiento académico
 
-El tutor decide el apoyo a partir de una lista quincenal.
+Misma cohorte y mismo K por edición en la comparación principal.
 
-Observar actividad  →  Estimar P(Fail)
+Reactiva
 
-Ordenar K cupos  →  Tutor revisa y decide
+Espera a Fail conocido y revisa después del cierre
 
-Presupuesto preventivo simulado: 10 % por edición y corte
+Estática
 
-K = floor(0.10 × N) · Sensibilidad: 5 % y 20 %
+Usa antecedentes iniciales y selecciona K al día 56
 
-Comparador operativo: recencia frente a priorización con modelos
+Longitudinal
+
+Añade actividad hasta el mismo corte y selecciona K
+
+Se comparan casos cubiertos, anticipación y carga de revisión
 
 ### Visual propuesto
 
-Dos pasos de flujo con textos nativos editables.
+Composición editorial con textos y cifras nativos editables; fondo, tipografía y paleta del pitch previo.
 
 ### Notas del presentador
 
-Cortes 14, 28, 42 y 56. Ordenar por P(Fail), umbral último caso admitido, desempate estable por clave sin etiqueta. Recencia descendente desde última interacción <= corte. Nunca activos con cobertura comprobada: contar desde inicio; desconocidos: marcar insuficiencia y fijar política común antes de evaluar. La regla usa tiempo y es adicional. Comparación principal: estático/longitudinal, mismo algoritmo, N y K. Los clics no demuestran intención. Repeticiones consumen cupos y TP acumulados cuentan una vez por matrícula.
+La reactiva usa el resultado solo cuando ya se conoce, selecciona hasta K Fail con desempate prefijado y tiene anticipación preventiva cero por definición del escenario. Puede cubrir reprobaciones después: no atribuirle cobertura total nula. Estático y longitudinal se evalúan al mismo día 56 para aislar el aporte digital; un score estático podría utilizarse antes en otra comparación. No se modifica el resultado histórico ni se simula una tutoría eficaz. Sensibilidades 5 % y 20 %. Para cuatro cortes, presupuesto total B igual, cada repetición consume cupos y cada matrícula cuenta una vez en cobertura acumulada; informar personas únicas. Recencia queda como sensibilidad adicional.
 
 ### Fuentes
 
-Decisiones metodológicas del proyecto; auditoría local de elegibilidad.
+Protocolo de tres políticas en propuesta-pset1.md y proyecto-completo-pset1.md, revisión del 15-nov-2026.
 
 ## Diapositiva 4
 
 ### Contenido visible exacto
 
-Viabilidad, evaluación y producto concreto
+Viabilidad técnica y evaluación
 
-Datos disponibles y una comparación retrospectiva delimitada.
+La preparación de datos funciona. La mejora predictiva sigue por comprobar.
 
-OULAD auditado: 5 archivos · 10.655.280 registros de actividad
+5 CSV auditados y 10.655.280 aportes de actividad
+
+Pipeline disponible: OBT de 108.277 filas y 35 columnas
 
 Regresión logística multinomial y Random Forest
 
-Estático frente a longitudinal · Ediciones posteriores compatibles
+Prueba temporal con ediciones compatibles y estudiantes separados
 
-Estudiantes separados · Igual capacidad · PR-AUC y TP@K
-
-MVP previsto: preparación, puntuaciones por corte, listas, evolución y reporte
+Evaluación: cobertura y semanas, PR-AUC y calibración
 
 ### Visual propuesto
 
-Secuencia de datos, validación y producto descrita con objetos editables.
+Composición editorial con textos y cifras nativos editables; fondo, tipografía y paleta del pitch previo.
 
 ### Notas del presentador
 
-El target distingue Fail, Withdrawn y Pass/Distinction. Etiquetas maduras antes de predicción simulada; transformaciones aprendidas solo con entrenamiento. Familias estática/longitudinal comparadas por algoritmo; sin notas de evaluaciones. PR-AUC para Fail, calibración e incertidumbre. La auditoría no demuestra todavía viabilidad de particiones temporales. No se entrenaron modelos ni se construyó el MVP. PSet 2 preparará Kestra, dbt, Spark y Snowflake.
+Kestra, Snowflake, dbt y Spark ya prepararon la OBT; 168 pruebas dbt aprobaron y la reproducción limpia mantuvo cuatro huellas. Esa evidencia no mide calidad predictiva. Se comparará cada algoritmo con antecedentes estáticos y con actividad longitudinal: clics, días activos, recencia y cambio quincenal. Predictores solo hasta días 14, 28, 42 y 56. Etiquetas maduras antes del corte simulado; parámetros y transformaciones solo en entrenamiento/validación. Reservar estudiantes y ediciones posteriores compatibles; verificar disponibilidad histórica de atributos y fechas antes de entrenar. No notas de evaluaciones. Métricas por edición con incertidumbre agrupada por estudiante cuando sea viable. Ningún modelo entrenado todavía.
 
 ### Fuentes
 
-Kuzilek et al., 2017, doi:10.1038/sdata.2017.171; auditoría local y contrato preliminar de datos.
+pset-02/docs/reproduccion-limpia.json; pset-02/docs/obt-verificacion.json; pset-01/docs/auditoria-resultados.json.
 
 ## Diapositiva 5
 
 ### Contenido visible exacto
 
-Beneficio medible y condiciones de éxito
+Alcance del MVP académico
 
-Meta provisional: +10 % relativo de detecciones al día 56, a igual K.
+Una demostración reproducible para decidir si conviene un piloto institucional.
 
-40  →  44
+Selector de edición, corte y capacidad
 
-Futuras reprobaciones identificadas con 100 revisiones
+Listas priorizadas y evolución del riesgo
 
-Ejemplo ilustrativo, no resultado obtenido ni reprobaciones evitadas
+Reporte de las tres políticas, cobertura, anticipación y carga
 
-R1 Mejora incierta: comparar con incertidumbre
-R2 Calidad y fuga: auditar fechas y cobertura
-R3 Capacidad y efecto: simular carga y evaluar piloto
-R4 Equidad y confianza: revisar errores y mantener juicio humano
+Modelo y transformaciones versionados, con instrucciones de ejecución
 
-Piloto posterior: aprobación entre grupos asignados a oferta de apoyo o atención habitual
+OULAD exclusivamente. D2L y WiFi institucionales quedan fuera.
 
 ### Visual propuesto
 
-Ejemplo numérico y cuatro riesgos compactos, editables.
+Composición editorial con textos y cifras nativos editables; fondo, tipografía y paleta del pitch previo.
 
 ### Notas del presentador
 
-Gravedades R1 alta, R2 crítica, R3 alta, R4 alta. R1 supone aporte transferible; R2 información disponible y comparable; R3 capacidad viable y apoyo útil; R4 errores aceptables entre grupos. El ejemplo equivale a +4 puntos de precisión (40 % a 44 %) y +10 % relativo en TP. No es rendimiento medido de recencia. Si TP estático=0 informar diferencia absoluta. Los ocho riesgos ampliados se agrupan R1={1,4}, R2={2,3,8}, R3={5,6}, R4={7}. El piloto estimaría oferta de un programa, no efectos individuales ni superioridad causal de selección longitudinal.
+Estado: preparación y controles de datos implementados; entrenamiento, evaluación y simulación pendientes. El MVP debe reproducir inferencia, validar entradas, respetar cortes, separar la prueba final y comparar con igual presupuesto. Se mantienen fijos los resultados académicos observados. Hipótesis posterior: ofrecer tutorías puede mejorar aprobación; no se requiere demostrarla para cerrar el MVP. Participación, costos, capacidad real, tutorías, sanciones, deserción, intencionalidad y transferencia institucional quedan fuera. D2L/WiFi en una fase posterior con aprobación formal y revisión LOPDP: legitimación, finalidad, minimización y evaluación de impacto cuando corresponda; WiFi vinculable puede revelar ubicación.
 
 ### Fuentes
 
-Meta y ejemplo hipotéticos del proyecto; protocolo de impacto posterior. No hay retorno financiero estimado.
+Memo original de cinco páginas, secciones de viabilidad y MVP; propuesta revisada; SPDP, oficio SPDP-IGRD-2026-514-O: https://www.spdp.gob.ec/docs/consultas-absueltas/2026-2/oficio-n-spdp-igrd-2026-514-o/.
 
 ## Diapositiva 6
 
 ### Contenido visible exacto
 
-Respaldar una prueba de concepto y una decisión informada
+Apoyo solicitado y criterio de avance
 
-Avanzar al piloto solo con evidencia favorable y condiciones acordadas.
+Respaldar la prueba de concepto y validar la utilidad del proceso con referentes académicos.
 
-Se necesita un responsable académico y un referente de tutorías
+Validar los cupos y la utilidad de las listas
 
-Validar el presupuesto preventivo y la capacidad de revisión
+Entregable: comparación reproducible con incertidumbre
 
-Auditar y cuantificar  →  Comparar y demostrar  →  Decidir sobre piloto
+R1 Aporte incierto: comparar y admitir resultados negativos
+R2 Calidad y fuga: verificar fechas y cobertura
+R3 Capacidad y adopción: simular carga y validar utilidad
+R4 Equidad y confianza: revisar errores y preservar juicio humano
 
-Criterios: mejora e incertidumbre, calidad, carga y equidad
-
-Piloto posterior: oferta aleatoria de apoyo vs atención habitual
-Medir aprobación, retiro, participación y costos
+El patrocinio apoya la evaluación. El beneficio educativo es una hipótesis posterior.
 
 ### Visual propuesto
 
-Hitos y criterio de avance en una composición editorial editable.
+Composición editorial con textos y cifras nativos editables; fondo, tipografía y paleta del pitch previo.
 
 ### Notas del presentador
 
-La auditoría descriptiva ya está realizada, con cobertura y temporalidad aún por validar. No hay plazo inventado ni compromiso de reducción de Fail. Piloto: aleatorización por persona con estratificación pertinente, asignación coherente de múltiples matrículas; controlar contaminación o ajustar por agrupamiento. Intención de tratar, diferencia absoluta de aprobación e intervalo de confianza. Informar también Fail, Withdrawn, oferta, contacto, participación, otras ayudas, tiempos y costos. Calcular muestra según tasa inicial, efecto mínimo, potencia y pérdidas. Aprobación = Pass + Distinction. Mantener apoyo habitual. El piloto requiere institución y autorizaciones futuras.
+El apoyo solicitado es una prueba de concepto y referentes para validar el proceso y capacidad hipotéticos, no presupuesto monetario inventado ni compromiso institucional. Gravedad: R1 alta, R2 crítica, R3 alta, R4 alta. Meta provisional +10 % relativo al día 56 a igual K; avanzar según resultados e incertidumbre, calidad, carga y equidad. Si el longitudinal no mejora, reportarlo y conservar baseline o acotar alcance. Efecto académico de tutorías y retorno financiero no demostrados. El protocolo causal detallado es un antecedente opcional para una fase posterior, fuera del MVP.
 
 ### Fuentes
 
-Diseño del proyecto. OU Analyse: https://research.stem.open.ac.uk/ouanalyse/ respalda plausibilidad operativa, no causalidad. Klenke et al., arXiv:2102.08803, efecto positivo impreciso en otro contexto.
+Decisiones del proyecto, revisión del 15-nov-2026. Riesgos y límites en Canvas y propuesta.

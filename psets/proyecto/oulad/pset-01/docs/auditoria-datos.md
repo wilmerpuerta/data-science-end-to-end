@@ -44,3 +44,9 @@ Fechas negativas pueden representar registro o interacción previa al inicio y n
 ## Reproducción
 
 Desde la raíz: `.venv/bin/python pset-01/scripts/auditar_datos.py`. Ruta alternativa: añadir `--data-dir /ruta/autorizada`. La ruta por defecto se deriva del script, no del directorio actual. El script falla ante archivos o claves principales incompatibles. Consultar requirements.txt para versiones usadas.
+
+## Complemento de negocio de la revisión del 15-nov-2026
+
+La instantánea anterior conserva el análisis ejecutado el 12-nov-2026. Para los tres gaps docentes se añadieron [métricas descriptivas de negocio](metricas-negocio.json), sin alterar los CSV ni entrenar modelos: al día 56, 26.294 elegibles, 6.972 Fail y 2.619 cupos. La duración de edición permite expresar 25,4-30,4 semanas disponibles hasta el cierre, sin atribuir detección o efecto de tutorías ya logrados. La [respuesta al feedback](respuesta-feedback.md) delimita la comparación de reactiva, estática y longitudinal.
+
+El conteo global de repeticiones y las transformaciones posteriores ya se comprobaron en [PSet 2](../../pset-02/README.md); el JSON de auditoría original conserva su evidencia por bloques. Persisten límites de cobertura y exactitud externa, y la disponibilidad temporal de etiquetas/atributos debe comprobarse para la evaluación predictiva.

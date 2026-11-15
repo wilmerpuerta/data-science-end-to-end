@@ -1,8 +1,8 @@
 # Proyecto completo del PSet 1
 
-Wilmer Puerta · 12 de noviembre de 2026
+Wilmer Puerta · Revisión del 15 de noviembre de 2026
 
-Estado: propuesta revisada y auditoría descriptiva. No se entrenaron modelos ni ejecutaron intervenciones.
+Estado: revisión de tres observaciones docentes. Auditoría y preparación de datos verificadas; modelos, simulación de políticas e intervenciones pendientes.
 
 # 1. Ideas de Proyectos
 
@@ -22,13 +22,13 @@ El prototipo actualizará el riesgo en las semanas 2, 4, 6 y 8 y mostrará su ev
 
 ### **1.1.2. Problema:**
 
-**Negocio.** Un acompañamiento principalmente posterior a la reprobación limita la intervención preventiva y puede aumentar las necesidades de recuperación académica. Una clasificación inicial basada en antecedentes fijos omite cambios posteriores del estudiante. La universidad necesita actualizar la identificación del riesgo para focalizar recursos limitados y detectar casos que inicialmente quedarían fuera del apoyo.
+**Negocio.** Se simula un seguimiento que espera a la reprobación para revisar al estudiante. La decisión es a quién revisar antes del cierre con los mismos cupos. Se medirán casos cubiertos, cobertura preventiva y semanas de anticipación potencial. Es un proceso hipotético, sin atribuirlo como práctica comprobada a la USFQ o a la mayoría de universidades.
 
-**Ciencia de datos.** Se compararán regresión logística multinomial y Random Forest con variables estáticas, frente a los mismos algoritmos enriquecidos con actividad digital longitudinal. Se evaluará si el nivel, la regularidad y los cambios de interacción aportan mejora predictiva bajo condiciones comparables. La actividad digital se tratará como una señal contextual, no como prueba directa de compromiso.
+**Ciencia de datos.** Se compararán regresión logística multinomial y Random Forest con antecedentes estáticos frente a los mismos algoritmos enriquecidos con interacción digital. La hipótesis admite mejora pequeña o nula. Los registros digitales no acreditan intención, motivación ni una causa de la dificultad.
 
 ### **1.1.3. Predicción:**
 
-Para cada estudiante–módulo–edición activo en el corte, se estimará la probabilidad del resultado final: reprobación (`Fail`), retiro (`Withdrawn`) o aprobación (`Pass`/`Distinction`). La prioridad será el riesgo de reprobación. Se utilizarán únicamente datos disponibles hasta cada corte; el retiro del módulo se distinguirá del abandono institucional.
+Para cada estudiante-módulo-edición activo en el corte, se estimará la probabilidad del resultado final: reprobación (`Fail`), retiro (`Withdrawn`) o aprobación (`Pass`/`Distinction`). La prioridad será el riesgo de reprobación. Se utilizarán únicamente datos disponibles hasta cada corte; el retiro del módulo se distinguirá del abandono institucional.
 
 Se evaluarán PR-AUC, precisión y recobrado para reprobación, entrenando con ediciones anteriores y probando con posteriores. La meta provisional es detectar un 10% más de casos, en términos relativos, frente al modelo estático en la semana 8, con igual capacidad de atención. Los cortes anteriores mostrarán anticipación; la mejora deberá comprobarse.
 
@@ -40,23 +40,23 @@ La auditoría descriptiva local documenta volumen, faltantes, uniones y estudian
 
 ### **1.1.5. Acción:**
 
-Cada dos semanas, un tutor revisaría una lista ordenada por riesgo para decidir contactos, orientación o apoyo académico. La capacidad simulada inicial será el 10% de estudiantes elegibles por corte, con escenarios del 5% y 20%. El umbral dependerá de esa capacidad; el criterio humano determinará la intervención.
+Se compararán tres políticas con el mismo K por edición: reactiva tras conocer Fail, estática con antecedentes iniciales y longitudinal con esos antecedentes más actividad hasta el corte. La evaluación principal fija la cohorte del día 56 y K = floor(0.10 × N). El coordinador valida cupos y el tutor revisa contexto antes de decidir apoyo.
 
-Se compararán casos identificados, omitidos y anticipación con el mismo presupuesto de contactos; las revisiones repetidas consumirán capacidad y cada matrícula contará una sola vez en TP acumulados; se informarán además personas únicas. El resultado demostrable será una mejor focalización potencial. Reducir reprobación o costos requerirá un piloto posterior que evalúe el efecto de las tutorías.
+La simulación conserva los resultados académicos observados. Cada revisión repetida consume capacidad y cada matrícula cuenta una vez en cobertura acumulada; se informan personas únicas. Tutorías realizadas, efecto sobre aprobación, costos, deserción y transferencia institucional quedan para una fase posterior. El MVP usa exclusivamente OULAD y excluye D2L y WiFi institucionales.
 
 ### **1.1.6. Riesgos:**
 
-- **Técnico — Mejora insuficiente (alta).** Las variables longitudinales podrían no superar al baseline. Se contrastarán resultados bajo condiciones equivalentes y con incertidumbre; si no aportan valor, se conservará el enfoque estático y se reportará el resultado.
+- **Técnico - Mejora insuficiente (alta).** Las variables longitudinales podrían no superar al baseline. Se contrastarán resultados bajo condiciones equivalentes y con incertidumbre; si no aportan valor, se conservará el enfoque estático y se reportará el resultado.
 
-- **Técnico — Fuga de información (crítica).** Datos futuros o estudiantes repetidos podrían inflar el desempeño. Se auditarán fechas y particiones; si se detectan problemas, se reconstruirá la evaluación antes de concluir.
+- **Técnico - Fuga de información (crítica).** Datos futuros o estudiantes repetidos podrían inflar el desempeño. Se auditarán fechas y particiones; si se detectan problemas, se reconstruirá la evaluación antes de concluir.
 
-- **Técnico — Interpretación incorrecta de la actividad (alta).** Menos clics podrían reflejar cambios del calendario o registros incompletos. Se revisarán cobertura y contexto del módulo; las señales ambiguas se ajustarán o excluirán.
+- **Técnico - Interpretación incorrecta de la actividad (alta).** Menos clics podrían reflejar cambios del calendario o registros incompletos. Se revisarán cobertura y contexto del módulo; las señales ambiguas se ajustarán o excluirán.
 
-- **Negocio — Capacidad tutorial poco realista (alta).** Las listas podrían exceder los recursos disponibles. Se analizarán presupuestos y contactos repetidos; una adopción futura requerirá validar la capacidad con tutores y ajustar la frecuencia de atención.
+- **Negocio - Capacidad tutorial poco realista (alta).** Las listas podrían exceder los recursos disponibles. Se analizarán presupuestos y contactos repetidos; una adopción futura requerirá validar la capacidad con tutores y ajustar la frecuencia de atención.
 
-- **Negocio — Intervenciones sin impacto (alta).** Detectar riesgo podría no mejorar el resultado académico. Un piloto posterior comparará intervenciones y resultados; hasta entonces, las conclusiones se limitarán a predicción y focalización potencial.
+- **Negocio - Intervenciones sin impacto (alta).** Detectar riesgo podría no mejorar el resultado académico. Un piloto posterior comparará intervenciones y resultados; hasta entonces, las conclusiones se limitarán a predicción y focalización potencial.
 
-- **Adopción — Alertas injustificadas o sobrecarga (alta).** Los errores podrían afectar la confianza o perjudicar a ciertos grupos. Se revisarán errores por subgrupos y carga de alertas; se ajustará la priorización manteniendo revisión humana y acceso habitual al apoyo.
+- **Adopción - Alertas injustificadas o sobrecarga (alta).** Los errores podrían afectar la confianza o perjudicar a ciertos grupos. Se revisarán errores por subgrupos y carga de alertas; se ajustará la priorización manteniendo revisión humana y acceso habitual al apoyo.
 
 ## **1.2. Detección de segmentos compatibles con fibrilación auricular para priorizar la revisión en programas de monitoreo cardiovascular.**
 
@@ -92,17 +92,17 @@ La utilidad se evaluaría por la identificación de segmentos relevantes, los ca
 
 ### **1.2.6. Riesgos:**
 
-- **Técnico — Datos insuficientes o inadecuados (alta).** La fuente podría no aportar señales y etiquetas utilizables. Se inspeccionará una muestra y su cobertura durante el desarrollo; si falla, se acotará el conjunto o se buscará otra fuente antes de entrenar.
+- **Técnico - Datos insuficientes o inadecuados (alta).** La fuente podría no aportar señales y etiquetas utilizables. Se inspeccionará una muestra y su cobertura durante el desarrollo; si falla, se acotará el conjunto o se buscará otra fuente antes de entrenar.
 
-- **Técnico — Evaluación optimista (alta).** Segmentos del mismo paciente en entrenamiento y prueba podrían inflar el desempeño. Se verificará la separación por paciente al diseñar la evaluación; cualquier solapamiento indebido exigirá rehacerla.
+- **Técnico - Evaluación optimista (alta).** Segmentos del mismo paciente en entrenamiento y prueba podrían inflar el desempeño. Se verificará la separación por paciente al diseñar la evaluación; cualquier solapamiento indebido exigirá rehacerla.
 
-- **Técnico — Simulación IoT poco representativa (alta).** Datos sintéticos, ruido o pérdidas simuladas podrían no reproducir dispositivos reales. Se contrastarán con señales observadas durante el desarrollo; la simulación quedará limitada a pruebas técnicas si no puede validarse su realismo.
+- **Técnico - Simulación IoT poco representativa (alta).** Datos sintéticos, ruido o pérdidas simuladas podrían no reproducir dispositivos reales. Se contrastarán con señales observadas durante el desarrollo; la simulación quedará limitada a pruebas técnicas si no puede validarse su realismo.
 
-- **Negocio — Exceso de alertas o casos omitidos (alta).** El sistema podría sobrecargar la revisión o pasar por alto segmentos relevantes. Se evaluarán errores y carga frente al baseline; se ajustará la priorización o se descartará su utilidad si no mejora el proceso.
+- **Negocio - Exceso de alertas o casos omitidos (alta).** El sistema podría sobrecargar la revisión o pasar por alto segmentos relevantes. Se evaluarán errores y carga frente al baseline; se ajustará la priorización o se descartará su utilidad si no mejora el proceso.
 
-- **Negocio — Detección sin beneficio posterior (alta).** Priorizar registros podría no reducir complicaciones ni costos. Un piloto posterior deberá evaluar acciones y resultados; mientras tanto, las conclusiones se limitarán a desempeño y focalización potencial.
+- **Negocio - Detección sin beneficio posterior (alta).** Priorizar registros podría no reducir complicaciones ni costos. Un piloto posterior deberá evaluar acciones y resultados; mientras tanto, las conclusiones se limitarán a desempeño y focalización potencial.
 
-- **Adopción — Población poco representativa (alta).** Los pacientes del dataset podrían diferir del programa previsto. Se revisarán características y documentación disponibles; si no se acredita representatividad, se limitará la conclusión a la población observada y se requerirá validación externa.
+- **Adopción - Población poco representativa (alta).** Los pacientes del dataset podrían diferir del programa previsto. Se revisarán características y documentación disponibles; si no se acredita representatividad, se limitará la conclusión a la población observada y se requerirá validación externa.
 
 ## **1.3. Predicción del crecimiento anual de ingresos por cliente para priorizar oportunidades comerciales en telecomunicaciones.**
 
@@ -138,19 +138,19 @@ La utilidad inicial será identificar más clientes que posteriormente crecen co
 
 ### **1.3.6. Riesgos:**
 
-- **Técnico — Pocas transiciones anuales (alta).** Tres años podrían no cubrir suficientes ciclos para generalizar. Se verificará la cobertura temporal y la estabilidad de resultados; si resulta insuficiente, se ampliará el historial o se limitarán las conclusiones al período evaluado.
+- **Técnico - Pocas transiciones anuales (alta).** Tres años podrían no cubrir suficientes ciclos para generalizar. Se verificará la cobertura temporal y la estabilidad de resultados; si resulta insuficiente, se ampliará el historial o se limitarán las conclusiones al período evaluado.
 
-- **Técnico — Crecimiento aparente por historial parcial (alta).** Comparar pocos meses de ingresos con un año completo podría inflar el crecimiento. Se analizarán antigüedad y meses observados; los clientes recientes se tratarán por separado o mediante una comparación ajustada y documentada.
+- **Técnico - Crecimiento aparente por historial parcial (alta).** Comparar pocos meses de ingresos con un año completo podría inflar el crecimiento. Se analizarán antigüedad y meses observados; los clientes recientes se tratarán por separado o mediante una comparación ajustada y documentada.
 
-- **Técnico — Calidad y fuga de información (alta).** Faltantes, cambios de categorías o variables posteriores al corte podrían distorsionar resultados. Se auditarán registros y fechas; se corregirán las agregaciones y se reconstruirá la evaluación cuando corresponda, manteniendo las salidas reales como parte del resultado.
+- **Técnico - Calidad y fuga de información (alta).** Faltantes, cambios de categorías o variables posteriores al corte podrían distorsionar resultados. Se auditarán registros y fechas; se corregirán las agregaciones y se reconstruirá la evaluación cuando corresponda, manteniendo las salidas reales como parte del resultado.
 
-- **Negocio — Crecimiento sin respuesta a la gestión (alta).** Un cliente podría aumentar ingresos por tarifas u otros factores aun sin intervención. Un piloto posterior evaluará el efecto comercial incremental; hasta entonces, la conclusión se limitará a identificar potencial y focalizar cuentas.
+- **Negocio - Crecimiento sin respuesta a la gestión (alta).** Un cliente podría aumentar ingresos por tarifas u otros factores aun sin intervención. Un piloto posterior evaluará el efecto comercial incremental; hasta entonces, la conclusión se limitará a identificar potencial y focalizar cuentas.
 
-- **Negocio — Priorización poco rentable (alta).** Las cuentas con mayor probabilidad de crecer podrían aportar incrementos pequeños o exigir demasiados recursos. Se analizarán importes, carga y costos cuando estén disponibles; se ajustará la asignación sin equiparar probabilidad de crecimiento con rentabilidad.
+- **Negocio - Priorización poco rentable (alta).** Las cuentas con mayor probabilidad de crecer podrían aportar incrementos pequeños o exigir demasiados recursos. Se analizarán importes, carga y costos cuando estén disponibles; se ajustará la asignación sin equiparar probabilidad de crecimiento con rentabilidad.
 
-- **Negocio — Cambios tarifarios o de mercado (alta).** Nuevas condiciones podrían alterar los patrones históricos. Se revisarán resultados por período y cambios de política comercial; ante degradación, se actualizará el modelo y se recalibrará la estrategia de priorización.
+- **Negocio - Cambios tarifarios o de mercado (alta).** Nuevas condiciones podrían alterar los patrones históricos. Se revisarán resultados por período y cambios de política comercial; ante degradación, se actualizará el modelo y se recalibrará la estrategia de priorización.
 
-- **Datos y adopción — Restricciones de uso (alta).** La disponibilidad interna podría no implicar autorización académica. Se confirmarán permisos y medidas de anonimización; si no se autoriza el uso, se limitará el alcance a datos permitidos o se reconsiderará la viabilidad.
+- **Datos y adopción - Restricciones de uso (alta).** La disponibilidad interna podría no implicar autorización académica. Se confirmarán permisos y medidas de anonimización; si no se autoriza el uso, se limitará el alcance a datos permitidos o se reconsiderará la viabilidad.
 
 # **2. Comparación y selección de la idea más viable**
 
@@ -194,33 +194,31 @@ La propuesta detallada de la sección 3 desarrolla la idea 1 seleccionada.
 
 **Título:** Predicción temprana del riesgo de reprobación mediante características longitudinales de actividad digital para priorizar el acompañamiento académico.
 
-Esta sección desarrolla el diseño ampliado de la idea 1 seleccionada. Es el respaldo de detalle de la propuesta breve de 1 a 2 páginas y del pitch de seis diapositivas. Las decisiones metodológicas aquí propuestas se verificarán al auditar los datos; no se presentan resultados de modelos ni de intervenciones ya ejecutadas.
+Esta sección respalda el memo de cinco páginas y el pitch de seis diapositivas. La revisión del 15-nov-2026 incorpora objetivo de negocio calculable, tres políticas con igual capacidad y alcance explícito del MVP. Los descriptivos y la preparación de datos están verificados; el rendimiento de los modelos y la simulación de políticas siguen pendientes.
 
 ## **3.1. Problema de negocio y formulación de ciencia de datos**
 
 ### **3.1.1. Situación actual, afectados y oportunidad**
 
-Se plantea una universidad hipotética con enseñanza apoyada en una plataforma digital y capacidad limitada de acompañamiento. En este escenario, la revisión de antecedentes al inicio del módulo y la atención posterior a dificultades manifiestas podrían dejar sin contacto preventivo a estudiantes cuyo riesgo cambia durante el período. El proceso institucional descrito es un supuesto de aplicación, no una práctica atribuida a The Open University ni a todas las universidades.
+Se plantea una universidad hipotética con capacidad limitada de revisión. El proceso de referencia simulado espera a conocer la reprobación para ofrecer revisión posterior. No se presenta como una práctica confirmada de la USFQ, de The Open University ni de la mayoría de universidades.
 
-El problema afecta a estudiantes que podrían recibir apoyo tardíamente, a tutores que deben distribuir tiempo limitado y a responsables académicos que necesitan justificar la asignación de recursos. Reprobar puede generar necesidades de recuperación y retrasos en el avance académico; no se asumirá que cada reprobación produce abandono, un costo fijo o una sanción institucional.
+En OULAD hay 7.052 Fail de 32.593 matrículas originales, 21,64 %. El dato cuantifica esta copia histórica de 2013-2014, no una tasa institucional actual. Un Fail no acredita deserción posterior. La unidad de intervención simulada es revisión de una matrícula estudiante-módulo-edición; se informan personas únicas para controlar matrículas múltiples.
 
-La decisión que se busca mejorar es **a quién revisar y contactar durante el módulo**. Los antecedentes estáticos permiten una primera estimación, pero no registran cambios posteriores de actividad. Incorporar observaciones quincenales permitiría revisar la prioridad de atención. Una caída de interacción será una señal candidata que debe contextualizarse, no una prueba de desinterés o dificultad por sí sola.
-
-**Cadena de valor:** dificultades potencialmente no detectadas → estimación de riesgo de reprobación → priorización de revisión según capacidad → contacto y evaluación del tutor → mejor focalización potencial del acompañamiento. La mejora de resultados educativos dependerá de la intervención y requerirá evidencia adicional.
+El valor inmediato para un patrocinador sería disponer de una lista preventiva evaluada con cupos explícitos y oportunidad temporal. La información digital permite observar patrones de interacción; no demuestra compromiso, intención ni necesidades individuales. El tutor conserva la valoración del contexto y las vías habituales de apoyo.
 
 ### **3.1.2. Objetivos y pregunta de investigación**
 
-**Objetivo de negocio:** mejorar la focalización del acompañamiento preventivo, identificando más casos de futura reprobación con una capacidad de revisión comparable. El proyecto evaluará una política de priorización retrospectiva; no prometerá reducción de reprobación ni ahorro institucional con datos que no registran el efecto de las tutorías.
+**Objetivo de negocio:** cubrir más futuras reprobaciones con los mismos cupos y cuantificar cuántas semanas antes del cierre puede priorizarse su revisión. Se reportarán casos cubiertos, cobertura preventiva, casos por cada 100 revisiones, omisiones y personas únicas. La hipótesis de que las tutorías mejoren la aprobación pertenece a una fase institucional posterior.
 
-**Objetivo analítico:** determinar si añadir características longitudinales de actividad digital mejora la predicción frente al uso exclusivo de variables estáticas, y cómo cambia ese aporte entre las semanas 2, 4, 6 y 8. La comparación utilizará los mismos algoritmos, población y criterios de evaluación en cada corte.
+**Objetivo analítico:** evaluar si añadir actividad longitudinal mejora la cobertura frente a antecedentes estáticos, con los mismos algoritmos, población, presupuesto y corte. Regresión logística multinomial y Random Forest constituyen las familias comparables. Se contrastará una mejora provisional de +10 % relativo de TP al día 56, admitiendo resultados negativos.
 
-**Pregunta:** ¿la información sobre nivel, regularidad y evolución de la actividad digital permite detectar más estudiantes que posteriormente reprueban, a igualdad de cupos de revisión? La hipótesis admite que el aporte sea pequeño, inconsistente o nulo. Un resultado negativo bien evaluado también responderá la pregunta de investigación.
+**Pregunta:** ¿cuántas matrículas que finalmente reprueban incluye cada política con el mismo K y cuántas semanas antes del cierre puede revisarlas? Las tres políticas son reactiva, estática y longitudinal. La primera contrasta el momento de atención; las otras dos aíslan el aporte digital.
 
 ### **3.1.3. Unidad, población, target y horizonte**
 
 | Elemento | Definición propuesta |
 |---|---|
-| **Unidad de predicción** | Una matrícula estudiante–módulo–edición. El mismo estudiante puede tener varias matrículas; su identificador sirve para vinculación y control de evaluación, no como predictor. |
+| **Unidad de predicción** | Una matrícula estudiante-módulo-edición. El mismo estudiante puede tener varias matrículas; su identificador sirve para vinculación y control de evaluación, no como predictor. |
 | **Población inicial** | Matrículas registradas hasta el inicio oficial del módulo. Esta delimitación permite comparar con una estimación estática inicial; las inscripciones posteriores se cuantificarán y quedarán fuera del análisis principal. |
 | **Elegibilidad por corte** | Matrículas de la población inicial que no se hayan retirado al finalizar el día del corte. Quienes se retiren después permanecerán con su resultado futuro correspondiente. |
 | **Target** | Resultado final del mismo módulo: `Fail` → reprobación; `Withdrawn` → retiro; `Pass` o `Distinction` → aprobación. Las categorías proceden del resultado documentado en OULAD [1], [2]. |
@@ -232,27 +230,27 @@ La fecha futura de retiro y el resultado final se reservarán para construir eti
 
 ### **3.1.4. Comparación de modelos y referencias**
 
-Se utilizarán regresión logística multinomial y Random Forest como clasificadores de referencia. Para cada algoritmo se compararán dos configuraciones: antecedentes estáticos conocidos al inicio, y los mismos antecedentes enriquecidos con actividad digital hasta el corte. Los modelos enriquecidos podrán ajustarse por corte; la versión estática conservará su estimación individual al no recibir información nueva.
+Se compararán regresión logística multinomial y Random Forest, cada uno con antecedentes disponibles al inicio y con los mismos antecedentes más actividad digital hasta el corte. Los modelos longitudinales podrán ajustarse por corte. El score estático no recibe información de actividad; el estado de registro solo delimita elegibilidad, igual para ambas versiones.
 
-El baseline principal será la configuración estática del mismo algoritmo. La selección de parámetros tendrá un esfuerzo comparable y se realizará antes de evaluar el conjunto final. Como referencia operativa adicional se propondrá ordenar por días desde la última actividad registrada, con desempate determinista; será una regla simulada, no un proceso institucional confirmado. La ventana y el manejo de ausencia de actividad se fijarán antes de la prueba final.
+La comparación principal puntúa ambos modelos al día 56 sobre la misma cohorte. Esto aísla el aporte de variables, sin afirmar que un modelo estático no pudiera utilizarse antes. El baseline principal de rendimiento es el estático del mismo algoritmo; la política reactiva espera al resultado final y no requiere pronosticarlo. Una regla de recencia queda como sensibilidad adicional, sin sustituir las tres políticas solicitadas por el profesor.
 
-Las variables de desempeño académico acumulado, como notas de evaluaciones, quedarán fuera de la comparación principal para aislar el aporte de la interacción digital. Una extensión posterior podría incorporarlas, manteniendo explícito que respondería otra comparación. No se interpretará la superioridad frente al baseline estático como superioridad frente a todo sistema de seguimiento académico posible.
+Se fijarán parámetros, desempates y políticas de ausencia de actividad antes de consultar la prueba final. Las notas de evaluaciones quedan fuera para aislar interacción digital. No se atribuye al modelo longitudinal superioridad sobre todos los sistemas de seguimiento académico posibles.
 
 ### **3.1.5. Evaluación técnica y éxito operativo**
 
-La métrica técnica principal será el área bajo la curva precisión–recobrado para la categoría de reprobación frente al resto (**PR-AUC**). Se reportarán también precisión y recobrado en las listas priorizadas, matriz de confusión entre las tres categorías y calibración de probabilidades. Se fijará la implementación de PR-AUC y se utilizará consistentemente. La exactitud global no será la única medida, porque puede ocultar errores en categorías menos frecuentes.
+Las métricas principales de negocio son casos cubiertos, cobertura preventiva y anticipación potencial. Para cada política, TP cuenta matrículas seleccionadas que finalmente son Fail; el resultado final se consulta al evaluar, no al predecir. Cobertura preventiva (%) = 100 × TP seleccionados antes del cierre / Fail elegibles. También se informan precisión@K = TP/K, omisiones y personas únicas. En la reactiva se separa cobertura posterior de cobertura preventiva; esta última es cero por definición del escenario.
 
-La evaluación principal de focalización se realizará en el día 56 con capacidad simulada del 10% de matrículas elegibles por edición. Para cada edición, `K = piso(0,10 × N elegibles)`; se seleccionarán las K puntuaciones más altas, con desempate estable independiente del target. Las ediciones sin capacidad suficiente para una comparación interpretable se reportarán por separado. Se explorarán 5% y 20% como sensibilidad, sin elegir retrospectivamente el escenario más favorable.
+La evaluación principal fija la cohorte elegible al día 56 y K = floor(0.10 × N) por edición para las tres políticas. En el histórico completo hay 26.294 elegibles, 6.972 Fail y 2.619 cupos. La suma de min(K, Fail) por edición es 2.619: cota ideal de cobertura 37,6 %. Es un límite de capacidad, no resultado del modelo ni meta de desempeño. Se recalcularán estas cantidades en la prueba reservada. Sensibilidad de capacidad: 5 % y 20 %, fijada antes de comparar.
 
-**Meta provisional:** aumentar al menos un 10% relativo el número de casos de futura reprobación incluidos en la lista, respecto al baseline estático y a igualdad de K. Si `TP_L` y `TP_E` representan esos casos en la versión longitudinal y estática, la mejora será `(TP_L − TP_E) / TP_E × 100`. Si `TP_E = 0`, el porcentaje será indefinido y se informará la diferencia absoluta. Pasar de 40 a 44 casos constituye un 10% relativo; no equivale a evitar cuatro reprobaciones.
+La meta provisional es +10 % relativo de TP longitudinal frente a TP estático: 100 × (TP longitudinal - TP estático) / TP estático. Si TP estático = 0, el porcentaje es indefinido y se informa diferencia absoluta. Al compartir denominador Fail y presupuesto K, también se compara cobertura. La referencia reactiva puede seleccionar Fail conocidos después del cierre y no debe presentarse artificialmente como incapaz de cubrirlos.
 
-Los cortes anteriores mostrarán el balance entre anticipación y calidad predictiva. Las diferencias entre cortes pueden reflejar cambios en la población elegible, por lo que se informarán su tamaño y composición. En cada corte, ambas configuraciones se evaluarán sobre exactamente las mismas matrículas. Se presentarán resultados agregados y por edición, junto con incertidumbre mediante remuestreo agrupado por estudiante cuando sea viable.
+Anticipación potencial = (duración de la edición - día de primera selección) / 7. La copia contiene ediciones de 234-269 días; al día 56 hay un margen de 25,4-30,4 semanas. La anticipación de los TP se resumirá con mediana y rango intercuartílico y con casos cubiertos antes del cierre, usando su primera selección. Un caso no detectado no se elimina de la cobertura para favorecer la métrica temporal. No se conoce fecha real de tutoría o de comunicación del resultado, por lo que el cierre es una referencia aproximada.
 
-La familia de modelo que sustentará la comparación principal se fijará con validación; ambos algoritmos se reportarán sin escoger al ganador usando la prueba final. El cumplimiento de la meta, la consistencia entre ediciones y el costo adicional de procesamiento se considerarán conjuntamente. Una mejora puntual e incierta no se presentará como garantía de generalización.
+PR-AUC para Fail frente al resto, calibración, precisión/recobrado y matriz de confusión respaldan la evaluación técnica. Se fijará la implementación de PR-AUC. Se reportarán resultados por edición y corte, con diferencias absolutas, relativas e incertidumbre mediante remuestreo agrupado por estudiante cuando sea viable. Los cortes anteriores tienen poblaciones distintas; no se atribuyen automáticamente sus diferencias a una mejora del modelo.
 
 ### **3.1.6. Umbral, acción y juicio humano**
 
-El umbral operativo será la puntuación del último caso que cabe dentro de K, no una probabilidad fija arbitraria. En una aplicación real, un tutor revisaría las alertas después de cada corte, contrastaría señales y contactos previos, y decidiría si corresponde orientación, tutoría o derivación. El modelo no determinará causas ni decisiones disciplinarias.
+El umbral será la última puntuación que cabe en K. Se priorizan omisiones por la oportunidad perdida; las falsas alertas consumen cupos, con costos relativos por validar institucionalmente. El tutor revisaría contexto y contactos previos para decidir orientación, tutoría o derivación. El modelo no determina causas ni sanciona.
 
 El resultado inmediato será una lista priorizada acompañada de actividad reciente, variación respecto al corte anterior e identificación de información insuficiente. Estas señales describirán asociaciones y no explicaciones causales. Los estudiantes que no aparezcan en la lista conservarían las vías habituales de apoyo.
 
@@ -260,7 +258,7 @@ El resultado inmediato será una lista priorizada acompañada de actividad recie
 
 ### **3.2.1. Fuente, acceso y cobertura**
 
-OULAD es la fuente principal. El equipo confirma descarga y acceso, y la copia local cuenta con auditoría descriptiva y checksums. Su publicación describe siete módulos y 22 ediciones de 2013–2014, 32.593 registros estudiante–módulo–edición y 10.655.280 registros de interacción diaria [1]. Estas cifras describen la publicación. Los conteos locales y las poblaciones elegibles se presentan separadamente en la evidencia local.
+OULAD es la fuente principal. El equipo confirma descarga y acceso, y la copia local cuenta con auditoría descriptiva y checksums. Su publicación describe siete módulos y 22 ediciones de 2013-2014, 32.593 registros estudiante-módulo-edición y 10.655.280 registros de interacción diaria [1]. Estas cifras describen la publicación. Los conteos locales y las poblaciones elegibles se presentan separadamente en la evidencia local.
 
 | Fuente | Acceso y contenido previsto | Cobertura y restricciones por verificar |
 |---|---|---|
@@ -276,13 +274,13 @@ La publicación y la documentación oficial describen el esquema y su licencia C
 
 ### **3.2.2. Preparación y características**
 
-La auditoría descriptiva generó el inventario de archivos, períodos, categorías, matrículas, personas únicas y clases del target. La cobertura semántica continúa pendiente. Las uniones utilizarán claves completas para evitar multiplicación accidental de filas. Se documentarán exclusiones y el número de registros que pasa cada filtro. Cuando no existan eventos de actividad, se distinguirá cero observado de cobertura desconocida antes de imputar.
+La auditoría descriptiva ya generó inventario, clases, matrículas, personas únicas, faltantes y comprobaciones de claves. El PSet 2 validó las uniones y conservó población y clics al consolidar actividad. La cobertura semántica y exactitud externa siguen sin acreditarse. Los registros ausentes se distinguen de actividad real cero.
 
-Los antecedentes candidatos incluirán educación previa, intentos anteriores, créditos y contexto del módulo. Su uso dependerá de verificar que representan información disponible al inicio; cualquier campo ambiguo se excluirá del modelo principal o se declarará como supuesto comprobable. Los identificadores de estudiante y recurso no se usarán para memorizar personas. Los atributos demográficos se revisarán para auditoría de errores y se justificará por separado cualquier incorporación predictiva.
+Los antecedentes candidatos incluyen educación previa, intentos, créditos y contexto de matrícula. Aunque estén presentes en OULAD, debe verificarse su disponibilidad histórica al inicio antes de entrenar. Un campo ambiguo se excluye o se declara supuesto comprobable. Los identificadores no se usan para memorizar estudiantes; la incorporación de atributos demográficos exige justificación y revisión de errores por subgrupos.
 
-Se construirán características digitales acumuladas y por intervalos de igual duración: clics, días activos, días desde la última interacción, variedad de tipos de recurso y cambios entre quincenas. El primer corte no tendrá una tendencia entre dos quincenas completas; esa ausencia se representará explícitamente. Se distinguirán nivel y cambio: estabilidad de actividad no supone suficiencia, y una caída no identifica automáticamente riesgo.
+El PSet 2 ya calculó clics acumulados y quincenales, días activos, recencia, variedad de recursos y cambio entre ventanas, con filtro temporal por corte. El primer corte no tiene comparación entre dos quincenas completas y mantiene NULL; recencia sin registros también queda NULL. La actividad previa al inicio se conserva separada y los contadores cero describen ausencia de registros, no desinterés.
 
-La definición de intervalos, el tratamiento del día cero y la actividad anterior al inicio se fijarán en un diccionario antes de entrenar. Todo resumen se calculará sin registros posteriores al corte. Imputación, escalamiento, codificación y cualquier normalización aprendida se ajustarán únicamente con entrenamiento. La inferencia utilizará exactamente las mismas transformaciones.
+La OBT de preparación no incorpora target ni retiro como predictores. Imputación, escalado, codificación o selección aprendidos se ajustarán únicamente con entrenamiento y se versionarán junto al modelo. El diseño del MVP conserva la misma transformación en inferencia y mantiene la prueba final independiente.
 
 ### **3.2.3. Validación temporal y control de información futura**
 
@@ -294,64 +292,73 @@ La auditoría determinará qué pares de ediciones permiten este diseño sin fug
 
 ### **3.2.4. Implementación y factibilidad**
 
-Se trabajará en Python desde Visual Studio Code, dentro de un entorno local con dependencias aisladas y versionadas. Los datos de actividad se procesarán por agregaciones para evitar cargar repetidamente todo el histórico. Se medirán memoria, tiempo de preparación e inferencia antes de decidir si es necesario reducir el subconjunto.
+El trabajo se desarrolla en Python desde VS Code con dependencias fijadas. El PSet 2 construyó Kestra, Snowflake, dbt y Spark, con 23 modelos, 168 pruebas dbt aprobadas y OBT_FEATURES de 108.277 filas y 35 columnas. La reproducción limpia mantuvo las mismas cuatro huellas por corte. Esto acredita preparación, conservación de población y controles temporales; no acredita un clasificador entrenado ni el beneficio de la política.
 
-La solución separará preparación, entrenamiento, evaluación e inferencia. El modelo y sus transformaciones se conservarán juntos con la versión de datos, características y parámetros. La factibilidad se apoya en datos descargados y modelos delimitados, pero permanece condicionada a la auditoría y a una primera ejecución de procesamiento; se completó la auditoría descriptiva, pero el procesamiento de características y la inferencia siguen pendientes.
+Se ajustarán y evaluarán regresión logística multinomial y Random Forest con las dos configuraciones. Se medirán tiempos y recursos de entrenamiento e inferencia; la compatibilidad de pares temporales y disponibilidad histórica de todos los atributos sigue por validar. Separar etiquetas maduras, estudiantes y transformaciones aprendidas es condición de la evaluación. Las métricas de negocio descriptivas se derivan con calcular_metricas_negocio.py, sin entrenamiento ni cargas cloud.
 
 ## **3.3. Viabilidad de negocio**
 
 ### **3.3.1. Cambio del proceso y responsables**
 
-En el escenario de referencia, la institución dispone de una revisión inicial y responde a dificultades manifiestas o solicitudes. La propuesta incorpora una revisión quincenal de prioridades. El coordinador definiría capacidad y reglas de atención; los tutores revisarían contexto y decidirían el contacto; el responsable analítico controlaría calidad de datos y desempeño. Estos roles son propuestos y no representan participantes institucionales comprometidos.
+La referencia de negocio se define a partir del proceso descrito en el correo al profesor: esperar al resultado de reprobación y revisar después. Se simulan dos alternativas preventivas: modelo estático y modelo longitudinal. La existencia de OULAD permite reconstruir decisiones, pero no acredita que una universidad concreta aplique ese proceso.
 
-El uso previsto comienza cuando se publica la lista correspondiente a un corte. El tutor revisa actividad y evolución, verifica si ya existe un contacto y decide una acción de apoyo. En una implementación real se registrarían fecha, duración, acción, respuesta y seguimiento. La información analítica no sustituye la conversación con el estudiante ni acredita una causa concreta de su dificultad.
+| Política | Información permitida | Selección y momento |
+|---|---|---|
+| Reactiva | Resultado final conocido después del cierre | Hasta K Fail de la misma cohorte, con desempate estable prefijado; anticipación preventiva cero |
+| Estática | Antecedentes disponibles al inicio | Top K por P(Fail) al día 56; sin interacción digital |
+| Longitudinal | Los mismos antecedentes y actividad hasta el corte | Top K por P(Fail) al mismo día 56, con igual población y K |
+
+La selección reactiva consulta Fail únicamente después del cierre. No usa ese resultado como predictor temprano ni recibe cupos ilimitados. Se mantienen los resultados académicos históricos en las tres simulaciones. La comparación estática/longitudinal evalúa focalización; la comparación con reactiva evalúa la oportunidad de revisión antes del cierre.
+
+El coordinador académico valida cupos, el tutor revisa contexto y decide apoyo, y el responsable analítico controla calidad y evaluación. El MVP no contacta estudiantes ni ejecuta sanciones. El score es una prioridad para revisión, no una determinación de causas ni de intención del estudiante.
 
 ### **3.3.2. Capacidad y simulación de la decisión**
 
-El escenario base admite revisar al 10% de matrículas elegibles por edición y corte. El supuesto simplificador es un costo equivalente por revisión; se analizarán también capacidades del 5% y 20%. No se convertirá el número de cupos en horas o dinero sin información institucional que lo sustente.
+El caso principal usa una lista por política al día 56 o, para la reactiva, tras el cierre, con K fijado por edición desde la cohorte del día 56. Así se comparan 2.619 cupos en el histórico descriptivo, no cuatro presupuestos preventivos contra uno reactivo. El costo por revisión se supone uniforme; no se convierte a horas ni dinero sin datos institucionales.
 
-La comparación principal del día 56 evaluará la focalización de una lista de tamaño fijo. Como análisis complementario se reproducirán las cuatro listas usando la misma regla de capacidad para ambos enfoques. Cada revisión repetida consumirá un cupo y cada matrícula contará una sola vez entre los casos correctamente identificados acumulados. También se informarán estudiantes únicos, pues una persona puede aparecer en más de un módulo.
+El análisis complementario de las semanas 2, 4, 6 y 8 fijará previamente un presupuesto total B por edición para cada política y las reglas de reparto o reserva. Los cupos usados en cada corte satisfacen suma de revisiones <= B. Cada repetición consume un cupo y cada matrícula cuenta una vez en cobertura acumulada. No se dará a la política longitudinal capacidad adicional por actualizar cuatro listas. Se informarán personas únicas y reservas no utilizadas.
 
-Esta simulación permitirá examinar repetición de alertas y casos detectados por primera vez. No será equivalente a un programa real de tutorías: no modifica las trayectorias observadas ni supone que todas las personas seleccionadas aceptan apoyo. Se documentarán los presupuestos utilizados para evitar atribuir a la predicción una ganancia derivada de aumentar contactos.
+Las poblaciones y K por corte de la auditoría original son descriptivos y no constituyen automáticamente el presupuesto acumulado de la simulación. Una política reactiva puede gastar su B tras el cierre; su cobertura posterior se reporta aparte. La simulación cambia listas y momentos de selección, manteniendo fijos los resultados observados y sin inventar participación ni efectos de tutorías.
 
 ### **3.3.3. Métricas de valor y límites de la evidencia**
 
-| Pregunta | Métrica y evidencia |
-|---|---|
-| ¿Qué tan bien predice? | PR-AUC, precisión, recobrado y calibración, utilizando resultados históricos observados. |
-| ¿Focaliza mejor la capacidad simulada? | Casos de futura reprobación incluidos a igual K, diferencias relativas y absolutas, omisiones y contactos repetidos. |
-| ¿Con cuánta anticipación identifica? | Tiempo entre primera selección y cierre del módulo. No representa el inicio real de las dificultades. |
-| ¿Actuar mejora resultados educativos? | En un piloto posterior: diferencia absoluta en proporción de aprobación entre grupos asignados, con intervalo de confianza; reportar también Fail, Withdrawn, participación, costos y posibles efectos adversos. |
+| Resultado | Validable retrospectivamente con OULAD | Límite |
+|---|---|---|
+| Casos cubiertos y cobertura preventiva | TP antes del cierre / Fail de la cohorte | Una selección no acredita contacto o tutoría realizada |
+| Rendimiento de cupos | TP por cada 100 revisiones, omisiones y falsos positivos predictivos | La reactiva conoce el resultado y se interpreta por separado |
+| Anticipación potencial | Semanas entre primera selección y cierre aproximado | No es fecha de inicio de dificultad ni de comunicación de notas |
+| Carga de seguimiento | Cupos, repeticiones, primeras detecciones y personas únicas | No equivale a horas, personal o costo real |
+| Mejora de aprobación o reducción de deserción | Fuera del MVP actual | Requiere una intervención y una población institucional posterior |
 
-Para evaluar causalmente la oferta de apoyo, se propone el protocolo aleatorio posterior desarrollado en la revisión metodológica. Comparar políticas de selección sería una pregunta adicional con presupuesto equivalente. Se mediría la estrategia asignada y no solo quienes aceptaron tutoría, evitando confundir autoselección con eficacia. El protocolo requeriría acuerdo institucional y no forma parte de la ejecución actual.
+Sin institución participante se validan preparación, reglas de selección, calidad predictiva, cobertura, anticipación y carga simuladas. No se pueden demostrar aceptación, capacidad operativa real, efecto académico de tutorías, ahorro ni transferencia a la USFQ. La hipótesis de que ofrecer apoyo mejora la aprobación se reserva para una fase posterior y no es requisito para cerrar el PSet 1 ni el MVP académico.
 
-El criterio de avance del prototipo combinará mejora de focalización, incertidumbre aceptable para continuar investigando y carga manejable en los escenarios. La reducción efectiva de reprobación, el ahorro y la transferencia a otra universidad no podrán concluirse únicamente de OULAD. Si la mejora no se sostiene, se recomendará conservar el baseline o revisar el diseño en lugar de afirmar éxito.
+El patrocinio solicitado consiste en respaldar una prueba de concepto reproducible y designar referentes que validen la utilidad del proceso y los cupos hipotéticos. Una evaluación negativa es informativa: se reportará la incertidumbre, conservará el baseline o revisará el alcance antes de recomendar un piloto.
 
 ## **3.4. Riesgos y respuestas previstas**
 
-- **R1. Aporte longitudinal insuficiente — Técnico; severidad alta.** **Supuesto:** las nuevas características mejoran la focalización de forma consistente. **Verificación:** comparación emparejada por algoritmo y corte, diferencias absolutas y relativas e incertidumbre por edición. **Respuesta:** reportar el resultado negativo, conservar el baseline cuando corresponda y no justificar complejidad adicional sin evidencia.
+- **R1. Aporte longitudinal insuficiente - Técnico; severidad alta.** **Supuesto:** las nuevas características mejoran la focalización de forma consistente. **Verificación:** comparación emparejada por algoritmo y corte, diferencias absolutas y relativas e incertidumbre por edición. **Respuesta:** reportar el resultado negativo, conservar el baseline cuando corresponda y no justificar complejidad adicional sin evidencia.
 
-- **R2. Información futura en características o entrenamiento — Técnico; severidad crítica.** **Supuesto:** toda entrada y etiqueta histórica usada para ajustar el modelo era conocida en la fecha simulada. **Verificación:** auditoría de cortes, fechas de retiro, finalización de ediciones, particiones y transformaciones. **Respuesta:** corregir el conjunto, reconstruir modelos y retirar conclusiones obtenidas con fuga.
+- **R2. Información futura en características o entrenamiento - Técnico; severidad crítica.** **Supuesto:** toda entrada y etiqueta histórica usada para ajustar el modelo era conocida en la fecha simulada. **Verificación:** auditoría de cortes, fechas de retiro, finalización de ediciones, particiones y transformaciones. **Respuesta:** corregir el conjunto, reconstruir modelos y retirar conclusiones obtenidas con fuga.
 
-- **R3. Falta de actividad confundida con falta de datos — Técnico; severidad alta.** **Supuesto:** los resúmenes representan actividad registrada comparable. **Verificación:** cobertura por edición y recurso, duplicados, faltantes y cambios de calendario. **Respuesta:** distinguir estados desconocidos, excluir fuentes o ediciones inconsistentes y mostrar información insuficiente en lugar de asignar riesgo sin sustento.
+- **R3. Falta de actividad confundida con falta de datos - Técnico; severidad alta.** **Supuesto:** los resúmenes representan actividad registrada comparable. **Verificación:** cobertura por edición y recurso, duplicados, faltantes y cambios de calendario. **Respuesta:** distinguir estados desconocidos, excluir fuentes o ediciones inconsistentes y mostrar información insuficiente en lugar de asignar riesgo sin sustento.
 
-- **R4. Transferencia limitada — Técnico y de negocio; severidad alta.** **Supuesto:** las relaciones se mantienen en ediciones posteriores y poblaciones pertinentes. **Verificación:** evaluación por módulo, período y subgrupos con volumen suficiente. **Respuesta:** restringir el alcance declarado, recalibrar o solicitar validación externa antes de una adopción institucional.
+- **R4. Transferencia limitada - Técnico y de negocio; severidad alta.** **Supuesto:** las relaciones se mantienen en ediciones posteriores y poblaciones pertinentes. **Verificación:** evaluación por módulo, período y subgrupos con volumen suficiente. **Respuesta:** restringir el alcance declarado, recalibrar o solicitar validación externa antes de una adopción institucional.
 
-- **R5. Capacidad y carga irreales — Negocio; severidad alta.** **Supuesto:** la revisión propuesta es viable para los tutores. **Verificación:** sensibilidad de capacidad, contactos repetidos y, en una futura adopción, tiempos reales de revisión. **Respuesta:** ajustar frecuencia, listas y reglas de seguimiento; no presentar eficiencia monetaria sin datos de costos.
+- **R5. Capacidad y carga irreales - Negocio; severidad alta.** **Supuesto:** la revisión propuesta es viable para los tutores. **Verificación:** sensibilidad de capacidad, contactos repetidos y, en una futura adopción, tiempos reales de revisión. **Respuesta:** ajustar frecuencia, listas y reglas de seguimiento; no presentar eficiencia monetaria sin datos de costos.
 
-- **R6. Detección sin efecto del apoyo — Negocio; severidad alta.** **Supuesto:** identificar antes permite una intervención útil y aceptada. **Verificación:** piloto posterior con comparación de políticas, participación y resultados. **Respuesta:** limitar la conclusión a predicción y focalización, y revisar el servicio de acompañamiento antes de ampliar su uso.
+- **R6. Detección sin efecto del apoyo - Negocio; severidad alta.** **Supuesto:** identificar antes permite una intervención útil y aceptada. **Verificación:** piloto posterior con comparación de políticas, participación y resultados. **Respuesta:** limitar la conclusión a predicción y focalización, y revisar el servicio de acompañamiento antes de ampliar su uso.
 
-- **R7. Errores desiguales o pérdida de confianza — Adopción; severidad alta.** **Supuesto:** las alertas son comprensibles y sus errores no perjudican desproporcionadamente a ciertos grupos. **Verificación:** análisis de falsos positivos y negativos por subgrupos y revisión del lenguaje de la interfaz; consulta a tutores en una etapa posterior. **Respuesta:** ajustar variables o reglas, mantener juicio humano y evitar etiquetas sancionatorias.
+- **R7. Errores desiguales o pérdida de confianza - Adopción; severidad alta.** **Supuesto:** las alertas son comprensibles y sus errores no perjudican desproporcionadamente a ciertos grupos. **Verificación:** análisis de falsos positivos y negativos por subgrupos y revisión del lenguaje de la interfaz; consulta a tutores en una etapa posterior. **Respuesta:** ajustar variables o reglas, mantener juicio humano y evitar etiquetas sancionatorias.
 
-- **R8. Procesamiento o cobertura incompatibles con el MVP — Técnico y de alcance; severidad media-alta.** **Supuesto:** los archivos pueden procesarse y existen suficientes ediciones compatibles. **Verificación:** inventario y primera ejecución con medición de recursos. **Respuesta:** limitar módulos con criterios de calidad definidos antes de mirar resultados; preservar la comparación estática/longitudinal y documentar la menor generalización.
+- **R8. Procesamiento o cobertura incompatibles con el MVP - Técnico y de alcance; severidad media-alta.** **Supuesto:** los archivos pueden procesarse y existen suficientes ediciones compatibles. **Verificación:** inventario y primera ejecución con medición de recursos. **Respuesta:** limitar módulos con criterios de calidad definidos antes de mirar resultados; preservar la comparación estática/longitudinal y documentar la menor generalización.
 
 ## **3.5. Alcance y MVP**
 
 ### **3.5.1. Producto propuesto**
 
-Se propone un MVP de análisis y priorización académica que reciba datos históricos con esquema validado, genere estimaciones para los cuatro cortes y permita consultar listas y evolución del riesgo. Incluirá un informe comparativo y un mecanismo de inferencia reproducible. La forma concreta de interacción —interfaz local, reporte navegable o servicio demostrativo— se elegirá durante la implementación, sin comprometer Colab como entorno de ejecución final.
+MVP previsto: selector de edición, corte y capacidad, modelo y transformaciones versionados, listas priorizadas con señales disponibles, evolución de puntuaciones y reporte comparativo de las tres políticas. El reporte mostrará casos cubiertos, cobertura, rendimiento de cupos, anticipación potencial y carga, distinguiendo resultados observados, supuestos y metas.
 
-El despliegue será demostrativo en un entorno controlado y separado del entrenamiento. El usuario podrá seleccionar edición, corte y capacidad; observará las probabilidades, señales disponibles y advertencias de calidad. El resultado final observado se mostrará únicamente en la vista de evaluación retrospectiva, claramente separado de la información que habría existido al emitir la alerta.
+La demostración se ejecutará con OULAD en un entorno controlado separado del entrenamiento. El resultado final se mostrará únicamente en una vista de evaluación retrospectiva; no entrará a los predictores. Entradas inválidas impedirán emitir una predicción normal. La forma de interacción puede ser un reporte navegable o aplicación local, sin comprometer una integración institucional. La preparación de datos ya está implementada en PSet 2; entrenamiento, evaluación y simulación continúan pendientes.
 
 ### **3.5.2. Etapas y evidencias de terminación**
 
@@ -367,28 +374,26 @@ El monitoreo se probará mediante reproducción histórica, no mediante conexió
 
 ### **3.5.3. Criterios de aceptación y exclusiones**
 
-El MVP se considerará técnicamente completo si reproduce las transformaciones y predicciones, verifica el respeto de los cortes, utiliza las mismas poblaciones y presupuestos para comparar, conserva la prueba final independiente y entrega resultados trazables con sus limitaciones. El cumplimiento de la meta del 10% se informará por separado: finalizar correctamente el proyecto no equivale a confirmar la hipótesis.
+El MVP debe reproducir transformaciones e inferencia, validar entradas y cortes, preservar la prueba final y comparar las tres políticas con las mismas poblaciones y presupuestos. Debe reportar incertidumbre, carga y límites. Alcanzar la meta del +10 % es una hipótesis separada del cumplimiento técnico del MVP.
 
-Quedan fuera del alcance la integración con plataformas institucionales, la captura en tiempo real, el contacto con estudiantes, la ejecución de tutorías, decisiones disciplinarias, movilidad física, predicción de abandono institucional, demostración causal de impacto y cuantificación de ahorro sin datos. No se incorporarán modelos complejos de secuencias como requisito del MVP.
+El MVP utiliza exclusivamente OULAD. Quedan fuera tutorías reales, contacto, sanciones, costos monetarios, predicción de deserción institucional, inferencia de intencionalidad, efectos causales e integración D2L/WiFi de la USFQ. Las notas de evaluaciones tampoco forman parte de la comparación principal. Los modelos de secuencias complejos no son requisito.
 
-La fuente local se confirmó en datasets/. Antes de implementar se validarán los módulos y pares de ediciones elegibles para la evaluación temporal, las variables realmente disponibles al inicio y los recursos de ejecución. Estas verificaciones no cambian la selección de la idea, pero pueden ajustar su subconjunto de análisis. La propuesta breve conservará las decisiones esenciales, la evidencia de viabilidad y los riesgos en 1 a 2 páginas, conforme a los requisitos actualizados. Este documento ampliado conserva el detalle para continuar el proyecto.
+La extensión institucional posterior requerirá aprobación formal y revisión del responsable o delegado de protección de datos. Los registros WiFi vinculables pueden revelar ubicación; se deberán justificar legitimación, finalidad, minimización, seguridad y evaluación de impacto cuando corresponda conforme a la LOPDP [8]. La autorización académica por sí sola no resuelve esos requisitos y el uso de D2L también requiere revisión del tratamiento de datos personales.
+
+El memo conserva cuatro secciones en cinco páginas, según el límite actualizado por el usuario el 15-nov-2026; el pitch mantiene seis diapositivas. Este documento y su notebook preservan las tres ideas, matriz, selección, metodología y auditoría originales, con la revisión de los tres gaps y el estado real de implementación.
 
 # Revisión metodológica vigente
 
-- **Caso seleccionado:** riesgo de reprobación al cierre de un módulo, con OULAD. Universidad hipotética, sin socio institucional comprometido.
-- **Unidad:** matrícula estudiante–módulo–edición. OBT futura: esa matrícula en un corte de observación; hasta cuatro filas por matrícula elegible.
-- **Población inicial:** registrada hasta el inicio oficial. En cada corte, excluir solo retiros ya ocurridos; contabilizar exclusiones. No utilizar la fecha futura de retiro como predictor.
-- **Salida:** probabilidades de `Fail`, `Withdrawn` y aprobación (`Pass` + `Distinction`). Ordenar la revisión por `P(Fail)`. Retiro y abandono institucional son conceptos distintos.
-- **Cortes:** días 14, 28, 42 y 56. Ocho semanas es observación temprana, no duración total del módulo. El horizonte termina al cierre de cada edición.
-- **Modelos:** regresión logística multinomial y Random Forest. Comparar cada algoritmo con variables estáticas frente al mismo algoritmo enriquecido con actividad longitudinal. No agregar notas de evaluaciones al análisis principal.
-- **Métrica técnica:** PR-AUC para Fail; complementar con precisión, recobrado, calibración e incertidumbre. Fijar la implementación de PR-AUC antes de comparar.
-- **Meta:** al menos 10 % relativo más de futuras reprobaciones detectadas en el día 56, frente al baseline estático, con la misma población y capacidad. Es meta provisional; no garantía, resultado alcanzado ni 10 puntos porcentuales.
-- **Presupuesto:** `K = floor(0.10 × N_elegibles)` por edición y corte, sensibilidad 5 % y 20 %. Es un cupo preventivo simulado; no es capacidad institucional medida. La tutoría habitual queda fuera de la simulación: no se afirma que nueva atención adicional sea gratuita ni que exista personal reservado.
-- **Umbral:** puntuación del último caso que cabe en K. Desempate estable sin consultar la etiqueta. Informar ediciones con K insuficiente; no elegir retrospectivamente el presupuesto que favorezca el modelo.
-- **Error prioritario:** se considera provisionalmente más grave omitir casos futuros de reprobación, por la oportunidad de apoyo perdida. Las falsas alertas consumen cupos; costos relativos y prioridad requieren validación institucional.
-- **Validez:** ediciones posteriores compatibles; etiquetas históricas maduras antes del instante simulado; estudiantes separados entre ajuste y prueba; todas las filas y cortes de una matrícula en la misma partición. Definir transformaciones y ajustes dentro del entrenamiento.
-- **Juicio:** el sistema calcula y ordena; el tutor revisa siempre contexto y decide contacto, orientación o derivación. No sanciones automáticas ni contacto real en el MVP.
-- **Tres niveles:** calidad predictiva; focalización simulada; impacto educativo posterior. No confundirlos.
+- **Objetivo de negocio:** cobertura preventiva y semanas de anticipación potencial, con los mismos cupos. TP y cobertura usan matrículas; informar también personas únicas.
+- **Caso principal:** cohorte elegible al día 56, K = floor(0.10 × N) por edición para reactiva, estática y longitudinal. Históricos: N = 26.294, Fail = 6.972 y K = 2.619. Recalcular en la prueba reservada.
+- **Meta:** +10 % relativo de TP longitudinal frente a estático, igual K; si el baseline es cero informar diferencia absoluta. No es una promesa de reprobaciones evitadas.
+- **Tiempo:** anticipación potencial = (duración de la edición - día de primera selección) / 7. Al día 56 hay margen de 25,4-30,4 semanas; el efecto temporal real se medirá en los TP seleccionados.
+- **Políticas:** reactiva espera a Fail conocido; estática usa antecedentes iniciales; longitudinal añade actividad hasta el corte. La reactiva tiene cero cobertura preventiva por escenario, no cero cobertura posterior.
+- **Cuatro cortes:** 14, 28, 42 y 56. Fijar presupuesto total B común antes de comparar; las repeticiones consumen cupos y las primeras detecciones cuentan una sola vez.
+- **Modelos y validez:** regresión logística multinomial y Random Forest, comparación por algoritmo, ediciones posteriores compatibles, etiquetas maduras y estudiantes separados. Transformaciones aprendidas solo en entrenamiento.
+- **Información:** registro y retiro ocurrido delimitan elegibilidad; resultados y retiro futuro no son predictores. No notas de evaluaciones; ausencia de registros no acredita ausencia de actividad.
+- **MVP previsto:** selector de edición/corte/capacidad, listas, evolución, comparación y modelos versionados. OULAD exclusivamente; D2L/WiFi institucionales quedan para una fase posterior.
+- **Límites:** hipótesis de apoyo útil, costos, participación, capacidad real e impacto se validarán en otra fase. PR-AUC respalda la evaluación técnica; el negocio se expresa en casos, cobertura, anticipación y carga.
 
 ### Comparador operativo reproducible
 
@@ -396,11 +401,11 @@ Añadir una política simple de seguimiento: ordenar las matrículas elegibles p
 
 Antes de evaluar, fijar: tratamiento de quienes nunca registraron actividad, disponibilidad de actividad previa al inicio, distinción entre inactividad y cobertura desconocida, y desempate estable. Una opción de diseño es contar desde el inicio para quienes carecen de actividad y tienen cobertura comprobada; los estados desconocidos deben señalizarse y tratarse con una regla explícita común. Auditar esta opción antes de adoptarla.
 
-Esta política ya usa actividad temporal: es un comparador operativo adicional, no un baseline estático ni un proceso institucional observado. No afirmar superioridad sobre OU Analyse. Mantener la comparación estática/longitudinal como prueba principal de la hipótesis.
+Esta regla ya usa actividad temporal: es una sensibilidad adicional, sin sustituir las tres políticas principales, y no un proceso institucional observado. No afirmar superioridad sobre OU Analyse. Mantener la comparación estática/longitudinal como prueba principal de la hipótesis.
 
-Métricas: TP@K, precisión@K, recobrado@K, casos omitidos, primeras detecciones y anticipación hasta cierre. Para la comparación del día 56, mismo N y K. Para cuatro listas sucesivas, mismas reglas de capacidad; revisiones repetidas consumen cupos y cada matrícula se cuenta una sola vez en TP acumulados. Informar también estudiantes únicos.
+Métricas: TP@K, precisión@K, recobrado@K, casos omitidos, primeras detecciones y anticipación hasta cierre. Para la comparación del día 56, mismo N y K. Para cuatro listas sucesivas se fija un presupuesto total B común; cada repetición consume un cupo y cada matrícula cuenta una sola vez en TP acumulados. Informar también estudiantes únicos.
 
-### Protocolo de impacto posterior, sin ejecutarlo en este PSet
+### Hipótesis de impacto y protocolo opcional para una fase posterior
 
 - **Pregunta:** ¿ofrecer un programa definido de acompañamiento preventivo mejora la aprobación respecto de la atención habitual?
 - **Población:** estudiantes elegibles identificados como en riesgo mediante una regla fijada antes de asignar la intervención; fecha de corte y ámbito de validez documentados.
@@ -411,7 +416,7 @@ Métricas: TP@K, precisión@K, recobrado@K, casos omitidos, primeras detecciones
 - **Muestra:** calcularla posteriormente según tasa inicial, efecto mínimo relevante, potencia, agrupamiento si corresponde y pérdidas esperadas. No inventar tamaño ni potencia.
 - **Valor y recursos:** participación, tiempo y costo por estudiante y por aprobación adicional cuando los datos lo permitan; posibles efectos adversos o diferencias entre grupos.
 - **Alcance de la inferencia:** este ensayo estimaría el efecto de ofrecer ese programa en esa población. No estima efectos individuales ni prueba automáticamente que la selección longitudinal sea mejor que otra política. Esa segunda pregunta requeriría una evaluación de políticas con presupuesto comparable.
-- **Estado:** protocolo diseñado; ejecución fuera del MVP, condicionada a institución, capacidad, autorizaciones y datos nuevos.
+- **Estado:** antecedente de diseño opcional, fuera del MVP. La hipótesis de beneficio de tutorías no debe demostrarse para cerrar este PSet. Cualquier piloto exige institución, aprobación formal, capacidad y datos nuevos; no incluye WiFi por defecto.
 
 ## Correspondencia de riesgos
 
@@ -430,8 +435,8 @@ Ejecutada el 12-nov-2026 desde los cinco CSV originales de datasets/. No modific
 
 | Población | N | Fail | Withdrawn | Aprobación | K total | Sin actividad registrada |
 |---|---:|---:|---:|---:|---:|---:|
-| Original | 32593 | 7052 (21.64 %) | 10156 | 15385 | — | — |
-| Registro hasta día 0 | 32314 | 6980 (21.60 %) | 10068 | 15266 | — | — |
+| Original | 32593 | 7052 (21.64 %) | 10156 | 15385 | - | - |
+| Registro hasta día 0 | 32314 | 6980 (21.60 %) | 10068 | 15266 | - | - |
 | Día 14 | 27881 | 6972 (25.01 %) | 5643 | 15266 | 2779 | 1582 |
 | Día 28 | 27307 | 6972 (25.53 %) | 5069 | 15266 | 2719 | 881 |
 | Día 42 | 26795 | 6972 (26.02 %) | 4557 | 15266 | 2672 | 684 |
@@ -461,7 +466,7 @@ Los conteos por módulo y edición, para original, inicial y cada corte, se cons
 
 ## Interpretación y pendientes
 
-La unión studentInfo–studentRegistration conserva una fila por matrícula, con validación one_to_one. Las relaciones de actividad se contrastaron con matrícula y recurso usando sus claves completas. La auditoría de duplicados diarios por chunks no demuestra unicidad global: ese test sigue pendiente y no se aplicó deduplicación. No se alteraron datos.
+La unión studentInfo-studentRegistration conserva una fila por matrícula, con validación one_to_one. Las relaciones de actividad se contrastaron con matrícula y recurso usando sus claves completas. La auditoría de duplicados diarios por chunks no demuestra unicidad global: ese test sigue pendiente y no se aplicó deduplicación. No se alteraron datos.
 
 Fechas negativas pueden representar registro o interacción previa al inicio y no son por sí mismas inválidas. Pendientes: cotejar intervalos por duración de edición y disponibilidad de recursos; validar inconsistencias entre retiro y etiqueta; comprobar calendario real, maduración de etiquetas y pares temporales utilizables; confirmar comparabilidad y completitud de cobertura. Valores válidos no demuestran exactitud externa. No hay métricas predictivas ni evidencia de efecto de tutorías.
 
@@ -472,17 +477,19 @@ Desde la raíz: `.venv/bin/python pset-01/scripts/auditar_datos.py`. Ruta altern
 
 ## Continuidad con PSet 2
 
-Diseño pendiente: Fuente → Kestra → Raw → dbt/Bronze → dbt/Silver → dbt/Gold → Spark/OBT, persistido en Snowflake. La OBT tendrá grano matrícula–corte. El pipeline, los modelos y el MVP no se han implementado. El documento de contrato fija elegibilidad antes de actividad y separa target de predictores. No se ejecutaron servicios ni recursos cloud.
+El pipeline Fuente, Kestra, Snowflake Raw, dbt Bronze/Silver/Gold y Spark OBT está implementado y verificado. La OBT contiene 108.277 filas y 35 columnas por matrícula-corte; el build aprobó 168 pruebas dbt. La reproducción limpia reutilizó recursos Snowflake y mantuvo cuatro huellas de contenido. Esa evidencia corresponde a preparación reproducible, no a rendimiento predictivo o efecto de tutorías. Consultar ../pset-02/README.md.
 
+La auditoría descriptiva incluida arriba conserva su instantánea del 12-nov-2026. El PSet 2 comprobó globalmente 2.195.960 filas excedentes de clave diaria y las consolidó preservando 39.605.099 clics; no se altera retroactivamente el reporte original por bloques. Persisten límites de cobertura, exactitud externa y disponibilidad histórica de etiquetas y atributos.
 
 ## Guía del pitch
 
-Seis diapositivas: oportunidad de apoyo, magnitud auditada, decisión quincenal, viabilidad y MVP, beneficio ilustrativo y riesgos, solicitud y criterios de avance. El texto visible exacto y las notas se conservan en pset01-presentacion.md. La comparación 40 a 44 es ilustrativa; el piloto posterior mide aprobación por asignación.
+Seis diapositivas: problema cuantificado; capacidad y oportunidad temporal; tres políticas; viabilidad técnica y evaluación; MVP y exclusiones; apoyo solicitado, riesgos y criterio de avance. Las cifras auditadas se separan de la meta +10 % y del margen potencial 25,4-30,4 semanas. La solicitud al patrocinador respalda una prueba de concepto y validación del proceso, sin inventar presupuesto monetario, institución comprometida ni rendimiento alcanzado. Texto visible, notas y fuentes están en pset01-presentacion.md.
 
 ## Registro de cambios y sincronización
 
-12-nov-2026: reconciliación del respaldo completo, auditoría descriptiva local, especificación de recencia, capacidad y protocolo posterior. Colab fue un antecedente de trabajo; no se proporcionó URL ni sesión autenticada identificable para respaldar, comparar y sincronizar sus celdas. Sincronización remota pendiente. Esta fuente local es la base controlada.
+12-nov-2026: reconstrucción de tres ideas, matriz, propuesta y auditoría descriptiva. 13-nov-2026: preparación y pipeline PSet 2 verificados según sus propios informes. 14-nov-2026: primera publicación del paquete en el fork del curso. 15-nov-2026: revisión local de los tres gaps del PSet 1, métricas de cobertura y anticipación, tres políticas con presupuesto común y MVP explícito en propuesta y pitch.
 
+La revisión recupera viabilidad, evaluación y MVP del memo original. Por indicación del usuario del 15-nov-2026, el memo vigente tiene cinco páginas; el límite histórico se conserva en la rúbrica y el prompt. Colab sigue pendiente de acceso y sincronización. Este documento es la fuente del notebook y PDF; los generadores no deben sobrescribirlo.
 
 # Referencias
 
@@ -497,6 +504,8 @@ Seis diapositivas: oportunidad de apoyo, magnitud auditada, decisión quincenal,
 
 [5] The Open University, “OU Analyse.” [En línea]. Disponible en: https://research.stem.open.ac.uk/ouanalyse/. [Consultado: 11-nov-2026]. Describe el flujo de alertas como antecedente operativo, sin evidencia causal para este proyecto.
 
-[6] E. P. Bettinger y R. B. Baker, “The Effects of Student Coaching in College: An Evaluation of a Randomized Experiment in Student Advising,” *Educational Evaluation and Policy Analysis*, vol. 36, no. 1, pp. 3–19, 2014. Resumen del estudio publicado por AERA: https://www.aera.net/Newsroom/Recent-AERA-Research/The-Effects-of-Student-Coaching. [Consultado: 11-nov-2026]. Acompañamiento individualizado y persistencia; su efecto no es directamente extrapolable a tutoría académica específica ni a OULAD.
+[6] E. P. Bettinger y R. B. Baker, “The Effects of Student Coaching in College: An Evaluation of a Randomized Experiment in Student Advising,” *Educational Evaluation and Policy Analysis*, vol. 36, no. 1, pp. 3-19, 2014. Resumen del estudio publicado por AERA: https://www.aera.net/Newsroom/Recent-AERA-Research/The-Effects-of-Student-Coaching. [Consultado: 11-nov-2026]. Acompañamiento individualizado y persistencia; su efecto no es directamente extrapolable a tutoría académica específica ni a OULAD.
 
 [7] J. Klenke et al., “Effects of Early Warning Emails on Student Performance,” arXiv:2102.08803, versión revisada 2023, doi: 10.48550/arXiv.2102.08803. https://arxiv.org/abs/2102.08803. [Consultado: 11-nov-2026]. Los autores describen un efecto positivo estimado con poca precisión; no establece eficacia universal de las alertas.
+
+[8] Superintendencia de Protección de Datos Personales, oficio SPDP-IGRD-2026-514-O. Legitimación, finalidad, minimización, riesgos y evaluación de impacto. https://www.spdp.gob.ec/docs/consultas-absueltas/2026-2/oficio-n-spdp-igrd-2026-514-o/. Consultado: 15-nov-2026.

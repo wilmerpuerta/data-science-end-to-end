@@ -1,61 +1,72 @@
 # PSet 1: propuesta revisada de focalización académica
 
-Wilmer Puerta · 12-nov-2026. Una universidad hipotética con tutorías limitadas necesita priorizar revisión antes del cierre. El objetivo es evaluar si la evolución de actividad digital mejora la detección con igual capacidad. No hay institución participante ni modelo entrenado.
+Wilmer Puerta · Revisión local del 15-nov-2026. Se incorporan los tres gaps docentes: objetivo de negocio calculable, comparación de procesos y pitch con viabilidad técnica, evaluación, MVP y beneficio esperado. Universidad hipotética; modelos y simulación de políticas todavía pendientes.
 
-## Entregables reales
+El límite vigente del memo es cinco páginas, por indicación del usuario del 15-nov-2026. El límite anterior de 1-2 páginas procedía del encargo local y de la rúbrica transcrita; ambos se conservan como antecedentes, sin prevalecer sobre esta actualización. La cobertura de criterios y gaps se documenta por separado.
+
+## Entregables y fuentes controladas
 
 | Entregable | Fuente y exportación |
 |---|---|
 | Canvas | [Markdown](canvas-wilmer-puerta.md) |
-| Propuesta breve | [Markdown](propuesta-pset1.md), [memo PDF](output/pdf/PSet1_memo_Puerta_Wilmer.pdf), dos páginas |
-| Pitch | [Texto visible y notas](pset01-presentacion.md), [PPTX editable](output/pitch/PSet1_pitch_Puerta_Wilmer.pptx), [PPT real](output/pitch/PSet1_pitch_Puerta_Wilmer.ppt), seis diapositivas |
-| Proyecto ampliado | [Markdown completo](proyecto-completo-pset1.md), [notebook](notebooks/PSet1_notebook_completo_Puerta_Wilmer.ipynb), [PDF completo](output/pdf/PSet1_notebook_completo_Puerta_Wilmer.pdf) |
-| Evaluación docente | [Rúbrica íntegra](rubrica.md) |
-| Evidencia de datos | [Auditoría](docs/auditoria-datos.md), [resultados JSON](docs/auditoria-resultados.json), [poblaciones por edición](docs/poblaciones-por-edicion.csv), [manifiesto](../datasets/manifest.json) |
-| Revisión | [Feedback](docs/respuesta-feedback.md), [trazabilidad](docs/trazabilidad-entregables.md), [verificación automática](docs/verificacion.json) |
+| Memo de propuesta | [Markdown](propuesta-pset1.md) y [memo PDF de cinco páginas](output/pdf/PSet1_memo_Puerta_Wilmer.pdf) |
+| Pitch | [Texto visible y notas](pset01-presentacion.md), [PPTX editable](output/pitch/PSet1_pitch_Puerta_Wilmer.pptx) y [PPT real](output/pitch/PSet1_pitch_Puerta_Wilmer.ppt), seis diapositivas |
+| Proyecto ampliado | [Markdown íntegro](proyecto-completo-pset1.md), [notebook completo](notebooks/PSet1_notebook_completo_Puerta_Wilmer.ipynb) y [PDF completo](output/pdf/PSet1_notebook_completo_Puerta_Wilmer.pdf) |
+| Evaluación docente | [Rúbrica preservada](rubrica.md), [respuesta a los tres gaps](docs/respuesta-feedback.md) y [cobertura de la rúbrica en el memo](docs/cobertura-rubrica-memo.md) |
+| Evidencia descriptiva | [Auditoría original](docs/auditoria-datos.md), [JSON original](docs/auditoria-resultados.json), [poblaciones por edición](docs/poblaciones-por-edicion.csv), [métricas de negocio](docs/metricas-negocio.json) y [manifiesto](../datasets/manifest.json) |
+| Trazabilidad | [Fuentes y formatos](docs/trazabilidad-entregables.md), [informe de verificación](docs/verificacion.json) y [revisión visual](docs/revision-visual.json) |
 
-## Decisiones y límites
+## Objetivo de negocio y tres políticas
 
-Tres ideas conservadas: riesgo académico con OULAD; revisión de ECG para fibrilación auricular; crecimiento anual de ingresos en telecomunicaciones. Matriz de seis criterios con totales 16, 13 y 16. Se seleccionó la primera por menor incertidumbre de acceso público, target y evaluación delimitada frente al empate con la tercera. Las puntuaciones son juicios de diseño, no experimentos.
+Cubrir más futuras reprobaciones con los mismos cupos y medir semanas de anticipación potencial respecto al cierre. Cobertura preventiva = TP seleccionados antes del cierre / Fail elegibles. Se reportan casos, porcentaje de cobertura, casos por cada 100 revisiones, omisiones, carga y personas únicas; la unidad analítica es matrícula estudiante-módulo-edición.
 
-Pregunta principal: antecedentes estáticos frente a los mismos algoritmos enriquecidos con actividad longitudinal. Regresión logística multinomial y Random Forest. Comparador adicional: recencia descendente, que ya usa tiempo y no sustituye el baseline estático. Target: Fail, Withdrawn y aprobación (Pass + Distinction). Cuatro cortes: 14, 28, 42 y 56, por matrícula registrada hasta el inicio y aún no retirada al corte. Sin notas de evaluaciones en el análisis principal.
+La comparación principal fija la cohorte elegible al día 56 y K = floor(0.10 × N) por edición para las tres políticas: reactiva tras conocer Fail, estática con antecedentes iniciales y longitudinal con los mismos antecedentes más actividad hasta ese corte. Históricos: 26.294 elegibles, 6.972 Fail y 2.619 cupos. La meta provisional es +10 % relativo de TP longitudinal frente al estático. Con TP estático = 0 se informa diferencia absoluta. Las cifras se recalcularán en la prueba reservada.
 
-Meta provisional: +10 % relativo en TP@K al día 56 frente al baseline estático, igual N y K. Presupuesto preventivo simulado del 10 % por edición y corte: K = floor(0.10 × N), sensibilidad 5 % y 20 %. No es una capacidad institucional medida. El ejemplo 40 a 44 con 100 revisiones ilustra la meta; no representa desempeño obtenido ni aprobaciones ganadas. Focalización se evalúa retrospectivamente; impacto requiere el piloto posterior de oferta aleatoria de acompañamiento vs atención habitual, con aprobación por asignación e intervalo de confianza.
+Anticipación potencial = (duración de la edición - día de primera selección) / 7. Al día 56 quedan 25,4-30,4 semanas en las ediciones de esta copia; es margen disponible, no rendimiento alcanzado ni fecha real de tutoría o publicación de notas. La reactiva puede cubrir casos después del cierre, con cero anticipación preventiva por definición del escenario.
 
-## Reproducción local y regeneración
+Para cuatro listas se fijará presupuesto total B común: cada revisión repetida consume un cupo y cada matrícula cuenta una vez en cobertura acumulada. Las capacidades por corte auditadas no conceden cuatro presupuestos gratuitos a una política. Sensibilidad 5 % y 20 %.
 
-Comandos desde raíz. Python usado: 3.14.7, dependencias efectivas resueltas en [requirements.txt](scripts/requirements.txt). Crear un entorno e instalar ese archivo; en otra plataforma confirmar disponibilidad compatible de paquetes. Los scripts resuelven la raíz desde su ubicación. Font de exportación: Arial instalada en macOS, ruta /System/Library/Fonts/Supplemental; adaptar FONT si se cambia de sistema.
+## Viabilidad, evaluación y MVP
+
+Se conservan las tres ideas y la matriz de selección 16/13/16; OULAD es la idea elegida. Regresión logística multinomial y Random Forest se compararán en versiones estática/longitudinal, con PR-AUC para Fail, calibración e incertidumbre como respaldo técnico. La prueba requiere ediciones posteriores compatibles, etiquetas maduras y estudiantes separados, con transformaciones aprendidas solo en entrenamiento. No se usan notas de evaluaciones.
+
+El PSet 2 ya construyó datos reproducibles: OBT de 108.277 filas/35 columnas y 168 pruebas dbt aprobadas. El MVP previsto añadirá selector de edición/corte/capacidad, modelos y transformaciones versionados, listas, evolución y reporte de las tres políticas. Entrenamiento, simulación y beneficio predictivo siguen pendientes; completar el MVP no garantiza la mejora del 10 %.
+
+OULAD permite evaluar listas, cobertura, anticipación y carga simulada. Tutorías efectivas, participación, capacidad real, costos, reducción de reprobación o deserción y transferencia institucional requieren otra fase. El MVP utiliza exclusivamente OULAD. D2L y WiFi de la USFQ quedan fuera; su eventual uso requiere aprobación formal y revisión LOPDP. Los registros digitales no acreditan intencionalidad.
+
+## Reproducir esta revisión
+
+Desde la raíz, con Python y [requirements.txt](scripts/requirements.txt) instalados:
 
 ```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install -r pset-01/scripts/requirements.txt
-.venv/bin/python pset-01/scripts/auditar_datos.py
 .venv/bin/python pset-01/scripts/preparar_documentacion.py
 .venv/bin/python pset-01/scripts/generar_contenidos.py
 .venv/bin/python pset-01/scripts/generar_pitch.py
 .venv/bin/python pset-01/scripts/exportar_documentos.py
 .venv/bin/python pset-01/scripts/cerrar_documentacion.py
+```
+
+preparar_documentacion.py actualiza únicamente métricas descriptivas de negocio. generar_contenidos.py valida las fuentes editoriales vigentes; ya no reconstruye textos desde el prompt histórico. cerrar_documentacion.py comprueba documentación y enlaces sin reemplazar README o dependencias. Los scripts anteriores de bootstrap se preservan en el respaldo local de la revisión. El prompt original permanece intacto.
+
+Editar propuesta-pset1.md, canvas-wilmer-puerta.md y proyecto-completo-pset1.md como fuentes editoriales controladas; editar scripts/pitch-contenido.json como fuente del pitch. generar_pitch.py deriva el Markdown exacto y objetos nativos PPTX usando pitch-base.json, una base técnica normalizada por PowerPoint sin contenido de diapositivas ni propiedades personales. exportar_documentos.py conserva íntegro el Markdown ampliado en el notebook y PDF. Los cambios editoriales se revisan con validar_fuentes.py para mantener los tres gaps.
+
+Para exportar el PPT binario y los PDF temporales de revisión en este Mac:
+
+```bash
+osascript pset-01/scripts/convertir_powerpoint.applescript "$PWD"
 .venv/bin/python pset-01/scripts/verificar_entregables.py
 ```
 
-Auditoría alternativa: `--data-dir /ruta/autorizada`. Se ejecutó con ../datasets como origen común resuelto desde raíz. No se requieren datos en otra carpeta. Audita hashes, clases, población, claves, relaciones y actividad hasta cada corte, sin entrenamiento. Aproximadamente 433 MB de actividad se leen por chunks.
+La conversión usa Microsoft PowerPoint y requiere permiso de automatización de macOS. Sin ese conversor, el PPT y su render deben declararse pendientes después de modificar el PPTX. Los PNG/PDF de revisión y respaldos se guardan en tmp/ y backups/, excluidos de Git. Se mantienen los nombres finales canónicos.
 
-Antes de regenerar, reconciliar cambios del usuario; generar_contenidos.py reconstruye desde el encargo conservado más la auditoría y respalda textos diferentes en backups/. exportar_documentos.py usa los Markdown revisados como fuentes íntegras para notebook y PDF. generar_pitch.py usa objetos de texto nativos, guarda su contenido JSON y deriva el Markdown exacto. No se usa el memo como resumen del notebook.
+ReportLab exporta PDF y PyMuPDF permite extracción y revisión visual. La tipografía es Arial del sistema macOS; adaptar FONT si cambia de plataforma. El runtime artifact-tool/load_workspace_dependencies no está disponible en este host: se conserva el generador OOXML nativo existente, sin python-pptx ni diapositivas aplanadas, y la revisión real con PowerPoint. No se afirma usar herramientas ausentes.
 
-Para convertir después de regenerar el PPTX en este Mac, crear tmp/ y ejecutar `osascript pset-01/scripts/convertir_powerpoint.applescript "$PWD"`. Este paso abre Microsoft PowerPoint y requiere permiso de automatización del sistema. Se ejecutó correctamente: exportó PPT binario real y PDF temporal de revisión de seis páginas. No es un simple cambio de extensión. Si se regenera PPTX sin convertir, el PPT y la revisión quedan desactualizados: volver a convertir antes de verificar. Sin PowerPoint o un conversor compatible, la conversión .ppt queda pendiente. No se requiere distribuir el PDF del pitch.
+La auditoría descriptiva original se reproduce, si es necesario, con auditar_datos.py sobre los cinco CSV; no es necesario releer los 433 MB de actividad para cambiar textos o exportar documentos. calcular_metricas_negocio.py verifica courses.csv y reutiliza los conteos auditados; no ajusta modelos ni conecta con Snowflake.
 
-Las dependencias artifact-tool/load_workspace_dependencies y Poppler no estaban disponibles en este host. Se usó OOXML nativo sin python-pptx para el pitch, Microsoft PowerPoint para conversión real y render, ReportLab para los PDF y PyMuPDF para extracción y renderizado. Los scripts están incluidos. No se declara una validación ejecutada mediante herramientas ausentes.
+## Cierre de los tres gaps y pendientes
 
-## Feedback y estado de evidencia
+1. Objetivo de negocio: cobertura y anticipación potencial, con meta provisional, presupuesto y denominadores explícitos.
+2. Viabilidad de negocio: tres políticas, igualdad de capacidad y límites de lo validable por simulación; D2L/WiFi institucionales fuera del MVP.
+3. Pitch y propuesta: problema cuantificado, viabilidad técnica y evaluación, MVP y apoyo solicitado visibles, con cifras observadas separadas de metas y márgenes potenciales.
 
-| Feedback | Respuesta y evidencia | Estado |
-|---|---|---|
-| Cómo evaluar tutorías | Protocolo de asignación aleatoria e intención de tratar, aprobación principal, retiro y costos en propuesta, Canvas y proyecto completo | Diseño completo; piloto fuera de alcance |
-| Seguimiento concreto | Recencia, cuatro listas, mismo K, repeticiones, TP por matrícula y personas únicas en revisión metodológica | Especificado; comparación pendiente de modelos |
-| Cuantificar problema | 7.052 Fail / 32.593 matrículas originales = 21,64 %, con población inicial y por corte en auditoría | Conteos locales verificados; sin extrapolación |
-| Viabilidad y MVP en pitch | Cinco archivos auditados, validación prevista, MVP y criterios de avance en seis diapositivas | Documentado; producto aún no construido |
-| Beneficio esperado | Ejemplo ilustrativo 40 a 44 con 100 revisiones, +10 % relativo y límites causales | Meta, no resultado |
-
-Notebook válido y texto íntegro respecto del Markdown. Memo y PDF completo revisados en todas sus páginas, tablas legibles. Pitch revisado mediante exportación real de PowerPoint y comparación de texto. [Informe reproducible](docs/verificacion.json). Persisten comprobaciones globales de duplicados, cobertura semántica, calendario, etiquetas maduras y particiones; ninguna métrica predictiva calculada.
-
-Colab fue antecedente de trabajo. No se facilitó URL ni sesión autenticada identificable que permita respaldar, comparar celdas y sincronizar: actualización remota pendiente. La fuente local revisada es la base controlada, sin afirmar que Colab esté actualizado.
+Los modelos y la simulación aún deben ejecutarse. Cobertura externa de logs y disponibilidad histórica de atributos/etiquetas requieren validación. Colab continúa pendiente de acceso identificable y sincronización; el notebook local es la fuente derivada actual. La publicación inicial del 14-nov-2026 se conserva en el historial. El autor autorizó actualizar el mismo destino con esta revisión el 15-nov-2026; ver la [guía de publicación](../pset-02/docs/publicacion-github.md).
