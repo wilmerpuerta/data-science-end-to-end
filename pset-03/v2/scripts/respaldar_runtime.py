@@ -18,7 +18,12 @@ def sha(p):
  return h.hexdigest()
 def manifest(root):
  out={}
- for p in sorted(root.rglob('*')):
+ paths=[]
+ for top in sorted(root.iterdir()):
+  if top.name=='.venv':continue
+  paths.append(top)
+  if top.is_dir() and not top.is_symlink():paths.extend(sorted(top.rglob('*')))
+ for p in paths:
   if p.is_symlink():out[str(p.relative_to(root))]={'kind':'symlink','target':os.readlink(p)}
   elif p.is_file():out[str(p.relative_to(root))]={'kind':'file','bytes':p.stat().st_size,'sha256':sha(p)}
  return out
@@ -62,9 +67,11 @@ if not args.verificar_existente:
    subprocess.run(['docker','run','--rm','-v',volume+':/src:ro','-v',str(DEST)+':/backup','-e','BACKUP_NAME='+name,'pset3-mlflow-repro-final','python','-c',container_code],check=True)
  finally:subprocess.run(['docker','start',cid],check=True,stdout=subprocess.DEVNULL)
  print('Volúmenes copiados y servidor original reiniciado.',flush=True)
+if not (DEST/'workspace.tar.gz').exists():
  workspace=manifest(ROOT);(DEST/'workspace-manifest.json').write_text(json.dumps(workspace,indent=2))
- with tarfile.open(DEST/'workspace.tar.gz','w:gz') as t:
-  for p in sorted(ROOT.iterdir()):t.add(p,arcname=p.name)
+ with tarfile.open(DEST/'workspace.tar.gz','w:gz',compresslevel=1) as t:
+  for p in sorted(ROOT.iterdir()):
+   if p.name!='.venv':t.add(p,arcname=p.name)
 workspace=json.loads((DEST/'workspace-manifest.json').read_text())
 verified={}
 for name in ['workspace','backend','artifacts']:
@@ -78,6 +85,6 @@ if (DEST/'mlflow-image.tar').exists():pass
 elif old.exists() and state.get('image')==info['Image']:os.link(old,DEST/'mlflow-image.tar')
 else:subprocess.run(['docker','image','save','-o',str(DEST/'mlflow-image.tar'),info['Image']],check=True)
 subprocess.run(['git','bundle','create',str(DEST/'source-history.bundle'),'main'],cwd=REPO,check=True)
-checks={p.name:sha(p) for p in DEST.iterdir() if p.is_file()};(DEST/'checksums.json').write_text(json.dumps(checks,indent=2))
-report={'status':'verified','created_at_utc':datetime.now(timezone.utc).isoformat(),'backup_relative':str(DEST.relative_to(REPO)),'entries_verified':verified,'sqlite_integrity':integrity,'sqlite_runs':count,'model_versions':versions,'image_id':info['Image'],'volumes':volumes,'credential_keys_included':False,'external_dependencies':'Provision pinned Python runtime; workspace virtualenv includes external Python symlinks. API keys are managed outside v2 and excluded. Restore original volume contents and image before exact Registry reproduction.'}
+checks={p.name:sha(p) for p in DEST.iterdir() if p.is_file() and p.name not in {'checksums.json','backup-verificacion.json'}};(DEST/'checksums.json').write_text(json.dumps(checks,indent=2))
+report={'status':'verified','created_at_utc':datetime.now(timezone.utc).isoformat(),'backup_relative':str(DEST.relative_to(REPO)),'entries_verified':verified,'sqlite_integrity':integrity,'sqlite_runs':count,'model_versions':versions,'image_id':info['Image'],'volumes':volumes,'credential_keys_included':False,'workspace_excludes':['.venv'],'environment_recreation':'Provision Python 3.11.16 and install requirements.lock.txt; virtualenv dependencies are not archived.','external_dependencies':'Provision pinned Python runtime; workspace virtualenv includes external Python symlinks. API keys are managed outside v2 and excluded. Restore original volume contents and image before exact Registry reproduction.'}
 (DEST/'backup-verificacion.json').write_text(json.dumps(report,indent=2));(ROOT/'docs/respaldo-final.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
