@@ -44,7 +44,7 @@ La clave OpenAI se configura fuera del repositorio versionado, en `.secrets/pset
 El protocolo, las seis búsquedas predeclaradas y sus enmiendas están en `config/` y `docs/protocolo-congelado.json` / `enmienda-*.json`. Los commits históricos son reales y se conservan en Git; las enmiendas técnicas no cambian las filas, folds, prompts, probabilidades ya usadas ni el criterio predictivo. Se contrastaron 283 respuestas para corregir lectura de `final_answer`, con cero diferencias de probabilidades. Los rechazos sin inferencia tienen como máximo un reintento por hash según enmienda, con reservas conservadoras; errores ambiguos o respuestas sin validación detienen la fase.
 
 ```sh
-pset-03/v2/.venv/bin/python -m unittest discover -s pset-03/v2/tests -v
+PYTHONPATH=pset-03/v2 pset-03/v2/.venv/bin/python -m unittest discover -s pset-03/v2/tests -v
 pset-03/v2/.venv/bin/python pset-03/v2/scripts/reproducir.py
 pset-03/v2/.venv/bin/python pset-03/v2/scripts/auditar_entrega.py
 ```

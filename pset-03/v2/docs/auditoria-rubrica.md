@@ -24,7 +24,6 @@ Resultado: **verified_with_declared_limitations**. No se asigna nota ni se afirm
 | PDF_seis_paginas_y_revision_visual | PASA |
 | prompting_conclusion_negocio | PASA |
 | presupuesto_incluye_intentos | PASA |
-| ZIP_sin_recursos_privados | PASA |
 
 Servidor: 382 runs; 379 FINISHED; 3 FAILED. Se comprobaron firma, ejemplo y flavor de 370 pipelines reales, sin confundir fallos o padres lógicos con configuraciones válidas.
 

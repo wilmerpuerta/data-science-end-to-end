@@ -1,6 +1,6 @@
 {
   "status": "verified_with_declared_limitations",
-  "checked_at_utc": "2026-11-18T12:53:52.861665+00:00",
+  "checked_at_utc": "2026-11-18T13:00:03.649679+00:00",
   "checks": [
     {
       "check": "CSV_vs_servidor",
@@ -26,7 +26,7 @@
       "evidence": {
         "unique_commits": 4,
         "missing": [],
-        "current_source_commit": "10c56ca076829bddadfd7dbdcf83e6cc312855ce"
+        "current_source_commit": "4fc81b9868331a1c9f7bca13e3f18ea85e090b00"
       }
     },
     {
@@ -182,11 +182,6 @@
         "pending_upper_usd": "0",
         "completed_paid_calls": 720
       }
-    },
-    {
-      "check": "ZIP_sin_recursos_privados",
-      "passed": true,
-      "evidence": "Pendiente de empaquetado; ejecutar de nuevo para verificar ZIP final"
     }
   ],
   "runs": 382,
