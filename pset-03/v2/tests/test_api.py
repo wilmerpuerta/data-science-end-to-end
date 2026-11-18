@@ -13,7 +13,7 @@ class ApiTests(unittest.TestCase):
   return root
  def response(self,status=200):
   response=Mock(status_code=status)
-  response.json.return_value={'id':'test-response','model':api.MODEL,'status':'completed','usage':{'input_tokens':50,'output_tokens':20},'output':[{'content':[{'type':'output_text','text':json.dumps({'probabilities':{'q000':{'Approved':.2,'Fail':.7,'Withdrawn':.1},'q001':{'Approved':.6,'Fail':.3,'Withdrawn':.1}}})}]}]}
+  response.json.return_value={'id':'test-response','model':api.MODEL,'status':'completed','usage':{'input_tokens':50,'output_tokens':20},'output':[{'type':'message','role':'assistant','status':'completed','phase':'final_answer','content':[{'type':'output_text','text':json.dumps({'probabilities':{'q000':{'Approved':.2,'Fail':.7,'Withdrawn':.1},'q001':{'Approved':.6,'Fail':.3,'Withdrawn':.1}}})}]}]}
   return response
  def test_esquema_estricto_y_cache_sin_segunda_llamada(self):
   with tempfile.TemporaryDirectory() as temp:
@@ -88,3 +88,15 @@ class ApiTests(unittest.TestCase):
     client=api.ResponsesClient()
     with self.assertRaisesRegex(RuntimeError,'no interpretable'):client.predict_batch('system','user',2)
     self.assertEqual(client.book.summary()['completed_paid_calls'],1)
+
+ def test_fase_final_excluye_comentarios_que_parecen_json(self):
+  raw={'output':[{'type':'message','role':'assistant','status':'completed','phase':'commentary','content':[{'type':'output_text','text':'{}'}]},{'type':'message','role':'assistant','status':'completed','phase':'final_answer','content':[{'type':'output_text','text':'{"answer":1}'}]}]}
+  self.assertEqual(api.final_output_text(raw),['{"answer":1}'])
+ def test_dos_finales_o_solo_comentario_se_rechazan(self):
+  msg={'type':'message','role':'assistant','status':'completed','phase':'final_answer','content':[{'type':'output_text','text':'{}'}]}
+  with self.assertRaises(RuntimeError):api.final_output_text({'output':[msg,msg]})
+  msg['phase']='commentary'
+  with self.assertRaises(RuntimeError):api.final_output_text({'output':[msg]})
+ def test_respuesta_legacy_sin_fase_es_admitida_si_es_unica(self):
+  raw={'output':[{'type':'message','role':'assistant','status':'completed','content':[{'type':'output_text','text':'{}'}]}]}
+  self.assertEqual(api.final_output_text(raw),['{}'])

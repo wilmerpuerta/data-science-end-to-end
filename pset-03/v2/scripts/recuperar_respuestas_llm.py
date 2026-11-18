@@ -2,7 +2,8 @@
 from pathlib import Path
 from datetime import datetime,timezone
 import json,hashlib,math,os,sys
-ROOT=Path(__file__).resolve().parents[1]
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
+from src.openai_api import final_output_text
 LABELS=['Approved','Fail','Withdrawn']
 def unique_object(pairs):
  d={}
@@ -41,12 +42,12 @@ def main():
   if fmt.get('type')!='object':continue
   key=hashlib.sha256(json.dumps(payload,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()
   if key!=path.stem or item['request_hash']!=key:raise ValueError('Hash de petición incompatible')
-  texts=[c['text'] for out in raw.get('output',[]) for c in out.get('content',[]) if c.get('type')=='output_text'];text=''.join(texts)
-  try:parsed,normalization=extract_verified(text,fmt['required'])
-  except (ValueError,KeyError,TypeError) as exc:rejected.append({'request_hash':key,'reason':str(exc)});continue
+  try:
+   text=''.join(final_output_text(raw));parsed,normalization=extract_verified(text,fmt['required'])
+  except (RuntimeError,ValueError,KeyError,TypeError) as exc:rejected.append({'request_hash':key,'reason':str(exc)});continue
   events=[e for e in ledger['events'] if e.get('request_hash')==key and e.get('response_id')==raw.get('id') and 'cost' in e]
   if len(events)!=1:raise ValueError('No se puede conciliar el cobro de la respuesta')
-  saved={'request_hash':key,'model':raw.get('model'),'response_id':raw.get('id'),'request':payload,'response':raw,'parsed':parsed,'cost_upper_accounted_usd':events[0]['cost'],'recovery':{'method':'unique_complete_JSON_object_after_bounded_prefix','probabilities_changed':False,'new_api_requests':0,**normalization}}
+  saved={'request_hash':key,'model':raw.get('model'),'response_id':raw.get('id'),'request':payload,'response':raw,'parsed':parsed,'cost_upper_accounted_usd':events[0]['cost'],'recovery':{'method':'completed_assistant_final_answer_only_then_exact_schema_validation','probabilities_changed':False,'new_api_requests':0,**normalization}}
   tmp=cache.with_suffix('.tmp');tmp.write_text(json.dumps(saved,ensure_ascii=False));os.chmod(tmp,0o600);tmp.replace(cache)
   recovered.append({'request_hash':key,'rows':len(parsed),'original_response_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'original_response_preserved':True,'probabilities_changed':False,'new_api_requests':0,**normalization})
  report={'status':'ok' if not rejected else 'requires_inspection','recorded_at_utc':datetime.now(timezone.utc).isoformat(),'method':'explicit technical recovery, not a new model call and not an automatic retry','recovered':recovered,'rejected':rejected,'new_api_requests':0,'scope':'Only complete unique objects matching every requested key, class, numeric range and probability sum; no truncation repair, no filled or guessed predictions.'}

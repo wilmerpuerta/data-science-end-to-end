@@ -21,6 +21,14 @@ def accounted_cost(usage):
  return ((Decimal(total)*RATES['input']+extra)*infactor+Decimal(usage['output_tokens'])*RATES['output']*outfactor)/Decimal(1000000)
 
 
+def final_output_text(raw):
+ messages=[o for o in raw.get('output',[]) if o.get('type')=='message']
+ phased=any(o.get('phase') is not None for o in messages)
+ final=[o for o in messages if o.get('phase')=='final_answer'] if phased else messages
+ if len(final)!=1 or final[0].get('status')!='completed' or final[0].get('role')!='assistant':raise RuntimeError('No hay una respuesta final única y completa; cobro archivado')
+ if any(c.get('type')=='refusal' for c in final[0].get('content',[])):raise RuntimeError('Respuesta final rechazada; no se inventan probabilidades')
+ return [c['text'] for c in final[0].get('content',[]) if c.get('type')=='output_text']
+
 def settings():
  c={**dotenv_values(CREDENTIALS),**{k:v for k,v in os.environ.items() if k.startswith('OPENAI_')}}
  if c.get('OPENAI_MODEL',MODEL)!=MODEL:raise ValueError('Cambiar modelo requiere versionar protocolo y tarifas')
@@ -70,7 +78,7 @@ class ResponsesClient:
   if not usage:raise RuntimeError('Respuesta sin usage: conservar reserva y revisar antes de continuar')
   cost=accounted_cost(usage)
   self.book.settle(reservation,cost,usage,raw.get('id'))
-  texts=[item['text'] for output in raw.get('output',[]) for item in output.get('content',[]) if item.get('type')=='output_text']
+  texts=final_output_text(raw) if raw.get('status')=='completed' else []
   if raw.get('status')!='completed' or not texts:
    info={'http_status':200,'code':'incomplete_response','details':raw.get('incomplete_details'),'request_hash':key}
    with (self.cache.parent/'errores.jsonl').open('a') as log:log.write(json.dumps(info)+'\n')
