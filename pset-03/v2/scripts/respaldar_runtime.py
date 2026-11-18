@@ -1,10 +1,16 @@
 """Respaldo privado sellado: workspace v2, SQLite, artefactos e imagen exacta; no publica."""
 from pathlib import Path
 from datetime import datetime,timezone
-import json,subprocess,tarfile,hashlib,os,sqlite3,tempfile
+import json,subprocess,tarfile,hashlib,os,sqlite3,tempfile,argparse
 ROOT=Path(__file__).resolve().parents[1];REPO=ROOT.parents[1]
-DEST=REPO/'backups'/('pset-03-v2-final-'+datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S'))
-DEST.mkdir(parents=True,mode=0o700);os.chmod(DEST,0o700)
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--verificar-existente',type=Path,help='Verifica un respaldo terminado sin volver a detener MLflow ni copiar volúmenes')
+args=parser.parse_args()
+DEST=args.verificar_existente.resolve() if args.verificar_existente else REPO/'backups'/('pset-03-v2-final-'+datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S'))
+assert DEST.parent.resolve()==(REPO/'backups').resolve(),'El respaldo debe permanecer en backups/'
+if args.verificar_existente:assert DEST.is_dir()
+else:DEST.mkdir(parents=True,mode=0o700)
+os.chmod(DEST,0o700)
 def sha(p):
  h=hashlib.sha256()
  with p.open('rb') as f:
@@ -32,7 +38,8 @@ def verify(archive,expected):
  assert actual==expected,'El archivo no coincide con el manifiesto'
  return len(actual)
 compose=['docker','compose','-f',str(ROOT.parent/'docker-compose.yml')];cid=subprocess.check_output(compose+['ps','-q','mlflow'],text=True).strip();info=json.loads(subprocess.check_output(['docker','inspect',cid],text=True))[0];assert info['State']['Running']
-volumes={m['Destination']:m['Name'] for m in info['Mounts'] if m['Type']=='volume'};subprocess.run(['docker','stop',cid],check=True,stdout=subprocess.DEVNULL)
+volumes={m['Destination']:m['Name'] for m in info['Mounts'] if m['Type']=='volume'}
+
 container_code="""from pathlib import Path
 import tarfile,json,hashlib,os
 r=Path('/src');name=os.environ['BACKUP_NAME'];out={}
@@ -47,15 +54,18 @@ with tarfile.open('/backup/'+name+'.tar.gz','w:gz') as t:
  for p in sorted(r.iterdir()):t.add(p,arcname=p.name)
 Path('/backup/'+name+'-manifest.json').write_text(json.dumps(out,indent=2))
 """
-try:
- for target,volume in volumes.items():
-  name='backend' if target.endswith('backend') else 'artifacts'
-  subprocess.run(['docker','run','--rm','-v',volume+':/src:ro','-v',str(DEST)+':/backup','-e','BACKUP_NAME='+name,'pset3-mlflow-repro-final','python','-c',container_code],check=True)
-finally:subprocess.run(['docker','start',cid],check=True,stdout=subprocess.DEVNULL)
-print('Volúmenes copiados y servidor original reiniciado.',flush=True)
-workspace=manifest(ROOT);(DEST/'workspace-manifest.json').write_text(json.dumps(workspace,indent=2))
-with tarfile.open(DEST/'workspace.tar.gz','w:gz') as t:
- for p in sorted(ROOT.iterdir()):t.add(p,arcname=p.name)
+if not args.verificar_existente:
+ subprocess.run(['docker','stop',cid],check=True,stdout=subprocess.DEVNULL)
+ try:
+  for target,volume in volumes.items():
+   name='backend' if target.endswith('backend') else 'artifacts'
+   subprocess.run(['docker','run','--rm','-v',volume+':/src:ro','-v',str(DEST)+':/backup','-e','BACKUP_NAME='+name,'pset3-mlflow-repro-final','python','-c',container_code],check=True)
+ finally:subprocess.run(['docker','start',cid],check=True,stdout=subprocess.DEVNULL)
+ print('Volúmenes copiados y servidor original reiniciado.',flush=True)
+ workspace=manifest(ROOT);(DEST/'workspace-manifest.json').write_text(json.dumps(workspace,indent=2))
+ with tarfile.open(DEST/'workspace.tar.gz','w:gz') as t:
+  for p in sorted(ROOT.iterdir()):t.add(p,arcname=p.name)
+workspace=json.loads((DEST/'workspace-manifest.json').read_text())
 verified={}
 for name in ['workspace','backend','artifacts']:
  expected=workspace if name=='workspace' else json.loads((DEST/(name+'-manifest.json')).read_text());verified[name]=verify(DEST/(name+'.tar.gz'),expected)
@@ -64,7 +74,8 @@ with tempfile.TemporaryDirectory() as temp:
   member=next(m for m in t.getmembers() if m.name.endswith('mlflow.db'));db=Path(temp)/'mlflow.db';db.write_bytes(t.extractfile(member).read())
  conn=sqlite3.connect(str(db));integrity=conn.execute('PRAGMA integrity_check').fetchone()[0];count=conn.execute('SELECT count(*) FROM runs').fetchone()[0];versions=conn.execute('SELECT count(*) FROM model_versions').fetchone()[0];conn.close();assert integrity=='ok'
 old=REPO/'backups/pset-03-v1-20261117-225736/mlflow-image.tar';state_path=Path('/private/tmp/pset3-rebuild/state.json');state=json.loads(state_path.read_text()) if state_path.exists() else {}
-if old.exists() and state.get('image')==info['Image']:os.link(old,DEST/'mlflow-image.tar')
+if (DEST/'mlflow-image.tar').exists():pass
+elif old.exists() and state.get('image')==info['Image']:os.link(old,DEST/'mlflow-image.tar')
 else:subprocess.run(['docker','image','save','-o',str(DEST/'mlflow-image.tar'),info['Image']],check=True)
 subprocess.run(['git','bundle','create',str(DEST/'source-history.bundle'),'main'],cwd=REPO,check=True)
 checks={p.name:sha(p) for p in DEST.iterdir() if p.is_file()};(DEST/'checksums.json').write_text(json.dumps(checks,indent=2))
