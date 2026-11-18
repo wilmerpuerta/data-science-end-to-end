@@ -1,7 +1,7 @@
 {
   "pages": 6,
-  "pdf_sha256": "bb8966eda8099c8f9fc8f7e1aeccd5fe7cc1517b1cbce53339f80acef92cd132",
-  "source_sha256": "1b490002e738db656d04196243f0938f0bce581c308dd2db945c61fc3185ad2d",
+  "pdf_sha256": "60cd7884c9354b46065643ae973e67c6ce8799e030b75844b95e3abdf6bf70d2",
+  "source_sha256": "4ddf676bd9ef6c9cb2c5c3046a0102c5d8bd45554fd80cb57375752dd19a782e",
   "native_vector_figures": [
     {
       "page": 1,
@@ -62,11 +62,11 @@
   "native_UI_screenshot": "docs/evidencia/mlflow-comparacion-detalle.png",
   "minimum_cursor_y": {
     "1": 62.689763779527695,
-    "2": 131.4897637795277,
-    "3": 90.68976377952774,
-    "4": 128.8897637795277,
-    "5": 152.8897637795277,
-    "6": 136.2897637795277
+    "2": 83.48976377952769,
+    "3": 56.689763779527745,
+    "4": 66.8897637795277,
+    "5": 76.88976377952771,
+    "6": 88.8897637795277
   },
   "body_font_pt": 10.5,
   "table_font_pt": 9.2,

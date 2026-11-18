@@ -39,4 +39,6 @@ La conclusión del memo responde a prompting: se ensayó y es factible; la adopc
 
 Detalle: [auditoria-rubrica.json](auditoria-rubrica.json). Artefactos: [auditoria-modelos.json](auditoria-modelos.json). Ejecución: `scripts/auditar_entrega.py` desde el entorno v2 y con el servidor/snapshot privados disponibles.
 
-Actualización editorial: se amplió la primera página del memo y su interpretación del EDA. Se verificaron seis páginas, revisión visual de la primera y coincidencia de píxeles en las páginas 2-6; la auditoría de modelos y los experimentos conservan sus resultados.
+Actualización editorial anterior: se amplió la primera página del memo y su interpretación del EDA. Se verificaron seis páginas, revisión visual de la primera y coincidencia de píxeles en las páginas 2-6; la auditoría de modelos y los experimentos conservan sus resultados.
+
+Actualización editorial vigente: se desarrollaron los resúmenes de las páginas 2-6 para aprovechar el espacio. Se revisaron sus cinco renders, seis páginas totales y texto dentro de márgenes; la página 1 coincide píxel a píxel con la versión aprobada. Los resultados experimentales no cambian.

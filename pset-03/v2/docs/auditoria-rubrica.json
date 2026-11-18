@@ -203,17 +203,13 @@
     "Auxiliary multi-cut policy inherits cutoff_day=56 from the common logger; actual rounds 14/28/42 are explicit in its policy artifact; it is not a fitted cutoff-56 estimator"
   ],
   "last_editorial_revision": {
-    "checked_at_utc": "2026-11-18T14:02:45.445291+00:00",
-    "scope": "Editorial checks only; model audit and experiments unchanged",
+    "checked_at_utc": "2026-11-18T14:13:45.536856+00:00",
+    "scope": "Expanded summaries on pages 2-6; model audit and experiments unchanged",
     "pdf_pages": 6,
-    "pdf_sha256": "bb8966eda8099c8f9fc8f7e1aeccd5fe7cc1517b1cbce53339f80acef92cd132",
+    "pdf_sha256": "60cd7884c9354b46065643ae973e67c6ce8799e030b75844b95e3abdf6bf70d2",
     "visual_review_passed": true,
     "unchanged_pages": [
-      2,
-      3,
-      4,
-      5,
-      6
+      1
     ],
     "text_outside_page": []
   }
