@@ -1,0 +1,9 @@
+{
+  "status": "ok",
+  "remote_payload_commit": "839fe17f56219907a667b44c06d26c9a1964bd0d",
+  "checked_at_utc": "2026-11-18T13:24:15.771593+00:00",
+  "course_files_outside_project_unchanged": true,
+  "pdf_sha256": "4b547f1cbd10a1591bc93e36479a18b58b1a9857c4305c9d6899890e127aa4be",
+  "zip_sha256": "e76195ad613d312fe839694f6c6b56daa7611a910d4c4701d12ab29ef46590c4",
+  "git_experiment_commits_reachable_from_master": true
+}
