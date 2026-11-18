@@ -41,7 +41,7 @@
   ],
   "phase": "closed",
   "log": ".local/definitivo-reproduccion.log",
-  "updated_at_utc": "2026-11-18T14:03:40.551542+00:00",
+  "updated_at_utc": "2026-11-18T14:14:44.599060+00:00",
   "api_budget": {
     "limit_usd": "10",
     "accounted_spend_usd": "1.116765500",
@@ -55,22 +55,22 @@
   "pdf_pages": 6,
   "rubric_audit_status": "verified_with_declared_limitations",
   "backup_v2_verified": true,
-  "publication_payload_commit": "d4c5bf73c30ae012e8564f0963faa4e8c856c5e8",
+  "publication_payload_commit": "8e74911880801b116b6893386390ec58d865e21e",
   "publication_repository": "https://github.com/wilmerpuerta/data-science-end-to-end",
   "publication_history_branch": "oulad/pset3-experimentos-20261118",
   "editorial_revision": {
     "changed_pages": [
-      1
-    ],
-    "unchanged_pages": [
       2,
       3,
       4,
       5,
       6
     ],
-    "pdf_sha256": "bb8966eda8099c8f9fc8f7e1aeccd5fe7cc1517b1cbce53339f80acef92cd132",
-    "private_revision_backup": "backups/pset-03-editorial-20261118-140340",
+    "unchanged_pages": [
+      1
+    ],
+    "pdf_sha256": "60cd7884c9354b46065643ae973e67c6ce8799e030b75844b95e3abdf6bf70d2",
+    "private_revision_backup": "backups/pset-03-resumenes-20261118-141444",
     "model_experiments_unchanged": true
   }
 }

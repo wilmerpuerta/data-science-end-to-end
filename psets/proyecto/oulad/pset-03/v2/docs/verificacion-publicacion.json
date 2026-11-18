@@ -1,13 +1,20 @@
 {
   "status": "ok",
-  "remote_payload_commit": "d4c5bf73c30ae012e8564f0963faa4e8c856c5e8",
-  "checked_at_utc": "2026-11-18T14:03:40.551542+00:00",
+  "remote_payload_commit": "8e74911880801b116b6893386390ec58d865e21e",
+  "checked_at_utc": "2026-11-18T14:14:44.599060+00:00",
   "course_files_outside_project_unchanged": true,
-  "pdf_sha256": "bb8966eda8099c8f9fc8f7e1aeccd5fe7cc1517b1cbce53339f80acef92cd132",
-  "zip_sha256": "7737937deceb593b0bf57f5484b43683e054575f7cf46a8cd4ac232f50b594df",
+  "pdf_sha256": "60cd7884c9354b46065643ae973e67c6ce8799e030b75844b95e3abdf6bf70d2",
+  "zip_sha256": "d9c11594b349950da08668f7816af23b165b53d8e548507a8dc3e2df8d4b49c2",
   "git_experiment_commits_reachable_from_master": true,
   "PDF_ZIP_source_equal_to_published": true,
   "ZIP_CRC_and_manifest_passed": true,
   "pdf_pages": 6,
-  "pages_2_to_6_pixel_identical": true
+  "page_1_pixel_identical": true,
+  "changed_pages": [
+    2,
+    3,
+    4,
+    5,
+    6
+  ]
 }
