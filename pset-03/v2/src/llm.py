@@ -1,14 +1,15 @@
 """Sexto candidato: LLM generativo por prompting, con ejemplos solo del train-fold."""
 from pathlib import Path
 import hashlib,json
+from concurrent.futures import ThreadPoolExecutor,wait,FIRST_COMPLETED
 import numpy as np
 from sklearn.base import BaseEstimator,ClassifierMixin
 from sklearn.utils.validation import check_is_fitted
 from .openai_api import ResponsesClient,MODEL
 
 class OpenAIPromptClassifier(ClassifierMixin,BaseEstimator):
- def __init__(self,examples_per_class=6,prompt_style='reference',score_temperature=1.,batch_size=32,random_state=42):
-  self.examples_per_class=examples_per_class;self.prompt_style=prompt_style;self.score_temperature=score_temperature;self.batch_size=batch_size;self.random_state=random_state
+ def __init__(self,examples_per_class=6,prompt_style='reference',score_temperature=1.,batch_size=32,random_state=42,max_workers=8):
+  self.examples_per_class=examples_per_class;self.prompt_style=prompt_style;self.score_temperature=score_temperature;self.batch_size=batch_size;self.random_state=random_state;self.max_workers=max_workers
  def fit(self,X,y):
   a=np.asarray(X,dtype=float);labels=np.asarray(y)
   if a.ndim!=2 or not np.isfinite(a).all():raise ValueError('Preparación debe producir matriz finita')
@@ -28,23 +29,40 @@ class OpenAIPromptClassifier(ClassifierMixin,BaseEstimator):
   if a.ndim!=2 or a.shape[1]!=self.n_features_in_ or not np.isfinite(a).all():raise ValueError('Entrada inválida')
   encoded=[self.encode(row) for row in a];keys=[hashlib.sha256(json.dumps(x,separators=(',',':')).encode()).hexdigest() for x in encoded]
   missing=list(dict.fromkeys(k for k in keys if k not in self.prediction_cache_));lookup=dict(zip(keys,encoded));client=None
-  for start in range(0,len(missing),int(self.batch_size)):
-   batch=missing[start:start+int(self.batch_size)]
+  def fetch(batch):
    system=('You are a pretrained generative model estimating academic outcome probabilities from transformed tabular features. '
            'Return probabilities in order Approved, Fail, Withdrawn for each query, in the exact input order. Each triple must be finite, nonnegative and sum to one. '
            'Inputs are the same numerical training-fold-imputed, standardized and one-hot encoded features used by comparison classifiers. Sparse pairs [column,value] omit zero entries; '
            'do not treat zero as a missing observation. No student identity or future outcome is provided for query rows. Use only the supplied training examples and priors. '
-           'These are probability estimates to be evaluated, not calibrated probabilities guaranteed by the model.')
+           'These are probability estimates to be evaluated, not calibrated probabilities guaranteed by the model. Use at most four decimal places per probability.')
    if self.prompt_style=='prior_focus':system+=' Respect the empirical training prior when examples alone are ambiguous.'
    elif self.prompt_style=='conservative':system+=' Avoid extreme probabilities unsupported by similar examples.'
    elif self.prompt_style!='reference':raise ValueError('Estilo no prefijado')
    user=json.dumps({'classes':self.classes_.tolist(),'columns':self.feature_names_,'training_pool_rows':self.training_rows_,'training_prior':self.prior_,'examples':self.examples_,'queries':[lookup[k] for k in batch]},separators=(',',':'))
-   if client is None:client=ResponsesClient()
-   parsed,_=client.predict_batch(system,user,len(batch));p=np.asarray(parsed,dtype=float)
+   parsed,_=ResponsesClient().predict_batch(system,user,len(batch));p=np.asarray(parsed,dtype=float)
    if p.shape!=(len(batch),3) or not np.isfinite(p).all() or (p<0).any() or (p>1).any() or (p.sum(axis=1)<=0).any():raise RuntimeError('LLM produjo probabilidades inválidas; no se reemplazan con resultados ficticios')
    if not np.allclose(p.sum(axis=1),1,atol=.02):raise RuntimeError('Las probabilidades no suman aproximadamente uno')
    p=p/p.sum(axis=1,keepdims=True)
-   for k,v in zip(batch,p):self.prediction_cache_[k]=v.tolist()
+   return batch,p
+  if missing:
+   batches=iter(missing[start:start+int(self.batch_size)] for start in range(0,len(missing),int(self.batch_size)))
+   with ThreadPoolExecutor(max_workers=int(self.max_workers)) as pool:
+    pending=set()
+    for _ in range(int(self.max_workers)):
+     batch=next(batches,None)
+     if batch is not None:pending.add(pool.submit(fetch,batch))
+    try:
+     while pending:
+      done,pending=wait(pending,return_when=FIRST_COMPLETED)
+      completed=[future.result() for future in done]
+      for batch,p in completed:
+       for k,v in zip(batch,p):self.prediction_cache_[k]=v.tolist()
+      for _ in completed:
+       batch=next(batches,None)
+       if batch is not None:pending.add(pool.submit(fetch,batch))
+    except BaseException:
+     for future in pending:future.cancel()
+     raise
   p=np.asarray([self.prediction_cache_[k] for k in keys]);t=float(self.score_temperature)
   if t<=0:raise ValueError('Temperatura de puntuación inválida')
   if t!=1:

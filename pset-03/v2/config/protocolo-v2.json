@@ -1,6 +1,6 @@
 {
-  "version": "pset3.protocol.v2-draft",
-  "state": "draft_until_code_and_resources_preflight",
+  "version": "pset3.protocol.v2.1",
+  "state": "predeclared_until_freeze",
   "primary_cutoff_day": 56,
   "snapshot_id": "0a75615bd8ff6b166d366cf78c8303845852cbeb23387ac24a64fe4962f01027",
   "split_id": "231cd638f375de2a8c70b4482fdf6a98dbe022371a409f1fc92bc97189cf7736",
@@ -51,7 +51,15 @@
     "representation_precision": "six significant digits, recorded as interface precision, not an additional learned transform",
     "reproduction": "archive requests/responses privately and reproduce scores from cache; provider nondeterminism is not hidden",
     "budget_usd": 10,
-    "safety": "reserve a conservative cost bound before each call; ambiguous failures keep reservation, no automatic retries"
+    "safety": "reserve a conservative cost bound before each call; ambiguous failures keep reservation, no automatic retries",
+    "max_workers": 8,
+    "max_output_tokens": "max(1024,160*batch_rows+256)",
+    "probability_output_precision": "at most four decimal places in prompting",
+    "cache_write_rates_per_million_usd": {
+      "ttl_30m": 0.125,
+      "ttl_12h": 0.25
+    },
+    "cost_accounting": "input base plus cache-write premiums, no cache-read discount; reserve highest 12h input rate by total JSON byte bound"
   },
   "tuning": {
     "families": 3,
@@ -95,5 +103,6 @@
   },
   "git": "commit source before definitive runs; source cleanliness is required; no invented historical SHA",
   "final_memo_pages_max": 6,
-  "old_version": "preserve full private verified backup; original artifacts are not copied as v2 results"
+  "old_version": "preserve full private verified backup; original artifacts are not copied as v2 results",
+  "revision_reason": "Attempt 1 incomplete before any LLM validation metrics: increase output bound, bound precision and correct cache-write costing; preserve audit and all spend; rerun all six in a fresh experiment"
 }

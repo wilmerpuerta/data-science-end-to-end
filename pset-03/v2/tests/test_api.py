@@ -44,7 +44,7 @@ class ApiTests(unittest.TestCase):
    with patch.object(api,'ROOT',root),patch.object(api,'settings',return_value={'OPENAI_API_KEY':'test-key'}),patch.object(api.requests,'post',return_value=response):
     client=api.ResponsesClient()
     with self.assertRaisesRegex(RuntimeError,'incompleta'):client.predict_batch('system','user',2)
-    self.assertEqual(client.book.summary()['completed_paid_calls'],1);self.assertFalse(list(client.cache.glob('*.json')))
+    self.assertEqual(client.book.summary()['completed_paid_calls'],1);self.assertFalse(list(client.cache.glob('*.json')));self.assertTrue(list((client.cache.parent/'responses').glob('*.json')))
  def test_llm_pipeline_real_tiene_nombres_y_excluye_objetivo(self):
   from src.pipeline import columnas,DERIVADAS
   num,cat=columnas();n=12
@@ -57,3 +57,20 @@ class ApiTests(unittest.TestCase):
   with patch('src.llm.ResponsesClient',return_value=client):
    model.fit(x,y);p=probabilidades(model,x.iloc[:2]);self.assertEqual(p.shape,(2,3))
   payload=json.loads(client.predict_batch.call_args.args[1]);self.assertTrue(any('num__' in c for c in payload['columns']));self.assertFalse(any('target_class' in c or 'id_student' in c for c in payload['columns']));self.assertEqual(len(payload['examples']),3)
+
+ def test_cache_writes_premium_se_incluye(self):
+  from decimal import Decimal
+  usage={'input_tokens':1000000,'output_tokens':0,'input_tokens_details':{'cache_write_tokens':600000,'cache_write_tokens_details':{'ttl_30m_tokens':400000,'ttl_12h_tokens':200000}}}
+  self.assertEqual(api.accounted_cost(usage),Decimal('.28'))
+  usage['input_tokens_details']['cache_write_tokens_details']={}
+  self.assertEqual(api.accounted_cost(usage),Decimal('.38'))
+ def test_reservas_concurrentes_comparten_tope(self):
+  from concurrent.futures import ThreadPoolExecutor
+  from src.costos import LibroCostos,PresupuestoAgotado
+  with tempfile.TemporaryDirectory() as temp:
+   book=LibroCostos(Path(temp)/'ledger.json',10)
+   def reserve(i):
+    try:return book.reserve(2,str(i))
+    except PresupuestoAgotado:return None
+   with ThreadPoolExecutor(max_workers=8) as pool:keys=list(pool.map(reserve,range(20)))
+   self.assertEqual(sum(k is not None for k in keys),5);self.assertEqual(float(book.summary()['pending_upper_usd']),10)
