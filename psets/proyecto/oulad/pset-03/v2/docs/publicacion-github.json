@@ -1,20 +1,20 @@
 {
   "repository": "https://github.com/wilmerpuerta/data-science-end-to-end",
   "subtree": "psets/proyecto/oulad",
-  "published_at_utc": "2026-11-18T14:13:54.653085+00:00",
-  "payload_commit": "8e74911880801b116b6893386390ec58d865e21e",
-  "previous_remote_master": "ccd2f13b8fbd07a7189d4a5369e3cbb22766d726",
-  "source_commit": "108bf1b9ff98461ea83521a64f0ce6040d5a4e83",
+  "published_at_utc": "2026-11-18T15:30:06.237856+00:00",
+  "payload_commit": "9535ad51f2da6130e87b3741d95654821a9fc506",
+  "previous_remote_master": "5c5f5540e901e70cfae8832ab0e698ec5e1f719f",
+  "source_commit": "277ea7f969bcc2d6e1a70a50b4543eb6523d7230",
   "history_branch": "oulad/pset3-experimentos-20261118",
   "remote_refs_verified": {
-    "refs/heads/master": "8e74911880801b116b6893386390ec58d865e21e",
-    "refs/heads/oulad/pset3-experimentos-20261118": "108bf1b9ff98461ea83521a64f0ce6040d5a4e83"
+    "refs/heads/master": "9535ad51f2da6130e87b3741d95654821a9fc506",
+    "refs/heads/oulad/pset3-experimentos-20261118": "277ea7f969bcc2d6e1a70a50b4543eb6523d7230"
   },
-  "changed_paths": 11,
+  "changed_paths": 18,
   "only_project_subtree_changed": true,
   "pset_01_02_preserved": true,
   "force_push": false,
-  "pdf_sha256": "60cd7884c9354b46065643ae973e67c6ce8799e030b75844b95e3abdf6bf70d2",
-  "zip_sha256": "d9c11594b349950da08668f7816af23b165b53d8e548507a8dc3e2df8d4b49c2",
-  "receipt_scope": "Verified academic payload with expanded summaries on pages 2-6; following receipt commit changes metadata only."
+  "pdf_sha256": "108a70a93e74b150121382b5cd266e64e61cf40435eb0d4c01c5b1089c4393c6",
+  "zip_sha256": "f99fc7654eae2b67db3ba61b898b21f53d5b9a9abf143ae04527ca0fa581d59e",
+  "receipt_scope": "Verified tuning-graph payload: memo page4, notebook04 and exported SVG/PNG; following commit updates closure receipts only."
 }
