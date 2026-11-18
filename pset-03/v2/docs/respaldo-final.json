@@ -1,0 +1,24 @@
+{
+  "status": "verified",
+  "created_at_utc": "2026-11-18T13:23:00.727474+00:00",
+  "backup_relative": "backups/pset-03-v2-final-20261118-130618",
+  "entries_verified": {
+    "workspace": 2787,
+    "backend": 1,
+    "artifacts": 20777
+  },
+  "sqlite_integrity": "ok",
+  "sqlite_runs": 823,
+  "model_versions": 4,
+  "image_id": "sha256:7ec70110e3e47020831c1dac3cf90d052aedbf24c9e60dd2b9611c0da964328f",
+  "volumes": {
+    "/mlflow/artifacts": "pset3-oulad_mlflow_artifacts",
+    "/mlflow/backend": "pset3-oulad_mlflow_backend"
+  },
+  "credential_keys_included": false,
+  "workspace_excludes": [
+    ".venv"
+  ],
+  "environment_recreation": "Provision Python 3.11.16 and install requirements.lock.txt; virtualenv dependencies are not archived.",
+  "external_dependencies": "Recreate Python 3.11.16 and the virtualenv from requirements.lock.txt. API keys and virtualenv dependencies are excluded. Restore original volume contents and image before exact Registry reproduction."
+}
