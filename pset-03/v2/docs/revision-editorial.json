@@ -1,8 +1,8 @@
 {
   "status": "ok",
   "pages": 6,
-  "checked_at_utc": "2026-11-18T12:53:20.201838+00:00",
-  "pdf_sha256": "4b547f1cbd10a1591bc93e36479a18b58b1a9857c4305c9d6899890e127aa4be",
+  "checked_at_utc": "2026-11-18T14:01:40.045629+00:00",
+  "pdf_sha256": "bb8966eda8099c8f9fc8f7e1aeccd5fe7cc1517b1cbce53339f80acef92cd132",
   "renderer": "Poppler pdftoppm",
   "visual_review_passed": true,
   "pages_visually_inspected": [
@@ -20,5 +20,21 @@
   "body_font_pt": 10.5,
   "table_font_pt": 9.2,
   "text_outside_page": [],
-  "complete_text_chars": 14408
+  "complete_text_chars": 14852,
+  "editorial_revision": {
+    "scope": "Page 1 only; larger vector charts, axis, percentages and fuller EDA interpretation",
+    "previous_pdf_sha256": "4b547f1cbd10a1591bc93e36479a18b58b1a9857c4305c9d6899890e127aa4be",
+    "pages_pixel_identical_to_previous_review": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "comparison_renderer": "PyMuPDF 120 dpi",
+    "page_1_visual_review_pending": false,
+    "minimum_body_cursor_y_pt": 62.689763779527695,
+    "page_1_visual_review_passed": true,
+    "verification_basis": "Page 1 inspected from final Poppler PNG; pages 2-6 pixel-identical to previously reviewed version"
+  }
 }

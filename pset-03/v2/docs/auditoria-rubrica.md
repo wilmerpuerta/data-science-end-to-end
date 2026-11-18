@@ -38,3 +38,5 @@ Servidor: 382 runs; 379 FINISHED; 3 FAILED. Se comprobaron firma, ejemplo y flav
 La conclusión del memo responde a prompting: se ensayó y es factible; la adopción de un LLM externo es una decisión posterior de costo-beneficio con la Universidad. El consumo experimental medido no sustituye una estimación de escala productiva.
 
 Detalle: [auditoria-rubrica.json](auditoria-rubrica.json). Artefactos: [auditoria-modelos.json](auditoria-modelos.json). Ejecución: `scripts/auditar_entrega.py` desde el entorno v2 y con el servidor/snapshot privados disponibles.
+
+Actualización editorial: se amplió la primera página del memo y su interpretación del EDA. Se verificaron seis páginas, revisión visual de la primera y coincidencia de píxeles en las páginas 2-6; la auditoría de modelos y los experimentos conservan sus resultados.

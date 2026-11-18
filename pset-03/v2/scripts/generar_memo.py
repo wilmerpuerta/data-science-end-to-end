@@ -63,22 +63,50 @@ para('Experimentación, selección y evidencia para priorizar tutorías. <b>El c
 section('1. EDA: hallazgos que cambian el experimento')
 para(f'Desarrollo al día 56: <b>{E["rows"]:,} matrículas / {E["unique_students"]:,} estudiantes</b>; OBT original: 35 columnas. Fail: {pct(E["fail_prevalence"])}. El EDA usa desarrollo y conserva las filas atípicas. Spearman se justifica por colas largas y relaciones monotónicas; categorías nominales no se ordenan artificialmente.')
 table([['Hallazgo','Evidencia','Consecuencia'],['Desbalance y objetivo',f'Approved 9.219; Fail 4.918; Withdrawn 2.194. Razón mayor/menor 4,20.','AP de Fail y cobertura a cupo fijo; accuracy no decide.'],['Clics con cola larga','Mediana 53; p99 686,1; máximo 7.028. IQR: 1.158; |Z| >= 3: 264.','Conservar extremos y ensayar log1p dentro de la ablación.'],['Ausencia y NULL estructural','432 sin registros al corte: 75,69 % Fail vs 28,88 % con registros. Razón quincenal indefinida: 2.516.','Separar ausencia de cero; imputación e indicadores en cada train-fold. No inferir causalidad.']],[105,200,CW-305])
-# Dos diagramas de distribución nativos.
-ensure(115);top=y;c.setFillColor(NAVY);c.setFont('MemoBold',9.5);c.drawString(M,top-10,'Distribución del target (desarrollo)');names=['Approved','Fail','Withdrawn'];counts=[9219,4918,2194]
+# Distribuciones vectoriales ampliadas, con denominador y escala explícitos.
+ensure(148);top=y;c.setFillColor(NAVY);c.setFont('MemoBold',10.2);c.drawString(M,top-10,'Distribución del target (desarrollo)')
+c.setFont('Memo',9);c.setFillColor(GRAY);c.drawString(M,top-25,'n = 16.331 matrículas al día 56')
+names=['Approved','Fail','Withdrawn'];counts=[9219,4918,2194]
 for i,(name,n) in enumerate(zip(names,counts)):
- yy=top-32-i*23;c.setFont('Memo',9);c.setFillColor(INK);c.drawString(M,yy,name);c.setFillColor(TEAL if name=='Fail' else colors.HexColor('#93bdc3'));c.rect(M+73,yy-2,106*n/9219,9,fill=1,stroke=0);c.setFillColor(INK);c.drawString(M+183,yy,f'{n:,}')
-x0=M+267;c.setFont('MemoBold',9.5);c.drawString(x0,top-10,'Clics actuales: caja IQR')
-q=pd.read_csv(V/'docs/eda/descriptivos_numericos.csv').set_index('variable').loc['clicks_current_14d'];out=pd.read_csv(V/'docs/eda/outliers.csv').set_index('variable').loc['clicks_current_14d'];lo=0;hi=float(out['limite_superior']);yy=top-48;width=CW-279
+ yy=top-48-i*25;c.setFont('Memo',9.5);c.setFillColor(INK);c.drawString(M,yy,name)
+ c.setFillColor(TEAL if name=='Fail' else colors.HexColor('#93bdc3'));c.rect(M+68,yy-2,92*n/max(counts),11,fill=1,stroke=0)
+ c.setFillColor(INK);count=f'{n:,}'.replace(',','.');share=f'{100*n/sum(counts):.1f}'.replace('.',',');c.drawString(M+168,yy,f'{count} ({share} %)')
+x0=M+267;width=CW-279;c.setFont('MemoBold',10.2);c.setFillColor(NAVY);c.drawString(x0,top-10,'Clics actuales: caja y referencias')
+c.setFont('Memo',9);c.setFillColor(GRAY);c.drawString(x0,top-25,'Últimos 14 días; escala log1p')
+q=pd.read_csv(V/'docs/eda/descriptivos_numericos.csv').set_index('variable').loc['clicks_current_14d'];out=pd.read_csv(V/'docs/eda/outliers.csv').set_index('variable').loc['clicks_current_14d'];lo=0;hi=float(out['limite_superior']);yy=top-56
 scale=lambda v:x0+width*math.log1p(float(v))/math.log1p(float(q['max']))
-c.setStrokeColor(GRAY);c.line(scale(lo),yy,scale(hi),yy);c.setFillColor(PALE);c.rect(scale(q['25%']),yy-10,scale(q['75%'])-scale(q['25%']),20,fill=1,stroke=1);c.setStrokeColor(TEAL);c.line(scale(q['50%']),yy-10,scale(q['50%']),yy+10);c.setFillColor(RED);c.circle(scale(q['max']),yy,3,fill=1,stroke=0);c.setFont('Memo',8.8);c.setFillColor(INK);c.drawString(x0,top-76,'Caja Q1-Q3; mediana 53; extremo 7.028.');c.drawString(x0,top-92,'Límite IQR como referencia; eje log1p.');y-=112;FIGURES.append({'page':1,'kind':'native_target_and_iqr_reference'})
-# Matriz de correlaciones pequeña pero vectorial y con valores legibles.
-cols=['clicks_current_14d','active_days_current_14d','recency_days','num_of_prev_attempts','Fail'];labels=['Clics','Días','Recencia','Intentos','Fail'];corr=pd.read_csv(V/'docs/eda/correlaciones.csv').set_index('variable');ensure(165);cell=24;xx=M+62;top=y-18;c.setFont('Memo',8.8)
-for j,label in enumerate(labels):c.setFillColor(INK);c.drawCentredString(xx+j*cell+cell/2,y-8,['Clics','Días','Rec.','Prev.','Fail'][j])
+c.setStrokeColor(GRAY);c.line(scale(lo),yy,scale(hi),yy)
+for value in [lo,hi]:c.line(scale(value),yy-5,scale(value),yy+5)
+c.setFillColor(PALE);c.rect(scale(q['25%']),yy-9,scale(q['75%'])-scale(q['25%']),18,fill=1,stroke=1);c.setStrokeColor(TEAL);c.line(scale(q['50%']),yy-9,scale(q['50%']),yy+9)
+c.setFillColor(TEAL);c.circle(scale(q['99%']),yy,2.8,fill=1,stroke=0);c.setFillColor(RED);c.circle(scale(q['max']),yy,3.2,fill=1,stroke=0)
+c.setFont('Memo',8.5);c.setFillColor(INK);c.drawCentredString(scale(q['99%']),yy+13,'p99');c.drawRightString(scale(q['max']),yy+13,'máx.')
+axis=top-80;c.setStrokeColor(GRAY);c.line(x0,axis,x0+width,axis)
+for i,value in enumerate([0,10,100,1000,int(q['max'])]):
+ xx=scale(value);c.line(xx,axis-3,xx,axis+3);label=f'{value:,}'.replace(',','.')
+ if i==0:c.drawString(xx,axis-14,label)
+ elif i==4:c.drawRightString(xx,axis-14,label)
+ else:c.drawCentredString(xx,axis-14,label)
+c.setFont('Memo',9);c.drawString(x0,top-112,'Q1 10 | mediana 53 | Q3 131')
+c.setFont('Memo',8.8);c.drawString(x0,top-128,'Límite IQR 312,5; p99 686,1; máx. 7.028.')
+y-=148;FIGURES.append({'page':1,'kind':'native_target_and_iqr_reference','height_pt':148,'target_denominator':sum(counts),'target_percentages':True,'click_axis':'log1p','iqr_upper_limit_is_reference':True})
+section('Relaciones que orientan las features')
+cols=['clicks_current_14d','active_days_current_14d','recency_days','num_of_prev_attempts','Fail'];labels=['Clics','Días','Recencia','Intentos','Fail'];corr=pd.read_csv(V/'docs/eda/correlaciones.csv').set_index('variable');ensure(213);cell=35;xx=M+65;top=y-19;c.setFont('Memo',10)
+def correlation_color(val):
+ a=abs(val)
+ return colors.Color(1-.10*a,1-.55*a,1-.55*a) if val<0 else colors.Color(1-.85*a,1-.50*a,1-.45*a)
+for j,label in enumerate(['Clics','Días','Rec.','Prev.','Fail']):c.setFillColor(INK);c.drawCentredString(xx+j*cell+cell/2,y-8,label)
 for i,label in enumerate(labels):
- yy=top-i*cell;c.setFillColor(INK);c.drawRightString(xx-5,yy-16,label)
+ yy=top-i*cell;c.setFillColor(INK);c.setFont('Memo',9.5);c.drawRightString(xx-6,yy-22,label)
  for j in range(5):
-  val=float(corr.loc[cols[i],cols[j]]);a=abs(val);c.setFillColor(colors.Color(1-.10*a,1-.55*a,1-.55*a) if val<0 else colors.Color(1-.85*a,1-.50*a,1-.45*a));c.rect(xx+j*cell,yy-cell,cell,cell,fill=1,stroke=0);c.setFillColor(colors.white if a>.75 else INK);c.drawCentredString(xx+j*cell+cell/2,yy-16,f'{val:.2f}')
-p=Paragraph('<b>Spearman por pares observados.</b><br/>Fail se contrasta con las demás clases. Días activos actuales: -0,332; clics actuales: -0,304. Las asociaciones motivan variables candidatas, no su selección automática ni una interpretación causal.',styles['body']);_,h=p.wrap(CW-230,170);p.drawOn(c,M+230,y-10-h);y-=160;FIGURES.append({'page':1,'kind':'native_spearman_heatmap'})
+  val=float(corr.loc[cols[i],cols[j]]);c.setFillColor(correlation_color(val));c.rect(xx+j*cell,yy-cell,cell,cell,fill=1,stroke=0);c.setFillColor(colors.white if val>.75 else INK);c.setFont('Memo',10.5);c.drawCentredString(xx+j*cell+cell/2,yy-22,f'{val:.2f}')
+text='<b>Spearman por pares observados.</b><br/>Clics y días activos están muy relacionados (0,90): parte de la señal es redundante.<br/><br/>Menos actividad y mayor recencia se asocian con Fail (-0,30; -0,33 y +0,28). Son señales candidatas, sin interpretación causal ni selección automática de variables.'
+p=Paragraph(text,styles['body']);_,h=p.wrap(CW-267,180);assert h<=172;p.drawOn(c,M+267,y-10-h)
+legend_x=M+273;legend_y=y-190;legend_w=180
+for i in range(60):c.setFillColor(correlation_color(-1+2*i/59));c.rect(legend_x+i*legend_w/60,legend_y,legend_w/60+.1,6,fill=1,stroke=0)
+c.setFillColor(GRAY);c.setFont('Memo',8.5)
+for val,label in [(-1,'-1'),(0,'0'),(1,'+1')]:c.drawCentredString(legend_x+(val+1)*legend_w/2,legend_y-12,label)
+y-=213;FIGURES.append({'page':1,'kind':'native_spearman_heatmap','cell_size_pt':cell,'matrix_size':5,'color_scale':[-1,1]})
+para('<b>Lectura para el negocio:</b> la actividad aporta señales candidatas para priorizar el apoyo. Su utilidad incremental se contrasta con el modelo estático y a igual cupo; la inactividad, por sí sola, no demuestra por qué ocurre Fail.')
 para('Fuentes: docs/eda/*.csv y 01_eda.ipynb. IQR y Z-score son diagnósticos, no reglas de eliminación.',True)
 
 # Página 2
