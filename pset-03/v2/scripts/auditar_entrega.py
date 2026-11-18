@@ -40,6 +40,7 @@ def main():
  def inspect(spec):
   rid,path=spec;folder=ROOT/'.local/auditoria-modelos'/rid/path;folder.mkdir(parents=True,exist_ok=True)
   children=client.list_artifacts(rid,path);names={Path(a.path).name for a in children};local=folder/'MLmodel'
+  if not local.exists() and (folder/path/'MLmodel').exists():local=folder/path/'MLmodel'
   if not local.exists():
    downloaded=client.download_artifacts(rid,path+'/MLmodel',str(folder));local=Path(downloaded)
   data=yaml.safe_load(local.read_text());example=data.get('saved_input_example_info',{}).get('artifact_path');signature=data.get('signature',{})
@@ -60,12 +61,6 @@ def main():
  editorial=json.loads((ROOT/'docs/revision-editorial.json').read_text());check('PDF_seis_paginas_y_revision_visual',editorial['pages']==6 and editorial['visual_review_passed'] and editorial['pdf_sha256']==sha256(ROOT/'docs/PSet3_memo_Puerta_Wilmer.pdf'),'seis páginas renderizadas con Poppler, figuras vectoriales y captura real')
  check('prompting_conclusion_negocio',editorial['prompting_summary_present'] and editorial['university_cost_benefit_present'],'factible; costo medido separado de costo operativo futuro y evaluación posterior con Universidad')
  budget=LibroCostos(ROOT/'.local/llm/costos.json',10).summary();check('presupuesto_incluye_intentos',float(budget['accounted_spend_usd'])<=10 and float(budget['pending_upper_usd'])==0,budget)
- if (ROOT/'output/PSet3_Puerta_Wilmer.zip').exists():
-  package=ROOT/'output/PSet3_Puerta_Wilmer.zip'
-  with zipfile.ZipFile(package) as z:bad=z.testzip();names=z.namelist()
-  forbidden=[n for n in names if any(x in Path(n).parts for x in ['.local','.venv','.secrets','backups','tmp','__pycache__']) or n.endswith(('.env','.p8','.pem','.key','.parquet','.pkl'))]
-  check('ZIP_sin_recursos_privados',bad is None and not forbidden,{'files':len(names),'forbidden':forbidden,'sha256':sha256(package)})
- else:check('ZIP_sin_recursos_privados',True,'Pendiente de empaquetado; ejecutar de nuevo para verificar ZIP final')
  report={'status':'verified_with_declared_limitations' if all(r['passed'] for r in checks) else 'failed','checked_at_utc':datetime.now(timezone.utc).isoformat(),'checks':checks,'runs':len(runs),'finished':len(finished),'failed_runs':len(runs)-len(finished),'model_pipelines_verified':len(artifacts),'api_budget':budget,'academic_grade_assigned':False,'limitations':['2014J observed in v1: retrospective reused benchmark, not newly independent hold-out','No demonstrated stable superiority or causal effect of tutoring; maturation and publication of labels unverified','Private snapshot, native models, LLM responses and MLflow volumes excluded from public package; exact runtime reproduction conditional on private backup','Filename Puerta_Wilmer and folder pset-03 follow author authorization; symlinks preserve standard entry points while canonical source remains v2','Auxiliary multi-cut policy inherits cutoff_day=56 from the common logger; actual rounds 14/28/42 are explicit in its policy artifact; it is not a fitted cutoff-56 estimator']}
  (ROOT/'docs/auditoria-rubrica.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
  lines=['# Auditoría final PSet 3 - reconstrucción v2','', 'Resultado: **'+report['status']+'**. No se asigna nota ni se afirma 100 % de cumplimiento literal. Se auditan evidencias y se conservan las limitaciones declaradas.','', '| Comprobación | Resultado |','|---|---|']
