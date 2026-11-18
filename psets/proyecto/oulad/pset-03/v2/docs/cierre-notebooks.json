@@ -1,11 +1,7 @@
 {
-  "state": "notebooks_verified_editorial_pending",
-  "pid": 82907,
-  "updated_at_utc": "2026-11-18T12:08:12.832603+00:00",
-  "remaining": [
-    "memo",
-    "MLflow capture",
-    "final audit",
-    "ZIP"
-  ]
+  "state": "complete",
+  "notebooks_executed_and_verified": 6,
+  "editorial_complete": true,
+  "remaining": [],
+  "updated_at_utc": "2026-11-18T13:24:15.771593+00:00"
 }
