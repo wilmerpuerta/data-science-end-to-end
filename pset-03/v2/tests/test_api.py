@@ -13,7 +13,7 @@ class ApiTests(unittest.TestCase):
   return root
  def response(self,status=200):
   response=Mock(status_code=status)
-  response.json.return_value={'id':'test-response','model':api.MODEL,'status':'completed','usage':{'input_tokens':50,'output_tokens':20},'output':[{'content':[{'type':'output_text','text':json.dumps({'probabilities':[[.2,.7,.1],[.6,.3,.1]]})}]}]}
+  response.json.return_value={'id':'test-response','model':api.MODEL,'status':'completed','usage':{'input_tokens':50,'output_tokens':20},'output':[{'content':[{'type':'output_text','text':json.dumps({'probabilities':{'q000':{'Approved':.2,'Fail':.7,'Withdrawn':.1},'q001':{'Approved':.6,'Fail':.3,'Withdrawn':.1}}})}]}]}
   return response
  def test_esquema_estricto_y_cache_sin_segunda_llamada(self):
   with tempfile.TemporaryDirectory() as temp:
@@ -74,3 +74,17 @@ class ApiTests(unittest.TestCase):
     except PresupuestoAgotado:return None
    with ThreadPoolExecutor(max_workers=8) as pool:keys=list(pool.map(reserve,range(20)))
    self.assertEqual(sum(k is not None for k in keys),5);self.assertEqual(float(book.summary()['pending_upper_usd']),10)
+
+ def test_claves_fijas_y_orden_independiente_del_json(self):
+  with tempfile.TemporaryDirectory() as temp:
+   root=self.setup_client(temp);response=self.response();data={'q001':{'Withdrawn':.1,'Fail':.3,'Approved':.6},'q000':{'Fail':.7,'Approved':.2,'Withdrawn':.1}};response.json.return_value['output'][0]['content'][0]['text']=json.dumps({'probabilities':data})
+   with patch.object(api,'ROOT',root),patch.object(api,'settings',return_value={'OPENAI_API_KEY':'test-key'}),patch.object(api.requests,'post',return_value=response) as post:
+    p,_=api.ResponsesClient().predict_batch('system','user',2);self.assertEqual(p,[[.2,.7,.1],[.6,.3,.1]])
+    schema=json.loads(post.call_args.kwargs['data'])['text']['format']['schema']['properties']['probabilities'];self.assertEqual(schema['type'],'object');self.assertEqual(schema['required'],['q000','q001']);self.assertFalse(schema['additionalProperties'])
+ def test_json_con_consulta_duplicada_se_rechaza(self):
+  with tempfile.TemporaryDirectory() as temp:
+   root=self.setup_client(temp);response=self.response();response.json.return_value['output'][0]['content'][0]['text']='{"probabilities":{"q000":{"Approved":0.2,"Fail":0.7,"Withdrawn":0.1},"q000":{"Approved":0.6,"Fail":0.3,"Withdrawn":0.1}}}'
+   with patch.object(api,'ROOT',root),patch.object(api,'settings',return_value={'OPENAI_API_KEY':'test-key'}),patch.object(api.requests,'post',return_value=response):
+    client=api.ResponsesClient()
+    with self.assertRaisesRegex(RuntimeError,'no interpretable'):client.predict_batch('system','user',2)
+    self.assertEqual(client.book.summary()['completed_paid_calls'],1)

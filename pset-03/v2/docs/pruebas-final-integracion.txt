@@ -3,8 +3,10 @@ test_cupo_compartido_no_se_triplica (test_anticipacion.AnticipacionTests.test_cu
 test_indicador_no_incumple_allowlist_estatica (test_anticipacion.AnticipacionTests.test_indicador_no_incumple_allowlist_estatica) ... ok
 test_seleccion_no_depende_de_etiqueta (test_anticipacion.AnticipacionTests.test_seleccion_no_depende_de_etiqueta) ... ok
 test_cache_writes_premium_se_incluye (test_api.ApiTests.test_cache_writes_premium_se_incluye) ... ok
+test_claves_fijas_y_orden_independiente_del_json (test_api.ApiTests.test_claves_fijas_y_orden_independiente_del_json) ... ok
 test_credito_agotado_libera_reserva_sin_reintentar (test_api.ApiTests.test_credito_agotado_libera_reserva_sin_reintentar) ... ok
 test_esquema_estricto_y_cache_sin_segunda_llamada (test_api.ApiTests.test_esquema_estricto_y_cache_sin_segunda_llamada) ... ok
+test_json_con_consulta_duplicada_se_rechaza (test_api.ApiTests.test_json_con_consulta_duplicada_se_rechaza) ... ok
 test_llm_pipeline_real_tiene_nombres_y_excluye_objetivo (test_api.ApiTests.test_llm_pipeline_real_tiene_nombres_y_excluye_objetivo) ... ok
 test_reservas_concurrentes_comparten_tope (test_api.ApiTests.test_reservas_concurrentes_comparten_tope) ... ok
 test_respuesta_incompleta_registra_cobro_y_falla (test_api.ApiTests.test_respuesta_incompleta_registra_cobro_y_falla) ... ok
@@ -40,6 +42,6 @@ test_unknowns_all_missing_numeric_and_serialization (test_pipeline.Preparation.t
 test_validation_does_not_refit_median_or_categories (test_pipeline.Preparation.test_validation_does_not_refit_median_or_categories) ... ok
 
 ----------------------------------------------------------------------
-Ran 40 tests in 17.135s
+Ran 42 tests in 17.903s
 
 OK

@@ -37,7 +37,12 @@ class ResponsesClient:
   self.cache=ROOT/'.local/llm/requests';self.cache.mkdir(parents=True,exist_ok=True)
   self.book=LibroCostos(ROOT/'.local/llm/costos.json',10)
  def predict_batch(self,system,user,n):
-  schema={'type':'object','properties':{'probabilities':{'type':'array','minItems':n,'maxItems':n,'items':{'type':'array','minItems':3,'maxItems':3,'items':{'type':'number'}}}},'required':['probabilities'],'additionalProperties':False}
+  if not isinstance(n,int) or n<=0:raise ValueError('El tamaño del lote debe ser positivo')
+  labels=['Approved','Fail','Withdrawn'];keys=[f'q{i:03d}' for i in range(n)]
+  triple={'type':'object','properties':{c:{'type':'number'} for c in labels},'required':labels,'additionalProperties':False}
+  rows={'type':'object','properties':{key:triple for key in keys},'required':keys,'additionalProperties':False}
+  schema={'type':'object','properties':{'probabilities':rows},'required':['probabilities'],'additionalProperties':False}
+  system+=' Output the required probabilities object: q000 corresponds to the first query, q001 to the second, and so on. Each query has exactly the three named outcome fields. Do not repeat any query or field.'
   payload={'model':MODEL,'input':[{'role':'system','content':system},{'role':'user','content':user}],'reasoning':{'effort':'none'},'text':{'format':{'type':'json_schema','name':'academic_risk','strict':True,'schema':schema}},'max_output_tokens':max(1024,n*160+256),'store':False,'tools':[],'service_tier':'default'}
   wire=json.dumps(payload,ensure_ascii=False,separators=(',',':')).encode();key=hashlib.sha256(wire).hexdigest();path=self.cache/(key+'.json')
   if path.exists():return json.loads(path.read_text())['parsed'],{'cache_hit':True,'request_hash':key}
@@ -70,8 +75,20 @@ class ResponsesClient:
    info={'http_status':200,'code':'incomplete_response','details':raw.get('incomplete_details'),'request_hash':key}
    with (self.cache.parent/'errores.jsonl').open('a') as log:log.write(json.dumps(info)+'\n')
    raise RuntimeError('Respuesta incompleta o rechazo; cobro y respuesta archivados: '+json.dumps(info))
-  try:parsed=json.loads(''.join(texts))['probabilities']
-  except (ValueError,KeyError) as exc:raise RuntimeError('Salida no interpretable; cobro registrado') from exc
+  def unique_object(pairs):
+   value={}
+   for key,item in pairs:
+    if key in value:raise ValueError('Campo JSON repetido: '+key)
+    value[key]=item
+   return value
+  try:
+   decoded=json.loads(''.join(texts),object_pairs_hook=unique_object)
+   if set(decoded)!={'probabilities'}:raise ValueError('Campos superiores inesperados')
+   entries=decoded['probabilities']
+   if set(entries)!=set(keys):raise ValueError('Claves de consultas incompletas o adicionales')
+   if any(not isinstance(entries[key],dict) or set(entries[key])!=set(labels) for key in keys):raise ValueError('Clases incompletas o adicionales')
+   parsed=[[entries[key][label] for label in labels] for key in keys]
+  except (ValueError,KeyError,TypeError) as exc:raise RuntimeError('Salida no interpretable; cobro y respuesta archivados') from exc
   saved={'request_hash':key,'model':raw.get('model'),'response_id':raw.get('id'),'request':payload,'response':raw,'parsed':parsed,'cost_upper_accounted_usd':str(cost)}
   tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(saved,ensure_ascii=False));os.chmod(tmp,0o600);tmp.replace(path)
   return parsed,{'cache_hit':False,'request_hash':key,'usage':usage,'cost_usd':str(cost)}

@@ -1,5 +1,5 @@
 {
-  "version": "pset3.protocol.v2.1",
+  "version": "pset3.protocol.v2.2",
   "state": "predeclared_until_freeze",
   "primary_cutoff_day": 56,
   "snapshot_id": "0a75615bd8ff6b166d366cf78c8303845852cbeb23387ac24a64fe4962f01027",
@@ -59,7 +59,9 @@
       "ttl_30m": 0.125,
       "ttl_12h": 0.25
     },
-    "cost_accounting": "input base plus cache-write premiums, no cache-read discount; reserve highest 12h input rate by total JSON byte bound"
+    "cost_accounting": "input base plus cache-write premiums, no cache-read discount; reserve highest 12h input rate by total JSON byte bound",
+    "response_format": "strict fixed objects probabilities.q000..q031 with named Approved, Fail, Withdrawn fields; exact query coverage and duplicate-key rejection",
+    "integration_gate": "all 1000 fixed training-metric rows of fold0 before freezing, no validation metrics used"
   },
   "tuning": {
     "families": 3,
@@ -104,5 +106,5 @@
   "git": "commit source before definitive runs; source cleanliness is required; no invented historical SHA",
   "final_memo_pages_max": 6,
   "old_version": "preserve full private verified backup; original artifacts are not copied as v2 results",
-  "revision_reason": "Attempt 1 incomplete before any LLM validation metrics: increase output bound, bound precision and correct cache-write costing; preserve audit and all spend; rerun all six in a fresh experiment"
+  "revision_reason": "Incomplete repeated-array generation in attempt 2 before LLM validation; fixed named-query output fields and duplicate-key rejection. Preserve all attempts/costs and repeat every family in a fresh experiment."
 }
