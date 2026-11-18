@@ -1,0 +1,7 @@
+.local/
+.venv/
+.env
+__pycache__/
+.ipynb_checkpoints/
+tmp/
+output/*.zip

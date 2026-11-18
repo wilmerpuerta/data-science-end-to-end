@@ -1,0 +1,17 @@
+# Restricciones de entrada. Resolución probada del cliente: requirements.lock.txt.
+pandas>=2.2,<3
+numpy>=1.26,<3
+scipy>=1.13,<2
+scikit-learn>=1.6,<1.8
+mlflow==2.22.0
+matplotlib>=3.9,<4
+seaborn>=0.13,<0.14
+pyarrow>=18,<21
+jupyterlab>=4.3,<5
+nbconvert>=7.16,<8
+ipykernel>=6.29,<7
+snowflake-connector-python>=3.12,<5
+python-dotenv>=1,<2
+
+# MLflow 2.22 importa una API de pooling retirada en SQLAlchemy 2.1.
+sqlalchemy>=2.0,<2.1
