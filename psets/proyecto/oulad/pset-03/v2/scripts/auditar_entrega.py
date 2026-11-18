@@ -32,6 +32,12 @@ def main():
  counts={family:len({json.dumps(r['params'],sort_keys=True) for r in tuned['configurations'] if r['family']==family}) for family in tuned['families']};check('tres_por_treinta',len(counts)==3 and all(n>=30 for n in counts.values()),counts)
  top=sorted(models['candidates'],key=lambda r:(-r['cv_coverage_mean'],r['cv_coverage_std'],-r['cv_ap_fail_mean'],r['cv_brier_fail_mean'],r.get('api_cost_new_calls_usd',0),r.get('cv_fit_seconds_total',0),r['run_id']))[:3];check('top3_por_negocio',set(counts)=={r['family'] for r in top},list(counts))
  children=[r for r in finished if r.data.tags.get('fase')=='tuning'];check('tuning_nested',len(children)==90 and all(r.data.tags.get('mlflow.parentRunId') for r in children),'90 configuraciones hijas; padres no se suman como configuraciones')
+ from figura_tuning import resumen_tuning
+ construction=json.loads((ROOT/'docs/memo-construccion.json').read_text());tuning_figures=[f for f in construction['native_vector_figures'] if f['kind']=='native_tuning_default_vs_adjusted']
+ notebook04=json.loads((ROOT/'notebooks/04_tuning.ipynb').read_text());figure_outputs=sum('image/png' in output.get('data',{}) for cell in notebook04['cells'] for output in cell.get('outputs',[]))
+ tuning_graph_ok=len(tuning_figures)==1 and tuning_figures[0]['page']==4 and tuning_figures[0]['rows']==resumen_tuning(ROOT) and construction['pdf_sha256']==sha256(ROOT/'docs/PSet3_memo_Puerta_Wilmer.pdf') and figure_outputs>=1 and all((ROOT/'docs/tuning'/name).is_file() for name in ['default_vs_ajustado.svg','default_vs_ajustado.png'])
+ check('grafico_tuning_documento_y_notebook',tuning_graph_ok,{'memo_page':4,'native_vector_graphs':len(tuning_figures),'notebook04_figure_outputs':figure_outputs,'metric':'CV Fail coverage; mean ± fold SD, not CI','run_ids_match_frozen_decision':bool(tuning_figures) and tuning_figures[0]['rows']==resumen_tuning(ROOT)})
+
  nonfit={'eda','features','tuning_parent','control_estatico_parent','decision_previa','anticipacion_politicas'}
  fitted=[r for r in finished if r.data.tags.get('fase') not in nonfit and r.data.tags.get('familia')!='politica_reactiva']
  specs=[]

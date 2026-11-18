@@ -10,6 +10,8 @@ Versión final reconstruida: **v2**, 18-nov-2026. La carpeta canónica de ejecuc
 - [Memo de seis páginas](docs/PSet3_memo_Puerta_Wilmer.pdf), [fuente editable](memo-pset3.md), [corridas](docs/corridas.csv), [decisión previa](docs/negocio/finalistas.json), [reproducción exacta](docs/seleccion/reproduccion-champion.json), [auditoría](docs/auditoria-rubrica.md).
 - Seis notebooks ejecutados en kernels nuevos: EDA, features, baselines/candidatos, tuning, selección y anexo de anticipación. Los manifiestos `docs/01-verificacion.json` a `06-verificacion.json` registran hashes y ejecución.
 
+Gráfico de tuning: [SVG](docs/tuning/default_vs_ajustado.svg) y [PNG](docs/tuning/default_vs_ajustado.png), también en la página 4 del memo y en el notebook 04. Muestra cobertura CV default frente a ajustada con la DE de los cinco folds; no se interpreta como intervalo de confianza ni como mejora estable.
+
 ## Prompting: respuesta y decisión posterior
 
 **Sí es factible y se ensayó.** La adopción de un LLM externo es una decisión de negocio posterior: evaluar consumo, latencia, integración, mantenimiento y valor incremental con la Universidad mediante un análisis de costo-beneficio. El consumo conservador de este proyecto fue USD 1,1167655 de un tope autorizado de USD 10, incluyendo pilotos y fallos; no demuestra un gasto elevado en esta muestra ni estima el costo anual. El GPT evaluado tuvo menor cobertura CV que los modelos tabulares y no ingresó al top 3 de tuning. No se justifica su omisión por falta de GPU.

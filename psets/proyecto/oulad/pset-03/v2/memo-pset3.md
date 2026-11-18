@@ -120,7 +120,7 @@ Consumo global conservador: **USD 1.1168** / USD 10, incluidos pilotos e intento
 
 ## 6. Tres familias x treinta configuraciones
 
-Las tres primeras por cobertura CV default fueron logística, HGB y GaussianNB. RandomizedSearchCV usa los mismos cinco folds, 30 configuraciones únicas preextraídas por familia y refit. Cada configuración se registra como hija de una corrida padre. Se conservan defaults como elegibles.
+Top 3 por cobertura CV: logística, HGB y GaussianNB. RandomizedSearchCV: 30 configuraciones únicas por familia, cinco folds y refit; runs hijos por configuración y defaults elegibles.
 
 | Familia | Espacio predeclarado | Escala |
 
@@ -138,17 +138,15 @@ Las tres primeras por cobertura CV default fueron logística, HGB y GaussianNB. 
 
 | GaussianNB | 22.78 % | 22.82 % | +0.042 | 1.068 | No |
 
-Ningún delta supera la mayor DE entre default y ajustado: **no se declara mejora demostrada**. Se usa la mayor media como elección operativa provisional, manteniendo visible la incertidumbre. Los controles estáticos de las dos familias finalistas tienen 31 configuraciones cada uno (30 sorteos iguales + default), ajustadas independientemente en CV.
+Segmentos: DE de cinco folds, no IC. Ningún delta supera la mayor DE: **sin mejora demostrada**. La mayor media guía una elección provisional. Cada control estático finalista se ajusta aparte: 30 sorteos iguales + default.
 
 ## Tracking: evidencia exportada y captura real
 
-Servidor Docker con backend SQLite y artefactos persistentes; experimento oulad-apoyo-academico-v2. Los runs finalizados con estimador guardan parámetros/semilla, origen/fecha/hash, métricas train/CV/DE/tiempos, fase/familia/commit real, Pipeline, firma y ejemplo. Los padres lógicos y fallos se distinguen de configuraciones válidas.
-
-La revisión final comprobó 370 pipelines con firma, ejemplo de entrada e interfaz predict_proba. Los 382 runs incluyen padres y fallos técnicos, por lo que no representan 382 modelos distintos. Esta distinción permite auditar qué se entrenó y recuperar el mismo procedimiento de preparación y predicción, además de sus métricas.
+Docker persiste SQLite y artefactos en oulad-apoyo-academico-v2. Se verificaron **370 pipelines** con firma, ejemplo e interfaz predict_proba. Se registran parámetros/semilla, origen/fecha/hash, métricas train/CV/DE/tiempos y tags de fase, familia y commit real. Los 382 runs incluyen padres y fallos; no son 382 modelos distintos.
 
 Captura nativa de la interfaz local, sin edición: izquierda HGB dc2fa9bb8bee...; derecha logística bb2b40097599.... Las filas muestran AP y cobertura CV, con su desviación.
 
-Código versionado antes de los ajustes. Se conservan dos intentos técnicos incompletos separados; las enmiendas registran tarifas de caché, salida por claves, lectura de final_answer y recuperación acotada de rechazos sin cobro. No se reescriben los commits históricos ni las probabilidades.
+Código versionado antes del ajuste. Intentos técnicos y enmiendas documentados; se preservan commits y probabilidades. Fuentes: docs/tuning/, docs/corridas.csv y 04_tuning.ipynb.
 
 
 <!-- PAGE -->

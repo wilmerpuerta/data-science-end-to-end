@@ -13,6 +13,7 @@ Resultado: **verified_with_declared_limitations**. No se asigna nota ni se afirm
 | tres_por_treinta | PASA |
 | top3_por_negocio | PASA |
 | tuning_nested | PASA |
+| grafico_tuning_documento_y_notebook | PASA |
 | pipelines_firma_y_ejemplo | PASA |
 | decision_previa_integra | PASA |
 | aliases_registry | PASA |
@@ -39,6 +40,4 @@ La conclusión del memo responde a prompting: se ensayó y es factible; la adopc
 
 Detalle: [auditoria-rubrica.json](auditoria-rubrica.json). Artefactos: [auditoria-modelos.json](auditoria-modelos.json). Ejecución: `scripts/auditar_entrega.py` desde el entorno v2 y con el servidor/snapshot privados disponibles.
 
-Actualización editorial anterior: se amplió la primera página del memo y su interpretación del EDA. Se verificaron seis páginas, revisión visual de la primera y coincidencia de píxeles en las páginas 2-6; la auditoría de modelos y los experimentos conservan sus resultados.
-
-Actualización editorial vigente: se desarrollaron los resúmenes de las páginas 2-6 para aprovechar el espacio. Se revisaron sus cinco renders, seis páginas totales y texto dentro de márgenes; la página 1 coincide píxel a píxel con la versión aprobada. Los resultados experimentales no cambian.
+Cierre del pendiente documental de tuning: la página 4 incluye una figura vectorial default frente a ajustado para las tres familias, con media y DE de cinco folds (no IC), conservando tablas y captura MLflow. El notebook 04 se ejecutó en kernel nuevo y contiene el gráfico, también exportado en SVG y PNG. Se verificaron 21 controles; no hubo nuevos ajustes ni peticiones API.

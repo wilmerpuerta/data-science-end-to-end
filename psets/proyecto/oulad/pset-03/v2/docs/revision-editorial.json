@@ -1,8 +1,8 @@
 {
   "status": "ok",
   "pages": 6,
-  "checked_at_utc": "2026-11-18T14:13:45.536856+00:00",
-  "pdf_sha256": "60cd7884c9354b46065643ae973e67c6ce8799e030b75844b95e3abdf6bf70d2",
+  "checked_at_utc": "2026-11-18T15:27:46.799846+00:00",
+  "pdf_sha256": "108a70a93e74b150121382b5cd266e64e61cf40435eb0d4c01c5b1089c4393c6",
   "renderer": "Poppler pdftoppm",
   "visual_review_passed": true,
   "pages_visually_inspected": [
@@ -20,35 +20,32 @@
   "body_font_pt": 10.5,
   "table_font_pt": 9.2,
   "text_outside_page": [],
-  "complete_text_chars": 16347,
+  "complete_text_chars": 15799,
   "editorial_revision": {
-    "scope": "Expand summaries on pages 2-6; preserve page 1 and all experiment results",
+    "scope": "Add native vector tuning graph on page 4, preserving tables, MLflow capture and six pages",
     "changed_pages": [
+      4
+    ],
+    "previous_pdf_sha256": "60cd7884c9354b46065643ae973e67c6ce8799e030b75844b95e3abdf6bf70d2",
+    "pages_pixel_identical_to_previous_review": [
+      1,
       2,
       3,
-      4,
       5,
       6
-    ],
-    "previous_pdf_sha256": "bb8966eda8099c8f9fc8f7e1aeccd5fe7cc1517b1cbce53339f80acef92cd132",
-    "pages_pixel_identical_to_previous_review": [
-      1
     ],
     "comparison_renderer": "PyMuPDF 120 dpi",
     "pages_visually_inspected": [
-      2,
-      3,
-      4,
-      5,
-      6
+      4
     ],
     "visual_review_passed": true,
-    "verification_basis": "Latest Poppler renders inspected for pages 2-6; page 1 pixel-identical to approved version",
+    "tuning_graph_present": true,
+    "verification_basis": "Latest Poppler page 4 render visually inspected; remaining pages pixel-identical to approved version",
     "minimum_cursor_y_pt": {
       "1": 62.689763779527695,
       "2": 83.48976377952769,
       "3": 56.689763779527745,
-      "4": 66.8897637795277,
+      "4": 53.08976377952769,
       "5": 76.88976377952771,
       "6": 88.8897637795277
     }

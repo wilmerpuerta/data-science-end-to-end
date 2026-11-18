@@ -3,6 +3,7 @@ from pathlib import Path
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import json,math,hashlib,shutil,html
+from figura_tuning import resumen_tuning, dibujar_canvas
 import pandas as pd
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
@@ -148,19 +149,19 @@ para(f'Consumo global conservador: <b>USD {float(BUDGET["spent"]):.4f}</b> / USD
 # Página 4
 page('Tuning y trazabilidad')
 section('6. Tres familias x treinta configuraciones')
-para('Las tres primeras por cobertura CV default fueron logística, HGB y GaussianNB. RandomizedSearchCV usa los mismos cinco folds, 30 configuraciones únicas preextraídas por familia y refit. Cada configuración se registra como hija de una corrida padre. Se conservan defaults como elegibles.')
+para('Top 3 por cobertura CV: logística, HGB y GaussianNB. RandomizedSearchCV: 30 configuraciones únicas por familia, cinco folds y refit; runs hijos por configuración y defaults elegibles.')
 table([['Familia','Espacio predeclarado','Escala'],['Logística','C 0,001-100; pesos None/balanced; iteraciones 300/600/1.000; tol 1e-5-1e-3.','C y tol log.'],['HGB','LR 0,02-0,2; 60/100/160 iteraciones; hojas 7/15/31/63; profundidad None/3/5/8; min hoja 10-80; L2 1e-4-10; early stopping booleano.','LR y L2 log.'],['GaussianNB','var_smoothing 1e-12-1e-3.','Logarítmica.']],[80,335,CW-415])
 rows=[['Familia','Default','Ajustado','Delta pp','DE ref. pp','Mejora estable']]
 for r in decision['tuning_improvements']:
  default=next(x for x in MODELS['candidates'] if x['family']==r['family']);rows.append([NAME[r['family']],pct(default['cv_coverage_mean']),pct(default['cv_coverage_mean']+r['delta_coverage']),f"{100*r['delta_coverage']:+.3f}",f(100*r['cv_spread_reference'],3),'No'])
 table(rows,[82,79,79,74,88,CW-402])
-para('Ningún delta supera la mayor DE entre default y ajustado: <b>no se declara mejora demostrada</b>. Se usa la mayor media como elección operativa provisional, manteniendo visible la incertidumbre. Los controles estáticos de las dos familias finalistas tienen 31 configuraciones cada uno (30 sorteos iguales + default), ajustadas independientemente en CV.')
+tuning_rows=resumen_tuning(V);ensure(116);figure_meta=dibujar_canvas(c,tuning_rows,M,y,CW);figure_meta['page']=page_no;FIGURES.append(figure_meta);y-=116
+para('Segmentos: DE de cinco folds, no IC. Ningún delta supera la mayor DE: <b>sin mejora demostrada</b>. La mayor media guía una elección provisional. Cada control estático finalista se ajusta aparte: 30 sorteos iguales + default.')
 section('Tracking: evidencia exportada y captura real')
-para('Servidor Docker con backend SQLite y artefactos persistentes; experimento oulad-apoyo-academico-v2. Los runs finalizados con estimador guardan parámetros/semilla, origen/fecha/hash, métricas train/CV/DE/tiempos, fase/familia/commit real, Pipeline, firma y ejemplo. Los padres lógicos y fallos se distinguen de configuraciones válidas.')
-para('La revisión final comprobó 370 pipelines con firma, ejemplo de entrada e interfaz predict_proba. Los 382 runs incluyen padres y fallos técnicos, por lo que no representan 382 modelos distintos. Esta distinción permite auditar qué se entrenó y recuperar el mismo procedimiento de preparación y predicción, además de sus métricas.')
+para('Docker persiste SQLite y artefactos en oulad-apoyo-academico-v2. Se verificaron <b>370 pipelines</b> con firma, ejemplo e interfaz predict_proba. Se registran parámetros/semilla, origen/fecha/hash, métricas train/CV/DE/tiempos y tags de fase, familia y commit real. Los 382 runs incluyen padres y fallos; no son 382 modelos distintos.')
 image=V/'docs/evidencia/mlflow-comparacion-detalle.png';ensure(163);c.drawImage(str(image),M,y-150,width=CW,height=150,preserveAspectRatio=True,anchor='c',mask='auto');y-=160
 para('Captura nativa de la interfaz local, sin edición: izquierda HGB dc2fa9bb8bee...; derecha logística bb2b40097599.... Las filas muestran AP y cobertura CV, con su desviación.',True)
-para('Código versionado antes de los ajustes. Se conservan dos intentos técnicos incompletos separados; las enmiendas registran tarifas de caché, salida por claves, lectura de final_answer y recuperación acotada de rechazos sin cobro. No se reescriben los commits históricos ni las probabilidades.',True)
+para('Código versionado antes del ajuste. Intentos técnicos y enmiendas documentados; se preservan commits y probabilidades. Fuentes: docs/tuning/, docs/corridas.csv y 04_tuning.ipynb.',True)
 
 # Página 5
 page('Decisión y evaluación final')
