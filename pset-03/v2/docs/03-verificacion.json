@@ -1,0 +1,12 @@
+{
+  "status": "ok",
+  "checked_at_utc": "2026-11-18T12:07:38.337691+00:00",
+  "notebook_sha256": "0f2ff686213f0b35c70d9b3741fa2ffe6fdb520544c8a1e66af7877b9e3a79f0",
+  "fresh_kernel": true,
+  "code_cells": 4,
+  "elapsed_seconds": 10.579603900987422,
+  "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+  "new_model_fits": 0,
+  "new_api_requests": 0,
+  "scope": "reads actual experiment results and reproduces frozen decisions; notebook05 verifies already-recorded test metrics in a separate process"
+}

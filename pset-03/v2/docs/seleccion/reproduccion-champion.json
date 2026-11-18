@@ -1,0 +1,27 @@
+{
+  "status": "ok",
+  "decision_id": "2aa29e8d53d88d39bb331285faaa376ec556fe764ea13ef50651d045488ae2e4",
+  "fresh_process": true,
+  "uri": "models:/oulad-apoyo-academico-v2-modelo@champion",
+  "api_new_requests": 0,
+  "predictions_array_exact": true,
+  "prediction_max_abs_difference": 0.0,
+  "ap_exact": true,
+  "business_exact": true,
+  "technical": {
+    "ap_fail": 0.4265069557086188,
+    "logloss": 0.8422316826632126,
+    "brier_fail": 0.1597176865864827
+  },
+  "business": {
+    "tp": 465,
+    "fp": 407,
+    "fn": 1482,
+    "n": 8758,
+    "fail": 1947,
+    "k": 872,
+    "coverage": 0.23882896764252695,
+    "precision_at_k": 0.533256880733945,
+    "unique_students_selected": 845
+  }
+}

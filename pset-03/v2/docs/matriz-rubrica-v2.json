@@ -1,37 +1,37 @@
 {
   "kind": "evidence_readiness_not_final_compliance_audit",
-  "checked_at": "2026-11-18T05:42:00.074196-05:00",
+  "checked_at": "2026-11-18T07:08:12.704065-05:00",
   "source": "CD_PSet_3.pdf y criterios adicionales acordados; no se reutilizan métricas v1",
-  "phase": "modelos",
-  "execution_state": "failed_requires_inspection",
+  "phase": "reproduccion",
+  "execution_state": "notebooks_complete_editorial_pending",
   "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
   "api_budget": {
     "limit_usd": "10",
-    "accounted_spend_usd": "0.207477675",
+    "accounted_spend_usd": "1.116765500",
     "pending_upper_usd": "0",
-    "completed_paid_calls": 139
+    "completed_paid_calls": 720
   },
   "checks": {
     "snapshot_split_integrity": true,
     "five_student_group_folds": true,
     "no_test_students_in_train": true,
     "eda_preparation": true,
-    "predictive_feature_ablation": false,
-    "two_baselines_six_candidates": false,
-    "foundational_llm_prompting": false,
-    "three_times_thirty": false,
-    "decision_frozen_by_cv": false,
-    "registry_and_exact_reproduction": false,
-    "early_own_cohorts_and_policies": false,
-    "activity_association_and_increment": false,
-    "six_fresh_kernel_notebooks": false,
+    "predictive_feature_ablation": true,
+    "two_baselines_six_candidates": true,
+    "foundational_llm_prompting": true,
+    "three_times_thirty": true,
+    "decision_frozen_by_cv": true,
+    "registry_and_exact_reproduction": true,
+    "early_own_cohorts_and_policies": true,
+    "activity_association_and_increment": true,
+    "six_fresh_kernel_notebooks": true,
     "memo_and_visual_verification": false
   },
   "criteria": [
     {
       "criterion": "EDA y features",
       "weight": 15,
-      "status": "parcial",
+      "status": "evidencia disponible",
       "evidence": [
         "notebooks/01_eda.ipynb",
         "notebooks/02_features.ipynb",
@@ -39,7 +39,7 @@
         "docs/features/resumen.json",
         "docs/ablacion/resultados.json"
       ],
-      "pending": "Ablación predictiva y revisión de su interpretación"
+      "pending": ""
     },
     {
       "criterion": "Preparación y validación",
@@ -55,18 +55,18 @@
     {
       "criterion": "Baselines y seis candidatos",
       "weight": 15,
-      "status": "parcial",
+      "status": "evidencia disponible",
       "evidence": [
         "notebooks/03_baseline_candidatos.ipynb",
         "docs/modelos/resultados.json",
         "docs/prompting.md"
       ],
-      "pending": "Completar seis familias y contrastar cronología y artefactos en MLflow"
+      "pending": "Auditoría de cronología y artefactos"
     },
     {
       "criterion": "Tuning",
       "weight": 15,
-      "status": "pendiente",
+      "status": "evidencia disponible",
       "evidence": [
         "notebooks/04_tuning.ipynb",
         "config/espacios-tuning.json",
@@ -88,7 +88,7 @@
     {
       "criterion": "Selección y negocio",
       "weight": 15,
-      "status": "pendiente",
+      "status": "evidencia disponible",
       "evidence": [
         "notebooks/05_seleccion.ipynb",
         "docs/negocio/finalistas.json",
@@ -113,7 +113,7 @@
     {
       "criterion": "Criterio del negocio y control estático",
       "weight": null,
-      "status": "pendiente",
+      "status": "evidencia disponible",
       "evidence": [
         "docs/protocolo-congelado.json",
         "docs/negocio/finalistas.json"
@@ -123,7 +123,7 @@
     {
       "criterion": "Semanas 2/4/6 y margen para actuar",
       "weight": null,
-      "status": "pendiente",
+      "status": "evidencia disponible",
       "evidence": [
         "notebooks/anexos/06_anticipacion.ipynb",
         "docs/anticipacion/resultados.json"
@@ -133,7 +133,7 @@
     {
       "criterion": "Ausencia de registros e incremento predictivo",
       "weight": null,
-      "status": "pendiente",
+      "status": "evidencia disponible",
       "evidence": [
         "docs/anticipacion/resultados.json"
       ],
@@ -156,26 +156,26 @@
     {
       "name": "03_baseline_candidatos.ipynb",
       "present": true,
-      "executed": false,
-      "verified": false
+      "executed": true,
+      "verified": true
     },
     {
       "name": "04_tuning.ipynb",
       "present": true,
-      "executed": false,
-      "verified": false
+      "executed": true,
+      "verified": true
     },
     {
       "name": "05_seleccion.ipynb",
       "present": true,
-      "executed": false,
-      "verified": false
+      "executed": true,
+      "verified": true
     },
     {
       "name": "anexos/06_anticipacion.ipynb",
       "present": true,
-      "executed": false,
-      "verified": false
+      "executed": true,
+      "verified": true
     }
   ],
   "notes": [],

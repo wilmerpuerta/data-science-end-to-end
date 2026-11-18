@@ -1,68 +1,66 @@
-# PSet 3 · Reconstrucción v2
+# PSet 3: experimentación y selección por el criterio del negocio
 
-El respaldo privado completo de v1 fue verificado y restaurado de prueba. Los entregables originales siguen en `pset-03/`; esta reconstrucción se desarrolla por separado en `pset-03/v2/`. Los resultados previos no se presentan como corridas nuevas.
+Versión final reconstruida: **v2**, 18-nov-2026. La carpeta canónica de ejecución es `pset-03/v2/`. Los accesos `pset-03/src`, `notebooks`, `scripts`, `tests`, `docs`, `output` y requisitos enlazan a esta versión para conservar las rutas de entrega. Los symlinks no duplican experimentos. La versión anterior quedó en respaldos privados verificados; sus métricas no se presentan como ejecuciones nuevas.
 
-Estado actual: API verificada con prueba sintética y lote real de 32 consultas; EDA y preparación ejecutados en kernel nuevo. El protocolo operativo v2.1 está congelado; las fases definitivas se ejecutan mediante scripts/ejecutar_estudio.py. El estado actualizado está en docs/estado-v2.json. Consultar `docs/estado-v2.json`, `docs/paso-a-paso-v2.md` y `docs/prompting.md`. No hay un nuevo ganador ni un memo v2 terminado.
+## Resultado y entregables
 
-## Diseño y criterio del negocio
+- Champion: **HistGradientBoosting**, `oulad-apoyo-academico-v2-modelo@champion`, versión 1; challenger logística, versión 2. Champion maximiza la media CV de cobertura de Fail a cupo fijo. Su ventaja no supera la dispersión entre folds y no demuestra superioridad económica.
+- Prueba retrospectiva reutilizada: 465 Fail captados / 1.947 con K=872; AP 0,4265069557086188; cobertura 0,23882896764252695. Frente al HGB estático ajustado independientemente: 309 TP, +156 / +50,49 %. No es un efecto causal de tutorías. Logística captura 477 en prueba; no se reelige después de observarla.
+- Dos baselines antes de seis familias, incluido GPT mediante prompting; tuning de las tres primeras por negocio con 30 configuraciones cada una. Controles estáticos separados del Dummy; política reactiva con prevención cero y capacidad posterior acotada.
+- [Memo de seis páginas](docs/PSet3_memo_Puerta_Wilmer.pdf), [fuente editable](memo-pset3.md), [corridas](docs/corridas.csv), [decisión previa](docs/negocio/finalistas.json), [reproducción exacta](docs/seleccion/reproduccion-champion.json), [auditoría](docs/auditoria-rubrica.md).
+- Seis notebooks ejecutados en kernels nuevos: EDA, features, baselines/candidatos, tuning, selección y anexo de anticipación. Los manifiestos `docs/01-verificacion.json` a `06-verificacion.json` registran hashes y ejecución.
 
-Mismo snapshot, partición y cinco folds persistidos por estudiante. El criterio principal es la cobertura de Fail con cupo del 10 % por edición en validación, con media y desviación entre folds; AP, Brier, log-loss, costos y tiempos complementan la decisión. La comparación incluye cinco familias tabulares y un GPT generativo mediante prompting. Dummy y proceso reactivo son las dos baselines; el control con variables estáticas se ajusta separadamente para medir el aporte longitudinal.
+## Prompting: respuesta y decisión posterior
 
-Los ejemplos del GPT proceden solo del train-fold y su cantidad se declara; no se presenta prompting como entrenamiento de pesos con todas las filas. Los seis modelos se evalúan sobre todas las mismas filas de validación. La métrica de entrenamiento usa una muestra idéntica de 1.000 filas por train-fold para todos, identificada como tal. Si el LLM queda entre los tres mejores por negocio, participa en el tuning de al menos 30 configuraciones.
+**Sí es factible y se ensayó.** La adopción de un LLM externo es una decisión de negocio posterior: evaluar consumo, latencia, integración, mantenimiento y valor incremental con la Universidad mediante un análisis de costo-beneficio. El consumo conservador de este proyecto fue USD 1,1167655 de un tope autorizado de USD 10, incluyendo pilotos y fallos; no demuestra un gasto elevado en esta muestra ni estima el costo anual. El GPT evaluado tuvo menor cobertura CV que los modelos tabulares y no ingresó al top 3 de tuning. No se justifica su omisión por falta de GPU.
 
-2014J ya fue observado en v1: se declara benchmark retrospectivo reutilizado. Las elecciones de v2 se fijarán antes de una única nueva evaluación final conjunta. No se afirmará independencia inédita de la prueba. Las semanas 2, 4 y 6 tendrán cohortes propias, restricciones temporales y un presupuesto compartido sin repetir matrículas; sus resultados operativos no se confunden con un efecto causal de las tutorías.
+El GPT no ajusta sus pesos con todas las matrículas: usa 18 ejemplos y las proporciones de clases del train-fold. La preparación y todas las filas de validación son las mismas para los seis modelos; la métrica de train usa las mismas 1.000 filas por fold. Ver [protocolo de prompting](docs/prompting.md). El preentrenamiento del proveedor es desconocido y no se garantiza determinismo del servicio; las respuestas se archivan para reproducción.
 
-## Entorno
+## Entorno y servidor
 
-Desde la raíz del repositorio, usar el mismo servidor Docker con volúmenes persistentes, sin reinicializarlo:
+Desde la raíz del paquete `oulad/` (o la raíz local de este proyecto):
 
 ```sh
+uv python install 3.11.16
+uv venv --python 3.11.16 pset-03/v2/.venv
+uv pip sync --python pset-03/v2/.venv/bin/python --require-hashes pset-03/v2/requirements.lock.txt
 docker compose -f pset-03/docker-compose.yml up -d mlflow
 ```
 
-El tracking usa `http://127.0.0.1:5001` y el experimento separado `oulad-apoyo-academico-v2`. La versión 2 tiene su propio entorno Python 3.11 y las dependencias exactas en `requirements.lock.txt`. El snapshot y las particiones verificadas son privados; `src/datos.py` no consulta Snowflake en vivo. Para reconstruir las fuentes, seguir las instrucciones Snowflake/OBT de `pset-02/README.md` y la exportación de `pset-03/scripts/exportar_snapshot.py` con credenciales locales; una extracción nueva produce otra identidad y exige otro protocolo.
+El Dockerfile fija las versiones reales del servidor en `pset-03/mlflow/requirements.lock.txt`; SQLite y artefactos viven en volúmenes persistentes. Tracking: `http://127.0.0.1:5001`; experimento definitivo `oulad-apoyo-academico-v2`. Los dos intentos técnicos previos tienen nombres separados y se conservan. No ejecutar `docker compose down -v` sobre las evidencias.
 
-## API OpenAI
+## Recursos privados y alcance de reproducción
 
-La clave está en `.secrets/pset3-openai.env` de la raíz, excluida de Git, y nunca debe aparecer en el chat, notebooks o entregables públicos. El presupuesto total autorizado es USD 10, incluyendo pruebas de conectividad, candidatos, tuning y evaluación final; el cliente reserva costo antes de cada solicitud y conserva reservas ante fallos ambiguos. ChatGPT y API tienen facturación independiente. El modelo configurado es `gpt-6-luna`, con Responses, JSON Schema, razonamiento none y sin herramientas. La reproducción exacta de un LLM usa respuestas archivadas, no una promesa de determinismo del proveedor.
+GitHub y el ZIP público excluyen `.env`, `.secrets`, `.local`, entornos, CSV originales, respuestas individuales, predicciones privadas, modelos serializados y volúmenes. **El paquete público no es una réplica autónoma del servidor ni del snapshot privado.** Para reproducir exactamente este estudio se necesitan sus bundles congelados y los volúmenes/imágenes del respaldo privado final; para las figuras y tablas basta la evidencia agregada incluida.
 
-Comprobar acceso y saldo mediante una prueba sintética pequeña, sin matrículas del estudio:
+El snapshot y las particiones se verifican por SHA-256, IDs `0a75615bd8ff...` y `231cd638f375...`. No hay consultas Snowflake en vivo durante el estudio. Para reconstruir fuentes, seguir `pset-02/README.md` y su configuración privada de Snowflake/OBT; una extracción nueva tiene otra identidad y exige un protocolo nuevo. No sustituir un bundle congelado por un Parquet externo ni alterar sus manifiestos.
+
+Con el bundle original disponible en una ubicación privada, preparar punteros y kernel usando `scripts/preparar_runtime_local.py --origen-local /ruta/privada/.local`. Para el servidor exacto, restaurar los archivos backend/artifacts y la imagen desde el respaldo privado, conforme a su manifiesto; levantar un servidor vacío no recupera las versiones del Model Registry.
+
+La clave OpenAI se configura fuera del repositorio versionado, en `.secrets/pset3-openai.env` de la raíz del paquete. El modelo es `gpt-6-luna`; Responses, JSON Schema por consultas, razonamiento none, lotes de 32 y hasta ocho peticiones concurrentes. El libro `.local/llm/costos.json` conserva gasto y reservas globales y nunca se reinicia para eludir el presupuesto. No se requieren llamadas nuevas para reproducir champion. ChatGPT y API tienen facturación independiente.
+
+## Orden, pruebas y reproducción
+
+El protocolo, las seis búsquedas predeclaradas y sus enmiendas están en `config/` y `docs/protocolo-congelado.json` / `enmienda-*.json`. Los commits históricos son reales y se conservan en Git; las enmiendas técnicas no cambian las filas, folds, prompts, probabilidades ya usadas ni el criterio predictivo. Se contrastaron 283 respuestas para corregir lectura de `final_answer`, con cero diferencias de probabilidades. Los rechazos sin inferencia tienen como máximo un reintento por hash según enmienda, con reservas conservadoras; errores ambiguos o respuestas sin validación detienen la fase.
 
 ```sh
-pset-03/v2/.venv/bin/python pset-03/v2/scripts/preflight_openai.py
+pset-03/v2/.venv/bin/python -m unittest discover -s pset-03/v2/tests -v
+pset-03/v2/.venv/bin/python pset-03/v2/scripts/reproducir.py
+pset-03/v2/.venv/bin/python pset-03/v2/scripts/auditar_entrega.py
 ```
 
-Si devuelve `insufficient_quota`/`credit_balance_exhausted`, activar créditos o facturación de API antes del estudio. No reemplazarlo con salidas ficticias ni aumentar el tope autorizado.
+Para una ejecución deliberada del estudio: `scripts/ejecutar_estudio.py`, desde el entorno v2. Comprueba fuente limpia en Git y protocolo congelado; recupera checkpoints ya existentes. No vuelve a usar prueba para seleccionar. `scripts/ejecutar_notebooks_finales.py` hace Restart/Run All de 03-06 desde kernels nuevos al completar el estudio; 01 y 02 se ejecutan con `scripts/ejecutar_preparacion.py`. Reproducir métricas ya registradas no equivale a buscar otra vez sobre prueba.
 
-## Orden de ejecución
+El pytest general del fork omite las pruebas locales de PSet 3 para no intentar cargar snapshots/MLflow privados. Las 48 pruebas se ejecutaron explícitamente con unittest; se puede habilitar su colección pytest con `PSET3_PYTEST=1` si se proporcionan dependencias y recursos. Esto no sustituye las pruebas del pipeline PSet 2.
 
-1. `01_eda.ipynb` y `02_features.ipynb` ya ejecutados con salidas nuevas y verificaciones por hash.
-2. Completar preflight; revisar/congelar el código y el protocolo antes de cualquier clasificador del estudio mediante `scripts/congelar_protocolo.py`.
-3. `scripts/ejecutar_comparacion.py`: primero dos baselines y después seis candidatos, mismos folds; etapa todavía no ejecutada.
-4. `scripts/ejecutar_tuning.py`: tres familias mejores por negocio, al menos 30 configuraciones únicas cada una, con corridas hijas; etapa todavía no ejecutada.
-5. Completar controles estáticos equivalentes, ablación predictiva, anticipación y congelación de finalistas, antes de la evaluación final.
-6. Completar prueba conjunta, Registry y reproducción exacta en kernel nuevo; generar los notebooks 03–05 con salidas reales, memo legible de hasta seis páginas, CSV y auditoría literal.
+## Anticipación y límites
 
-Los scripts del estudio rechazan fuentes sin commit y protocolo no congelado. Los espacios de las seis búsquedas ya están en `config/espacios-tuning.json`. El cierre no se declara completo mientras falte un candidato, un tuning obligatorio o un entregable. La carpeta v2 no sustituye todavía la entrega original aprobada.
+Las semanas 2/4/6 tienen cohortes propias, sin condicionar elegibilidad futura en día 56. Un solo presupuesto nace de día 14, sin repetir matrícula, y también se informan estudiantes únicos. Plazos de coordinación/apoyo y días 56/70 son escenarios no validados con una institución. La asociación de ausencia de registros y su incremento predictivo se evalúan separadamente, sin causalidad. Ver el anexo 06.
 
-## Ejecución autónoma autorizada
+2014J ya fue observado en v1: es benchmark retrospectivo reutilizado, no un nuevo hold-out independiente. La maduración/publicación de etiquetas y el impacto causal requieren validación prospectiva y piloto. No se afirma despliegue real ni beneficio monetario realizado.
 
-El coordinador `scripts/ejecutar_estudio.py` ejecuta comparación, tuning, ablación, controles y decisión de negocio, anticipación, selección/Registry y reproducción. Actualiza `docs/estado-v2.json` cada diez segundos y guarda logs por fase en `.local/definitivo-*.log`. Se detiene al primer error y no reintenta llamadas ni aumenta el tope de USD 10. Antes de reanudar una fase con `--desde`, inspeccionar su log y verificar sus checkpoints; nunca lanzar un segundo coordinador. Mantener la computadora encendida durante las ejecuciones.
+## PDF y publicación
 
-El primer intento está conservado en `.local/attempts/intento_1` y en el experimento `oulad-apoyo-academico-v2-intento1`. Se interrumpió por un límite de salida insuficiente del LLM, antes de obtener métricas de validación para esa familia. El intento definitivo usa un experimento nuevo con el nombre original y vuelve a ejecutar todas las familias. Los USD 10 incluyen el gasto del intento interrumpido.
+El generador `scripts/generar_memo.py` produce exactamente seis páginas con gráficos nativos vectoriales y una captura real de MLflow. Requiere un entorno editorial separado con `requirements-editorial.txt` y Arial o DejaVu; los PNG de revisión quedan privados en `tmp/`. Poppler renderiza para control visual. El costo-beneficio del LLM se declara como decisión posterior, con el gasto medido separado del costo operativo futuro.
 
-La revisión v2.1 admite hasta 160 tokens de salida por consulta más 256 de margen, pide cuatro decimales por probabilidad, utiliza hasta ocho peticiones concurrentes de lotes de 32 y archiva las respuestas incompletas con su cobro. La reserva incluye la tarifa máxima de escritura de caché; la conciliación incorpora sus primas sin aplicar descuentos por lectura de caché. Estos cambios técnicos quedaron versionados y congelados antes del nuevo estudio.
-
-## Recuperación de envolturas de respuesta
-
-La API puede entregar un objeto íntegro precedido por texto ajeno al JSON. `scripts/recuperar_respuestas_llm.py` extrae un único objeto completo con prefijo acotado, exige todas las consultas/clases, rechaza claves duplicadas y verifica rangos y sumas. Conserva la respuesta original y no cambia, rellena ni vuelve a generar probabilidades. El coordinador puede continuar desde esa caché verificada, con un máximo de diez recuperaciones por fase; no reenvía el lote fallido al LLM. Respuestas truncadas, incompletas, irreconciliables o reservas de cobro incierto detienen el proceso. Cada recuperación queda registrada en `docs/recuperacion-respuestas-llm.json` y en el estado de ejecución. El consumo global incluye las peticiones fallidas; los tiempos y cargos nuevos de una reanudación pueden beneficiarse de la caché y se deben distinguir del costo acumulado.
-
-## Enmienda operativa para rechazos transitorios
-
-`docs/enmienda-transporte.json` registra una excepción explícita a la regla inicial de no reintentar: un solo reintento por hash para HTTP 400 `invalid_prompt`/`invalid_request_error` confirmado sin inferencia ni cobro, con un máximo de veinte recuperaciones por fase. Se observó y documentó que exactamente la misma petición rechazaba una vez y luego devolvía probabilidades válidas. No se cambian prompts, datos, scores, folds ni decisiones. No se reintentan respuestas con probabilidades válidas, errores de cuota/autenticación o cobros inciertos. Cada llamada conserva la reserva presupuestaria; ante otro rechazo del mismo hash, el proceso se detiene. Esta enmienda se declara antes de los nuevos reintentos y queda identificada en el estado, sin reescribir el protocolo predictivo histórico.
-
-## Corrección de lectura de Responses API
-
-La causa de dos fallos de lectura fue que nuestro cliente concatenaba mensajes `commentary` con `final_answer`. El lector corregido exige exactamente una respuesta final completa del asistente, según el campo `phase` de la API; una respuesta antigua sin fase debe tener un único mensaje completo. No mezcla comentarios con las probabilidades. La enmienda versionada `docs/enmienda-lectura-api.json` permite exclusivamente los hashes corregidos de lectura y su verificador, conservando el protocolo predictivo y la petición. La auditoría contrastó 283 respuestas ya usadas y encontró cero cambios de probabilidades. Las 48 pruebas del lector y del proyecto pasaron. Las respuestas originales, fallos y costos se conservan.
-
-Los notebooks 03-06 ya están preparados. `scripts/cerrar_notebooks_cuando_listo.py` espera que el estudio termine, los ejecuta en kernels nuevos sin nuevas inferencias y actualiza sus verificaciones y la matriz. Esta espera se detiene si la experimentación falla. `docs/matriz-rubrica-v2.md` es seguimiento de evidencia, no una certificación final de cumplimiento; memo, captura real, auditoría final y ZIP siguen requiriendo cierre editorial.
+Destino autorizado: `https://github.com/wilmerpuerta/data-science-end-to-end`, rama master, carpeta `psets/proyecto/oulad/`. Se preservan los materiales del curso y el historial; solo se actualiza el proyecto. Los commits de los entrenamientos se importan y mantienen alcanzables desde la publicación, no se reemplazan por SHAs posteriores ficticios.

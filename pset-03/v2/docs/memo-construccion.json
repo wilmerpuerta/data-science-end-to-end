@@ -1,0 +1,65 @@
+{
+  "pages": 6,
+  "pdf_sha256": "4b547f1cbd10a1591bc93e36479a18b58b1a9857c4305c9d6899890e127aa4be",
+  "source_sha256": "90632d780b1dd53abc939d088658b82b3a5c152b550cd28e0a44e39329033323",
+  "native_vector_figures": [
+    {
+      "page": 1,
+      "kind": "native_target_and_iqr_reference"
+    },
+    {
+      "page": 1,
+      "kind": "native_spearman_heatmap"
+    },
+    {
+      "page": 3,
+      "kind": "native_vector_bars",
+      "labels": [
+        "Logística",
+        "HGB",
+        "GaussianNB",
+        "RandomForest",
+        "MLP",
+        "GPT prompting",
+        "Dummy"
+      ],
+      "values": [
+        0.2292255188171798,
+        0.22807368839944137,
+        0.22781849528837222,
+        0.22568600740058362,
+        0.20091119524928946,
+        0.1486560039294525,
+        0.09154214204195664
+      ]
+    },
+    {
+      "page": 5,
+      "kind": "native_vector_bars",
+      "labels": [
+        "HGB estático",
+        "HGB longitudinal",
+        "Logística long."
+      ],
+      "values": [
+        309,
+        465,
+        477
+      ]
+    }
+  ],
+  "native_UI_screenshot": "docs/evidencia/mlflow-comparacion-detalle.png",
+  "minimum_cursor_y": {
+    "1": 222.6897637795277,
+    "2": 131.4897637795277,
+    "3": 90.68976377952774,
+    "4": 128.8897637795277,
+    "5": 152.8897637795277,
+    "6": 136.2897637795277
+  },
+  "body_font_pt": 10.5,
+  "table_font_pt": 9.2,
+  "font": "embedded Arial or DejaVu",
+  "source": "completed v2 reports only; no new training, test evaluation or API calls",
+  "prompting_summary_included": true
+}

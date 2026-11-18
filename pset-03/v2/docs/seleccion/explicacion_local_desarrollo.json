@@ -1,0 +1,45 @@
+{
+  "status": "ok",
+  "recorded_at_utc": "2026-11-18T12:50:13.267792+00:00",
+  "source_sha256": "7532045fe0c11f366abe05fde16048e4a0dd238284a9d400362d24ded18babac",
+  "uri": "models:/oulad-apoyo-academico-v2-modelo@champion",
+  "scope": "post-decision descriptive analysis using only development data; no test labels or reselection",
+  "case_selection": "highest development model score, without using outcome",
+  "reference_selection": "development case at median model score, without using outcome",
+  "reference_risk": 0.25487138904545453,
+  "groups": [
+    {
+      "group": "actividad_completa",
+      "actual_p_fail": 0.8538091222413596,
+      "p_fail_with_observed_reference_group": 0.3685686348669004,
+      "delta": -0.48524048737445924
+    },
+    {
+      "group": "ventanas_actual_previa",
+      "actual_p_fail": 0.8538091222413596,
+      "p_fail_with_observed_reference_group": 0.4222026757861615,
+      "delta": -0.43160644645519813
+    },
+    {
+      "group": "recencia",
+      "actual_p_fail": 0.8538091222413596,
+      "p_fail_with_observed_reference_group": 0.8531646987642098,
+      "delta": -0.0006444234771498802
+    },
+    {
+      "group": "antecedentes",
+      "actual_p_fail": 0.8538091222413596,
+      "p_fail_with_observed_reference_group": 0.8415799214285951,
+      "delta": -0.012229200812764573
+    },
+    {
+      "group": "contexto_demografico",
+      "actual_p_fail": 0.8538091222413596,
+      "p_fail_with_observed_reference_group": 0.8497823092201524,
+      "delta": -0.004026813021207221
+    }
+  ],
+  "identifiers_published": false,
+  "causal": false,
+  "limits": "Observed donor group substitution is a local model-behavior contrast, not additive SHAP nor a feasible/causal intervention; cross-group dependence can remain."
+}

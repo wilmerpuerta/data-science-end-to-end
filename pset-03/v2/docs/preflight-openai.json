@@ -1,14 +1,17 @@
 {
-  "status": "pending_api_resources",
+  "checked_at_utc": "2026-11-18T10:26:49.056498+00:00",
   "model": "gpt-6-luna",
   "synthetic_only": true,
   "study_rows_sent": 0,
-  "evidence": "last_recorded_request_not_a_new_retry",
-  "last_error": {
-    "http_status": 429,
-    "code": "credit_balance_exhausted",
-    "type": "insufficient_quota",
-    "request_hash": "911805e65114b96cbd37608aa6b689c0629c2b4d15b515a665eae57675e70b2c"
-  },
-  "structured_output_checked": false
+  "selected_model_accessible": true,
+  "status": "ok",
+  "structured_output_checked": true,
+  "cache_hit": false,
+  "response_request_hash": "250c6e52beda15f030f2d1f0b364d62a0d2f15a7659fa0415ab46ab4c3118b44",
+  "budget": {
+    "limit_usd": "10",
+    "accounted_spend_usd": "0.052931400",
+    "pending_upper_usd": "0",
+    "completed_paid_calls": 41
+  }
 }

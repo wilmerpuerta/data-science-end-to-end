@@ -1,0 +1,367 @@
+{
+  "status": "frozen",
+  "snapshot_id": "0a75615bd8ff6b166d366cf78c8303845852cbeb23387ac24a64fe4962f01027",
+  "split_id": "231cd638f375de2a8c70b4482fdf6a98dbe022371a409f1fc92bc97189cf7736",
+  "config": {
+    "version": "pset3.split.v1",
+    "cutoff_day": 56,
+    "test_presentations": [
+      "2014J"
+    ],
+    "development_presentations": [
+      "2013B",
+      "2013J",
+      "2014B"
+    ],
+    "cv": "StratifiedGroupKFold",
+    "n_splits": 5,
+    "shuffle": true,
+    "seed": 42,
+    "group": "id_student",
+    "purge": "remove all development enrollments of students occurring in holdout",
+    "selection_metric": "average_precision_Fail",
+    "holdout_policy": "No model selection, feature EDA or tuning on holdout"
+  },
+  "cohort_rows": 26294,
+  "candidate_development_rows": 17536,
+  "train_rows": 16331,
+  "train_unique_students": 15482,
+  "test_rows": 8758,
+  "test_unique_students": 8442,
+  "purged_rows": 1205,
+  "purged_unique_students": 1145,
+  "train_test_student_overlap": 0,
+  "cv_folds": [
+    {
+      "fold": 0,
+      "training_rows": 13055,
+      "validation_rows": 3276,
+      "training_students": 12378,
+      "validation_students": 3104,
+      "validation_class_counts": {
+        "Approved": 1854,
+        "Fail": 1010,
+        "Withdrawn": 412
+      },
+      "student_overlap": 0
+    },
+    {
+      "fold": 1,
+      "training_rows": 13049,
+      "validation_rows": 3282,
+      "training_students": 12368,
+      "validation_students": 3114,
+      "validation_class_counts": {
+        "Approved": 1898,
+        "Fail": 935,
+        "Withdrawn": 449
+      },
+      "student_overlap": 0
+    },
+    {
+      "fold": 2,
+      "training_rows": 13066,
+      "validation_rows": 3265,
+      "training_students": 12388,
+      "validation_students": 3094,
+      "validation_class_counts": {
+        "Approved": 1825,
+        "Fail": 963,
+        "Withdrawn": 477
+      },
+      "student_overlap": 0
+    },
+    {
+      "fold": 3,
+      "training_rows": 13054,
+      "validation_rows": 3277,
+      "training_students": 12385,
+      "validation_students": 3097,
+      "validation_class_counts": {
+        "Approved": 1817,
+        "Fail": 1032,
+        "Withdrawn": 428
+      },
+      "student_overlap": 0
+    },
+    {
+      "fold": 4,
+      "training_rows": 13100,
+      "validation_rows": 3231,
+      "training_students": 12409,
+      "validation_students": 3073,
+      "validation_class_counts": {
+        "Approved": 1825,
+        "Fail": 978,
+        "Withdrawn": 428
+      },
+      "student_overlap": 0
+    }
+  ],
+  "train_modules": [
+    "AAA",
+    "BBB",
+    "CCC",
+    "DDD",
+    "EEE",
+    "FFF",
+    "GGG"
+  ],
+  "test_modules": [
+    "AAA",
+    "BBB",
+    "CCC",
+    "DDD",
+    "EEE",
+    "FFF",
+    "GGG"
+  ],
+  "unseen_test_modules": [],
+  "rows_by_presentation": {
+    "2013B": 3934,
+    "2013J": 7430,
+    "2014B": 6172,
+    "2014J": 8758
+  },
+  "temporal_audit": {
+    "source": "https://research.stem.open.ac.uk/ouanalyse/dataset/",
+    "method": "B=Febrero, J=Octubre; intervalo del mes completo. Fin superior = último día de inicio posible + duración. Corte inferior = primer día de inicio posible + 56.",
+    "latest_development_course_end_upper": "2014-10-27",
+    "earliest_holdout_cutoff_lower": "2014-11-26",
+    "minimum_course_completion_gap_days": 30,
+    "all_training_courses_end_before_earliest_test_cutoff": true,
+    "label_publication_timestamps_available": false,
+    "evaluation_claim": "Benchmark retrospectivo con cohorte posterior; CV entre alumnos no es CV temporal. No demuestra disponibilidad institucional exacta de etiquetas.",
+    "editions": [
+      {
+        "edition_key": "AAA|2013J",
+        "module": "AAA",
+        "presentation": "2013J",
+        "start_lower": "2013-10-01",
+        "start_upper": "2013-10-31",
+        "end_upper": "2014-07-26",
+        "cutoff_lower": "2013-11-26",
+        "partition": "train"
+      },
+      {
+        "edition_key": "AAA|2014J",
+        "module": "AAA",
+        "presentation": "2014J",
+        "start_lower": "2014-10-01",
+        "start_upper": "2014-10-31",
+        "end_upper": "2015-07-27",
+        "cutoff_lower": "2014-11-26",
+        "partition": "test"
+      },
+      {
+        "edition_key": "BBB|2013B",
+        "module": "BBB",
+        "presentation": "2013B",
+        "start_lower": "2013-02-01",
+        "start_upper": "2013-02-28",
+        "end_upper": "2013-10-26",
+        "cutoff_lower": "2013-03-29",
+        "partition": "train"
+      },
+      {
+        "edition_key": "BBB|2013J",
+        "module": "BBB",
+        "presentation": "2013J",
+        "start_lower": "2013-10-01",
+        "start_upper": "2013-10-31",
+        "end_upper": "2014-07-26",
+        "cutoff_lower": "2013-11-26",
+        "partition": "train"
+      },
+      {
+        "edition_key": "BBB|2014B",
+        "module": "BBB",
+        "presentation": "2014B",
+        "start_lower": "2014-02-01",
+        "start_upper": "2014-02-28",
+        "end_upper": "2014-10-20",
+        "cutoff_lower": "2014-03-29",
+        "partition": "train"
+      },
+      {
+        "edition_key": "BBB|2014J",
+        "module": "BBB",
+        "presentation": "2014J",
+        "start_lower": "2014-10-01",
+        "start_upper": "2014-10-31",
+        "end_upper": "2015-07-20",
+        "cutoff_lower": "2014-11-26",
+        "partition": "test"
+      },
+      {
+        "edition_key": "CCC|2014B",
+        "module": "CCC",
+        "presentation": "2014B",
+        "start_lower": "2014-02-01",
+        "start_upper": "2014-02-28",
+        "end_upper": "2014-10-27",
+        "cutoff_lower": "2014-03-29",
+        "partition": "train"
+      },
+      {
+        "edition_key": "CCC|2014J",
+        "module": "CCC",
+        "presentation": "2014J",
+        "start_lower": "2014-10-01",
+        "start_upper": "2014-10-31",
+        "end_upper": "2015-07-27",
+        "cutoff_lower": "2014-11-26",
+        "partition": "test"
+      },
+      {
+        "edition_key": "DDD|2013B",
+        "module": "DDD",
+        "presentation": "2013B",
+        "start_lower": "2013-02-01",
+        "start_upper": "2013-02-28",
+        "end_upper": "2013-10-26",
+        "cutoff_lower": "2013-03-29",
+        "partition": "train"
+      },
+      {
+        "edition_key": "DDD|2013J",
+        "module": "DDD",
+        "presentation": "2013J",
+        "start_lower": "2013-10-01",
+        "start_upper": "2013-10-31",
+        "end_upper": "2014-07-19",
+        "cutoff_lower": "2013-11-26",
+        "partition": "train"
+      },
+      {
+        "edition_key": "DDD|2014B",
+        "module": "DDD",
+        "presentation": "2014B",
+        "start_lower": "2014-02-01",
+        "start_upper": "2014-02-28",
+        "end_upper": "2014-10-27",
+        "cutoff_lower": "2014-03-29",
+        "partition": "train"
+      },
+      {
+        "edition_key": "DDD|2014J",
+        "module": "DDD",
+        "presentation": "2014J",
+        "start_lower": "2014-10-01",
+        "start_upper": "2014-10-31",
+        "end_upper": "2015-07-20",
+        "cutoff_lower": "2014-11-26",
+        "partition": "test"
+      },
+      {
+        "edition_key": "EEE|2013J",
+        "module": "EEE",
+        "presentation": "2013J",
+        "start_lower": "2013-10-01",
+        "start_upper": "2013-10-31",
+        "end_upper": "2014-07-26",
+        "cutoff_lower": "2013-11-26",
+        "partition": "train"
+      },
+      {
+        "edition_key": "EEE|2014B",
+        "module": "EEE",
+        "presentation": "2014B",
+        "start_lower": "2014-02-01",
+        "start_upper": "2014-02-28",
+        "end_upper": "2014-10-27",
+        "cutoff_lower": "2014-03-29",
+        "partition": "train"
+      },
+      {
+        "edition_key": "EEE|2014J",
+        "module": "EEE",
+        "presentation": "2014J",
+        "start_lower": "2014-10-01",
+        "start_upper": "2014-10-31",
+        "end_upper": "2015-07-27",
+        "cutoff_lower": "2014-11-26",
+        "partition": "test"
+      },
+      {
+        "edition_key": "FFF|2013B",
+        "module": "FFF",
+        "presentation": "2013B",
+        "start_lower": "2013-02-01",
+        "start_upper": "2013-02-28",
+        "end_upper": "2013-10-26",
+        "cutoff_lower": "2013-03-29",
+        "partition": "train"
+      },
+      {
+        "edition_key": "FFF|2013J",
+        "module": "FFF",
+        "presentation": "2013J",
+        "start_lower": "2013-10-01",
+        "start_upper": "2013-10-31",
+        "end_upper": "2014-07-26",
+        "cutoff_lower": "2013-11-26",
+        "partition": "train"
+      },
+      {
+        "edition_key": "FFF|2014B",
+        "module": "FFF",
+        "presentation": "2014B",
+        "start_lower": "2014-02-01",
+        "start_upper": "2014-02-28",
+        "end_upper": "2014-10-27",
+        "cutoff_lower": "2014-03-29",
+        "partition": "train"
+      },
+      {
+        "edition_key": "FFF|2014J",
+        "module": "FFF",
+        "presentation": "2014J",
+        "start_lower": "2014-10-01",
+        "start_upper": "2014-10-31",
+        "end_upper": "2015-07-27",
+        "cutoff_lower": "2014-11-26",
+        "partition": "test"
+      },
+      {
+        "edition_key": "GGG|2013J",
+        "module": "GGG",
+        "presentation": "2013J",
+        "start_lower": "2013-10-01",
+        "start_upper": "2013-10-31",
+        "end_upper": "2014-07-19",
+        "cutoff_lower": "2013-11-26",
+        "partition": "train"
+      },
+      {
+        "edition_key": "GGG|2014B",
+        "module": "GGG",
+        "presentation": "2014B",
+        "start_lower": "2014-02-01",
+        "start_upper": "2014-02-28",
+        "end_upper": "2014-10-27",
+        "cutoff_lower": "2014-03-29",
+        "partition": "train"
+      },
+      {
+        "edition_key": "GGG|2014J",
+        "module": "GGG",
+        "presentation": "2014J",
+        "start_lower": "2014-10-01",
+        "start_upper": "2014-10-31",
+        "end_upper": "2015-07-27",
+        "cutoff_lower": "2014-11-26",
+        "partition": "test"
+      }
+    ]
+  },
+  "all_four_cutoffs_keep_same_enrollment_partition": true,
+  "holdout_model_metrics_computed": false,
+  "holdout_class_distribution_reported": false,
+  "private_assignments": ".local/splits/231cd638f375de2a8c70b4482fdf6a98dbe022371a409f1fc92bc97189cf7736/assignments.csv",
+  "limits": [
+    "CV agrupa alumnos pero mezcla presentaciones de desarrollo; no equivale a validación temporal interna.",
+    "OULAD no aporta timestamps de publicación de resultados. Finalización del curso es una cota de maduración, no prueba de disponibilidad de la etiqueta.",
+    "Los cortes 14/28/42 en cohorte común del día 56 son una simulación retrospectiva condicionada a permanecer elegible hasta 56, no poblaciones operativas independientes."
+  ]
+}

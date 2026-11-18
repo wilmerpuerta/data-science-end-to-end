@@ -109,7 +109,7 @@
       "consecuencia": "Informar la bandera estadística sin tratarla como error de calidad ni borrar reintentos. Z-score tampoco es un test de anomalía con normalidad demostrada. Mantener estos antecedentes hasta comparar su aporte dentro de CV."
     }
   ],
-  "created_at_utc": "2026-11-18T04:31:27.955046+00:00",
+  "created_at_utc": "2026-11-18T10:27:53.500481+00:00",
   "artifact_files": {
     "01_target.png": "0e4970ebcb46b77c6e45cbc8be95bb502f0c2985f9e23d81d1597965bfc12c7b",
     "02_faltantes.png": "b1f4fd982fc61271f5b430d45c0250bd1e1a38ebabdfcbdaf8fa0ece62680394",
@@ -135,9 +135,9 @@
     "tasas_modulo.csv": "17d380301640bd24a0cc0738c01d4c0c9b38baa2afaaf3399401f4a611aef94a",
     "tasas_presentacion.csv": "8b5fc384a00864fae4b42a5f750042b5e2f25fcdaab0525599a74ba33881a774"
   },
-  "run_id": "d8b458fb2aaa448ba52948c4fce245fe",
-  "experiment_id": "4",
+  "run_id": "84ae066af3ca446d83828d6772e18079",
+  "experiment_id": "6",
   "notebook_source_sha256": "5d86d34ff77ec3c74eb3d3b29284a5d3d9fb0ab0f1eb733e892eb8a5816faa13",
-  "git_commit": "4f9ac5365e0d3f8974230fbded0379d58a8e1fcf",
+  "git_commit": "eb107b3f42149fc9acb491880f84b5917be0cded",
   "git_dirty": false
 }

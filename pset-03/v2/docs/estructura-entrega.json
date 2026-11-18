@@ -1,0 +1,23 @@
+{
+  "status": "ok",
+  "created_at_utc": "2026-11-18T12:46:57.970708+00:00",
+  "v1_view_archive": "/Users/wilmer.puerta/Documents/Documents - MacBook/MCD-USFQ/MSDS_6003_CD_Erick_Naunay/Proyecto CD/psets/backups/pset-03-v1-vista-20261118",
+  "full_v1_verified_backup": "backups/pset-03-v1-20261117-225736",
+  "active_canonical_root": "pset-03/v2",
+  "entry_points": {
+    "docs": "v2/docs",
+    "notebooks": "v2/notebooks",
+    "src": "v2/src",
+    "scripts": "v2/scripts",
+    "tests": "v2/tests",
+    "output": "v2/output",
+    "README.md": "v2/README.md",
+    "rubrica.md": "v2/docs/auditoria-rubrica.md",
+    "memo-pset3.md": "v2/memo-pset3.md",
+    "requirements.txt": "v2/requirements.txt",
+    "requirements.lock.txt": "v2/requirements.lock.txt",
+    ".env.example": "v2/.env.example"
+  },
+  "canonical_training_code_moved": false,
+  "shared_docker_runtime_kept": true
+}
