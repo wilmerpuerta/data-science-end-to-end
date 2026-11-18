@@ -1,0 +1,19 @@
+# Sexto candidato: modelo fundacional generativo mediante prompting
+
+La versión 2 incorpora un GPT de OpenAI como candidato explícito de la familia fundacional generativa de la rúbrica. Se probará como estimador probabilístico mediante prompting; no se afirma que sea el estado del arte de OULAD ni que supere a los modelos tabulares. El resultado debe demostrarlo la evaluación. Esta incorporación sustituye la justificación de omisión de v1.
+
+El adaptador usa Responses API, salida JSON Schema estricta y tres probabilidades en el orden Approved, Fail, Withdrawn. Comparte las matrículas de desarrollo, las validaciones completas, los cinco folds por estudiante y la preparación aprendida dentro de cada train-fold. La matriz preparada se serializa con nombres y pares dispersos [columna, valor], a seis cifras significativas; se declara esa precisión de interfaz. No se incluyen IDs, etiquetas de consulta, datos posteriores al corte ni ejemplos del fold de validación.
+
+El LLM no ajusta sus pesos con todas las matrículas. El `fit` calcula las proporciones de las clases usando el train-fold y selecciona, con semilla fija, seis ejemplos por clase de ese mismo conjunto. Su contexto inicial tiene 18 ejemplos. Esta diferencia se informa frente al entrenamiento supervisado de los otros cinco candidatos; compartir la partición no convierte el prompting en un entrenamiento equivalente en número de filas. La validación sí abarca exactamente todas las mismas observaciones. La métrica de entrenamiento se estima sobre las mismas 1.000 filas estratificadas del train-fold para los seis modelos, y se etiqueta como muestra.
+
+El diseño usa gpt-6-luna, esfuerzo de razonamiento none, lotes de 32 y ninguna herramienta. El modelo solicitado, el ID devuelto por el proveedor, las peticiones, las respuestas, el uso y el costo se conservan en el respaldo privado de cada inferencia. El identificador disponible del proveedor no garantiza por sí solo pesos inmutables ni determinismo; la reproducción exacta se apoya en el archivo de respuestas y la caché, y se distingue de volver a solicitar respuestas nuevas al servicio.
+
+Las probabilidades declaradas por el LLM no se suponen calibradas: se evalúan AP, Brier, log-loss y cobertura de Fail con cupo del 10 % por edición. Una salida inválida o un error de servicio interrumpe la corrida; no se sustituye por un Dummy ni por métricas inventadas.
+
+Si el LLM queda entre las tres primeras familias según negocio, se evalúan sus 30 configuraciones predefinidas: tres cantidades de ejemplos por clase × diez temperaturas de puntuación. La temperatura es una transformación local de probabilidades, evaluada solo mediante CV; permite reutilizar las mismas respuestas para evitar cobros innecesarios. Es búsqueda de hiperparámetros del estimador, no fine-tuning de los pesos del GPT. Los otros candidatos conservan sus 30 búsquedas predefinidas. Si el presupuesto no alcanza para un requisito aplicable, se declara el punto pendiente y se detiene la etapa; no se recorta la validación silenciosamente.
+
+El tope global autorizado es USD 10 para pilotos, comparación, tuning y evaluación final. Antes de cada petición se reserva una cota conservadora sin descuentos de caché; los fallos con cobro incierto conservan la reserva. No hay reintentos automáticos. La facturación de ChatGPT y de la API es independiente.
+
+Documentación oficial consultada para la integración: [modelo](https://developers.openai.com/api/docs/models/gpt-6-luna), [tarifas](https://developers.openai.com/api/docs/pricing), [Responses y acceso](https://developers.openai.com/api/docs/quickstart), [facturación](https://help.openai.com/en/articles/9039756-managing-billing-for-chatgpt-and-the-api-platform).
+
+Estado del ensayo: consultar `docs/preflight-openai.json` y `docs/estado-v2.json`. Tener el adaptador preparado no constituye una evaluación completada del sexto candidato.

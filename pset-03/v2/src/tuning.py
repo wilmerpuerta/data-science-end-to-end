@@ -9,7 +9,7 @@ import mlflow
 from .common import ROOT,identity
 from .datos import cargar_snapshot,pliegues_congelados
 from .modelos import construir_modelo
-from .experimentos import entrada,log_pipeline,train_metric_sample
+from .experimentos import entrada,log_pipeline,train_metric_sample,api_spend
 from .evaluacion import probabilidades,metricas,negocio
 from .seguimiento import configurar,protocolo,registrar_base,exportar
 
@@ -53,7 +53,7 @@ def run_trial(family,index,params,mode='long'):
   actual={**base.named_steps['modelo'].get_params(deep=False),**params}
   registrar_base('tuning' if mode=='long' else 'control_estatico',family,{'mode':mode,'config_index':index,'train_metric_sample_rows':1000,**{'model__'+k:str(v) for k,v in actual.items()}})
   search=RandomizedSearchCV(base,{'modelo__'+k:[v] for k,v in params.items()},n_iter=1,scoring=scorers(train,folds),refit='coverage',cv=folds,return_train_score=True,n_jobs=1,random_state=42,error_score='raise')
-  begin=time.perf_counter()
+  spend_before=api_spend();begin=time.perf_counter()
   with warnings.catch_warnings(record=True) as caught,threadpool_limits(limits=2):
    warnings.simplefilter('always');search.fit(x,train.target_class.to_numpy())
   elapsed=time.perf_counter()-begin;cv=search.cv_results_;details=[]
@@ -67,17 +67,18 @@ def run_trial(family,index,params,mode='long'):
    metrics['cv_'+metric+'_mean']=float(table['test_'+metric].mean());metrics['cv_'+metric+'_std']=float(table['test_'+metric].std(ddof=1))
   metrics.update(train_ap_fail_mean=float(table.train_ap_fail.mean()),ap_gap=float(table.train_ap_fail.mean()-table.test_ap_fail.mean()),search_seconds=elapsed,mean_fold_fit_seconds=float(cv['mean_fit_time'][0]),refit_seconds=float(search.refit_time_))
   mlflow.log_metrics(metrics);mlflow.log_dict({'folds':details,'warnings':[{'category':w.category.__name__,'message':str(w.message)} for w in caught]},'evaluation.json');log_pipeline(search.best_estimator_,x)
+  metrics['api_cost_accounted_usd']=api_spend()-spend_before;mlflow.log_metric('api_cost_accounted_usd',metrics['api_cost_accounted_usd'])
   row={'family':family,'mode':mode,'config_index':index,'params':params,'protocol_id':plan['id'],'run_id':run.info.run_id,**metrics,'folds':details,'warnings':len(caught)}
   table.to_csv(OUT/f'{mode}-{family}-{index:02d}.csv',index=False)
  path.write_text(json.dumps(row,indent=2));print(f'{mode} {family} {index+1}: cobertura {row["cv_coverage_mean"]:.4f}, AP {row["cv_ap_fail_mean"]:.4f}',flush=True);return row
 
 def choose(rows):
- return sorted(rows,key=lambda r:(-r['cv_coverage_mean'],r['cv_coverage_std'],-r['cv_ap_fail_mean'],r.get('cv_brier_fail_mean',-r.get('cv_neg_brier_fail_mean',0)),r.get('search_seconds',r.get('cv_fit_seconds_total',0)),r['run_id']))[0]
+ return sorted(rows,key=lambda r:(-r['cv_coverage_mean'],r['cv_coverage_std'],-r['cv_ap_fail_mean'],r.get('cv_brier_fail_mean',-r.get('cv_neg_brier_fail_mean',0)),r.get('api_cost_accounted_usd',r.get('api_cost_new_calls_usd',0)),r.get('search_seconds',r.get('cv_fit_seconds_total',0)),r['run_id']))[0]
 
 def main():
  configurar();plan=protocolo();OUT.mkdir(exist_ok=True);PRIVATE.mkdir(parents=True,exist_ok=True)
  defaults=json.loads((ROOT/'docs/modelos/resultados.json').read_text());assert len(defaults['candidates'])==6
- selected=sorted(defaults['candidates'],key=lambda r:(-r['cv_coverage_mean'],r['cv_coverage_std'],-r['cv_ap_fail_mean'],r['run_id']))[:3]
+ selected=sorted(defaults['candidates'],key=lambda r:(-r['cv_coverage_mean'],r['cv_coverage_std'],-r['cv_ap_fail_mean'],r['cv_brier_fail_mean'],r.get('api_cost_new_calls_usd',0),r.get('cv_fit_seconds_total',0),r['run_id']))[:3]
  configpath=ROOT/'config/espacios-tuning.json';allconfigs=json.loads(configpath.read_text())
  searchplan={'protocol_id':plan['id'],'families':[r['family'] for r in selected],'draws':{r['family']:allconfigs[r['family']] for r in selected}}
  target=OUT/'plan.json'

@@ -16,6 +16,10 @@ from .modelos import candidatos,ingenua,construir_modelo
 from .evaluacion import probabilidades,metricas,negocio
 from .seguimiento import configurar,registrar_base,protocolo,exportar
 from .openai_api import credential_status
+from .costos import LibroCostos
+
+def api_spend():
+ return float(LibroCostos(ROOT/'.local/llm/costos.json',10).summary()['accounted_spend_usd'])
 
 OUT=ROOT/'docs/modelos';PRIVATE=ROOT/'.local/modelos'
 
@@ -45,6 +49,7 @@ def evaluate(name,family,phase,*,mode='long',params=None):
  def build():
   if family=='dummy':return construir_pipeline(ingenua(),solo_estaticas=True)
   p=construir_modelo(family,solo_estaticas=mode=='static');p.named_steps['modelo'].set_params(**params);return p
+ study_spend_before=api_spend()
  parentpath=directory/'parent.json'
  if parentpath.exists():parent=json.loads(parentpath.read_text())['run_id']
  else:
@@ -57,7 +62,7 @@ def evaluate(name,family,phase,*,mode='long',params=None):
    cache=directory/f'fold-{k}.json';predfile=directory/f'fold-{k}.parquet'
    if cache.exists():
     r=json.loads(cache.read_text());assert r['protocol_id']==plan['id'];pb=pd.read_parquet(predfile)[['Approved','Fail','Withdrawn']].to_numpy();scores[b]=pb;details.append(r);continue
-   m=train_metric_sample(y,a,k);p=build()
+   m=train_metric_sample(y,a,k);p=build();fold_spend_before=api_spend()
    with mlflow.start_run(run_name=f'{name}-fold-{k}',nested=True) as run:
     registrar_base(phase+'_fold',family,{'mode':mode,'fold':k,'train_metric_sample_rows':len(m),'train_metric_sample_sha256':hashlib.sha256('\n'.join(train.iloc[m].enrollment_key).encode()).hexdigest(),**{'model__'+key:str(v) for key,v in p.named_steps['modelo'].get_params(deep=False).items()}})
     begin=time.perf_counter()
@@ -68,6 +73,7 @@ def evaluate(name,family,phase,*,mode='long',params=None):
     scores[b]=pb;tm=metricas(y[m],pa);vm=metricas(y[b],pb);biz=negocio(train.iloc[b],y[b],pb[:,1])
     metrics={**{'train_'+key:v for key,v in tm.items()},**{'cv_'+key:v for key,v in vm.items()},'cv_coverage':biz['coverage'],'cv_precision_at_k':biz['precision_at_k'],'fit_seconds':fit_seconds,'inference_seconds':inference,'train_metric_inference_seconds':train_inference}
     mlflow.log_metrics(metrics);warn=[{'category':w.category.__name__,'message':str(w.message)} for w in caught];mlflow.log_dict({'warnings':warn,'validation_business':biz},'evaluation.json');log_pipeline(p,x.iloc[a])
+    metrics['api_cost_accounted_usd']=api_spend()-fold_spend_before;mlflow.log_metric('api_cost_accounted_usd',metrics['api_cost_accounted_usd'])
     result={'fold':k,'protocol_id':plan['id'],'run_id':run.info.run_id,'train_rows':len(a),'validation_rows':len(b),'train_metric_rows':len(m),**metrics,'warnings':warn}
    pd.DataFrame(pb,columns=['Approved','Fail','Withdrawn']).to_parquet(predfile,index=False);cache.write_text(json.dumps(result,indent=2));details.append(result)
    print(f'{name}: fold {k+1}/5 completado; AP={vm["ap_fail"]:.4f}, cobertura={biz["coverage"]:.4f}',flush=True)
@@ -77,7 +83,7 @@ def evaluate(name,family,phase,*,mode='long',params=None):
   summary.update(train_ap_fail_mean=float(table.train_ap_fail.mean()),ap_gap=float(table.train_ap_fail.mean()-table.cv_ap_fail.mean()),cv_fit_seconds_total=float(table.fit_seconds.sum()),cv_inference_seconds_total=float(table.inference_seconds.sum()))
   full=build();begin=time.perf_counter()
   with threadpool_limits(limits=2):full.fit(x,y)
-  summary['refit_seconds']=time.perf_counter()-begin;log_pipeline(full,x);mlflow.log_metrics(summary);mlflow.log_dict({'folds':details},'folds.json')
+  summary['refit_seconds']=time.perf_counter()-begin;log_pipeline(full,x);summary['api_cost_new_calls_usd']=api_spend()-study_spend_before;summary['api_cost_folds_including_prior_checkpoints_usd']=float(table.api_cost_accounted_usd.sum());mlflow.log_metrics(summary);mlflow.log_dict({'folds':details},'folds.json')
   mlflow.log_artifacts(str(ROOT/'src'),'source')
   r={'name':name,'family':family,'phase':phase,'mode':mode,'params':params,'protocol_id':plan['id'],'run_id':parent,**summary,'folds':details,'oof_business':negocio(train,y,scores[:,1]),'train_metric_scope':'same 1000-row stratified training sample per fold for every candidate'}
   if family=='llm_generativo':r['llm_context_scope']='18 train-fold examples by default and full-fold priors; not all training rows fit weights. Computation happens in predict.'
@@ -86,6 +92,8 @@ def evaluate(name,family,phase,*,mode='long',params=None):
 
 def main():
  configurar();OUT.mkdir(parents=True,exist_ok=True);PRIVATE.mkdir(parents=True,exist_ok=True);plan=protocolo()
+ preflight=ROOT/'docs/preflight-openai.json'
+ if not preflight.exists() or json.loads(preflight.read_text()).get('status')!='ok':raise RuntimeError('Falta el preflight de inferencia OpenAI; no basta con que exista una clave')
  if not credential_status()['configured']:raise RuntimeError('Completar la API de OpenAI antes de iniciar la evaluación definitiva de seis candidatos')
  rows=[evaluate('ingenua','dummy','baseline',mode='static')]
  reactive=PRIVATE/'reactiva.json'

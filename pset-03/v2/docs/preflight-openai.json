@@ -1,0 +1,14 @@
+{
+  "status": "pending_api_resources",
+  "model": "gpt-6-luna",
+  "synthetic_only": true,
+  "study_rows_sent": 0,
+  "evidence": "last_recorded_request_not_a_new_retry",
+  "last_error": {
+    "http_status": 429,
+    "code": "credit_balance_exhausted",
+    "type": "insufficient_quota",
+    "request_hash": "911805e65114b96cbd37608aa6b689c0629c2b4d15b515a665eae57675e70b2c"
+  },
+  "structured_output_checked": false
+}

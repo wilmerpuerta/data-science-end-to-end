@@ -25,3 +25,15 @@ class DisenoTests(unittest.TestCase):
   score['ap_fail'](p,x.iloc[a],frame.target_class.iloc[a]);score['coverage'](p,x.iloc[a],frame.target_class.iloc[a]);score['ap_fail'](p,x.iloc[b],frame.target_class.iloc[b])
   self.assertEqual(len(p._v2_score_cache),2)
   self.assertTrue(all(len(k)==1000 for k in p._v2_score_cache))
+ def test_seleccion_prioriza_negocio_frente_a_ap(self):
+  from src.tuning import choose
+  shared={'cv_coverage_std':.01,'cv_brier_fail_mean':.15,'search_seconds':1}
+  a={**shared,'run_id':'a','cv_coverage_mean':.20,'cv_ap_fail_mean':.80}
+  b={**shared,'run_id':'b','cv_coverage_mean':.25,'cv_ap_fail_mean':.40}
+  self.assertEqual(choose([a,b])['run_id'],'b')
+ def test_desempate_no_depende_del_orden_de_llegada(self):
+  from src.tuning import choose
+  shared={'cv_coverage_mean':.25,'cv_coverage_std':.01,'cv_ap_fail_mean':.4,'search_seconds':1,'api_cost_accounted_usd':.01}
+  a={**shared,'run_id':'a','cv_brier_fail_mean':.2}
+  b={**shared,'run_id':'b','cv_brier_fail_mean':.1}
+  self.assertEqual(choose([a,b])['run_id'],'b');self.assertEqual(choose([b,a])['run_id'],'b')

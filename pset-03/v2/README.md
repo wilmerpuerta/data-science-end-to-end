@@ -1,24 +1,46 @@
 # PSet 3 · Reconstrucción v2
 
-Estado: respaldo v1 verificado; protocolo y código inicial en preparación. Esta carpeta no presenta las salidas de v1 como experimentos nuevos. Los entregables vigentes de v1 permanecen fuera de v2 hasta completar esta reconstrucción.
+El respaldo privado completo de v1 fue verificado y restaurado de prueba. Los entregables originales siguen en `pset-03/`; esta reconstrucción se desarrolla por separado en `pset-03/v2/`. Los resultados previos no se presentan como corridas nuevas.
 
-Seis candidatos incluyen un LLM generativo de OpenAI mediante prompting. Mismo snapshot, particiones, cinco folds y métrica de negocio; disponibilidad de información al corte. API con tope global autorizado de USD 10, libro de reservas y caché privada. Los ejemplos de prompting proceden únicamente de train-fold, con cantidad explícita; no se afirma que el LLM procese todas las filas como un clasificador tradicional.
+Estado actual: EDA y preparación ejecutados desde kernel nuevo; fuentes versionadas; comparación de seis candidatos aún pendiente de recursos API. Consultar `docs/estado-v2.json`, `docs/paso-a-paso-v2.md` y `docs/prompting.md`. No hay un nuevo ganador ni un memo v2 terminado.
 
-La prueba 2014J fue observada en v1. Su uso en v2 se declara como benchmark retrospectivo reutilizado. No se presenta como prueba inédita ni se permite ajustar con sus resultados.
+## Diseño y criterio del negocio
 
-## Acceso OpenAI
+Mismo snapshot, partición y cinco folds persistidos por estudiante. El criterio principal es la cobertura de Fail con cupo del 10 % por edición en validación, con media y desviación entre folds; AP, Brier, log-loss, costos y tiempos complementan la decisión. La comparación incluye cinco familias tabulares y un GPT generativo mediante prompting. Dummy y proceso reactivo son las dos baselines; el control con variables estáticas se ajusta separadamente para medir el aporte longitudinal.
 
-Crear la clave en https://platform.openai.com/api-keys y completar OPENAI_API_KEY en .secrets/pset3-openai.env de la raíz. No pegar claves en chat, notebooks o Git. No modificar el límite de USD 10. Se usa Responses API con JSON Schema y sin herramientas, razonamiento none y modelo gpt-6-luna; tarifas verificadas de entrada USD 0,10 y salida USD 0,50 por millón de tokens en contexto corto. La cota de reservas no aplica descuentos, por lo que es conservadora.
+Los ejemplos del GPT proceden solo del train-fold y su cantidad se declara; no se presenta prompting como entrenamiento de pesos con todas las filas. Los seis modelos se evalúan sobre todas las mismas filas de validación. La métrica de entrenamiento usa una muestra idéntica de 1.000 filas por train-fold para todos, identificada como tal. Si el LLM queda entre los tres mejores por negocio, participa en el tuning de al menos 30 configuraciones.
 
-Documentación oficial: https://developers.openai.com/api/docs/quickstart y https://developers.openai.com/api/docs/models/gpt-6-luna y https://developers.openai.com/api/docs/pricing. ChatGPT y API tienen acceso/facturación separados; créditos elegibles deben activarse. El plugin OpenAI Developers es opcional para consultar documentación durante integración.
+2014J ya fue observado en v1: se declara benchmark retrospectivo reutilizado. Las elecciones de v2 se fijarán antes de una única nueva evaluación final conjunta. No se afirmará independencia inédita de la prueba. Las semanas 2, 4 y 6 tendrán cohortes propias, restricciones temporales y un presupuesto compartido sin repetir matrículas; sus resultados operativos no se confunden con un efecto causal de las tutorías.
 
-## Orden
+## Entorno
 
-1. Cerrar preflight de credenciales, presupuesto y código; congelar protocolo y commit.
-2. Ejecutar EDA y derivadas con evidencia de desarrollo.
-3. Registrar dos baselines antes de seis candidatos por defecto.
-4. Tuning de tres mejores por negocio, mínimo 30 configuraciones cada uno, nested.
-5. Controles estáticos equivalentes, anticipación y decisión congelada.
-6. Prueba final, Registry, reproducción, memo legible de seis páginas y auditoría literal.
+Desde la raíz del repositorio, usar el mismo servidor Docker con volúmenes persistentes, sin reinicializarlo:
 
-El cierre no se declara completo mientras falte un candidato, su tuning obligatorio o verificación. Las restricciones operativas no sustituyen al ensayo del LLM.
+```sh
+docker compose -f pset-03/docker-compose.yml up -d mlflow
+```
+
+El tracking usa `http://127.0.0.1:5001` y el experimento separado `oulad-apoyo-academico-v2`. La versión 2 tiene su propio entorno Python 3.11 y las dependencias exactas en `requirements.lock.txt`. El snapshot y las particiones verificadas son privados; `src/datos.py` no consulta Snowflake en vivo. Para reconstruir las fuentes, seguir las instrucciones Snowflake/OBT de `pset-02/README.md` y la exportación de `pset-03/scripts/exportar_snapshot.py` con credenciales locales; una extracción nueva produce otra identidad y exige otro protocolo.
+
+## API OpenAI
+
+La clave está en `.secrets/pset3-openai.env` de la raíz, excluida de Git, y nunca debe aparecer en el chat, notebooks o entregables públicos. El presupuesto total autorizado es USD 10, incluyendo pruebas de conectividad, candidatos, tuning y evaluación final; el cliente reserva costo antes de cada solicitud y conserva reservas ante fallos ambiguos. ChatGPT y API tienen facturación independiente. El modelo configurado es `gpt-6-luna`, con Responses, JSON Schema, razonamiento none y sin herramientas. La reproducción exacta de un LLM usa respuestas archivadas, no una promesa de determinismo del proveedor.
+
+Comprobar acceso y saldo mediante una prueba sintética pequeña, sin matrículas del estudio:
+
+```sh
+pset-03/v2/.venv/bin/python pset-03/v2/scripts/preflight_openai.py
+```
+
+Si devuelve `insufficient_quota`/`credit_balance_exhausted`, activar créditos o facturación de API antes del estudio. No reemplazarlo con salidas ficticias ni aumentar el tope autorizado.
+
+## Orden de ejecución
+
+1. `01_eda.ipynb` y `02_features.ipynb` ya ejecutados con salidas nuevas y verificaciones por hash.
+2. Completar preflight; revisar/congelar el código y el protocolo antes de cualquier clasificador del estudio mediante `scripts/congelar_protocolo.py`.
+3. `scripts/ejecutar_comparacion.py`: primero dos baselines y después seis candidatos, mismos folds; etapa todavía no ejecutada.
+4. `scripts/ejecutar_tuning.py`: tres familias mejores por negocio, al menos 30 configuraciones únicas cada una, con corridas hijas; etapa todavía no ejecutada.
+5. Completar controles estáticos equivalentes, ablación predictiva, anticipación y congelación de finalistas, antes de la evaluación final.
+6. Completar prueba conjunta, Registry y reproducción exacta en kernel nuevo; generar los notebooks 03–05 con salidas reales, memo legible de hasta seis páginas, CSV y auditoría literal.
+
+Los scripts del estudio rechazan fuentes sin commit y protocolo no congelado. Los espacios de las seis búsquedas ya están en `config/espacios-tuning.json`. El cierre no se declara completo mientras falte un candidato, un tuning obligatorio o un entregable. La carpeta v2 no sustituye todavía la entrega original aprobada.
