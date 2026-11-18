@@ -1,0 +1,7 @@
+variable_candidata,clase,n_observado,n_faltante,mediana
+log1p_clicks_current_14d,Approved,9219,0,4.3567088
+log1p_clicks_current_14d,Fail,4918,0,2.9957323
+log1p_clicks_current_14d,Withdrawn,2194,0,3.6109179
+clicks_per_active_day_14d,Approved,8716,503,15.125
+clicks_per_active_day_14d,Fail,3300,1618,13.354167
+clicks_per_active_day_14d,Withdrawn,1713,481,13.5

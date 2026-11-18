@@ -1,0 +1,9 @@
+.local/
+.venv/
+.env
+__pycache__/
+.ipynb_checkpoints/
+.venv-memo/
+tmp/
+output/*.zip
+output/*.zip.sha256

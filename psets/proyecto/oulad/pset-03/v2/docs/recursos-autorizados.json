@@ -1,0 +1,8 @@
+{
+  "provider": "OpenAI API",
+  "maximum_total_api_usd": 10,
+  "user_explicitly_authorized": true,
+  "scope": "PSet3 v2 all API calls, pilots, candidates, tuning and final",
+  "no_paid_calls_started": true,
+  "credentials_path": "/Users/wilmer.puerta/Documents/Documents - MacBook/MCD-USFQ/MSDS_6003_CD_Erick_Naunay/Proyecto CD/psets/.secrets/pset3-openai.env"
+}

@@ -1,0 +1,59 @@
+{
+  "state": "notebooks_complete_editorial_pending",
+  "started_at_utc": "2026-11-18T11:09:53.463775+00:00",
+  "coordinator_pid": 81602,
+  "code_commit": "dabe4ba3a5594153a0cd23cbfeda410b81b902e7",
+  "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+  "io_patch_id": "55f6fcc95f839abe9632a92a2c20e888f92c61371637278548acb6b3324a80dc",
+  "complete": false,
+  "experiments_complete": true,
+  "unit_tests": 48,
+  "notebooks_executed": [
+    "01_eda.ipynb",
+    "02_features.ipynb",
+    "03_baseline_candidatos.ipynb",
+    "04_tuning.ipynb",
+    "05_seleccion.ipynb",
+    "anexos/06_anticipacion.ipynb"
+  ],
+  "finished_phases": [
+    "modelos",
+    "tuning",
+    "ablacion",
+    "negocio",
+    "anticipacion",
+    "seleccion",
+    "reproduccion"
+  ],
+  "format_recoveries": [],
+  "transport_retries": [],
+  "execution_amendment_id": "c807812b9ea209fae712a42d68833c0a4daafe5874d57bf8ecf0ec69ed8fb989",
+  "backup_v1_verified": true,
+  "old_attempts_preserved": [
+    ".local/attempts/intento_1",
+    ".local/attempts/intento_2"
+  ],
+  "limits": [
+    "2014J observed in v1; reused retrospective benchmark",
+    "API upper accounted cost includes all attempts and integration tests",
+    "format recovery only uses complete archived JSON, without changing values or re-requesting the failed batch",
+    "new memo and remaining notebooks are separate editorial closure"
+  ],
+  "phase": "reproduccion",
+  "log": ".local/definitivo-reproduccion.log",
+  "updated_at_utc": "2026-11-18T12:08:10.094619+00:00",
+  "api_budget": {
+    "limit_usd": "10",
+    "accounted_spend_usd": "1.116765500",
+    "pending_upper_usd": "0",
+    "completed_paid_calls": 720
+  },
+  "phase_pid": 51056,
+  "remaining": [
+    "real MLflow comparison capture",
+    "legible six-page memo and visual review",
+    "final rubric audit",
+    "public delivery ZIP"
+  ],
+  "notebooks_complete": true
+}

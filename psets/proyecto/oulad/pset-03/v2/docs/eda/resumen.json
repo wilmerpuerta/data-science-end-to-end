@@ -1,0 +1,143 @@
+{
+  "status": "ok",
+  "phase": "eda",
+  "partition": "train",
+  "cutoff_day": 56,
+  "rows": 16331,
+  "unique_students": 15482,
+  "columns_loaded": 37,
+  "original_obt_columns": 35,
+  "snapshot_id": "0a75615bd8ff6b166d366cf78c8303845852cbeb23387ac24a64fe4962f01027",
+  "split_id": "231cd638f375de2a8c70b4482fdf6a98dbe022371a409f1fc92bc97189cf7736",
+  "snapshot_at_utc": "2026-11-16T19:38:45.158000-08:00",
+  "target_counts": {
+    "Approved": 9219,
+    "Fail": 4918,
+    "Withdrawn": 2194
+  },
+  "fail_prevalence": 0.30114506153940357,
+  "majority_minority_ratio": 4.201914311759344,
+  "majority_class_accuracy_reference": 0.5645092156022289,
+  "missing_counts": {
+    "imd_band": 577,
+    "click_ratio_14d": 2516,
+    "last_activity_day": 432,
+    "recency_days": 432
+  },
+  "numeric_predictors": [
+    "num_of_prev_attempts",
+    "studied_credits",
+    "module_presentation_length",
+    "registration_days_before_start",
+    "clicks_through_cutoff",
+    "clicks_since_start",
+    "clicks_prestart",
+    "clicks_day_zero",
+    "active_days_through_cutoff",
+    "resources_through_cutoff",
+    "activity_types_through_cutoff",
+    "clicks_current_14d",
+    "active_days_current_14d",
+    "clicks_forum_current_14d",
+    "clicks_oucontent_current_14d",
+    "clicks_previous_14d",
+    "click_change_14d",
+    "click_ratio_14d",
+    "recency_days"
+  ],
+  "categorical_predictors": [
+    "gender",
+    "region",
+    "highest_education",
+    "imd_band",
+    "age_band",
+    "disability"
+  ],
+  "boolean_predictors": [
+    "is_imd_missing",
+    "has_recorded_activity"
+  ],
+  "checks": {
+    "train_rows_match_frozen": true,
+    "no_missing_target": true,
+    "no_missing_ids": true,
+    "counter_reconciliation": true,
+    "recency_missing_exactly_no_recorded_activity": true,
+    "ratio_missing_exactly_zero_previous_window": true,
+    "current_active_days_between_0_and_14": true,
+    "recency_matches_last_day": true,
+    "no_negative_click_counters": true,
+    "no_target_leakage_into_original_features": true
+  },
+  "holdout_loaded_for_analysis": false,
+  "model_fitted": false,
+  "preprocessing_fitted": false,
+  "outlier_rows_removed": 0,
+  "correlation_method": "Spearman sobre observados por pareja; target Fail vs resto, sin codificación ordinal de las tres clases. Asociaciones exploratorias, sin p-valores ni afirmación causal.",
+  "zscore_definition": "abs((x-media)/std_poblacional_ddof0)>=3; observados solamente; no definido con varianza cero.",
+  "references_are_not_model_baseline_runs": true,
+  "source_sha256": "3c14cd291fe4497bdd5349ccf0a6243f7505160087394ac83662c9c2832b5410",
+  "findings": [
+    {
+      "hallazgo": "Desbalance multiclase relevante para Fail",
+      "evidencia": "Approved=9,219, Fail=4,918, Withdrawn=2,194; Fail=30.11 %; razón mayor/menor=4.20.",
+      "consecuencia": "Mantener AP para Fail y cobertura a cupo fijo; informar calibración y métricas por clase. Accuracy de mayoría es solo referencia descriptiva, no criterio de selección ni baseline ya entrenado. Comparar pesos de clase únicamente dentro de CV."
+    },
+    {
+      "hallazgo": "Clics con cola larga; outliers no implican errores",
+      "evidencia": "clicks_current_14d: mediana=53, p99=686.1, máximo=7028, asimetría=8.82; IQR marca 1,158 y |Z|≥3 marca 264 observaciones.",
+      "consecuencia": "Conservar filas. Probar log1p de clics actuales en la etapa de features y comparar por ablación con los mismos folds. No aplicar log1p al cambio quincenal, que puede ser negativo. Cualquier recorte aprendido debe ajustarse solo dentro del fold."
+    },
+    {
+      "hallazgo": "Ausencia de registros con recencia desconocida",
+      "evidencia": "432 matrículas (2.65 %) sin registros; Fail=75.69 %, frente a 28.88 % con registros. Recencia falta exactamente en esos casos.",
+      "consecuencia": "Preservar las matrículas y distinguir desconocido de cero. Mantener indicadores y justificar imputación dentro del Pipeline; no asignar recencia cero a ausencia de registros ni inferir actividad académica real. Evaluar estado/indicador de registros como candidato, sin interpretar causalidad."
+    },
+    {
+      "hallazgo": "Faltantes de razón quincenal son estructurales",
+      "evidencia": "click_ratio_14d falta en 2,516 matrículas (15.41 %), exactamente cuando clicks_previous_14d=0. IMD falta en 577 (3.53 %).",
+      "consecuencia": "No convertir razón indefinida en cero ni borrar esas filas. Conservar indicador de denominador cero si se usa la razón. Prototipar clics por día activo con denominador positivo y NULL en ausencia de días activos; codificar IMD con política explícita dentro del fold."
+    },
+    {
+      "hallazgo": "Actividad reciente se asocia a Fail, sin demostrar rendimiento",
+      "evidencia": "Spearman(Fail,active_days_current_14d)=-0.332; Spearman(Fail,clicks_current_14d)=-0.304. Las medianas por clase y las tasas por módulo/presentación se muestran separadas.",
+      "consecuencia": "Conservar comparación estático/longitudinal y evaluar intensidad normalizada por días activos como candidata. No seleccionar un ganador ni eliminar variables solo por correlación marginal. Los códigos de módulo/presentación siguen siendo contexto, no predictores automáticos."
+    },
+    {
+      "hallazgo": "IQR degenerado en antecedentes discretos",
+      "evidencia": "num_of_prev_attempts tiene IQR=0; la regla marca 2,147 casos, aunque los valores positivos representan intentos previos registrados.",
+      "consecuencia": "Informar la bandera estadística sin tratarla como error de calidad ni borrar reintentos. Z-score tampoco es un test de anomalía con normalidad demostrada. Mantener estos antecedentes hasta comparar su aporte dentro de CV."
+    }
+  ],
+  "created_at_utc": "2026-11-18T10:27:53.500481+00:00",
+  "artifact_files": {
+    "01_target.png": "0e4970ebcb46b77c6e45cbc8be95bb502f0c2985f9e23d81d1597965bfc12c7b",
+    "02_faltantes.png": "b1f4fd982fc61271f5b430d45c0250bd1e1a38ebabdfcbdaf8fa0ece62680394",
+    "03_distribuciones.png": "4ca7c326807312f54e883a46fe7b5ad1baf0aecf6cc5a2022bd3fb1004e03e89",
+    "04_boxplots_iqr.png": "c62b206a2eaa0349496dd98f0fd07145f2e04981deae1d6009f189a8f6c20b54",
+    "05_correlaciones_spearman.png": "2c1e5e4fec8a1f6b1b805f0aecfaf01b68ffb0ad6cd4311d15066f8311486273",
+    "06_contexto_modulo_presentacion.png": "8b139d662cd66993d52474a64c7710eb60cefb607aa1961e9e9966db7888d024",
+    "07_estado_actividad.png": "632483c491cec2aae4cb5e174be29daa93eb14391ff90a2d7869d890f8053f1d",
+    "actividad_registrada.csv": "87e4df7c7191b813c81a4987ce597d7735c699d8121968fcdbafae5735f486c0",
+    "balance_folds.csv": "f2f9256690f71c936818604aadb77dc8bb619063944a3be01a7dc1fc47998fe7",
+    "candidatas_derivadas.csv": "67c5a2dd83270bd43eed2c922db5fabc8955f5c453c129369cd8c9a273da540e",
+    "categorias.csv": "d77e58e1a0177878cc04339318dfabee7122696a3695324138af5d4e48ec6c95",
+    "correlacion_fail.csv": "2b8129524502ae9d866d56f0c6826b2d5e2926d9c56fc0d22b510ec7e0685c76",
+    "correlaciones.csv": "f918e837180b955b529408c8860ed8cadd2ed838ad736183204b688f453d5c56",
+    "descriptivos_numericos.csv": "3405426538cc35676925982a2989995876678880eb45608832157ee640fca80d",
+    "estado_actividad.csv": "ed8fb139c5fa7ed943a4f2712a4d0b9d8265a5bd2b56acf98765536879050597",
+    "faltantes_target.csv": "a0f0f478970dcb384f77ecb317902496964b4a1d67e4b6bf5308bb88137ff9bf",
+    "medianas_target.csv": "ab614636f4b2162131776bd7d329febd45a669adbe56691599fb6cb496ad3452",
+    "outliers.csv": "7162af6d323b1a5bf118d441d54e024d9a584412b72b8241e888428a8caa38c7",
+    "perfil_columnas.csv": "11825a981469f6cfce02a905d7f6d5235f3b6810f52629ae520d9182f9e434ab",
+    "redundancia.csv": "16a32ca66e8149f6715bbd71f8e7cbb66785a175d9ea81889a927eab7eb65b35",
+    "target.csv": "a669ab7700c600ee509ff43894f31539e1f880a84df0b6686ceb176e0f0d9461",
+    "tasas_modulo.csv": "17d380301640bd24a0cc0738c01d4c0c9b38baa2afaaf3399401f4a611aef94a",
+    "tasas_presentacion.csv": "8b5fc384a00864fae4b42a5f750042b5e2f25fcdaab0525599a74ba33881a774"
+  },
+  "run_id": "84ae066af3ca446d83828d6772e18079",
+  "experiment_id": "6",
+  "notebook_source_sha256": "5d86d34ff77ec3c74eb3d3b29284a5d3d9fb0ab0f1eb733e892eb8a5816faa13",
+  "git_commit": "eb107b3f42149fc9acb491880f84b5917be0cded",
+  "git_dirty": false
+}

@@ -1,0 +1,10 @@
+{
+  "status": "ok",
+  "zip_sha256": "3c8c641bd24cda43f7fc1da89023c9659f25ed4e68690fb42104c32afcaf2b9b",
+  "zip_bytes": 2442682,
+  "files_verified": 334,
+  "embedded_manifest_sha256": "e40d41ed455198dd42daa8df4244f07812bd2261f7ce18613ca756ddc5b304d4",
+  "source_commit": "59520cf270e76dafbfc307eded55147a9bb8652b",
+  "private_resources_included": false,
+  "scope": "Public evidence and source; exact model/runtime reproduction needs private snapshot and MLflow backup; symlink entrypoints optional, canonical v2 contains real files."
+}

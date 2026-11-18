@@ -1,0 +1,1 @@
+El prompt ejecutable está versionado en src/llm.py. La serialización, el orden de clases, los ejemplos del train-fold y el esquema estricto están en src/llm.py y src/openai_api.py. docs/prompting.md explica el protocolo y sus limitaciones. Las peticiones y respuestas reales quedan en .local/llm/requests, excluidas del repositorio público.

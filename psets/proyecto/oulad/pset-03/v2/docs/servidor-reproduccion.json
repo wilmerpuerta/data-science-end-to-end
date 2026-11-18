@@ -1,0 +1,9 @@
+{
+  "status": "ok",
+  "image_build_passed": true,
+  "image_id": "sha256:07f5e2fe6c6c8bd1ac736774c2702ecb9cb7e32701c5e93b028fff35391bb7d0",
+  "fresh_container_health": true,
+  "versions": "2.22.0 2.0.58",
+  "existing_model_server_untouched": true,
+  "checked_at_utc": "2026-11-18T12:59:34.104766+00:00"
+}

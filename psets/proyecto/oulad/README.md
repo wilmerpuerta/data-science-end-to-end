@@ -11,12 +11,13 @@ psets/
 ├── datasets/       originales compartidos y manifiesto
 ├── pset-01/        propuesta revisada, auditoría y exportaciones
 ├── pset-02/        pipeline verificado, memo y reproducción
-├── pset-03/        alcance pendiente de enunciado
+├── pset-03/        experimentación v2 cerrada; seis familias, prompting y Registry
 └── pset-04/        alcance pendiente de enunciado
 ```
 
 - [PSet 1: propuesta y entregables](pset-01/README.md).
 - [PSet 2: pipeline y reproducción](pset-02/README.md).
+- [PSet 3: experimentación y MLflow](pset-03/README.md).
 - [Datos compartidos y reproducción](datasets/README.md).
 
 Las cuatro carpetas organizan etapas del mismo proyecto. La rúbrica del profesor menciona cinco PSets del curso; se conserva su texto y ponderación sin inventar una quinta etapa o requisitos de las etapas 3 y 4.
@@ -27,7 +28,7 @@ Leer primero la [propuesta](pset-01/propuesta-pset1.md), el [Canvas](pset-01/can
 
 PSet 1: fuentes Markdown, notebook válido, memo breve PDF de dos páginas y versión extendida de cinco páginas, PDF completo y pitch nativo de seis diapositivas en PPTX y PPT real. Auditoría ejecutada sobre cinco CSV: 32.593 matrículas, 7.052 Fail (21,64 %). No hay entrenamiento ni demostración de impacto. Colab continúa pendiente de sincronización. Hay limitaciones de cobertura, temporalidad y duplicados de actividad documentadas.
 
-PSet 2: pipeline completo verificado con Kestra, Snowflake, dbt y Spark. Raw contiene cinco fuentes y 10.726.852 filas; Silver/Gold conservan 8.459.320 claves diarias y 39.605.099 clics. dbt aprobó 168 pruebas en 23 modelos. La OBT publicada contiene 108.277 filas y 35 columnas, con cuatro cortes reconciliados, pruebas temporales y lectura de vuelta aprobadas. Se comprobaron detención y retry controlados, idempotencia y backfill por fichero. La reproducción desde exportación limpia usó volúmenes nuevos, recargó cinco CSV y produjo una OBT idéntica. El [memo técnico de seis páginas](pset-02/output/pdf/PSet2_memo_Puerta_Wilmer.pdf) está generado desde [Markdown](pset-02/memo-pset2.md), con [verificación de coherencia](pset-02/docs/memo-verificacion.json). La [revisión local del paquete](pset-02/docs/revision-paquete.md) está completada. El costo monetario permanece sin cuantificar; la actualización GitHub del paquete está autorizada por el autor el 15-nov-2026. PSet 3 y 4 solo contienen .gitkeep.
+PSet 2: pipeline completo verificado con Kestra, Snowflake, dbt y Spark. Raw contiene cinco fuentes y 10.726.852 filas; Silver/Gold conservan 8.459.320 claves diarias y 39.605.099 clics. dbt aprobó 168 pruebas en 23 modelos. La OBT publicada contiene 108.277 filas y 35 columnas, con cuatro cortes reconciliados, pruebas temporales y lectura de vuelta aprobadas. Se comprobaron detención y retry controlados, idempotencia y backfill por fichero. La reproducción desde exportación limpia usó volúmenes nuevos, recargó cinco CSV y produjo una OBT idéntica. El [memo técnico de seis páginas](pset-02/output/pdf/PSet2_memo_Puerta_Wilmer.pdf) está generado desde [Markdown](pset-02/memo-pset2.md), con [verificación de coherencia](pset-02/docs/memo-verificacion.json). La [revisión local del paquete](pset-02/docs/revision-paquete.md) está completada. El costo monetario permanece sin cuantificar; la actualización GitHub del paquete está autorizada por el autor el 15-nov-2026. PSet 3: reconstrucción v2 con seis familias (incluido GPT mediante prompting), dos baselines, 90 configuraciones de tuning por el criterio del negocio, controles estáticos, anticipación y seis notebooks ejecutados. Champion HGB v1 y challenger logística v2 registrados y reproducidos; memo legible de seis páginas, CSV y auditoría. La prueba 2014J se declara benchmark reutilizado; el costo-beneficio operativo de un LLM externo se evaluará posteriormente con la Universidad. PSet 4 conserva su preparación inicial.
 
 La revisión local del PSet 1 del 15-nov-2026 incorpora los tres gaps docentes: cobertura y anticipación como objetivo de negocio, tres políticas con igual capacidad y pitch con viabilidad técnica, evaluación, MVP y beneficio esperado. Los formatos se derivan de fuentes controladas; ver la [respuesta al feedback](pset-01/docs/respuesta-feedback.md). La publicación inicial es del 14-nov-2026; el autor autorizó actualizar el mismo destino el 15-nov-2026, incluyendo las aclaraciones de continuidad en PSet 2.
 
@@ -42,3 +43,7 @@ Instalar dependencias locales desde pset-01/scripts/requirements.txt y seguir lo
 Versionar código, Markdown, notebook final, manifiestos y exportaciones finales. .gitignore excluye datos crudos y voluminosos, secretos, entornos, caches, logs, temporales y backups. Los generadores de contenido respaldan textos distintos antes de reemplazarlos: reconciliar cambios editoriales antes de regenerar desde prompt-codex-psets.md. No había entregables previos en pset-01 o pset-02 al inicio; el encargo original permanece intacto.
 
 Destino de publicación autorizado: [wilmerpuerta/data-science-end-to-end](https://github.com/wilmerpuerta/data-science-end-to-end), carpeta [psets/proyecto/oulad/](https://github.com/wilmerpuerta/data-science-end-to-end/tree/master/psets/proyecto/oulad), dentro del fork existente del curso. Desde un clon, entrar en esa carpeta antes de seguir los comandos del proyecto. La [guía de publicación](pset-02/docs/publicacion-github.md) explica ubicación y alcance; las configuraciones y enunciados del curso se conservan. PSet 2 distingue componentes probados y trabajo pendiente en su README e informes de evidencia.
+
+## Cambio de directorio local
+
+La migración a `MSDS_6003_CD_Erick_Naunay` está comprobada. Ver [correcciones, evidencia y uso desde el IDE](docs/migracion-directorio.md).
