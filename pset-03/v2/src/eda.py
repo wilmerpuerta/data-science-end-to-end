@@ -35,7 +35,7 @@ def analizar(frame):
     if frame.attrs.get('partition')!='train' or set(frame.enrollment_key)!=expected or frame.enrollment_key.duplicated().any():
         raise ValueError('EDA exige todas y solo las matrículas de desarrollo congeladas')
     if set(frame.cutoff_day)!={56}:raise ValueError('EDA principal solo en día 56')
-    contract=json.loads((ROOT.parent/'pset-02/spark/feature-contract.json').read_text())
+    contract=json.loads((ROOT/'config/feature-contract.json').read_text())
     static=contract['static_predictor_columns'];activity=contract['activity_predictor_columns']
     predictors=static+activity
     numeric=[c for c in predictors if is_numeric_dtype(frame[c]) and not is_bool_dtype(frame[c])]
