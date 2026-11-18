@@ -1,3 +1,5 @@
+> Registro histórico de avance, sustituido por la [auditoría final verificada](auditoria-rubrica.md). Las comprobaciones pendientes de esta captura ya se revisaron allí.
+
 # Matriz de evidencia de la reconstrucción v2
 
 Actualización: 2026-11-18T07:08:12.704065-05:00. Proceso: notebooks_complete_editorial_pending; fase: reproduccion.

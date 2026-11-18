@@ -179,5 +179,7 @@
     }
   ],
   "notes": [],
-  "final_compliance_certified": false
+  "final_compliance_certified": false,
+  "historical_readiness_snapshot": true,
+  "superseded_by": "docs/auditoria-rubrica.json"
 }
