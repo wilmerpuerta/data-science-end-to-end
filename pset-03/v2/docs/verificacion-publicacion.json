@@ -1,20 +1,24 @@
 {
   "status": "ok",
-  "remote_payload_commit": "8e74911880801b116b6893386390ec58d865e21e",
-  "checked_at_utc": "2026-11-18T14:14:44.599060+00:00",
+  "remote_payload_commit": "9535ad51f2da6130e87b3741d95654821a9fc506",
+  "checked_at_utc": "2026-11-18T15:31:00.559525+00:00",
   "course_files_outside_project_unchanged": true,
-  "pdf_sha256": "60cd7884c9354b46065643ae973e67c6ce8799e030b75844b95e3abdf6bf70d2",
-  "zip_sha256": "d9c11594b349950da08668f7816af23b165b53d8e548507a8dc3e2df8d4b49c2",
+  "pdf_sha256": "108a70a93e74b150121382b5cd266e64e61cf40435eb0d4c01c5b1089c4393c6",
+  "zip_sha256": "f99fc7654eae2b67db3ba61b898b21f53d5b9a9abf143ae04527ca0fa581d59e",
   "git_experiment_commits_reachable_from_master": true,
   "PDF_ZIP_source_equal_to_published": true,
   "ZIP_CRC_and_manifest_passed": true,
   "pdf_pages": 6,
-  "page_1_pixel_identical": true,
-  "changed_pages": [
+  "unchanged_pages_pixel_identical": [
+    1,
     2,
     3,
-    4,
     5,
     6
-  ]
+  ],
+  "changed_pages": [
+    4
+  ],
+  "tuning_graph_in_PDF_and_notebook": true,
+  "audit_checks_passed": 21
 }
