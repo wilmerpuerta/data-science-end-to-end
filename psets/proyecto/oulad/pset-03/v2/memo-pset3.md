@@ -14,6 +14,10 @@ Desarrollo al día 56: **16,331 matrículas / 15,482 estudiantes**; OBT original
 
 | Ausencia y NULL estructural | 432 sin registros al corte: 75,69 % Fail vs 28,88 % con registros. Razón quincenal indefinida: 2.516. | Separar ausencia de cero; imputación e indicadores en cada train-fold. No inferir causalidad. |
 
+## Relaciones que orientan las features
+
+**Lectura para el negocio:** la actividad aporta señales candidatas para priorizar el apoyo. Su utilidad incremental se contrasta con el modelo estático y a igual cupo; la inactividad, por sí sola, no demuestra por qué ocurre Fail.
+
 Fuentes: docs/eda/*.csv y 01_eda.ipynb. IQR y Z-score son diagnósticos, no reglas de eliminación.
 
 

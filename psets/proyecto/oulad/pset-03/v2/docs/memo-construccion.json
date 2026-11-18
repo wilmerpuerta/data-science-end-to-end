@@ -1,15 +1,26 @@
 {
   "pages": 6,
-  "pdf_sha256": "4b547f1cbd10a1591bc93e36479a18b58b1a9857c4305c9d6899890e127aa4be",
-  "source_sha256": "90632d780b1dd53abc939d088658b82b3a5c152b550cd28e0a44e39329033323",
+  "pdf_sha256": "bb8966eda8099c8f9fc8f7e1aeccd5fe7cc1517b1cbce53339f80acef92cd132",
+  "source_sha256": "1b490002e738db656d04196243f0938f0bce581c308dd2db945c61fc3185ad2d",
   "native_vector_figures": [
     {
       "page": 1,
-      "kind": "native_target_and_iqr_reference"
+      "kind": "native_target_and_iqr_reference",
+      "height_pt": 148,
+      "target_denominator": 16331,
+      "target_percentages": true,
+      "click_axis": "log1p",
+      "iqr_upper_limit_is_reference": true
     },
     {
       "page": 1,
-      "kind": "native_spearman_heatmap"
+      "kind": "native_spearman_heatmap",
+      "cell_size_pt": 35,
+      "matrix_size": 5,
+      "color_scale": [
+        -1,
+        1
+      ]
     },
     {
       "page": 3,
@@ -50,7 +61,7 @@
   ],
   "native_UI_screenshot": "docs/evidencia/mlflow-comparacion-detalle.png",
   "minimum_cursor_y": {
-    "1": 222.6897637795277,
+    "1": 62.689763779527695,
     "2": 131.4897637795277,
     "3": 90.68976377952774,
     "4": 128.8897637795277,
