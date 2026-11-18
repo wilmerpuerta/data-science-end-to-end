@@ -2,7 +2,7 @@
 from pathlib import Path
 import os,sys,json,hashlib,stat,zipfile,subprocess
 ROOT=Path(__file__).resolve().parents[1];B=ROOT.parent;REPO=ROOT.parents[1]
-EXCLUDE={'v2/docs/estado-v2.json','v2/docs/cierre-notebooks.json','v2/docs/matriz-rubrica-v2.json','v2/docs/matriz-rubrica-v2.md','v2/docs/preparacion-v2.json','v2/docs/recursos-autorizados.json','v2/docs/respaldo-v1.json','v2/docs/estructura-entrega.json','v2/docs/publicacion-github.json','v2/docs/respaldo-final.json','v2/docs/entrega-verificacion.json'}
+EXCLUDE={'v2/docs/verificacion-publicacion.json','v2/docs/github-actions.json','v2/docs/estado-v2.json','v2/docs/cierre-notebooks.json','v2/docs/matriz-rubrica-v2.json','v2/docs/matriz-rubrica-v2.md','v2/docs/preparacion-v2.json','v2/docs/recursos-autorizados.json','v2/docs/respaldo-v1.json','v2/docs/estructura-entrega.json','v2/docs/publicacion-github.json','v2/docs/respaldo-final.json','v2/docs/entrega-verificacion.json'}
 FORBIDDEN={'.local','.venv','.secrets','backups','tmp','__pycache__'}
 def digest(data):return hashlib.sha256(data).hexdigest()
 def main():
