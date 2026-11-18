@@ -2,7 +2,7 @@
 
 El respaldo privado completo de v1 fue verificado y restaurado de prueba. Los entregables originales siguen en `pset-03/`; esta reconstrucción se desarrolla por separado en `pset-03/v2/`. Los resultados previos no se presentan como corridas nuevas.
 
-Estado actual: EDA y preparación ejecutados desde kernel nuevo; fuentes versionadas; comparación de seis candidatos aún pendiente de recursos API. Consultar `docs/estado-v2.json`, `docs/paso-a-paso-v2.md` y `docs/prompting.md`. No hay un nuevo ganador ni un memo v2 terminado.
+Estado actual: API verificada con prueba sintética y lote real de 32 consultas; EDA y preparación ejecutados en kernel nuevo. El protocolo operativo v2.1 está congelado; las fases definitivas se ejecutan mediante scripts/ejecutar_estudio.py. El estado actualizado está en docs/estado-v2.json. Consultar `docs/estado-v2.json`, `docs/paso-a-paso-v2.md` y `docs/prompting.md`. No hay un nuevo ganador ni un memo v2 terminado.
 
 ## Diseño y criterio del negocio
 
@@ -44,3 +44,11 @@ Si devuelve `insufficient_quota`/`credit_balance_exhausted`, activar créditos o
 6. Completar prueba conjunta, Registry y reproducción exacta en kernel nuevo; generar los notebooks 03–05 con salidas reales, memo legible de hasta seis páginas, CSV y auditoría literal.
 
 Los scripts del estudio rechazan fuentes sin commit y protocolo no congelado. Los espacios de las seis búsquedas ya están en `config/espacios-tuning.json`. El cierre no se declara completo mientras falte un candidato, un tuning obligatorio o un entregable. La carpeta v2 no sustituye todavía la entrega original aprobada.
+
+## Ejecución autónoma autorizada
+
+El coordinador `scripts/ejecutar_estudio.py` ejecuta comparación, tuning, ablación, controles y decisión de negocio, anticipación, selección/Registry y reproducción. Actualiza `docs/estado-v2.json` cada diez segundos y guarda logs por fase en `.local/definitivo-*.log`. Se detiene al primer error y no reintenta llamadas ni aumenta el tope de USD 10. Antes de reanudar una fase con `--desde`, inspeccionar su log y verificar sus checkpoints; nunca lanzar un segundo coordinador. Mantener la computadora encendida durante las ejecuciones.
+
+El primer intento está conservado en `.local/attempts/intento_1` y en el experimento `oulad-apoyo-academico-v2-intento1`. Se interrumpió por un límite de salida insuficiente del LLM, antes de obtener métricas de validación para esa familia. El intento definitivo usa un experimento nuevo con el nombre original y vuelve a ejecutar todas las familias. Los USD 10 incluyen el gasto del intento interrumpido.
+
+La revisión v2.1 admite hasta 160 tokens de salida por consulta más 256 de margen, pide cuatro decimales por probabilidad, utiliza hasta ocho peticiones concurrentes de lotes de 32 y archiva las respuestas incompletas con su cobro. La reserva incluye la tarifa máxima de escritura de caché; la conciliación incorpora sus primas sin aplicar descuentos por lectura de caché. Estos cambios técnicos quedaron versionados y congelados antes del nuevo estudio.

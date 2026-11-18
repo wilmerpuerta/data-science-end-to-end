@@ -17,3 +17,7 @@ El tope global autorizado es USD 10 para pilotos, comparación, tuning y evaluac
 Documentación oficial consultada para la integración: [modelo](https://developers.openai.com/api/docs/models/gpt-6-luna), [tarifas](https://developers.openai.com/api/docs/pricing), [Responses y acceso](https://developers.openai.com/api/docs/quickstart), [facturación](https://help.openai.com/en/articles/9039756-managing-billing-for-chatgpt-and-the-api-platform).
 
 Estado del ensayo: consultar `docs/preflight-openai.json` y `docs/estado-v2.json`. Tener el adaptador preparado no constituye una evaluación completada del sexto candidato.
+
+## Revisión operativa v2.1
+
+La prueba de API y un lote real de 32 consultas del train-fold pasaron. El intento anterior se conserva como integración interrumpida, sin validación completa del LLM; no se utiliza como comparación definitiva. La ejecución nueva repite las seis familias bajo un protocolo nuevo congelado. El prompt pide como máximo cuatro decimales y el límite de salida es max(1024,160×n+256). Hasta ocho lotes independientes se procesan concurrentemente, conservando el orden de las filas al reunir los resultados. El costo incluye las escrituras de caché: USD 0,125/M para 30 minutos y USD 0,25/M para 12 horas, además de salida USD 0,50/M; el libro no aplica descuentos por lectura, y reserva el máximo para la entrada. La conciliación de las llamadas previas está en docs/conciliacion-intento1.json. El conjunto de preentrenamiento del proveedor es desconocido: no se puede descartar exposición previa a OULAD público.

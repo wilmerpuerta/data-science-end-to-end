@@ -1,0 +1,45 @@
+test_cohortes_propias_y_folds_por_alumno (test_anticipacion.AnticipacionTests.test_cohortes_propias_y_folds_por_alumno) ... ok
+test_cupo_compartido_no_se_triplica (test_anticipacion.AnticipacionTests.test_cupo_compartido_no_se_triplica) ... ok
+test_indicador_no_incumple_allowlist_estatica (test_anticipacion.AnticipacionTests.test_indicador_no_incumple_allowlist_estatica) ... ok
+test_seleccion_no_depende_de_etiqueta (test_anticipacion.AnticipacionTests.test_seleccion_no_depende_de_etiqueta) ... ok
+test_cache_writes_premium_se_incluye (test_api.ApiTests.test_cache_writes_premium_se_incluye) ... ok
+test_credito_agotado_libera_reserva_sin_reintentar (test_api.ApiTests.test_credito_agotado_libera_reserva_sin_reintentar) ... ok
+test_esquema_estricto_y_cache_sin_segunda_llamada (test_api.ApiTests.test_esquema_estricto_y_cache_sin_segunda_llamada) ... ok
+test_llm_pipeline_real_tiene_nombres_y_excluye_objetivo (test_api.ApiTests.test_llm_pipeline_real_tiene_nombres_y_excluye_objetivo) ... ok
+test_reservas_concurrentes_comparten_tope (test_api.ApiTests.test_reservas_concurrentes_comparten_tope) ... ok
+test_respuesta_incompleta_registra_cobro_y_falla (test_api.ApiTests.test_respuesta_incompleta_registra_cobro_y_falla) ... ok
+test_timeout_conserva_reserva_y_no_reintenta (test_api.ApiTests.test_timeout_conserva_reserva_y_no_reintenta) ... ok
+test_analysis_rejects_holdout_flag (test_eda.Eda.test_analysis_rejects_holdout_flag) ... ok
+test_constant_and_fully_missing_have_undefined_z (test_eda.Eda.test_constant_and_fully_missing_have_undefined_z) ... ok
+test_zscore_includes_exactly_three_and_excludes_missing (test_eda.Eda.test_zscore_includes_exactly_three_and_excludes_missing) ... ok
+test_cada_espacio_tiene_treinta_draws_unicos (test_experimentos.DisenoTests.test_cada_espacio_tiene_treinta_draws_unicos) ... ok
+test_desempate_no_depende_del_orden_de_llegada (test_experimentos.DisenoTests.test_desempate_no_depende_del_orden_de_llegada) ... ok
+test_muestra_train_reproducible_y_no_incluye_validacion (test_experimentos.DisenoTests.test_muestra_train_reproducible_y_no_incluye_validacion) ... ok
+test_scorer_cache_separa_train_validacion (test_experimentos.DisenoTests.test_scorer_cache_separa_train_validacion) ... ok
+test_seis_candidatos_incluye_llm (test_experimentos.DisenoTests.test_seis_candidatos_incluye_llm) ... ok
+test_seleccion_prioriza_negocio_frente_a_ap (test_experimentos.DisenoTests.test_seleccion_prioriza_negocio_frente_a_ap) ... ok
+test_all_cutoffs_keep_the_frozen_train_keys (test_integridad.Integridad.test_all_cutoffs_keep_the_frozen_train_keys) ... ok
+test_folds_do_not_regenerate_after_label_changes (test_integridad.Integridad.test_folds_do_not_regenerate_after_label_changes) ... ok
+test_holdout_requires_explicit_access (test_integridad.Integridad.test_holdout_requires_explicit_access) ... ok
+test_modified_artifact_is_rejected (test_integridad.Integridad.test_modified_artifact_is_rejected) ... ok
+test_pointer_cannot_escape_local (test_integridad.Integridad.test_pointer_cannot_escape_local) ... ok
+test_real_train_and_folds_do_not_overlap (test_integridad.Integridad.test_real_train_and_folds_do_not_overlap) ... ok
+test_fallo_desconocido_mantiene_reserva (test_llm.CostosTests.test_fallo_desconocido_mantiene_reserva) ... ok
+test_no_se_puede_ampliar_limite_silenciosamente (test_llm.CostosTests.test_no_se_puede_ampliar_limite_silenciosamente) ... ok
+test_reservas_impiden_sobrepasar_diez (test_llm.CostosTests.test_reservas_impiden_sobrepasar_diez) ... ok
+test_ejemplos_solo_del_train_y_predicciones_sin_etiquetas (test_llm.LLMTests.test_ejemplos_solo_del_train_y_predicciones_sin_etiquetas) ... ok
+test_respuesta_invalida_no_se_sustituye_por_baseline (test_llm.LLMTests.test_respuesta_invalida_no_se_sustituye_por_baseline) ... ok
+test_semilla_fija_seleccion_contexto (test_llm.LLMTests.test_semilla_fija_seleccion_contexto) ... ok
+test_resultados_fuera_de_orden_conservan_alineacion (test_llm.ParallelPredictionTests.test_resultados_fuera_de_orden_conservan_alineacion) ... ok
+test_formulas_and_undefined_denominator (test_pipeline.Preparation.test_formulas_and_undefined_denominator) ... ok
+test_future_observed_activity_rejected (test_pipeline.Preparation.test_future_observed_activity_rejected) ... ok
+test_labels_future_fields_ids_and_order_do_not_change_features (test_pipeline.Preparation.test_labels_future_fields_ids_and_order_do_not_change_features) ... ok
+test_negative_counts_rejected (test_pipeline.Preparation.test_negative_counts_rejected) ... ok
+test_static_does_not_require_or_use_activity (test_pipeline.Preparation.test_static_does_not_require_or_use_activity) ... ok
+test_unknowns_all_missing_numeric_and_serialization (test_pipeline.Preparation.test_unknowns_all_missing_numeric_and_serialization) ... ok
+test_validation_does_not_refit_median_or_categories (test_pipeline.Preparation.test_validation_does_not_refit_median_or_categories) ... ok
+
+----------------------------------------------------------------------
+Ran 40 tests in 17.135s
+
+OK

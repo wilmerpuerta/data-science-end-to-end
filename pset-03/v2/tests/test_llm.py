@@ -44,3 +44,18 @@ class LLMTests(unittest.TestCase):
   x=np.arange(90).reshape(30,3);y=['Approved','Fail','Withdrawn']*10
   a=OpenAIPromptClassifier().fit(x,y);b=OpenAIPromptClassifier().fit(x,y)
   self.assertEqual(a.examples_,b.examples_)
+
+class ParallelPredictionTests(unittest.TestCase):
+ def test_resultados_fuera_de_orden_conservan_alineacion(self):
+  import json,time
+  from unittest.mock import Mock,patch
+  client=Mock()
+  def fake(system,user,n):
+   data=json.loads(user)['queries'];values=[pairs[0][1] if pairs else 0 for pairs in data]
+   if values[0]==0:time.sleep(.02)
+   return [[.1,.8,.1] if v%2==0 else [.7,.2,.1] for v in values],{}
+  client.predict_batch.side_effect=fake
+  from src.llm import OpenAIPromptClassifier
+  x=np.arange(64,dtype=float).reshape(-1,1);model=OpenAIPromptClassifier(examples_per_class=1,max_workers=2).fit(x[:6],['Approved','Fail','Withdrawn']*2)
+  with patch('src.llm.ResponsesClient',return_value=client):p=model.predict_proba(x)
+  np.testing.assert_allclose(p[::2,1],.8);np.testing.assert_allclose(p[1::2,1],.2);self.assertEqual(client.predict_batch.call_count,2)
