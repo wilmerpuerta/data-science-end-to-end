@@ -66,6 +66,8 @@ La ganancia de ambas es solo +0,104 puntos porcentuales de cobertura y no supera
 
 **2014J ya fue observado en v1.** La reconstrucción es un benchmark retrospectivo reutilizado. Se congela la decisión antes de una única evaluación final conjunta de esta versión; no se afirma una prueba inédita ni se ajusta con su resultado.
 
+El agrupamiento evita que el historial de una misma persona aparezca a ambos lados de la validación. A igual cupo se evalúa a quién priorizar con recursos limitados; AP resume la ordenación del riesgo sin fijar un umbral. Las particiones persistidas permiten comparar modelos sin introducir diferencias por nuevos sorteos.
+
 Snapshot: 0a75615bd8ff... | split: 231cd638f375... | protocolo predictivo: 07111fdf724a...<br/>Hashes completos, enmiendas operativas y archivos: docs/protocolo-congelado.json y docs/enmienda-*.json.
 
 
@@ -106,6 +108,8 @@ GPT-6 Luna se probó con **18 ejemplos (6 por clase) y proporciones del train-fo
 
 AP CV 0,382 y cobertura 14,87 %: supera Dummy, pero no está entre los tres primeros por negocio y no pasa al tuning. Inferencia CV registrada: 349,8 s, frente a 0,18-0,53 s en las familias tabulares; fit del GPT construye contexto y no refleja ese costo. Hubo recuperación de caché y ocho peticiones concurrentes: estos tiempos no equivalen a un servicio productivo en frío.
 
+La conclusión corresponde al prompt y modelo ensayados. Otro diseño requeriría una nueva evaluación comparable, con igual cupo y presupuesto explícito.
+
 Consumo global conservador: **USD 1.1168** / USD 10, incluidos pilotos e intentos fallidos; 720 llamadas con uso registrado. El gasto de esta muestra no estima el costo anual de la Universidad.
 
 
@@ -139,6 +143,8 @@ Ningún delta supera la mayor DE entre default y ajustado: **no se declara mejor
 ## Tracking: evidencia exportada y captura real
 
 Servidor Docker con backend SQLite y artefactos persistentes; experimento oulad-apoyo-academico-v2. Los runs finalizados con estimador guardan parámetros/semilla, origen/fecha/hash, métricas train/CV/DE/tiempos, fase/familia/commit real, Pipeline, firma y ejemplo. Los padres lógicos y fallos se distinguen de configuraciones válidas.
+
+La revisión final comprobó 370 pipelines con firma, ejemplo de entrada e interfaz predict_proba. Los 382 runs incluyen padres y fallos técnicos, por lo que no representan 382 modelos distintos. Esta distinción permite auditar qué se entrenó y recuperar el mismo procedimiento de preparación y predicción, además de sus métricas.
 
 Captura nativa de la interfaz local, sin edición: izquierda HGB dc2fa9bb8bee...; derecha logística bb2b40097599.... Las filas muestran AP y cobertura CV, con su desviación.
 
@@ -175,6 +181,8 @@ Fail captados con el mismo K=872; el resultado observado en prueba no sustituye 
 ## Costo, explicación y registro reproducible
 
 Refit: HGB 1,80 s vs logística 0,32 s. Primer pase de 1.000 filas: 0,244 s vs 0,042 s; medianas de cinco repeticiones: 0,046 s vs 0,019 s (dos hilos). Los escenarios de costo FN/FP = 1, 2, 5 y 10 son relativos: no se inventa una tarifa institucional. El umbral es el score del último cupo por edición, con desempate por clave, no 0,5 universal.
+
+**Lectura operativa:** los 872 cupos de HGB incluyen 465 matrículas con Fail y 407 con otros resultados; 1.482 Fail quedan fuera del cupo. Este balance muestra la cobertura posible con los recursos fijados, sin estimar fracasos evitados. La valoración económica posterior deberá combinar costos de atención, beneficio incremental de la tutoría y personas únicas atendidas; no basta con multiplicar los casos detectados por una ganancia supuesta.
 
 Explicación: permutación en 200 casos de desarrollo (2 repeticiones) destaca clics recientes/acumulados y carga académica. En un caso de alto riesgo de desarrollo, sustituir el grupo de actividad por un perfil observado central cambia P(Fail) de 0.854 a 0.369. Es contraste descriptivo local, no SHAP aditivo ni intervención causal.
 
@@ -214,4 +222,4 @@ En semana 2, Fail es 52,67 % sin registros al corte y 26,78 % con ellos: RR 1,97
 
 Límites: 2014J es un benchmark ya observado; CV y decisiones reutilizan desarrollo. La maduración de etiquetas no tiene fecha de publicación conocida; el margen curso-terminado/corte sería -12, +2, +16 y +30 días en cortes 14/28/42/56, insuficiente para certificar un despliegue prospectivo temprano. Las probabilidades del proveedor no son deterministas ni se conoce su preentrenamiento sobre OULAD; la reproducción usa respuestas archivadas.
 
-La evidencia termina en predicción y simulación: se requiere cohorte futura y piloto de intervención para medir beneficios causales, costos reales de tutoría y equidad. Las restricciones operativas no se usan para justificar la omisión del LLM. Código, seis notebooks con salidas, CSV, contratos y verificación acompañan la entrega.
+La evidencia termina en predicción y simulación. El siguiente paso es acordar con la Universidad el plazo mínimo de acción, el cupo por persona y los costos de atención. Una cohorte futura y un piloto con un diseño de evaluación adecuado permitirán estimar el efecto de las tutorías, su equidad y su costo-beneficio. Un eventual LLM externo deberá justificar valor incremental frente a los modelos tabulares, considerando precisión, latencia, integración y mantenimiento, además del consumo de API. Código, seis notebooks con salidas, CSV, contratos y verificación acompañan la entrega.

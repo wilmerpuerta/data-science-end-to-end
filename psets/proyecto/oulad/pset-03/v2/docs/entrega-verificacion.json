@@ -1,10 +1,10 @@
 {
   "status": "ok",
-  "zip_sha256": "7737937deceb593b0bf57f5484b43683e054575f7cf46a8cd4ac232f50b594df",
-  "zip_bytes": 2446100,
+  "zip_sha256": "d9c11594b349950da08668f7816af23b165b53d8e548507a8dc3e2df8d4b49c2",
+  "zip_bytes": 2448241,
   "files_verified": 334,
-  "embedded_manifest_sha256": "be7895dffcfeee726b1d0d4740dd9299acdccd35e5a14c0fa9e9b659bc9c40a6",
-  "source_commit": "176d75fa4e3a59d625069e85ab4e5ca0065ca8d9",
+  "embedded_manifest_sha256": "a21f724c8956760d29ef4af6667d6be1d8d711582b667bc7b6285e2278b14c98",
+  "source_commit": "c3ef20c5d331adc2ba316966772d4a4ca0c308ea",
   "private_resources_included": false,
   "scope": "Public evidence and source; exact model/runtime reproduction needs private snapshot and MLflow backup; symlink entrypoints optional, canonical v2 contains real files."
 }
