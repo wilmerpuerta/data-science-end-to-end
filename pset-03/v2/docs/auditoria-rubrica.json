@@ -1,6 +1,6 @@
 {
   "status": "verified_with_declared_limitations",
-  "checked_at_utc": "2026-11-18T13:00:03.649679+00:00",
+  "checked_at_utc": "2026-11-18T15:29:08.429025+00:00",
   "checks": [
     {
       "check": "CSV_vs_servidor",
@@ -26,7 +26,7 @@
       "evidence": {
         "unique_commits": 4,
         "missing": [],
-        "current_source_commit": "4fc81b9868331a1c9f7bca13e3f18ea85e090b00"
+        "current_source_commit": "58ce024a3be4bfc0d26f70ff6f6495f1a09f027f"
       }
     },
     {
@@ -64,6 +64,17 @@
       "check": "tuning_nested",
       "passed": true,
       "evidence": "90 configuraciones hijas; padres no se suman como configuraciones"
+    },
+    {
+      "check": "grafico_tuning_documento_y_notebook",
+      "passed": true,
+      "evidence": {
+        "memo_page": 4,
+        "native_vector_graphs": 1,
+        "notebook04_figure_outputs": 1,
+        "metric": "CV Fail coverage; mean ± fold SD, not CI",
+        "run_ids_match_frozen_decision": true
+      }
     },
     {
       "check": "pipelines_firma_y_ejemplo",
@@ -203,14 +214,21 @@
     "Auxiliary multi-cut policy inherits cutoff_day=56 from the common logger; actual rounds 14/28/42 are explicit in its policy artifact; it is not a fitted cutoff-56 estimator"
   ],
   "last_editorial_revision": {
-    "checked_at_utc": "2026-11-18T14:13:45.536856+00:00",
-    "scope": "Expanded summaries on pages 2-6; model audit and experiments unchanged",
+    "checked_at_utc": "2026-11-18T15:29:57.862428+00:00",
+    "scope": "Tuning graph added to memo page 4 and executed notebook04; existing metrics unchanged",
     "pdf_pages": 6,
-    "pdf_sha256": "60cd7884c9354b46065643ae973e67c6ce8799e030b75844b95e3abdf6bf70d2",
+    "pdf_sha256": "108a70a93e74b150121382b5cd266e64e61cf40435eb0d4c01c5b1089c4393c6",
     "visual_review_passed": true,
     "unchanged_pages": [
-      1
+      1,
+      2,
+      3,
+      5,
+      6
     ],
-    "text_outside_page": []
+    "tuning_graph_present": true,
+    "notebook04_fresh_kernel": true,
+    "new_model_fits": 0,
+    "new_api_requests": 0
   }
 }
