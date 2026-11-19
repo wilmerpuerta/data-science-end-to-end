@@ -25,3 +25,7 @@ La [rúbrica original](CD-PSet-4.pdf) exige integrar los PSets 01-04 en una carp
 El prototipo usa matrícula-asignatura y capacidad experimental del 10 % por edición sobre elegibles de día 14; no representan capacidad institucional aprobada. El 30 % es un escenario presupuestario. El reparto 25/75 de las pruebas aún no se selecciona para producción. El siguiente punto es integrar las fuentes en el árbol exacto, preparar los modelos tempranos y la fixture, e implementar la API. La menor proporción histórica de FP en semana 4 orienta la comparación, sin garantizar el nivel futuro de error. No se ha aprobado ni desplegado un modelo temprano.
 
 La entrega se está construyendo en [proyecto_final](../proyecto_final/README.md), con el árbol exacto de la rúbrica. [Cambios y decisiones](../proyecto_final/docs/cambios.md) identifica lo implementado y lo pendiente. Las carpetas anteriores conservarán sus entregas e historial. El champion actual del PSet 03 corresponde al día 56 y no se presentará como un modelo validado para los días 14 o 28.
+
+## Criterio de trabajo
+
+La prioridad es completar `proyecto_final/`. Los laboratorios son una referencia opcional: sus patrones se priorizan cuando encajan y aportan al resultado; las demás decisiones siguen el criterio técnico y de negocio del proyecto. Cada configuración se justifica por los requisitos y la evidencia. Completar los `TODO` de los laboratorios queda fuera del alcance prioritario. Las directrices para continuar se conservan en [AGENTS.md](../AGENTS.md).
