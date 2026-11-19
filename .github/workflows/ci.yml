@@ -30,7 +30,8 @@ jobs:
           fi
       - name: Instalar dependencias fijadas
         working-directory: ${{ steps.proyecto.outputs.ruta }}
-        run: pip install --require-hashes --only-binary=:all: -r requirements.txt
+        run: |
+          pip install --require-hashes --only-binary=:all: -r requirements.txt
       - name: Pruebas completas sin servicios externos
         working-directory: ${{ steps.proyecto.outputs.ruta }}
         run: python -m pytest tests -v -p no:cacheprovider
