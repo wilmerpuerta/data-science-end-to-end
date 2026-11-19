@@ -1,0 +1,5 @@
+# Conservar los bytes originales de entregables y modelos serializados.
+*.pdf binary
+*.pkl binary
+*.ppt binary
+*.pptx binary

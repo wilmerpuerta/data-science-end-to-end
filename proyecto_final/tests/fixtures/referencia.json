@@ -1,7 +1,7 @@
 {
   "status": "prepared",
   "pipeline_sha256": "2e45d564d37ff34de666adaa09c5d440cd61f7c7c16378ea354cf9cbbd3e10be",
-  "reference_run_id": null,
+  "reference_run_id": "bac1b45f8efc4a3aa64d1f02885dd1b0",
   "modelos": {
     "14": {
       "nombre": "oulad-apoyo-academico-semana2-modelo",
