@@ -1,6 +1,6 @@
 # Proyecto final: apoyo académico preventivo
 
-Estado: **servicio batch implementado y verificado**, con modelos específicos de semanas 2 y 4, contrato Pydantic, registro transaccional, respaldo, fixtures y CI. La integración final de Kestra/Snowflake, los ocho lotes, la deriva, el reentrenamiento con aprobación, el tablero y los entregables de comunicación siguen pendientes. Este Compose levanta la API y utiliza el Registry existente; todavía no es el Compose único de los cinco servicios finales.
+Estado: **servicio batch implementado y verificado**, con modelos específicos de semanas 2 y 4, contrato Pydantic, registro transaccional, respaldo, fixtures y CI. La carga Snowflake y los ocho despachos de control quedaron verificados (18.323 predicciones únicas). La deriva, el reentrenamiento con aprobación, el tablero y los entregables de comunicación siguen pendientes. Este Compose integra API, Kestra y su PostgreSQL, utilizando el Registry existente; todavía no es el Compose único de los cinco servicios finales.
 
 ## Objetivo de negocio
 
@@ -24,7 +24,7 @@ uv pip sync --python .venv/bin/python --only-binary=:all: --require-hashes requi
 cp .env.example .env
 ```
 
-`requirements.txt` fija la resolución completa con hashes. El ejemplo de entorno contiene solo valores públicos. No guardar contraseñas, tokens ni claves en Git. `.local/` se excluye de la publicación y contiene el registro de operación privado.
+`requirements.txt` fija la resolución completa con hashes. El ejemplo de entorno contiene valores públicos y campos de secretos vacíos; antes de usar Compose completar las contraseñas y rutas privadas descritas en la sección Snowflake/Kestra. Las pruebas con fixtures no necesitan esos secretos. No guardar contraseñas, tokens ni claves en Git. `.local/` se excluye de la publicación y contiene el registro de operación privado.
 
 Para comprobar lo ya entregado no se necesitan datos originales ni servicios cloud:
 
@@ -36,7 +36,7 @@ Las fixtures se exportaron con `mlflow.sklearn.save_model`, con firma y `predict
 
 ## Ejecutar la API
 
-Para carga real por alias debe estar disponible el servidor del PSet 03 con sus artefactos y Registry, en `http://127.0.0.1:5001`. Dentro del contenedor se accede mediante `MLFLOW_TRACKING_URI=http://host.docker.internal:5001`; configurar otro destino si el servidor vive en otra máquina. La API no recibe claves Snowflake: este bloque utiliza un registro durable local y su sincronización con Snowflake se integra en el siguiente bloque.
+Para carga real por alias debe estar disponible el servidor del PSet 03 con sus artefactos y Registry, en `http://127.0.0.1:5001`. Dentro del contenedor se accede mediante `MLFLOW_TRACKING_URI=http://host.docker.internal:5001`; configurar otro destino si el servidor vive en otra máquina. La API no recibe claves Snowflake. Kestra realiza la carga periódica desde el registro durable local y concilia el lote antes de completarlo.
 
 ```sh
 .venv/bin/python -m src.datos --ejemplo .local/ejemplo --cohorte-id ejemplo-modelo
@@ -66,7 +66,7 @@ La unidad es matrícula-asignatura, con personas únicas aparte. El prototipo fi
 
 El orden es riesgo descendente y matrícula ascendente en empates. Las propuestas anteriores conservan su reserva aunque cambie la elegibilidad; no se cancelan ni se cobran otra vez. La primera ronda debe existir antes de la segunda cuando reserva cupos. El servidor rechaza fragmentos, duplicados o IDs que no correspondan al manifiesto.
 
-La transacción SQLite serializa la asignación y guarda lote y predicciones juntos. Repetir un lote, incluso en otro orden, devuelve los mismos IDs y la versión original sin repuntuar. Cambiar el contenido de un corte ya procesado devuelve 409. Los registros contienen timestamp, entradas sin target, salida, modelo, versión, run_id, snapshot, split, referencia Gold y latencia HTTP. El CSV de simulación y la tabla Snowflake PREDICCIONES todavía no se generan desde estos ejemplos.
+La transacción SQLite serializa la asignación y guarda lote y predicciones juntos. Repetir un lote, incluso en otro orden, devuelve los mismos IDs y la versión original sin repuntuar. Cambiar el contenido de un corte ya procesado devuelve 409. Los registros contienen timestamp, entradas sin target, salida, modelo, versión, run_id, snapshot, split, referencia Gold y latencia HTTP. Los ejemplos sintéticos permanecen locales; la carga de producción simulada selecciona únicamente las cohortes del plan registrado.
 
 ## Respaldo y actualización de versiones
 
@@ -100,6 +100,37 @@ La referencia CI se registra como `fase=preparacion_servicio`, sin entrenamiento
 
 `.github/workflows/ci.yml` instala las dependencias fijadas, prueba con fixtures sin MLflow/Snowflake, construye la imagen y prueba dentro del contenedor en cada push/PR. En el fork del curso se mantiene una copia idéntica en `.github/workflows/ci.yml` de la raíz real del repositorio; GitHub no ejecuta por sí solo workflows dentro de una carpeta anidada. La prueba general del repositorio conserva el núcleo portable; las pruebas de fixtures nativas se ejecutan en el job dedicado con sus versiones y `PSET4_FULL_TESTS=1`.
 
-Pendientes: ingesta y orquestación integradas, Compose único con Kestra/Spark/MLflow/API/tablero, notebooks 01-07, simulación temporal y etiquetas diferidas, Snowflake PREDICCIONES/MONITOREO, deriva y alertas, reentrenamiento con pausa humana, CD/GHCR, análisis por subgrupos, CSV finales, pitch histórico en PDF, memo, presentación y video. [Cambios y evidencias](docs/cambios.md) distingue lo comprobado de lo pendiente.
+Pendientes: ingesta integrada, Compose único con Kestra/Spark/MLflow/API/tablero, notebooks 01-07, validación final de simulación temporal, Snowflake MONITOREO, deriva y alertas, reentrenamiento con pausa humana, CD/GHCR, análisis por subgrupos, CSV finales, pitch histórico en PDF, memo, presentación y video. [Cambios y evidencias](docs/cambios.md) distingue lo comprobado de lo pendiente.
 
 Referencias técnicas: [pruebas del ciclo de vida de FastAPI](https://fastapi.tiangolo.com/advanced/testing-events/), [validación estricta de Pydantic](https://pydantic.dev/docs/validation/latest/concepts/strict_mode/) y [alias del Model Registry](https://www.mlflow.org/docs/latest/registry/).
+
+
+## Snowflake y lotes de control con Kestra
+
+La continuidad del PSet 02 utiliza `pset_2/` como referencia; el proyecto integrado se ejecuta desde esta carpeta. No depende de `pset-02/`. Los modelos y el servicio MLflow histórico se conservan durante esta etapa.
+
+En `.env` local configurar dos contraseñas nuevas y las rutas absolutas a los archivos privados Snowflake existentes. No copiar sus contenidos al repositorio. Las variables `SNOWFLAKE_CONNECTION_HOST_PATH` y `SNOWFLAKE_PRIVATE_KEY_HOST_PATH` apuntan al JSON de conexión (`schema_version=1`, `account`, `private_key_passphrase`) y la clave cifrada. El rol de servicio es `PSET2_PIPELINE`, usuario `PSET2_SVC`, warehouse `PSET2_WH`; requiere crear las nuevas tablas identificadas dentro de `PSET2_OULAD.ANALYTICS`, schema ya autorizado para el servicio. El código rechaza objetos existentes con otra marca. Las capas históricas se consultan como fuentes.
+
+```sh
+docker compose up -d --build --wait api postgres kestra
+docker compose exec -T kestra python3 -m src.datos --preparar-plan --base-local /workspace/.local/operacion.sqlite
+```
+
+Kestra queda en `http://localhost:8094`, con usuario `admin@psets.local` y la contraseña privada configurada. Importar `kestra/produccion_lotes.yml` y ejecutar con `liberar_targets=false` conserva los resultados ocultos. El flujo recorre L01-L08 en orden y llama a la API internamente; tras una respuesta durable carga `PSET2_OULAD.ANALYTICS.PREDICCIONES`. Reintentar no asigna cupos nuevos. Una diferencia en una clave ya publicada aborta la carga, sin sobrescribirla.
+
+Son ocho despachos de control de la presentación 2014J, ya examinada retrospectivamente en PSet 03. Los módulos ordenados se reparten circularmente en cuatro ondas de ediciones completas. Días simulados de despacho: 14–17 y 28–31, con features congeladas en 14/28. Las demoras de 0..3 días son un supuesto de cola; no equivalen a ocho semestres independientes. La política experimental conserva 10 % por edición y reparto 25/75, sin afirmar aprobación institucional ni cumplimiento de la meta de negocio.
+
+Las solicitudes no contienen target. `ETIQUETAS` se materializa aparte solo cuando el reloj simulado alcanza fin de período +14 días; es una demora supuesta, porque OULAD no publica el instante real de disponibilidad. El flujo puede avanzar explícitamente al día 283 con `liberar_targets=true`, después de completar las ocho predicciones. El timestamp real de inferencia y el día simulado se guardan por separado. La deriva inducida y el monitoreo de estos controles corresponden al siguiente bloque.
+
+```sh
+# Repetición individual segura, una vez preparado el plan.
+docker compose exec -T kestra python3 -m src.datos --procesar-lote L01 --base-local /workspace/.local/operacion.sqlite
+# Verificar el horizonte antes de habilitar targets; no debe consultar resultados en día 31.
+docker compose exec -T kestra python3 -m src.datos --liberar-etiquetas 31 --base-local /workspace/.local/operacion.sqlite
+```
+
+Los registros conservan entradas, salida, versión y run del modelo, snapshot, split, Gold, política, respaldo y latencia. `PLANES`, `LOTES_ENTRADA`, `LOTES_PROCESADOS` y `RELOJ` permiten auditar la secuencia. Solo hay un escritor de carga: concurrencia 1 en Kestra y exclusión local para ejecuciones CLI; no se afirma soporte para escritores distribuidos independientes.
+
+Referencias: [conector Python de Snowflake](https://docs.snowflake.com/en/developer-guide/python-connector/python-connector-example) y [bucles de Kestra](https://kestra.io/docs/how-to-guides/loop).
+
+Validación ejecutada: 42 pruebas completas aprobadas localmente y en Docker; dos ejecuciones Kestra SUCCESS (original y repetición), 18.323 predicciones únicas, 920 propuestas sin duplicación y 9.231 etiquetas liberadas explícitamente al día simulado 283. `docs/predicciones.csv` contiene solo el plan de control. El monitoreo y la comparación contra el estático todavía no están calculados.

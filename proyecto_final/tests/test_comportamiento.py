@@ -99,3 +99,84 @@ def test_corte_distinto_y_cupos_anteriores_inconsistentes_rechazados():
         run(rows, base, corte=56)
     with pytest.raises(ValueError, match='exceden'):
         run(rows, base, corte=28, prev={x.matricula: x.edicion for x in rows[:3]})
+
+# El reloj y la construcción de lotes se verifican sin servicios externos.
+def fuente_operativa():
+    import json
+    from src.datos import ROOT
+    features = json.loads((ROOT/'tests/fixtures/muestra_semana4.json').read_text())['rows'][0]['features']
+    return [{**features, 'enrollment_key': f'{module}-M{i}', 'id_student': i,
+             'edition_key': f'{module}|2014J', 'code_module': module, 'code_presentation': '2014J', 'cutoff_day': cut}
+            for module in ['AAA','BBB','CCC','DDD','EEE','FFF','GGG'] for cut in [14,28] for i in range(12 if cut==14 else 11)]
+
+
+def test_lotes_conservan_ediciones_completas_y_son_deterministas():
+    from src.datos import construir_lotes
+    rows = fuente_operativa(); lotes = construir_lotes(rows)
+    assert lotes == construir_lotes(list(reversed(rows)))
+    assert [l['dia'] for l in lotes] == [14,15,16,17,28,29,30,31]
+    assert len(lotes) == 8
+    for a,b in zip(lotes[:4],lotes[4:]):
+        assert a['manifiesto'] == b['manifiesto']
+        assert set(b['manifiesto']['elegibles']['28']) < set(a['manifiesto']['base'])
+        assert all(sum(r['edicion']==edition for r in a['solicitud']['matriculas'])==12 for edition in set(a['manifiesto']['base'].values()))
+    assert sum(len(l['solicitud']['matriculas']) for l in lotes)==len(rows)
+    assert len({m for l in lotes[:4] for m in l['manifiesto']['base']})==84
+
+
+def test_fuente_operativa_rechaza_target_duplicados_y_nuevas_matriculas():
+    from src.datos import construir_lotes
+    rows=fuente_operativa()
+    with pytest.raises(ValueError): construir_lotes([{**r,'target_class':'Fail'} for r in rows])
+    with pytest.raises(ValueError): construir_lotes(rows+[rows[0]])
+    extra={**rows[-1], 'enrollment_key':'nueva-solo-dia28'}
+    with pytest.raises(ValueError): construir_lotes(rows+[extra])
+
+
+def test_lote_fuera_de_orden_no_llama_api_ni_avanza_reloj():
+    from src.datos import construir_lotes,procesar_lote
+    class Repo:
+        def contenido(self,tabla,plan,lote):
+            return construir_lotes(fuente_operativa())[1] if tabla=='LOTES_ENTRADA' else None
+        def reloj(self,*args):raise AssertionError('No se debe avanzar')
+    with pytest.raises(ValueError,match='precedente'): procesar_lote(Repo(),None,'L02','http://no-usar')
+
+
+def test_repeticion_conciliada_no_repuntua_ni_consume_cupo():
+    from src.datos import procesar_lote
+    class Repo:
+        def contenido(self,*args):return {'predicciones':12,'nuevas_propuestas':1}
+    result=procesar_lote(Repo(),None,'L01','http://no-usar')
+    assert result=={'predicciones':12,'nuevas_propuestas':1,'repeticion':True}
+
+
+def test_etiquetas_inmaduras_no_consultan_gold():
+    from src.datos import construir_lotes,liberar_etiquetas
+    lotes=construir_lotes(fuente_operativa())
+    class Repo:
+        def contenido(self,tabla,plan,lote=None):
+            if tabla=='PLANES':return {'lotes':lotes}
+            if tabla=='LOTES_PROCESADOS':return {'status':'ok'}
+            return next(l for l in lotes if l['lote_id']==lote)
+        def reloj(self,plan,dia):assert dia==31
+        @property
+        def conn(self):raise AssertionError('No consultar targets inmaduros')
+    result=liberar_etiquetas(Repo(),31)
+    assert result['etiquetas']==0 and result['fuente_target_consultada'] is False
+
+
+def test_etiquetas_no_se_liberan_con_predicciones_pendientes():
+    from src.datos import liberar_etiquetas
+    class Repo:
+        def contenido(self,tabla,*args):return {'lotes':[{'lote_id':'L01'}]} if tabla=='PLANES' else None
+        def reloj(self,*args):raise AssertionError('Reloj aún no debe avanzar')
+    with pytest.raises(ValueError,match='Completar predicciones'): liberar_etiquetas(Repo(),283)
+
+
+def test_lotes_admiten_claves_gold_y_contrato_sin_target():
+    from src.datos import construir_lotes
+    from api.esquemas import SolicitudLote
+    for lote in construir_lotes(fuente_operativa()):
+        contrato=SolicitudLote.model_validate(lote['solicitud'])
+        assert all('|' in r.edicion for r in contrato.matriculas)
+        assert all('target_class' not in r.features.model_dump() for r in contrato.matriculas)

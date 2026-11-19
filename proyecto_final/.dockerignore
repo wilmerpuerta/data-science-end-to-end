@@ -19,3 +19,6 @@
 **/.env*
 **/.local
 **/.venv
+
+!spark/
+!spark/requirements.txt
