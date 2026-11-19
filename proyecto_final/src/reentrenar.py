@@ -49,7 +49,7 @@ def preparar(origen_local):
     FIXTURES.mkdir(parents=True, exist_ok=True)
     previo_path = FIXTURES / 'referencia.json'
     previo = json.loads(previo_path.read_text()) if previo_path.exists() else {}
-    referencia = {'data_source': {'dataset': 'OULAD', 'source': 'https://research.stem.open.ac.uk/ouanalyse/dataset/', 'license': 'CC BY 4.0', 'publication_doi': '10.1038/sdata.2017.171', 'derivation': 'Fixed development rows, stratified sampling; original identifiers removed; feature values unchanged'}, 'status': 'prepared', 'pipeline_sha256': sha256(ROOT / 'src/pipeline.py'),
+    referencia = {'data_source': {'dataset': 'OULAD', 'source': 'https://research.stem.open.ac.uk/ouanalyse/dataset/', 'license': 'CC BY 4.0', 'publication_doi': 'https://doi.org/10.1038/sdata.2017.171', 'derivation': 'Fixed development rows, stratified sampling; original identifiers removed; feature values unchanged'}, 'status': 'prepared', 'pipeline_sha256': sha256(ROOT / 'src/pipeline.py'),
                   'reference_run_id': None, 'modelos': {}, 'ci_scope': 'Fixed development sample; reproduction only, not independent validation',
                   'tolerance': 1e-10, 'policy_status': 'experimental; institutional capacity and week split unconfirmed'}
     base_model = mlflow.sklearn.load_model(f'runs:/{BASELINE}/pipeline')

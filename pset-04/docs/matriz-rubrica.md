@@ -5,7 +5,7 @@ Fuente: [rúbrica original](../CD-PSet-4.pdf), 12 páginas. Los pesos son los de
 | Criterio | Peso | Evidencia que deberá existir | Estado |
 |---|---:|---|---|
 | Patrón de despliegue y servicio | 15 % | Batch justificado; alternativa online explicada; FastAPI Docker; tres endpoints; validación 422; decisión y acción; carga por alias; PREDICCIONES con entradas, salida, versión y latencia. | API Docker, contrato, alias y outbox verificados; carga a Snowflake pendiente. |
-| Pruebas automáticas y CI/CD | 10 % | pytest de contrato, fixture del modelo y muestra fija, dos comportamientos y fallback; `ci.yml` en push/PR construye imagen y ejecuta pruebas; `cd.yml` publica en GHCR por merge a main con tag de commit. | Pendiente. |
+| Pruebas automáticas y CI/CD | 10 % | pytest de contrato, fixture del modelo y muestra fija, dos comportamientos y fallback; `ci.yml` en push/PR construye imagen y ejecuta pruebas; `cd.yml` publica en GHCR por merge a main con tag de commit. | 35 pruebas y CI implementados; CD pendiente. |
 | Reentrenamiento, promoción y rollback | 10 % | Disparador y ventana; datos etiquetados; preparación/hiperparámetros conservados; challenger; comparación no contaminada; pausa humana; aprobación o rechazo; rollback y actualización sin rebuild. | Pendiente. |
 | Simulación y métricas de monitoreo | 10 % | Ocho lotes, orden temporal y target diferido; Kestra; p50/p95, errores y volumen; métricas técnicas/de negocio por lote; datos faltantes, rangos y categorías; tablero. | Pendiente. |
 | Deriva y alertas | 10 % | PSI por feature, KS y chi-cuadrado; referencia CV para desempeño; tabla diagnóstico/acción; alertas con umbral, ventana, severidad, receptor y acción; lote alterado y controles. | Pendiente. |
