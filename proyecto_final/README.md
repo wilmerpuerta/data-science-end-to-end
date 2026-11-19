@@ -57,5 +57,3 @@ El siguiente paso es integrar las fuentes reutilizadas en este árbol, preparar 
 Los CSV de predicciones, monitoreo, alertas y reentrenamiento se crearán al ejecutar los procesos reales. Los documentos y el video finales se prepararán con sus evidencias. No se crean salidas vacías para aparentar cumplimiento.
 
 Las carpetas todavía vacías se conservan en Git con `.gitkeep`; son marcadores de estructura y no evidencia de servicios implementados. Se retirarán cuando se incorporen sus archivos funcionales.
-
-La referencia local de programación es `../laboratorios/`, excluida de Git. Sus patrones y su adaptación al proyecto se registran en `docs/cambios.md`; el proyecto no importa código ni datos desde esa carpeta.

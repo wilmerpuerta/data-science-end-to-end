@@ -73,24 +73,10 @@ No se crearon nuevas corridas MLflow ni se hicieron llamadas a OpenAI o a Snowfl
 
 SHA-256 de la preparación reutilizada: `2e45d564d37ff34de666adaa09c5d440cd61f7c7c16378ea354cf9cbbd3e10be`.
 
-## Referencia de programación del curso
+## Criterios de implementación y prioridades
 
-Por indicación del autor, se copió `laboratorios/` desde el commit `ae7d40a5afcb62460fe77f3421b0fba8a0fc8b96` del repositorio del curso. La copia local contiene 14 semanas, 26 carpetas de sesión y 208 archivos; se excluye de Git con `/laboratorios/`. Es una referencia de lectura y no una dependencia de ejecución de este proyecto. La carpeta original del curso en GitHub se conserva.
+El autor aclaró el 19-nov-2026 que la referencia de los laboratorios es opcional. Se priorizarán sus patrones cuando encajen con la lógica del proyecto y ayuden a obtener el resultado buscado; en los demás casos se aplicará el criterio técnico y de negocio desarrollado para OULAD. No se modificará una solución válida solo para imitar un estilo.
 
-Se revisaron la preparación y el servicio del ejercicio 1 de semana 12, el registro/alias de semana 13, la instrumentación de semana 13 y los ejemplos de deriva y comunicación de semana 14. La copia contiene también plantillas con `TODO`; no se presentan como implementaciones resueltas o verificadas.
+Las decisiones se fundamentarán en los requisitos de la rúbrica, la evidencia, la prevención de fuga, la reproducibilidad y las necesidades operativas. Los parámetros, ventanas, alias y configuraciones se justificarán por su función y validación en este proyecto. La preparación, los cupos compartidos, la meta del 10 % y la supervisión humana conservan sus propios fundamentos de negocio y evaluación.
 
-Criterios para el código que se genere:
-
-| Patrón del curso | Aplicación al proyecto final |
-|---|---|
-| Constantes visibles, funciones directas y módulos por responsabilidad | Mantener los archivos de la rúbrica, nombres descriptivos y comentarios que expliquen la decisión de negocio. Los cortes y la unidad ya están declarados como constantes del núcleo. |
-| Una preparación compartida por todos los experimentos | Conservar `src/pipeline.py`; no copiar ni volver a aprender preparación fuera de cada entrenamiento. |
-| FastAPI y esquemas Pydantic | Mantener los endpoints de la rúbrica; validar tipos, rangos y categorías antes de puntuar. Separar el contrato de la calidad predictiva. |
-| TestClient y modelo sencillo para probar el contrato | Usar dobles solo en pruebas HTTP; la prueba del modelo requiere además la fixture real y su muestra fija. |
-| Carga de modelo y versión desde MLflow | Cargar por alias y devolver versión y run_id; conservar `champion`/`challenger` de nuestra rúbrica, sin sustituirlos por el alias `produccion` del taxi. |
-| Medición con `perf_counter`, IDs y registro por predicción | Incorporar latencias, estados y trazabilidad; la carga final será a Snowflake mediante el mecanismo del proyecto, no solo un JSONL local. |
-| Comparación de resultados cuando llega el target | Respetar el horizonte académico y disponibilidad de etiquetas; usar AP y cobertura de Fail, en lugar del MAE del caso de taxis. |
-| Referencia de entrenamiento y PSI | Estimar referencias y umbrales propios; no copiar el 0,15 ni la ventana de 300 viajes como decisiones validadas para OULAD. |
-| Gráficos técnico y ejecutivo con los mismos datos | Traducir la métrica a cupos, casos cubiertos, errores y oportunidad de atención; no afirmar ahorro o Fail evitados sin evidencia. |
-
-La priorización continúa siendo por cohorte completa y por dos cortes. El estilo de las referencias no cambia el target, la meta del 10 %, los cupos compartidos ni la supervisión humana. No se ejecutaron los ejercicios de taxi ni se añadieron sus datos al proyecto público.
+La prioridad es completar `proyecto_final/`. Resolver los `TODO` de las referencias queda para una solicitud posterior del autor, si el avance del proyecto lo permite. La carpeta local `laboratorios/` permanece excluida de Git y no es una dependencia del proyecto final.
