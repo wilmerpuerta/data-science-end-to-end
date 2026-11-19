@@ -41,3 +41,7 @@ proyecto_final/.local/
 
 # Referencia local del curso; no publicar dentro del proyecto
 /laboratorios/
+
+# Modelos privados; únicamente las fixtures auditadas de CI se publican
+*.pkl
+!proyecto_final/tests/fixtures/**/model.pkl

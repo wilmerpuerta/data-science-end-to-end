@@ -1,0 +1,303 @@
+{
+  "version": 2,
+  "models": [
+    {
+      "name": "slv_editions",
+      "description": "Contrato Silver v1: reglas deterministas, linaje y conservaci\u00f3n documentadas en docs/silver.md.",
+      "columns": [
+        {
+          "name": "edition_key",
+          "data_tests": [
+            "not_null",
+            "unique"
+          ]
+        },
+        {
+          "name": "code_module",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "code_presentation",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "module_presentation_length",
+          "data_tests": [
+            "not_null"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "slv_resources",
+      "description": "Contrato Silver v1: reglas deterministas, linaje y conservaci\u00f3n documentadas en docs/silver.md.",
+      "columns": [
+        {
+          "name": "resource_key",
+          "data_tests": [
+            "not_null",
+            "unique"
+          ]
+        },
+        {
+          "name": "edition_key",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('slv_editions')",
+                "field": "edition_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "activity_type",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "is_schedule_unknown",
+          "data_tests": [
+            "not_null"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "slv_enrollments",
+      "description": "Contrato Silver v1: reglas deterministas, linaje y conservaci\u00f3n documentadas en docs/silver.md.",
+      "columns": [
+        {
+          "name": "enrollment_key",
+          "data_tests": [
+            "not_null",
+            "unique"
+          ]
+        },
+        {
+          "name": "edition_key",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('slv_editions')",
+                "field": "edition_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "id_student",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "is_imd_missing",
+          "data_tests": [
+            "not_null"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "slv_registration",
+      "description": "Contrato Silver v1: reglas deterministas, linaje y conservaci\u00f3n documentadas en docs/silver.md.",
+      "columns": [
+        {
+          "name": "enrollment_key",
+          "data_tests": [
+            "not_null",
+            "unique",
+            {
+              "relationships": {
+                "to": "ref('slv_enrollments')",
+                "field": "enrollment_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "edition_key",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('slv_editions')",
+                "field": "edition_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "is_registered_at_start",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "initial_registration_status",
+          "data_tests": [
+            "not_null",
+            {
+              "accepted_values": {
+                "values": [
+                  "missing_registration",
+                  "registered_after_start",
+                  "registered_by_start"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "slv_outcomes",
+      "description": "Contrato Silver v1: reglas deterministas, linaje y conservaci\u00f3n documentadas en docs/silver.md.",
+      "columns": [
+        {
+          "name": "enrollment_key",
+          "data_tests": [
+            "not_null",
+            "unique",
+            {
+              "relationships": {
+                "to": "ref('slv_enrollments')",
+                "field": "enrollment_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "edition_key",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('slv_editions')",
+                "field": "edition_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "target_class",
+          "data_tests": [
+            "not_null",
+            {
+              "accepted_values": {
+                "values": [
+                  "Fail",
+                  "Withdrawn",
+                  "Approved"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "final_result",
+          "data_tests": [
+            "not_null",
+            {
+              "accepted_values": {
+                "values": [
+                  "Fail",
+                  "Withdrawn",
+                  "Pass",
+                  "Distinction"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "slv_activity_daily",
+      "description": "Contrato Silver v1: reglas deterministas, linaje y conservaci\u00f3n documentadas en docs/silver.md.",
+      "columns": [
+        {
+          "name": "enrollment_key",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('slv_enrollments')",
+                "field": "enrollment_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "resource_key",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('slv_resources')",
+                "field": "resource_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "edition_key",
+          "data_tests": [
+            "not_null",
+            {
+              "relationships": {
+                "to": "ref('slv_editions')",
+                "field": "edition_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "activity_day",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "click_count",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "source_row_count",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "source_sha256",
+          "data_tests": [
+            "not_null"
+          ]
+        }
+      ],
+      "data_tests": [
+        {
+          "unique_key": {
+            "columns": [
+              "code_module",
+              "code_presentation",
+              "id_student",
+              "id_site",
+              "activity_day"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

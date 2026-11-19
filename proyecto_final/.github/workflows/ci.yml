@@ -1,0 +1,41 @@
+name: proyecto-final-ci
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    env:
+      PSET4_MODEL_MODE: fixture
+      PSET4_FULL_TESTS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Localizar proyecto
+        id: proyecto
+        shell: bash
+        run: |
+          if [ -f psets/proyecto/oulad/proyecto_final/requirements.txt ]; then
+            echo 'ruta=psets/proyecto/oulad/proyecto_final' >> "$GITHUB_OUTPUT"
+          elif [ -f proyecto_final/requirements.txt ]; then
+            echo 'ruta=proyecto_final' >> "$GITHUB_OUTPUT"
+          else
+            echo 'No se encuentra proyecto_final/requirements.txt'
+            exit 1
+          fi
+      - name: Instalar dependencias fijadas
+        working-directory: ${{ steps.proyecto.outputs.ruta }}
+        run: pip install --require-hashes --only-binary=:all: -r requirements.txt
+      - name: Pruebas completas sin servicios externos
+        working-directory: ${{ steps.proyecto.outputs.ruta }}
+        run: python -m pytest tests -v -p no:cacheprovider
+      - name: Construir imagen de API
+        working-directory: ${{ steps.proyecto.outputs.ruta }}
+        run: docker build -t proyecto-final-api:${{ github.sha }} -f api/Dockerfile .
+      - name: Verificar contrato dentro de la imagen
+        run: docker run --rm -e PSET4_MODEL_MODE=fixture -e PSET4_FULL_TESTS=1 proyecto-final-api:${{ github.sha }} python -m pytest tests -q -p no:cacheprovider

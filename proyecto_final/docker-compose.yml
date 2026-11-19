@@ -1,0 +1,25 @@
+name: ${PSET4_COMPOSE_PROJECT:-proyecto-final}
+services:
+  api:
+    image: ${PSET4_API_IMAGE:-proyecto-final-api:local}
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    environment:
+      MLFLOW_TRACKING_URI: ${MLFLOW_TRACKING_URI:-http://host.docker.internal:5001}
+      PSET4_MODEL_MODE: ${PSET4_MODEL_MODE:-mlflow}
+      PSET4_FORCE_FALLBACK: ${PSET4_FORCE_FALLBACK:-0}
+      PSET4_CAPACITY: ${PSET4_CAPACITY:-0.10}
+      PSET4_WEEK2_SHARE: ${PSET4_WEEK2_SHARE:-0.25}
+      PSET4_POLICY_VERSION: ${PSET4_POLICY_VERSION:-preventiva-prototipo-0.1}
+      PSET4_DB_PATH: /app/.local/operacion.sqlite
+      MLFLOW_HTTP_REQUEST_TIMEOUT: '10'
+      MLFLOW_HTTP_REQUEST_MAX_RETRIES: '0'
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    ports:
+      - 127.0.0.1:${PSET4_API_PORT:-8004}:8000
+    volumes:
+      - ./.local:/app/.local
+    mem_limit: 1536m
+    restart: unless-stopped
