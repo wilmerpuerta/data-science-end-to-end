@@ -1,59 +1,105 @@
 # Proyecto final: apoyo académico preventivo
 
-Estado: **primer paso implementado y probado**. Se cerró el objetivo de negocio y se implementó el núcleo de asignación por cohorte. La API HTTP, la integración Docker/Kestra, la simulación final, el monitoreo y el reentrenamiento todavía no están implementados. Esta carpeta aún no es una entrega final ejecutable de extremo a extremo.
+Estado: **servicio batch implementado y verificado**, con modelos específicos de semanas 2 y 4, contrato Pydantic, registro transaccional, respaldo, fixtures y CI. La integración final de Kestra/Snowflake, los ocho lotes, la deriva, el reentrenamiento con aprobación, el tablero y los entregables de comunicación siguen pendientes. Este Compose levanta la API y utiliza el Registry existente; todavía no es el Compose único de los cinco servicios finales.
 
-## Objetivo acordado
+## Objetivo de negocio
 
-Lograr al menos **10 % de mejora relativa en cobertura de Fail frente al modelo estático, con los mismos cupos**, durante el período en curso. El modelo estático es un control predictivo; Dummy y política reactiva siguen siendo comparadores distintos. No se declara reducción causal de reprobaciones ni equivalencia entre alerta, tutoría propuesta y tutoría realizada.
+Al menos **10 % de mejora relativa en cobertura de Fail frente al modelo estático, con iguales cupos**, durante el período en curso. La cobertura es `TP / Fail de la cohorte base` y la mejora relativa es `cobertura_longitudinal / cobertura_estatica - 1`. Con 500 Fail, 200 cupos y 100 TP del estático, la meta exige 110 TP: 22 % de cobertura frente a 20 %. Si la cobertura estática es cero, la razón no se define.
 
-La cobertura es `TP / Fail de la cohorte base`. La mejora relativa es `(cobertura_longitudinal / cobertura_estatica) - 1`. Con 500 Fail, 200 cupos y 100 TP del estático, la meta exige al menos 110 TP, es decir 22 % de cobertura frente a 20 %; no exige sumar diez puntos porcentuales. Si la cobertura estática es cero, la mejora relativa no se define y se informa el incremento de TP sin certificar la meta.
+Control estático, Dummy y política reactiva son comparadores distintos. El adelanto del 30 % de la atención reactiva futura es un escenario presupuestario; la bolsa reactiva vigente se protege. Los cupos y el reparto experimentales no son fondos institucionales aprobados. Las propuestas requieren revisión humana; no equivalen a tutorías realizadas ni a reprobaciones evitadas.
 
-El adelanto de hasta el 30 % de la atención reactiva futura es un **escenario presupuestario**, no la meta predictiva ni una aprobación de fondos. La bolsa reactiva vigente se conserva separada. La capacidad institucional, las horas docentes y los costos siguen pendientes de validación.
+## Estructura y continuidad
 
-## Estructura y etapa actual
+Se conserva el árbol de la rúbrica. `dbt/` y `spark/` contienen las fuentes del PSet 02 sin alterar; `src/pipeline.py` conserva byte a byte la preparación del PSet 03. Los tres memos anteriores están en `docs/historial/`; el pitch histórico y los notebooks integrados aún están pendientes. Las carpetas vacías usan `.gitkeep` solo para conservar su estructura. `.dockerignore` impide enviar entornos, credenciales y datos privados al build.
 
-Se utiliza el árbol de la rúbrica, con raíz `proyecto_final/`: `kestra/`, `dbt/`, `spark/`, `src/`, `notebooks/`, `api/`, `monitoreo/`, `tests/fixtures/`, `docs/historial/` y `.github/workflows/`. No se crean carpetas `v2`, `config` o `scripts` en esta entrega. Los archivos requeridos se incorporarán con su implementación, sin presentar archivos vacíos como evidencia funcional.
+Los modelos tempranos reutilizan los artefactos completos del PSet 03; no se repitió tuning ni entrenamiento. Los nombres son `oulad-apoyo-academico-semana2-modelo@champion` y `oulad-apoyo-academico-semana4-modelo@champion`. Ambos se sirven por versiones iniciales específicas de su corte. El champion histórico del día 56 permanece intacto. Este uso es experimental y no constituye validación prospectiva independiente.
 
-Archivos implementados en este paso:
+## Preparar el entorno
 
-- `src/pipeline.py`: preparación original del PSet 03 conservada byte a byte.
-- `api/esquemas.py`: tipos y validaciones del núcleo de cupos; el esquema Pydantic de inferencia se añadirá con la API.
-- `api/main.py`: priorización y evaluación de la meta. Todavía no expone endpoints FastAPI.
-- `tests/test_comportamiento.py`: invariantes de dominio con datos sintéticos.
-- `docs/cambios.md`: acuerdos, fuentes, supuestos, implementación y pendientes.
-- `requirements.txt`: versiones explícitas de la preparación y del entorno del proyecto.
-
-## Ejecutar el paso implementado
-
-Desde esta carpeta, con Python 3.11 y uv:
-
-```sh
-uv run --python 3.11 --no-project --with pytest==8.3.5 python -m pytest -q tests/test_comportamiento.py
-```
-
-Para preparar el entorno completo del proyecto cuando se integre la API:
+Desde `proyecto_final/`, con Python 3.11, uv y Docker Compose:
 
 ```sh
 uv venv --python 3.11 .venv
-uv pip install --python .venv/bin/python -r requirements.txt
+uv pip sync --python .venv/bin/python --only-binary=:all: --require-hashes requirements.txt
+cp .env.example .env
 ```
 
-No se necesitan datos reales, claves, Snowflake ni MLflow para estas pruebas. Los ejemplos son sintéticos; los manifiestos y las asignaciones de producción deberán proceder de almacenamiento confiable y las operaciones de cada cohorte requerirán persistencia transaccional.
+`requirements.txt` fija la resolución completa con hashes. El ejemplo de entorno contiene solo valores públicos. No guardar contraseñas, tokens ni claves en Git. `.local/` se excluye de la publicación y contiene el registro de operación privado.
 
-## Política provisional de cupos
+Para comprobar lo ya entregado no se necesitan datos originales ni servicios cloud:
 
-La unidad simulada es matrícula-asignatura y se informa aparte el número de personas únicas. Se mantiene como referencia experimental la capacidad del 10 % por edición, calculada sobre la cohorte elegible completa del día 14. No representa un presupuesto institucional aprobado.
+```sh
+PSET4_FULL_TESTS=1 PSET4_MODEL_MODE=fixture .venv/bin/python -m pytest tests -q -p no:cacheprovider
+```
 
-El prototipo permite repartir ese mismo cupo entre días 14 y 28. El valor de prueba es 25 % en semana 2 y el resto en semana 4; no es una política seleccionada ni acordada con la Universidad. Se evaluarán los repartos 0/100, 25/75, 50/50, 75/25 y 100/0 usando solo desarrollo. El orden es riesgo descendente y matrícula ascendente en empates. Una propuesta anterior conserva su reserva de cupo; no se cancela ni se cuenta otra vez por actualizar el score. Un lote parcial no obtiene un presupuesto nuevo.
+Las fixtures se exportaron con `mlflow.sklearn.save_model`, con firma y `predict_proba`. Sus hashes, procedencia y métricas de referencia están en `tests/fixtures/referencia.json`. La muestra contiene 60 observaciones de desarrollo por corte sin identificadores reales, derivadas de OULAD (The Open University, CC BY 4.0; DOI 10.1038/sdata.2017.171). Su AP es una referencia de reproducción sobre esa muestra, no la AP de CV ni una prueba independiente de generalización. La tolerancia `1e-10` admite redondeo numérico sin tolerar cambios sustanciales de predicción.
 
-Los manifiestos de población no se tomarán del cliente HTTP. Los endpoints deberán comprobarlos contra la cohorte registrada y guardar la versión de modelo y política, la ronda, los IDs y el resultado. La idempotencia concurrente y la persistencia aún están pendientes; la función pura actual es determinista y valida la integridad del lote.
+## Ejecutar la API
 
-## Continuidad y próximos pasos
+Para carga real por alias debe estar disponible el servidor del PSet 03 con sus artefactos y Registry, en `http://127.0.0.1:5001`. Dentro del contenedor se accede mediante `MLFLOW_TRACKING_URI=http://host.docker.internal:5001`; configurar otro destino si el servidor vive en otra máquina. La API no recibe claves Snowflake: este bloque utiliza un registro durable local y su sincronización con Snowflake se integra en el siguiente bloque.
 
-Se reutilizarán los modelos completos tempranos ya guardados en MLflow por los experimentos del PSet 03, verificando corte, firma, fuentes y métricas. El champion histórico del día 56 no se sustituye ni se utiliza para puntuar semanas 2 o 4. No hace falta repetir el tuning para preparar esas versiones tempranas.
+```sh
+.venv/bin/python -m src.datos --ejemplo .local/ejemplo --cohorte-id ejemplo-modelo
+docker compose up -d --build --wait api
+curl http://localhost:8004/salud
+curl 'http://localhost:8004/modelo?corte_dias=14'
+curl -X POST http://localhost:8004/predecir -H 'Content-Type: application/json' --data-binary @.local/ejemplo/semana2.json
+curl -X POST http://localhost:8004/predecir -H 'Content-Type: application/json' --data-binary @.local/ejemplo/semana4.json
+curl http://localhost:8004/metricas
+```
 
-El siguiente paso es integrar las fuentes reutilizadas en este árbol, preparar el servicio por corte y la fixture de CI, y construir la API con `/salud`, `/modelo` y `/predecir`, su esquema Pydantic y sus pruebas. La simulación, los umbrales, el calendario de etiquetas y la aprobación humana de promociones se documentarán antes de ejecutar la evaluación final. Los ocho lotes deberán respetar la disponibilidad temporal; no se presentarán fragmentos de una cohorte como ocho períodos independientes.
+Documentación interactiva: `http://localhost:8004/docs`. El ejemplo registra 40 matrículas sintéticas, sin targets en las solicitudes. El valor de prueba reserva 1 cupo en semana 2 y 3 adicionales en semana 4. No se utiliza para estimar calidad o impacto educativo.
 
-Los CSV de predicciones, monitoreo, alertas y reentrenamiento se crearán al ejecutar los procesos reales. Los documentos y el video finales se prepararán con sus evidencias. No se crean salidas vacías para aparentar cumplimiento.
+`GET /salud` informa el estado de los modelos cargados sin depender de una consulta de red en cada sondeo. `GET /modelo` consulta el alias y muestra nombre, versión, run_id, corte y procedencia. `POST /predecir` acepta una cohorte completa registrada, devuelve probabilidad de Fail, ranking, decisión, acción, versión e ID, y persiste el resultado antes de responder. `GET /metricas` informa p50/p95, volumen y tasas 4xx/5xx. Campos ausentes, tipos, categorías, rangos, entradas no finitas y targets en las features se rechazan con 422 y el campo identificado.
 
-Las carpetas todavía vacías se conservan en Git con `.gitkeep`; son marcadores de estructura y no evidencia de servicios implementados. Se retirarán cuando se incorporen sus archivos funcionales.
+La carga de cohortes es una operación administrativa local; no se exponen endpoints públicos que permitan inventar un manifiesto o un presupuesto. Para un manifiesto procedente de la fuente confiable:
+
+```sh
+.venv/bin/python -m src.datos --registrar-cohorte /ruta/privada/cohorte.json
+```
+
+Su formato contiene `cohorte_id`, `base` (matrícula a edición), `elegibles` (mapas completos de días 14 y 28) y `personas`. La elegibilidad de día 28 pertenece a la base. Repetir el registro idéntico es seguro; la misma cohorte con otro nombre no obtiene presupuesto nuevo.
+
+## Cupos, repetición y trazabilidad
+
+La unidad es matrícula-asignatura, con personas únicas aparte. El prototipo fija `floor(0.10 × elegibles_día14)` por edición y comparte ese presupuesto entre ambas rondas. El reparto de prueba es 25/75 y aún no es una política seleccionada. La política se identifica por versión y hash de sus parámetros; las dos rondas conservan la misma política.
+
+El orden es riesgo descendente y matrícula ascendente en empates. Las propuestas anteriores conservan su reserva aunque cambie la elegibilidad; no se cancelan ni se cobran otra vez. La primera ronda debe existir antes de la segunda cuando reserva cupos. El servidor rechaza fragmentos, duplicados o IDs que no correspondan al manifiesto.
+
+La transacción SQLite serializa la asignación y guarda lote y predicciones juntos. Repetir un lote, incluso en otro orden, devuelve los mismos IDs y la versión original sin repuntuar. Cambiar el contenido de un corte ya procesado devuelve 409. Los registros contienen timestamp, entradas sin target, salida, modelo, versión, run_id, snapshot, split, referencia Gold y latencia HTTP. El CSV de simulación y la tabla Snowflake PREDICCIONES todavía no se generan desde estos ejemplos.
+
+## Respaldo y actualización de versiones
+
+Si el modelo no carga o no produce probabilidades válidas, se utiliza la regla del Dummy `most_frequent` del PSet 03. Su probabilidad de Fail es 0; los empates se resuelven con la misma política de cupos. La respuesta informa `respaldo=true` y el run_id real del baseline. No se usa silenciosamente una fixture longitudinal cuando falla el Registry.
+
+Para demostrar el interruptor, utilizar una cohorte sintética nueva; un lote ya procesado conserva su respuesta original:
+
+```sh
+.venv/bin/python -m src.datos --ejemplo .local/ejemplo-respaldo --cohorte-id ejemplo-respaldo
+PSET4_FORCE_FALLBACK=1 docker compose up -d --wait api
+curl -X POST http://localhost:8004/predecir -H 'Content-Type: application/json' --data-binary @.local/ejemplo-respaldo/semana2.json
+PSET4_FORCE_FALLBACK=0 docker compose up -d --wait api
+```
+
+La API resuelve el alias en cada lote nuevo y fija una versión durante todo ese lote. Se comprobó la recarga 1→2→1 sin reconstruir la imagen. La versión 2 de esa demostración contiene los mismos pesos y está etiquetada como prueba mecánica; no es un challenger reentrenado ni una mejora. Las dos versiones activas volvieron a 1. El ciclo de reentrenamiento, comparación y aprobación humana sigue pendiente.
+
+## Reproducir las fixtures y exportar corridas
+
+Las fixtures ya están incluidas. Para reconstruirlas deliberadamente se necesitan el Registry y el snapshot privado original; la ruta es un insumo de preparación, no una dependencia de ejecución de la API:
+
+```sh
+MLFLOW_TRACKING_URI=http://127.0.0.1:5001 .venv/bin/python -m src.reentrenar --preparar-servicio --origen-local ../pset_3/.local
+# Versionar el código antes de registrar una referencia nueva.
+MLFLOW_TRACKING_URI=http://127.0.0.1:5001 .venv/bin/python -m src.reentrenar --registrar-referencia
+MLFLOW_TRACKING_URI=http://127.0.0.1:5001 .venv/bin/python -m src.reentrenar --exportar-corridas
+```
+
+La referencia CI se registra como `fase=preparacion_servicio`, sin entrenamiento y con su commit. `docs/corridas.csv` reúne las corridas del experimento definitivo del PSet 03 y del experimento operativo. La preparación valida snapshot y fuente y conserva el champion histórico; una versión temprana activa diferente no se reemplaza automáticamente.
+
+## CI y alcance pendiente
+
+`.github/workflows/ci.yml` instala las dependencias fijadas, prueba con fixtures sin MLflow/Snowflake, construye la imagen y prueba dentro del contenedor en cada push/PR. En el fork del curso se mantiene una copia idéntica en `.github/workflows/ci.yml` de la raíz real del repositorio; GitHub no ejecuta por sí solo workflows dentro de una carpeta anidada. La prueba general del repositorio conserva el núcleo portable; las pruebas de fixtures nativas se ejecutan en el job dedicado con sus versiones y `PSET4_FULL_TESTS=1`.
+
+Pendientes: ingesta y orquestación integradas, Compose único con Kestra/Spark/MLflow/API/tablero, notebooks 01-07, simulación temporal y etiquetas diferidas, Snowflake PREDICCIONES/MONITOREO, deriva y alertas, reentrenamiento con pausa humana, CD/GHCR, análisis por subgrupos, CSV finales, pitch histórico en PDF, memo, presentación y video. [Cambios y evidencias](docs/cambios.md) distingue lo comprobado de lo pendiente.
+
+Referencias técnicas: [pruebas del ciclo de vida de FastAPI](https://fastapi.tiangolo.com/advanced/testing-events/), [validación estricta de Pydantic](https://pydantic.dev/docs/validation/latest/concepts/strict_mode/) y [alias del Model Registry](https://www.mlflow.org/docs/latest/registry/).

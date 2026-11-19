@@ -25,3 +25,7 @@ collect_ignore = [
 
 if os.environ.get("PSET3_PYTEST") != "1":
     collect_ignore.append("pset_3/tests")
+
+# Las fixtures nativas usan las versiones del proyecto; el CI dedicado ejecuta el conjunto completo.
+if os.environ.get("PSET4_FULL_TESTS") != "1":
+    collect_ignore += ["proyecto_final/tests/test_contrato.py", "proyecto_final/tests/test_modelo.py"]

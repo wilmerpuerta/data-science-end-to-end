@@ -1,0 +1,50 @@
+{
+  "dataframe_split": {
+    "columns": [
+      "num_of_prev_attempts",
+      "studied_credits",
+      "module_presentation_length",
+      "registration_days_before_start",
+      "is_imd_missing",
+      "clicks_through_cutoff",
+      "active_days_through_cutoff",
+      "resources_through_cutoff",
+      "clicks_current_14d",
+      "active_days_current_14d",
+      "clicks_previous_14d",
+      "click_change_14d",
+      "recency_days",
+      "has_recorded_activity",
+      "gender",
+      "region",
+      "highest_education",
+      "imd_band",
+      "age_band",
+      "disability"
+    ],
+    "data": [
+      [
+        0.0,
+        60.0,
+        268.0,
+        38.0,
+        0.0,
+        342.0,
+        23.0,
+        33.0,
+        111.0,
+        6.0,
+        153.0,
+        -42.0,
+        1.0,
+        1.0,
+        "F",
+        "North Western Region",
+        "A Level or Equivalent",
+        "90-100%",
+        "35-55",
+        "N"
+      ]
+    ]
+  }
+}

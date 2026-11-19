@@ -1,0 +1,190 @@
+{
+  "status": "prepared",
+  "pipeline_sha256": "2e45d564d37ff34de666adaa09c5d440cd61f7c7c16378ea354cf9cbbd3e10be",
+  "reference_run_id": "bac1b45f8efc4a3aa64d1f02885dd1b0",
+  "modelos": {
+    "14": {
+      "nombre": "oulad-apoyo-academico-semana2-modelo",
+      "version": "1",
+      "alias": "champion",
+      "run_id": "a6c0b65d4e354ceaabfc565c88bfa0c2",
+      "snapshot_id": "0a75615bd8ff6b166d366cf78c8303845852cbeb23387ac24a64fe4962f01027",
+      "split_id": "fa59fe77d8f905af57eb68ade05e536dac5460b477b44cedfcfd6cefcbb9fe3a",
+      "gold": "PSET2_OULAD.GOLD",
+      "cutoff_day": 14,
+      "categorias": {
+        "gender": [
+          "F",
+          "M"
+        ],
+        "region": [
+          "East Anglian Region",
+          "East Midlands Region",
+          "Ireland",
+          "London Region",
+          "North Region",
+          "North Western Region",
+          "Scotland",
+          "South East Region",
+          "South Region",
+          "South West Region",
+          "Wales",
+          "West Midlands Region",
+          "Yorkshire Region"
+        ],
+        "highest_education": [
+          "A Level or Equivalent",
+          "HE Qualification",
+          "Lower Than A Level",
+          "No Formal quals",
+          "Post Graduate Qualification"
+        ],
+        "imd_band": [
+          "0-10%",
+          "10-20",
+          "20-30%",
+          "30-40%",
+          "40-50%",
+          "50-60%",
+          "60-70%",
+          "70-80%",
+          "80-90%",
+          "90-100%"
+        ],
+        "age_band": [
+          "0-35",
+          "35-55",
+          "55<="
+        ],
+        "disability": [
+          "N",
+          "Y"
+        ]
+      },
+      "signature": {
+        "inputs": "[{\"type\": \"double\", \"name\": \"num_of_prev_attempts\", \"required\": true}, {\"type\": \"double\", \"name\": \"studied_credits\", \"required\": true}, {\"type\": \"double\", \"name\": \"module_presentation_length\", \"required\": true}, {\"type\": \"double\", \"name\": \"registration_days_before_start\", \"required\": true}, {\"type\": \"double\", \"name\": \"is_imd_missing\", \"required\": true}, {\"type\": \"double\", \"name\": \"clicks_through_cutoff\", \"required\": true}, {\"type\": \"double\", \"name\": \"active_days_through_cutoff\", \"required\": true}, {\"type\": \"double\", \"name\": \"resources_through_cutoff\", \"required\": true}, {\"type\": \"double\", \"name\": \"clicks_current_14d\", \"required\": true}, {\"type\": \"double\", \"name\": \"active_days_current_14d\", \"required\": true}, {\"type\": \"double\", \"name\": \"clicks_previous_14d\", \"required\": false}, {\"type\": \"double\", \"name\": \"click_change_14d\", \"required\": false}, {\"type\": \"double\", \"name\": \"recency_days\", \"required\": true}, {\"type\": \"double\", \"name\": \"has_recorded_activity\", \"required\": true}, {\"type\": \"string\", \"name\": \"gender\", \"required\": true}, {\"type\": \"string\", \"name\": \"region\", \"required\": true}, {\"type\": \"string\", \"name\": \"highest_education\", \"required\": true}, {\"type\": \"string\", \"name\": \"imd_band\", \"required\": true}, {\"type\": \"string\", \"name\": \"age_band\", \"required\": true}, {\"type\": \"string\", \"name\": \"disability\", \"required\": true}]",
+        "outputs": "[{\"type\": \"tensor\", \"tensor-spec\": {\"dtype\": \"float64\", \"shape\": [-1, 3]}}]",
+        "params": null
+      },
+      "ci_ap_fail": 0.6000647577504155,
+      "cv_ap_fail_mean": 0.4569628660980675,
+      "cv_ap_fail_std": 0.010679711444227013,
+      "cv_coverage_mean": 0.18627827162746474,
+      "cv_coverage_std": 0.00642631482042494
+    },
+    "28": {
+      "nombre": "oulad-apoyo-academico-semana4-modelo",
+      "version": "1",
+      "alias": "champion",
+      "run_id": "048df6920ba747d28d957b052e685666",
+      "snapshot_id": "0a75615bd8ff6b166d366cf78c8303845852cbeb23387ac24a64fe4962f01027",
+      "split_id": "fa59fe77d8f905af57eb68ade05e536dac5460b477b44cedfcfd6cefcbb9fe3a",
+      "gold": "PSET2_OULAD.GOLD",
+      "cutoff_day": 28,
+      "categorias": {
+        "gender": [
+          "F",
+          "M"
+        ],
+        "region": [
+          "East Anglian Region",
+          "East Midlands Region",
+          "Ireland",
+          "London Region",
+          "North Region",
+          "North Western Region",
+          "Scotland",
+          "South East Region",
+          "South Region",
+          "South West Region",
+          "Wales",
+          "West Midlands Region",
+          "Yorkshire Region"
+        ],
+        "highest_education": [
+          "A Level or Equivalent",
+          "HE Qualification",
+          "Lower Than A Level",
+          "No Formal quals",
+          "Post Graduate Qualification"
+        ],
+        "imd_band": [
+          "0-10%",
+          "10-20",
+          "20-30%",
+          "30-40%",
+          "40-50%",
+          "50-60%",
+          "60-70%",
+          "70-80%",
+          "80-90%",
+          "90-100%"
+        ],
+        "age_band": [
+          "0-35",
+          "35-55",
+          "55<="
+        ],
+        "disability": [
+          "N",
+          "Y"
+        ]
+      },
+      "signature": {
+        "inputs": "[{\"type\": \"double\", \"name\": \"num_of_prev_attempts\", \"required\": true}, {\"type\": \"double\", \"name\": \"studied_credits\", \"required\": true}, {\"type\": \"double\", \"name\": \"module_presentation_length\", \"required\": true}, {\"type\": \"double\", \"name\": \"registration_days_before_start\", \"required\": true}, {\"type\": \"double\", \"name\": \"is_imd_missing\", \"required\": true}, {\"type\": \"double\", \"name\": \"clicks_through_cutoff\", \"required\": true}, {\"type\": \"double\", \"name\": \"active_days_through_cutoff\", \"required\": true}, {\"type\": \"double\", \"name\": \"resources_through_cutoff\", \"required\": true}, {\"type\": \"double\", \"name\": \"clicks_current_14d\", \"required\": true}, {\"type\": \"double\", \"name\": \"active_days_current_14d\", \"required\": true}, {\"type\": \"double\", \"name\": \"clicks_previous_14d\", \"required\": true}, {\"type\": \"double\", \"name\": \"click_change_14d\", \"required\": true}, {\"type\": \"double\", \"name\": \"recency_days\", \"required\": true}, {\"type\": \"double\", \"name\": \"has_recorded_activity\", \"required\": true}, {\"type\": \"string\", \"name\": \"gender\", \"required\": true}, {\"type\": \"string\", \"name\": \"region\", \"required\": true}, {\"type\": \"string\", \"name\": \"highest_education\", \"required\": true}, {\"type\": \"string\", \"name\": \"imd_band\", \"required\": true}, {\"type\": \"string\", \"name\": \"age_band\", \"required\": true}, {\"type\": \"string\", \"name\": \"disability\", \"required\": true}]",
+        "outputs": "[{\"type\": \"tensor\", \"tensor-spec\": {\"dtype\": \"float64\", \"shape\": [-1, 3]}}]",
+        "params": null
+      },
+      "ci_ap_fail": 0.5334786397821454,
+      "cv_ap_fail_mean": 0.49268996386791786,
+      "cv_ap_fail_std": 0.010697025760771939,
+      "cv_coverage_mean": 0.20145657304191533,
+      "cv_coverage_std": 0.00769349364790181
+    }
+  },
+  "ci_scope": "Fixed development sample; reproduction only, not independent validation",
+  "tolerance": 1e-10,
+  "policy_status": "experimental; institutional capacity and week split unconfirmed",
+  "baseline": {
+    "snapshot_id": "0a75615bd8ff6b166d366cf78c8303845852cbeb23387ac24a64fe4962f01027",
+    "split_id": "231cd638f375de2a8c70b4482fdf6a98dbe022371a409f1fc92bc97189cf7736",
+    "gold": "PSET2_OULAD.GOLD",
+    "nombre": "dummy-pset3",
+    "version": "baseline-v1",
+    "alias": "respaldo",
+    "run_id": "dcb91965644a479baa7a0f08555df32e",
+    "corte_entrenamiento": 56,
+    "probabilidad_fail": 0.0,
+    "regla": "most_frequent; empate determinista por matrícula para asignación al cupo"
+  },
+  "files_sha256": {
+    "muestra_semana2.json": "b784e0356dc19dd4ae641196be29c9fae3c4dfa5c726afcf6ebeeb3dde1f974d",
+    "muestra_semana4.json": "f5dfd87f85cffe387b60ade80cbd4183231efb2cc61275b1c011378161621dd1",
+    "baseline/python_env.yaml": "c4c7c33f77d908709999fd46ec98e785175c76a1e7bf149c75ab529efe6a5a10",
+    "baseline/requirements.txt": "11f98bd1f4ed6a64ed48e46bfaf25522e2673f4134e753b7e8415728537311d2",
+    "baseline/MLmodel": "97505855ca472d9c21486d0f8374f53b76cef4793f1fe0cc9e36c69a418d20de",
+    "baseline/model.pkl": "3adc48b58b7b2eb7d22bb3e05279441dffb6aac65455ae475a164f782c30de2d",
+    "baseline/conda.yaml": "9881dd4d801601308a9ae333a0391d76b181b6debbae59f9c77ad1466780c57c",
+    "semana2/python_env.yaml": "c4c7c33f77d908709999fd46ec98e785175c76a1e7bf149c75ab529efe6a5a10",
+    "semana2/requirements.txt": "ab875a31ed04597d75b3f3c7ac3bc6ca35cbd49a863e210e727123d85e796f3e",
+    "semana2/MLmodel": "afe3323803b8d2a5e2a4744653e1230f36bcf23baedd4981db9ea7f0cd9a734f",
+    "semana2/serving_input_example.json": "9a9432e8d277453186f46647b84b5d5062b0125b6cf40afc96120bdd34484d6e",
+    "semana2/model.pkl": "afa0f0429bbc78107f4b2bdbdd448eba44c3f43d9391678a75259c09ca74869e",
+    "semana2/input_example.json": "a0bde1e57a000d239507ac7bca0c1357cd8fe2a5793b6a8ead3dff68811a52b9",
+    "semana2/conda.yaml": "c6d2b2af1be4290642e26c9c55e570809e7c025d195daf75d336d9fd2d44e56a",
+    "semana4/python_env.yaml": "c4c7c33f77d908709999fd46ec98e785175c76a1e7bf149c75ab529efe6a5a10",
+    "semana4/requirements.txt": "ab875a31ed04597d75b3f3c7ac3bc6ca35cbd49a863e210e727123d85e796f3e",
+    "semana4/MLmodel": "98a40e751a4786e458b9e2b28013d209c9bab918382296dbd4445e25790e1dae",
+    "semana4/serving_input_example.json": "a8a17837f03f2a16041e328304966c48120f25f5a4497f46af2d91a795864adc",
+    "semana4/model.pkl": "1832ee60b9d89701e6f37bf89677838dc1ca0ac7835542f7faee7a7308dcd53a",
+    "semana4/input_example.json": "fe6a4326fedf98e4a3fbaaee58b491b21a3f349ac6f4dd4bd3f45bc1bfa55e76",
+    "semana4/conda.yaml": "c6d2b2af1be4290642e26c9c55e570809e7c025d195daf75d336d9fd2d44e56a"
+  },
+  "data_source": {
+    "dataset": "OULAD",
+    "source": "https://research.stem.open.ac.uk/ouanalyse/dataset/",
+    "license": "CC BY 4.0",
+    "publication_doi": "https://doi.org/10.1038/sdata.2017.171",
+    "derivation": "Fixed development rows, stratified sampling; original identifiers removed; feature values unchanged"
+  }
+}

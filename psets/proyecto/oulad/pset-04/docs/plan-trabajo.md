@@ -1,6 +1,6 @@
 # Plan de trabajo del PSet 04
 
-Estado: primer paso en curso. Se acordó la meta de mejora relativa del 10 % y se implementó el núcleo de priorización, con 15 pruebas de dominio. Las evidencias de API, infraestructura y simulación siguientes aún no se han producido para el PSet 04. El alcance aprobado está en [alcance-acordado.md](alcance-acordado.md).
+Estado: API batch y fixtures verificadas, 35 pruebas completas y verificación en Docker. La integración es parcial: dbt/Spark y memos presentes; flujos, Snowflake operativo y simulación pendientes.
 
 ## 0. Cerrar el protocolo operativo
 
