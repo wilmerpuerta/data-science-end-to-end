@@ -82,6 +82,7 @@ services:
       - kestra-data:/app/storage
       - kestra-tmp:/tmp/kestra-wd
       - ./src:/workspace/src:ro
+      - ./monitoreo:/workspace/monitoreo:ro
       - ./tests/fixtures:/workspace/tests/fixtures:ro
       - ./.local:/workspace/.local
       - type: bind
@@ -109,6 +110,54 @@ services:
       start_period: 60s
     mem_limit: 1792m
     restart: unless-stopped
+  api_deriva:
+    extends:
+      service: api
+    environment:
+      PSET4_DB_PATH: /app/.local/deriva/operacion.sqlite
+    ports: !override
+      - 127.0.0.1:${PSET4_API_DERIVA_PORT:-8006}:8000
+  monitoreo:
+    image: ${PSET4_API_IMAGE:-proyecto-final-api:local}
+    command: [python, -m, monitoreo.deriva, --servir]
+    volumes:
+      - ./.local:/app/.local
+      - type: bind
+        source: ${SNOWFLAKE_CONNECTION_HOST_PATH:?Configurar ruta privada}
+        target: /run/secrets/snowflake_connection.json
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${SNOWFLAKE_PRIVATE_KEY_HOST_PATH:?Configurar ruta privada}
+        target: /run/secrets/snowflake_key.p8
+        read_only: true
+        bind:
+          create_host_path: false
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8090/salud')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    mem_limit: 1536m
+    restart: unless-stopped
+  tablero:
+    image: ${PSET4_API_IMAGE:-proyecto-final-api:local}
+    command: [streamlit, run, monitoreo/deriva.py, --server.address=0.0.0.0, --server.port=8501, --browser.gatherUsageStats=false]
+    environment:
+      PSET4_TABLERO: '1'
+    volumes:
+      - ./docs:/app/docs:ro
+    ports:
+      - 127.0.0.1:${PSET4_TABLERO_PORT:-8504}:8501
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    mem_limit: 768m
+    restart: unless-stopped
+
 volumes:
   postgres-data:
   kestra-data:

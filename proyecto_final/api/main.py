@@ -208,13 +208,20 @@ def crear_app(*, ruta_db=None, modo=None, forzar_respaldo=None, politica=None, p
         if request.url.path != '/predecir':
             return await call_next(request)
         inicio = perf_counter()
+        plan = request.headers.get('X-Pset4-Plan')
+        lote = request.headers.get('X-Pset4-Lote')
+        ejecucion = request.headers.get('X-Pset4-Ejecucion')
+        if plan not in ['oulad-2014j-control-v1', 'oulad-2014j-deriva-v1'] or lote not in [f'L{i:02}' for i in range(1,9)]:
+            plan = lote = ejecucion = None
+        if ejecucion is not None and (len(ejecucion)>128 or not all(c.isalnum() or c in '_-' for c in ejecucion)):
+            ejecucion = None
         try:
             response = await call_next(request)
         except Exception:
-            almacen.registrar_peticion(500, (perf_counter() - inicio) * 1000)
+            almacen.registrar_peticion(500, (perf_counter() - inicio) * 1000, plan, lote, ejecucion)
             raise
         tiempo = (perf_counter() - inicio) * 1000
-        almacen.registrar_peticion(response.status_code, tiempo)
+        almacen.registrar_peticion(response.status_code, tiempo, plan, lote, ejecucion)
         if getattr(request.state, 'nuevo_lote', False):
             with almacen.transaccion() as db:
                 db.execute('UPDATE predicciones SET latencia_ms=? WHERE cohorte_id=? AND corte=?',

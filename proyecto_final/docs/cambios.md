@@ -145,3 +145,27 @@ Evidencia del bloque: ejecución Kestra `59E27va9JE8WDXxidPfqbp` en SUCCESS, och
 | L08 | 31 | 28 | 1459 | 111 |
 
 La repetición integral `4zb5Bywcxv9fxfy8mWGFq1` terminó en SUCCESS sin repuntuar ni agregar claves. Tras verificar cero etiquetas en día 31, el avance explícito al día 283 materializó 9.231 resultados maduros. Hay 226 propuestas nuevas en semana 2 y 694 en semana 4, 920 en total; son propuestas bajo cupos experimentales, no tutorías realizadas. El CSV conserva 18.323 filas, sin target.
+
+
+## Monitoreo, deriva y tablero — 19-nov-2026
+
+El protocolo y la referencia se congelaron en `0e14162` antes de evaluar lotes; referencia `f37f5bbfd21227a448d68ab0dbaf8fb457bf5cc18798482874a67682bedfbf1b`. No hubo entrenamiento, tuning, llamadas LLM ni cambio de alias. Se conservó byte a byte `src/pipeline.py` y el control original.
+
+- `monitoreo/deriva.py`: perfiles de entrenamiento por corte y módulos de la onda, CV histórica OOF, PSI, KS, chi-cuadrado, calidad, métricas de sistema y desempeño, escritura inmutable en Snowflake, exportación y tablero Streamlit. El tablero distingue escenarios, disponibilidad de etiquetas, AP/umbral, TP/FP, cobertura y personas, datos, errores, alertas y versiones; indica que todavía no hay reentrenamientos registrados.
+- `monitoreo/alertas.py`: umbrales, ventanas, severidad, receptores y acciones; diagnóstico de cambios de datos y desempeño; propuesta de reentrenamiento solo por caída persistente, nunca por PSI solo. Media menos dos desviaciones es una regla operativa, no un intervalo estadístico.
+- `kestra/monitoreo.yml` y `kestra/produccion_lotes.yml`: llamada después de cada lote y revisión posterior a la maduración, ordenada por llegada de etiquetas. Las alertas se muestran en logs; no se envían correos ni Slack.
+- `src/datos.py` y `api/main.py`: escenario separado, cabeceras de atribución operativa y migración aditiva de telemetría, conservando registros previos; exportación de los dos planes. Los errores históricos no atribuibles se muestran como desconocidos. Las cabeceras no gobiernan cupos ni autorizaciones.
+- `docker-compose.yml`, `api/Dockerfile`, `.env.example`, `requirements.txt`: API sintética separada, worker de monitoreo y tablero. Dependencias con hashes, mismas versiones científicas; Pillow se ajustó a la compatibilidad de Streamlit. Solo Kestra y el worker montan claves Snowflake. La API y el tablero no reciben esos archivos.
+
+La inducción `permutacion-creditos-1` altera L06 y L07 del plan `oulad-2014j-deriva-v1`: permuta vectores completos de features dentro de edición con semilla `5041+orden` y suma 120 créditos. No utiliza ni cambia targets, IDs ni cupos; L01-L05 y L08 conservan entradas. El escenario usa otro SQLite y presupuestos separados. Sus demografías alteradas no se usan como datos reales de equidad.
+
+Ejecución Kestra `2Zi1Y8NiKtYUv3BTtNLR7r` en SUCCESS: ocho lotes, sus revisiones inmediatas y revisión madura. Snowflake conserva 36.646 predicciones únicas, 32 eventos de monitoreo y 28 alertas: 12 en control y 16 en escenario sintético, contando avisos en cada fase. `docs/predicciones.csv`, `docs/monitoreo.csv` y `docs/alertas.csv` reproducen ese alcance. Los 16 eventos de predicción tienen AP vacía; las etiquetas se filtran por el día de revisión, aun si ya se materializaron resultados futuros.
+
+| Lote, semana 4 | Cupos nuevos | TP control | TP sintético | AP control | AP sintética |
+|---|---:|---:|---:|---:|---:|
+| L06 | 273 | 122 | 55 | 0,3954 | 0,2126 |
+| L07 | 207 | 79 | 43 | 0,3310 | 0,2310 |
+
+Los controles L02/L03 y L06/L07 ya muestran caídas frente a la CV condicional; son señales de generalización histórica que requieren revisar prevalencia y composición. No se adjudican al cambio sintético. Los controles L07/L08 tienen avisos PSI cercanos a 0,26; L08 no cae bajo el umbral AP y no propone entrenamiento. No se afirma una tasa cero de falsas alarmas ni que un control sea estacionario. Se conserva el umbral predeclarado y se propone calibrar persistencia y costo de avisos sobre datos futuros, sin retocar el criterio tras observar el benchmark.
+
+51 pruebas completas aprobaron localmente y dentro de Docker; la prueba del tablero con AppTest verificó ambos escenarios sin excepciones. Un bloqueo de lectura de cachés del entorno local se resolvió reinstalando las dependencias fijadas con copias completas; no cambió la fuente ni el entrenamiento. El Compose final aún debe incorporar Spark y MLflow; reentrenamiento, aprobación humana, CD/GHCR, comparación con el estático, equidad y comunicación siguen pendientes.

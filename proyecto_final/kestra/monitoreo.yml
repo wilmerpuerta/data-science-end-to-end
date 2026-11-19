@@ -1,0 +1,33 @@
+id: monitoreo
+namespace: pset4.oulad
+description: Métricas por evento; resultados solo al madurar y alertas visibles en logs.
+concurrency:
+  limit: 1
+  behavior: QUEUE
+inputs:
+  - id: plan_id
+    type: SELECT
+    defaults: oulad-2014j-control-v1
+    values: [oulad-2014j-control-v1, oulad-2014j-deriva-v1]
+  - id: lote_id
+    type: SELECT
+    defaults: todos
+    values: [todos, L01, L02, L03, L04, L05, L06, L07, L08]
+  - id: fase
+    type: SELECT
+    defaults: prediccion
+    values: [prediccion, maduro]
+tasks:
+  - id: calcular_y_alertar
+    type: io.kestra.plugin.scripts.shell.Commands
+    timeout: PT20M
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - >-
+        python3 -m src.datos --monitorear-lote '{{ inputs.lote_id }}'
+        --plan '{{ inputs.plan_id }}' --fase '{{ inputs.fase }}'
+    retry:
+      type: constant
+      interval: PT10S
+      maxAttempt: 2

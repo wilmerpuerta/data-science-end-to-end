@@ -1,6 +1,6 @@
 # Plan de trabajo del PSet 04
 
-Estado: API batch y fixtures verificadas, 43 pruebas completas y verificación en Docker. La integración es parcial: dbt/Spark y memos presentes; API, Snowflake operativo y ocho lotes de control ejecutados con Kestra. Monitoreo, deriva y simulación final pendientes.
+Estado: API batch y fixtures verificadas, 51 pruebas completas y verificación en Docker. La integración es parcial: dbt/Spark y memos presentes; API, Snowflake operativo y ocho lotes de control ejecutados con Kestra. Monitoreo, deriva, alertas y tablero verificados; reentrenamiento e integración final pendientes.
 
 ## 0. Cerrar el protocolo operativo
 

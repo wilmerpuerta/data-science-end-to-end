@@ -1,6 +1,6 @@
 # PSet 04: proyecto final de apoyo académico preventivo
 
-Estado: API batch y modelos tempranos implementados, con 43 pruebas completas aprobadas en el entorno del proyecto y en Docker. La integración final y la simulación siguen pendientes.
+Estado: API batch y modelos tempranos implementados, con 51 pruebas completas aprobadas en el entorno del proyecto y en Docker. La integración final y la simulación siguen pendientes.
 
 La [rúbrica original](CD-PSet-4.pdf) exige integrar los PSets 01-04 en una carpeta `proyecto_final/`, con infraestructura, API, pruebas, simulación, monitoreo, reentrenamiento y comunicación. La [extracción del enunciado](enunciado.md) conserva su contenido textual.
 

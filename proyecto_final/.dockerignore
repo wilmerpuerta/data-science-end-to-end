@@ -22,3 +22,7 @@
 
 !spark/
 !spark/requirements.txt
+
+!monitoreo/
+!monitoreo/deriva.py
+!monitoreo/alertas.py

@@ -84,6 +84,10 @@ class Almacen:
                     id INTEGER PRIMARY KEY, momento TEXT NOT NULL, codigo INTEGER NOT NULL,
                     latencia_ms REAL NOT NULL);
             ''')
+            campos = {r[1] for r in db.execute('PRAGMA table_info(peticiones)')}
+            for campo in ['plan_id', 'lote_id', 'execution_id']:
+                if campo not in campos:
+                    db.execute(f'ALTER TABLE peticiones ADD COLUMN {campo} TEXT')
         os.chmod(self.ruta, 0o600)
 
     def conexion(self):
@@ -126,9 +130,9 @@ class Almacen:
                 raise ValueError('La misma cohorte no obtiene un presupuesto nuevo con otro identificador')
             db.execute('INSERT OR IGNORE INTO cohortes VALUES (?,?,?)', (contenido['cohorte_id'], json.dumps(contenido), huella))
 
-    def registrar_peticion(self, codigo, latencia):
+    def registrar_peticion(self, codigo, latencia, plan_id=None, lote_id=None, execution_id=None):
         with self.transaccion() as db:
-            db.execute('INSERT INTO peticiones(momento,codigo,latencia_ms) VALUES (?,?,?)', (ahora(), codigo, latencia))
+            db.execute('INSERT INTO peticiones(momento,codigo,latencia_ms,plan_id,lote_id,execution_id) VALUES (?,?,?,?,?,?)', (ahora(), codigo, latencia, plan_id, lote_id, execution_id))
 
     def metricas(self):
         import numpy as np
@@ -163,6 +167,7 @@ def generar_ejemplo(carpeta, almacen, cohorte_id='ejemplo-api'):
 
 
 PLAN_CONTROL = 'oulad-2014j-control-v1'
+PLAN_DERIVA = 'oulad-2014j-deriva-v1'
 ESQUEMA_OPERACION = 'PSET2_OULAD.ANALYTICS'
 MARCA_OPERACION = 'oulad.pset4.operacion.v1'
 PROTOCOLO_LOTES = {
@@ -359,6 +364,45 @@ def conectar_snowflake():
 
 
 def preparar_plan(repo, plan_id=PLAN_CONTROL):
+    if plan_id == PLAN_DERIVA:
+        from monitoreo.alertas import PROTOCOLO_MONITOREO
+        import copy
+        import random
+        control = repo.contenido('PLANES', PLAN_CONTROL)
+        if control is None:
+            raise ValueError('Preparar primero el control original')
+        previo = repo.contenido('PLANES', plan_id)
+        if previo:
+            if previo['protocolo'] != PROTOCOLO_MONITOREO['induccion']:
+                raise ValueError('Protocolo de deriva alterado')
+            return {'plan_id': plan_id, 'lotes': 8, 'etiquetas_consultadas': False}
+        lotes = []
+        for item in control['lotes']:
+            lote = copy.deepcopy(repo.contenido('LOTES_ENTRADA', PLAN_CONTROL, item['lote_id']))
+            lote['plan_id'] = plan_id
+            lote['cohorte_id'] = lote['cohorte_id'].replace(PLAN_CONTROL, plan_id)
+            lote['manifiesto']['cohorte_id'] = lote['cohorte_id']
+            lote['solicitud']['cohorte_id'] = lote['cohorte_id']
+            lote['alterado'] = lote['lote_id'] in PROTOCOLO_MONITOREO['induccion']['lotes']
+            if lote['alterado']:
+                por_edicion = {}
+                for row in lote['solicitud']['matriculas']:
+                    por_edicion.setdefault(row['edicion'], []).append(row)
+                for edicion, rows in sorted(por_edicion.items()):
+                    rows.sort(key=lambda r: r['matricula'])
+                    donor = [copy.deepcopy(r['features']) for r in rows]
+                    random.Random(PROTOCOLO_MONITOREO['induccion']['seed']+lote['orden']).shuffle(donor)
+                    for row, features in zip(rows, donor):
+                        # Las features completas viajan juntas para preservar su coherencia interna.
+                        if features['studied_credits'] is not None: features['studied_credits'] += PROTOCOLO_MONITOREO['induccion']['desplazamiento_creditos']
+                        row['features'] = features
+            lotes.append(lote)
+        repo.insertar('LOTES_ENTRADA', [{'PLAN_ID': plan_id, 'LOTE_ID': l['lote_id'], 'ORDEN': l['orden'], 'DIA': l['dia'],
+            'CORTE': l['corte'], 'COHORTE_ID': l['cohorte_id'], 'CONTENIDO': l} for l in lotes])
+        plan = {'plan_id': plan_id, 'protocolo': PROTOCOLO_MONITOREO['induccion'], 'control': PLAN_CONTROL,
+                'matriculas_corte': control['matriculas_corte'], 'lotes': [{k:l[k] for k in ['lote_id','orden','dia','corte','cohorte_id','modulos']} for l in lotes]}
+        repo.insertar('PLANES', [{'PLAN_ID': plan_id, 'CONTENIDO': plan}])
+        return {'plan_id': plan_id, 'lotes': 8, 'etiquetas_consultadas': False}
     anterior = repo.contenido('PLANES', plan_id)
     if anterior:
         if anterior['protocolo'] != PROTOCOLO_LOTES:
@@ -420,7 +464,8 @@ def procesar_lote(repo, almacen, lote_id, api_url, plan_id=PLAN_CONTROL, executi
     repo.reloj(plan_id, lote['dia'])
     almacen.registrar_cohorte(lote['manifiesto'])
     body = json.dumps(lote['solicitud'], allow_nan=False).encode()
-    request = urllib.request.Request(api_url.rstrip('/')+'/predecir', data=body, headers={'Content-Type': 'application/json'})
+    request = urllib.request.Request(api_url.rstrip('/')+'/predecir', data=body, headers={'Content-Type': 'application/json',
+        'X-Pset4-Plan': plan_id, 'X-Pset4-Lote': lote_id, 'X-Pset4-Ejecucion': execution_id})
     with urllib.request.urlopen(request, timeout=180) as response:
         respuesta = json.load(response)
     filas = filas_predicciones(almacen, lote, respuesta)
@@ -466,7 +511,9 @@ def exportar_predicciones(repo, destino, plan_id=PLAN_CONTROL):
     import csv
     columnas = list(TABLAS_OPERACION['PREDICCIONES'])
     with repo.conn.cursor() as cur:
-        rows = cur.execute('SELECT '+','.join(f'"{c}"' for c in columnas)+f' FROM {ESQUEMA_OPERACION}.PREDICCIONES WHERE PLAN_ID=%s ORDER BY LOTE_ID,MATRICULA', (plan_id,)).fetchall()
+        planes = [plan_id] if plan_id is not None else [PLAN_CONTROL, PLAN_DERIVA]
+        where = 'PLAN_ID IN ('+','.join(['%s']*len(planes))+')'
+        rows = cur.execute('SELECT '+','.join(f'"{c}"' for c in columnas)+f' FROM {ESQUEMA_OPERACION}.PREDICCIONES WHERE '+where+' ORDER BY PLAN_ID,LOTE_ID,MATRICULA', tuple(planes)).fetchall()
     destino = Path(destino)
     destino.parent.mkdir(parents=True, exist_ok=True)
     temporal = destino.with_suffix(destino.suffix+'.tmp')
@@ -488,13 +535,27 @@ def main():
     group.add_argument('--procesar-lote', choices=[f'L{n:02}' for n in range(1,9)])
     group.add_argument('--liberar-etiquetas', type=int, metavar='DIA_SIMULADO')
     group.add_argument('--exportar-predicciones', type=Path)
-    parser.add_argument('--plan', default=PLAN_CONTROL, choices=[PLAN_CONTROL])
+    group.add_argument('--exportar-escenarios', type=Path)
+    group.add_argument('--monitorear-lote', choices=['todos',*[f'L{n:02}' for n in range(1,9)]])
+    parser.add_argument('--fase', choices=['prediccion','maduro'], default='prediccion')
+    parser.add_argument('--plan', default=PLAN_CONTROL, choices=[PLAN_CONTROL, PLAN_DERIVA])
     parser.add_argument('--api-url', default=os.environ.get('PSET4_API_URL', 'http://api:8000'))
     parser.add_argument('--execution-id', default='manual')
     parser.add_argument('--cohorte-id', default='ejemplo-api')
     parser.add_argument('--base-local', type=Path, default=ROOT / '.local/operacion.sqlite')
     args = parser.parse_args()
-    if args.preparar_plan or args.procesar_lote or args.liberar_etiquetas is not None or args.exportar_predicciones:
+    if args.monitorear_lote:
+        url = os.environ.get('PSET4_MONITOR_URL', 'http://monitoreo:8090')+'/monitorear'
+        request = urllib.request.Request(url, data=json.dumps({'plan_id': args.plan, 'lote_id': args.monitorear_lote, 'fase': args.fase}).encode(), headers={'Content-Type':'application/json'})
+        with urllib.request.urlopen(request, timeout=600) as response:
+            print(json.dumps(json.load(response), ensure_ascii=False))
+        return
+    if args.plan == PLAN_DERIVA:
+        if args.base_local == ROOT/'.local/operacion.sqlite':
+            args.base_local = ROOT/'.local/deriva/operacion.sqlite'
+        if args.api_url == 'http://api:8000':
+            args.api_url = 'http://api_deriva:8000'
+    if args.preparar_plan or args.procesar_lote or args.liberar_etiquetas is not None or args.exportar_predicciones or args.exportar_escenarios:
         # También protege las ejecuciones CLI fuera de Kestra. La API tiene su propia transacción SQLite.
         import fcntl
         lock = args.base_local.parent/'escritor-snowflake.lock'
@@ -510,8 +571,10 @@ def main():
                     result = procesar_lote(repo, Almacen(args.base_local), args.procesar_lote, args.api_url, args.plan, args.execution_id)
                 elif args.liberar_etiquetas is not None:
                     result = liberar_etiquetas(repo, args.liberar_etiquetas, args.plan)
-                else:
+                elif args.exportar_predicciones:
                     result = exportar_predicciones(repo, args.exportar_predicciones, args.plan)
+                else:
+                    result = exportar_predicciones(repo, args.exportar_escenarios, None)
                 print(json.dumps(result, ensure_ascii=False, allow_nan=False))
         return
     almacen = Almacen(args.base_local)
