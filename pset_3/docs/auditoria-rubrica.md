@@ -33,11 +33,9 @@ Servidor: 382 runs; 379 FINISHED; 3 FAILED. Se comprobaron firma, ejemplo y flav
 - 2014J observed in v1: retrospective reused benchmark, not newly independent hold-out
 - No demonstrated stable superiority or causal effect of tutoring; maturation and publication of labels unverified
 - Private snapshot, native models, LLM responses and MLflow volumes excluded from public package; exact runtime reproduction conditional on private backup
-- Filename Puerta_Wilmer and folder pset-03 follow author authorization; symlinks preserve standard entry points while canonical source remains v2
+- Filename Puerta_Wilmer follows author authorization; delivery uses real files directly under pset_3
 - Auxiliary multi-cut policy inherits cutoff_day=56 from the common logger; actual rounds 14/28/42 are explicit in its policy artifact; it is not a fitted cutoff-56 estimator
 
 La conclusión del memo responde a prompting: se ensayó y es factible; la adopción de un LLM externo es una decisión posterior de costo-beneficio con la Universidad. El consumo experimental medido no sustituye una estimación de escala productiva.
 
 Detalle: [auditoria-rubrica.json](auditoria-rubrica.json). Artefactos: [auditoria-modelos.json](auditoria-modelos.json). Ejecución: `scripts/auditar_entrega.py` desde el entorno v2 y con el servidor/snapshot privados disponibles.
-
-Cierre del pendiente documental de tuning: la página 4 incluye una figura vectorial default frente a ajustado para las tres familias, con media y DE de cinco folds (no IC), conservando tablas y captura MLflow. El notebook 04 se ejecutó en kernel nuevo y contiene el gráfico, también exportado en SVG y PNG. Se verificaron 21 controles; no hubo nuevos ajustes ni peticiones API.

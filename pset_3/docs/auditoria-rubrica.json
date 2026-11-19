@@ -1,6 +1,6 @@
 {
   "status": "verified_with_declared_limitations",
-  "checked_at_utc": "2026-11-18T15:29:08.429025+00:00",
+  "checked_at_utc": "2026-11-19T02:58:36.774921+00:00",
   "checks": [
     {
       "check": "CSV_vs_servidor",
@@ -26,7 +26,7 @@
       "evidence": {
         "unique_commits": 4,
         "missing": [],
-        "current_source_commit": "58ce024a3be4bfc0d26f70ff6f6495f1a09f027f"
+        "current_source_commit": "6c538eb0e4ca25ed6a97bf02d77943aad14f28c9"
       }
     },
     {
@@ -210,25 +210,7 @@
     "2014J observed in v1: retrospective reused benchmark, not newly independent hold-out",
     "No demonstrated stable superiority or causal effect of tutoring; maturation and publication of labels unverified",
     "Private snapshot, native models, LLM responses and MLflow volumes excluded from public package; exact runtime reproduction conditional on private backup",
-    "Filename Puerta_Wilmer and folder pset-03 follow author authorization; symlinks preserve standard entry points while canonical source remains v2",
+    "Filename Puerta_Wilmer follows author authorization; delivery uses real files directly under pset_3",
     "Auxiliary multi-cut policy inherits cutoff_day=56 from the common logger; actual rounds 14/28/42 are explicit in its policy artifact; it is not a fitted cutoff-56 estimator"
-  ],
-  "last_editorial_revision": {
-    "checked_at_utc": "2026-11-18T15:29:57.862428+00:00",
-    "scope": "Tuning graph added to memo page 4 and executed notebook04; existing metrics unchanged",
-    "pdf_pages": 6,
-    "pdf_sha256": "108a70a93e74b150121382b5cd266e64e61cf40435eb0d4c01c5b1089c4393c6",
-    "visual_review_passed": true,
-    "unchanged_pages": [
-      1,
-      2,
-      3,
-      5,
-      6
-    ],
-    "tuning_graph_present": true,
-    "notebook04_fresh_kernel": true,
-    "new_model_fits": 0,
-    "new_api_requests": 0
-  }
+  ]
 }

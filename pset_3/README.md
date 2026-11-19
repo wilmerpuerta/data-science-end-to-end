@@ -53,6 +53,8 @@ Seleccionar el kernel preparado mediante `JUPYTER_PATH=.local/share/jupyter` y e
 5. `notebooks/05_seleccion.ipynb`.
 6. Opcional para ampliar el negocio: `notebooks/anexos/06_anticipacion.ipynb`.
 
+Para ejecutar los seis de forma consecutiva en kernels nuevos: `.venv/bin/python scripts/ejecutar_notebooks_entrega.py`.
+
 Los notebooks de entrega recalculan EDA y preparación y verifican resultados, decisiones y reproducción desde las evidencias originales. Los run_ids que muestran son referencias históricas; no se registran nuevos entrenamientos ni nuevas corridas al releer la entrega. Los scripts de ejecución del estudio se conservan para una repetición deliberada y separada, sujeta al protocolo y los recursos privados.
 
 ```sh

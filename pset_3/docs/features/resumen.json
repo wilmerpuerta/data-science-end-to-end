@@ -24,5 +24,6 @@
   },
   "run_id": "d5c53f801c314ff9b15b63a6c2a53d12",
   "experiment_id": "6",
-  "notebook_source_sha256": "7945e51940bf18a1197989a90f2ef758217c09ae14bf8bfa027c2ee213ae24c0"
+  "notebook_source_sha256": "7945e51940bf18a1197989a90f2ef758217c09ae14bf8bfa027c2ee213ae24c0",
+  "replay_entrega": "Preparación recalculada; run_id histórico, sin entrenamiento de clasificadores"
 }

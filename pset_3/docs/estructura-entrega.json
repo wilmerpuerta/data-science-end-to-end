@@ -1,0 +1,33 @@
+{
+  "status": "verified",
+  "created_at_utc": "2026-11-19T02:58:13.843640+00:00",
+  "root": "pset_3",
+  "required_files": [
+    "docker-compose.yml",
+    ".env.example",
+    "requirements.txt",
+    "README.md",
+    "src/datos.py",
+    "src/pipeline.py",
+    "docs/corridas.csv",
+    "docs/PSet3_memo_Puerta_Wilmer.pdf",
+    "notebooks/01_eda.ipynb",
+    "notebooks/02_features.ipynb",
+    "notebooks/03_baseline_candidatos.ipynb",
+    "notebooks/04_tuning.ipynb",
+    "notebooks/05_seleccion.ipynb"
+  ],
+  "all_required_files_real": true,
+  "v2_directory_in_delivery": false,
+  "output_pdf_directory_in_delivery": false,
+  "pdf_path": "docs/PSet3_memo_Puerta_Wilmer.pdf",
+  "pdf_pages": 6,
+  "pdf_sha256": "108a70a93e74b150121382b5cd266e64e61cf40435eb0d4c01c5b1089c4393c6",
+  "model_pipeline_and_data_loader_unchanged": true,
+  "run_csv_unchanged": true,
+  "fresh_kernel_notebooks": 6,
+  "unit_tests_passed": 48,
+  "new_experiment_runs": 0,
+  "new_api_requests": 0,
+  "private_runtime_excluded_from_public_zip": true
+}

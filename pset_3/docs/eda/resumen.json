@@ -109,7 +109,7 @@
       "consecuencia": "Informar la bandera estadística sin tratarla como error de calidad ni borrar reintentos. Z-score tampoco es un test de anomalía con normalidad demostrada. Mantener estos antecedentes hasta comparar su aporte dentro de CV."
     }
   ],
-  "created_at_utc": "2026-11-18T10:27:53.500481+00:00",
+  "created_at_utc": "2026-11-19T02:55:33.662953+00:00",
   "artifact_files": {
     "01_target.png": "0e4970ebcb46b77c6e45cbc8be95bb502f0c2985f9e23d81d1597965bfc12c7b",
     "02_faltantes.png": "b1f4fd982fc61271f5b430d45c0250bd1e1a38ebabdfcbdaf8fa0ece62680394",
@@ -139,5 +139,6 @@
   "experiment_id": "6",
   "notebook_source_sha256": "5d86d34ff77ec3c74eb3d3b29284a5d3d9fb0ab0f1eb733e892eb8a5816faa13",
   "git_commit": "eb107b3f42149fc9acb491880f84b5917be0cded",
-  "git_dirty": false
+  "git_dirty": false,
+  "replay_entrega": "EDA recalculado; run_id identifica el experimento histórico, no una corrida nueva"
 }

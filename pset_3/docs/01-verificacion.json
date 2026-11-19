@@ -1,11 +1,14 @@
 {
   "status": "ok",
-  "checked_at_utc": "2026-11-18T10:28:01.562749+00:00",
-  "notebook_sha256": "f95d5c2c01704f415a1544c14fcc3ad6d0a86d56ec683444f76103630ffc801d",
+  "checked_at_utc": "2026-11-19T02:55:34.544565+00:00",
+  "notebook_sha256": "20ae318dc89c3b8dfdbdfffae69a57a76f83bfecdc5bdbbbd9d59499a53a4b26",
   "fresh_kernel": true,
   "code_cells": 10,
-  "snapshot_id": "0a75615bd8ff6b166d366cf78c8303845852cbeb23387ac24a64fe4962f01027",
-  "split_id": "231cd638f375de2a8c70b4482fdf6a98dbe022371a409f1fc92bc97189cf7736",
+  "elapsed_seconds": 17.83986389398342,
+  "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+  "distribution_patch_id": "411b394f6ce436b14b8efd5ec7a3512c0d2dac34ba93f7d8a97edff99ba92afe",
+  "new_model_fits": 0,
   "new_classifier_fits": 0,
-  "new_holdout_analysis": false
+  "new_api_requests": 0,
+  "scope": "Packaged paths; recompute EDA/preparation and replay original recorded evidence; no new experiment runs"
 }
