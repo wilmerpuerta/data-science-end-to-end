@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "artifacts": [
+    {
+      "artifact": "spark-snowflake_2.12",
+      "version": "3.2.3-spark_3.5",
+      "url": "https://repo.maven.apache.org/maven2/net/snowflake/spark-snowflake_2.12/3.2.3-spark_3.5/spark-snowflake_2.12-3.2.3-spark_3.5.jar",
+      "bytes": 4896087,
+      "sha256": "1e3ad223701cc68951ba29330f9ce20bc8e726ce26335c16b224b91b92b60b03"
+    },
+    {
+      "artifact": "snowflake-jdbc",
+      "version": "4.4.1",
+      "url": "https://repo.maven.apache.org/maven2/net/snowflake/snowflake-jdbc/4.4.1/snowflake-jdbc-4.4.1.jar",
+      "bytes": 98932562,
+      "sha256": "cb225d78ac10336669797dfef8588cffb7e3dae689f14120935831b1f6ba2709"
+    },
+    {
+      "artifact": "parquet-avro",
+      "version": "1.13.1",
+      "url": "https://repo.maven.apache.org/maven2/org/apache/parquet/parquet-avro/1.13.1/parquet-avro-1.13.1.jar",
+      "bytes": 911631,
+      "sha256": "5a08438385193de70a961e6a2c82084401106def11f74c3dcec4d5ee166e7561"
+    },
+    {
+      "artifact": "commons-lang3",
+      "version": "3.18.0",
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.18.0/commons-lang3-3.18.0.jar",
+      "bytes": 702952,
+      "sha256": "4eeeae8d20c078abb64b015ec158add383ac581571cddc45c68f0c9ae0230720"
+    }
+  ]
+}

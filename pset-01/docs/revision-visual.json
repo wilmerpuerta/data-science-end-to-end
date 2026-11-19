@@ -1,0 +1,135 @@
+{
+  "checked_at_utc": "2026-11-15T16:29:50.647501+00:00",
+  "revision": "2026-11-15",
+  "status": "ok",
+  "scope": "Revisión final de memos breve y extendido, y sincronía del documento completo; no acredita entrenamiento, simulación ni intervención.",
+  "file_sha256": {
+    "pset-01/output/pdf/PSet1_memo_Puerta_Wilmer.pdf": "f123d9523b22528a1c9ef3bcfc67712faece8b9be240022a541cd87ca744d205",
+    "pset-01/output/pdf/PSet1_notebook_completo_Puerta_Wilmer.pdf": "5db0435ae2c123b384e71b213b25aeee364bde2554d1eabf5f181f6ecbffc263",
+    "pset-01/output/pitch/PSet1_pitch_Puerta_Wilmer.pptx": "2f15b4fae45840464cd2a6ad03f7ffe2d48680a10b52ab154c5594f21aca5c5b",
+    "pset-01/output/pitch/PSet1_pitch_Puerta_Wilmer.ppt": "37ff5c3d871417e907559409427dff137aad4f035154dff49045b8fca83b5785",
+    "pset-01/output/pdf/PSet1_memo_Puerta_Wilmer_version_extendida.pdf": "ae72a8111b33fd8578639dd5dfd6c58ed446aff93d817a020fd7c8e836a342b8"
+  },
+  "manual_visual_review": {
+    "memo_pdf_pages": [
+      1,
+      2
+    ],
+    "complete_pdf_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "pitch_slides": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "findings_unresolved": [],
+    "complete_pdf_pages_rechecked_this_revision": [
+      8,
+      16,
+      20
+    ],
+    "remaining_complete_pdf_pages_pixel_identical_to_previous_revision": true,
+    "extended_memo_pdf_pages": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "native_powerpoint_conversion": {
+    "pptx_opened_without_repair": true,
+    "genuine_ppt_saved_and_reopened": true,
+    "slides_each": 6,
+    "slide_comparisons": [
+      {
+        "slide": 1,
+        "powerpoint_pptx_ppt_render_identical": true
+      },
+      {
+        "slide": 2,
+        "powerpoint_pptx_ppt_render_identical": true
+      },
+      {
+        "slide": 3,
+        "powerpoint_pptx_ppt_render_identical": true
+      },
+      {
+        "slide": 4,
+        "powerpoint_pptx_ppt_render_identical": true
+      },
+      {
+        "slide": 5,
+        "powerpoint_pptx_ppt_render_identical": true
+      },
+      {
+        "slide": 6,
+        "powerpoint_pptx_ppt_render_identical": true
+      }
+    ]
+  },
+  "tools_used": [
+    "ReportLab para exportar PDF",
+    "PyMuPDF para extracción y render de PDF",
+    "Microsoft PowerPoint para abrir, convertir a PPT y renderizar ambos formatos",
+    "Pillow para comparar los renders"
+  ],
+  "limitations": [
+    "Colab no sincronizado.",
+    "Mejora relativa y políticas aún por evaluar; tutorías no ejecutadas.",
+    "Estos ajustes se preparan localmente después de la publicación f9c9932; no se ha hecho una nueva publicación."
+  ],
+  "native_powerpoint_access_recheck": {
+    "status": "ok",
+    "pptx_opened_without_repair": true,
+    "slides_with_notes": 6,
+    "mvp_slide_and_notes_visible": true,
+    "document_connector_session_available": false,
+    "method": "Microsoft PowerPoint mediante interfaz nativa; cerrado sin guardar cambios."
+  },
+  "memo_variants": {
+    "brief": {
+      "pages": 2,
+      "source": "pset-01/propuesta-pset1.md",
+      "output": "pset-01/output/pdf/PSet1_memo_Puerta_Wilmer.pdf"
+    },
+    "extended": {
+      "pages": 5,
+      "source": "pset-01/propuesta-pset1_version_extendida.md",
+      "output": "pset-01/output/pdf/PSet1_memo_Puerta_Wilmer_version_extendida.pdf"
+    },
+    "same_output_directory": true,
+    "user_instruction": "Conservar la versión extendida y resumirla a dos páginas bajo el nombre original."
+  },
+  "tutoring_protocol_summary": {
+    "present_in_both_memos": true,
+    "assignment": "Aleatoria por estudiante con asignación coherente de matrículas múltiples.",
+    "comparison": "Oferta de acompañamiento frente a atención habitual, preservando el apoyo habitual.",
+    "outcome": "Aprobación al cierre (Pass + Distinction).",
+    "analysis": "Intención de tratar, diferencia absoluta e intervalo de confianza.",
+    "execution": "Posterior y fuera del MVP; exige institución, aprobación, capacidad y datos nuevos."
+  }
+}

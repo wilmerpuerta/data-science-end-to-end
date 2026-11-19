@@ -1,0 +1,14 @@
+{
+  "checked_at_utc": "2026-11-12T23:27:22.535283+00:00",
+  "run_id": "38VvKsLM0lGFdDSQn8jNaE",
+  "attempt_id": "e2a73a1b5de148b1946f24a08bc04909",
+  "status": "failed",
+  "files": [],
+  "mode": "connection",
+  "source_partition": "all",
+  "phase": "connect",
+  "retry_probe": true,
+  "category": "injected_transient_failure",
+  "validation_code": "retry_probe_first_attempt",
+  "finished_at_utc": "2026-11-12T23:27:23.274716+00:00"
+}

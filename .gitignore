@@ -35,3 +35,9 @@ pset-02/.local/
 pset-02/output/raw/.retry-probes/
 pset-02/output/pipeline/.retry-probes/
 # PDF, PPTX, PPT y notebook finales sí se versionan.
+
+# Estado privado del proyecto final, fuera de la entrega pública
+proyecto_final/.local/
+
+# Referencia local del curso; no publicar dentro del proyecto
+/laboratorios/

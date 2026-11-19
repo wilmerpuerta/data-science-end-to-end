@@ -1,0 +1,8 @@
+{
+  "checked_at_utc": "2026-11-13T02:55:49.891316+00:00",
+  "action": "test-features",
+  "run_id": "b3aa88acef894a21898d573bbda0a5b8",
+  "status": "ok",
+  "cases_passed": 7,
+  "scope": "Casos sintéticos: elegibilidad inclusiva, ventanas, cambio, ausencia de actividad, perturbación futura, columnas e IMD."
+}

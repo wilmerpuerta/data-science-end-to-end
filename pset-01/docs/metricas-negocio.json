@@ -1,0 +1,66 @@
+{
+  "revision": "2026-11-15",
+  "status": "ok",
+  "unit": "matrícula estudiante-módulo-edición",
+  "original_enrollments": 32593,
+  "original_failures": 7052,
+  "original_failure_pct": 21.63654772497162,
+  "duration_days_min": 234,
+  "duration_days_max": 269,
+  "per_cutoff": [
+    {
+      "cutoff_day": 14,
+      "eligible_enrollments": 27881,
+      "future_failures": 6972,
+      "capacity_slots": 2779,
+      "oracle_upper_tp": 2779,
+      "oracle_upper_coverage_pct": 39.859437751004016,
+      "lead_weeks_available_min": 31.428571428571427,
+      "lead_weeks_available_max": 36.42857142857143,
+      "lead_weeks_display": "31,4-36,4"
+    },
+    {
+      "cutoff_day": 28,
+      "eligible_enrollments": 27307,
+      "future_failures": 6972,
+      "capacity_slots": 2719,
+      "oracle_upper_tp": 2719,
+      "oracle_upper_coverage_pct": 38.99885255306942,
+      "lead_weeks_available_min": 29.428571428571427,
+      "lead_weeks_available_max": 34.42857142857143,
+      "lead_weeks_display": "29,4-34,4"
+    },
+    {
+      "cutoff_day": 42,
+      "eligible_enrollments": 26795,
+      "future_failures": 6972,
+      "capacity_slots": 2672,
+      "oracle_upper_tp": 2672,
+      "oracle_upper_coverage_pct": 38.32472748135399,
+      "lead_weeks_available_min": 27.428571428571427,
+      "lead_weeks_available_max": 32.42857142857143,
+      "lead_weeks_display": "27,4-32,4"
+    },
+    {
+      "cutoff_day": 56,
+      "eligible_enrollments": 26294,
+      "future_failures": 6972,
+      "capacity_slots": 2619,
+      "oracle_upper_tp": 2619,
+      "oracle_upper_coverage_pct": 37.5645438898451,
+      "lead_weeks_available_min": 25.428571428571427,
+      "lead_weeks_available_max": 30.428571428571427,
+      "lead_weeks_display": "25,4-30,4"
+    }
+  ],
+  "primary_cutoff_day": 56,
+  "primary_capacity_fraction": 0.1,
+  "relative_improvement_target_pct": 10,
+  "policies": [
+    "reactiva",
+    "estática",
+    "longitudinal"
+  ],
+  "scope": "Descriptivos del histórico completo, márgenes temporales y cota ideal; no rendimiento obtenido. La evaluación real debe recalcular N, Fail y K en la prueba reservada.",
+  "anticipation_reference": "Cierre aproximado mediante duración de edición; no fecha observada de tutoría ni comunicación de notas."
+}

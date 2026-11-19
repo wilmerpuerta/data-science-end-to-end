@@ -1,0 +1,164 @@
+{
+  "build_checked_at_utc": "2026-11-13T01:17:29.232814+00:00",
+  "quality_checked_at_utc": "2026-11-13T01:18:23.064317+00:00",
+  "tests_passed": 168,
+  "models_succeeded": 23,
+  "metrics": [
+    {
+      "dataset": "dim_edition",
+      "metric": "rows",
+      "value": 22,
+      "denominator": 22
+    },
+    {
+      "dataset": "dim_enrollment",
+      "metric": "rows",
+      "value": 32593,
+      "denominator": 32593
+    },
+    {
+      "dataset": "dim_relative_day",
+      "metric": "cutoffs",
+      "value": 4,
+      "denominator": null
+    },
+    {
+      "dataset": "dim_relative_day",
+      "metric": "max_day",
+      "value": 269,
+      "denominator": null
+    },
+    {
+      "dataset": "dim_relative_day",
+      "metric": "min_day",
+      "value": -25,
+      "denominator": null
+    },
+    {
+      "dataset": "dim_relative_day",
+      "metric": "rows",
+      "value": 295,
+      "denominator": 295
+    },
+    {
+      "dataset": "dim_resource",
+      "metric": "rows",
+      "value": 6364,
+      "denominator": 6364
+    },
+    {
+      "dataset": "dim_student",
+      "metric": "rows",
+      "value": 28785,
+      "denominator": 28785
+    },
+    {
+      "dataset": "dimensional_join",
+      "metric": "clicks",
+      "value": 39605099,
+      "denominator": null
+    },
+    {
+      "dataset": "dimensional_join",
+      "metric": "rows",
+      "value": 8459320,
+      "denominator": 8459320
+    },
+    {
+      "dataset": "eligibility_day_14",
+      "metric": "expected_enrollments",
+      "value": 27881,
+      "denominator": null
+    },
+    {
+      "dataset": "eligibility_day_28",
+      "metric": "expected_enrollments",
+      "value": 27307,
+      "denominator": null
+    },
+    {
+      "dataset": "eligibility_day_42",
+      "metric": "expected_enrollments",
+      "value": 26795,
+      "denominator": null
+    },
+    {
+      "dataset": "eligibility_day_56",
+      "metric": "expected_enrollments",
+      "value": 26294,
+      "denominator": null
+    },
+    {
+      "dataset": "enrollment_withdrawal",
+      "metric": "rows",
+      "value": 32593,
+      "denominator": 32593
+    },
+    {
+      "dataset": "fact_activity_daily",
+      "metric": "clicks",
+      "value": 39605099,
+      "denominator": null
+    },
+    {
+      "dataset": "fact_activity_daily",
+      "metric": "rows",
+      "value": 8459320,
+      "denominator": 8459320
+    },
+    {
+      "dataset": "fact_activity_daily",
+      "metric": "source_rows",
+      "value": 10655280,
+      "denominator": null
+    },
+    {
+      "dataset": "fact_enrollment",
+      "metric": "enrollment_count",
+      "value": 32593,
+      "denominator": 32593
+    },
+    {
+      "dataset": "fact_enrollment",
+      "metric": "registered_at_start",
+      "value": 32314,
+      "denominator": 32593
+    },
+    {
+      "dataset": "fact_enrollment",
+      "metric": "rows",
+      "value": 32593,
+      "denominator": 32593
+    },
+    {
+      "dataset": "fact_enrollment",
+      "metric": "without_activity",
+      "value": 3365,
+      "denominator": null
+    },
+    {
+      "dataset": "outcome_enrollment",
+      "metric": "Approved",
+      "value": 15385,
+      "denominator": 32593
+    },
+    {
+      "dataset": "outcome_enrollment",
+      "metric": "Fail",
+      "value": 7052,
+      "denominator": 32593
+    },
+    {
+      "dataset": "outcome_enrollment",
+      "metric": "Withdrawn",
+      "value": 10156,
+      "denominator": 32593
+    },
+    {
+      "dataset": "outcome_enrollment",
+      "metric": "rows",
+      "value": 32593,
+      "denominator": 32593
+    }
+  ]
+}
