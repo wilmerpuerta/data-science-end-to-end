@@ -133,4 +133,4 @@ Los registros conservan entradas, salida, versión y run del modelo, snapshot, s
 
 Referencias: [conector Python de Snowflake](https://docs.snowflake.com/en/developer-guide/python-connector/python-connector-example) y [bucles de Kestra](https://kestra.io/docs/how-to-guides/loop).
 
-Validación ejecutada: 42 pruebas completas aprobadas localmente y en Docker; dos ejecuciones Kestra SUCCESS (original y repetición), 18.323 predicciones únicas, 920 propuestas sin duplicación y 9.231 etiquetas liberadas explícitamente al día simulado 283. `docs/predicciones.csv` contiene solo el plan de control. El monitoreo y la comparación contra el estático todavía no están calculados.
+Validación ejecutada: 43 pruebas completas aprobadas localmente y en Docker; dos ejecuciones Kestra SUCCESS (original y repetición), 18.323 predicciones únicas, 920 propuestas sin duplicación y 9.231 etiquetas liberadas explícitamente al día simulado 283. `docs/predicciones.csv` contiene solo el plan de control. El monitoreo y la comparación contra el estático todavía no están calculados.

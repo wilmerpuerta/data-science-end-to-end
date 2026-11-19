@@ -180,3 +180,15 @@ def test_lotes_admiten_claves_gold_y_contrato_sin_target():
         contrato=SolicitudLote.model_validate(lote['solicitud'])
         assert all('|' in r.edicion for r in contrato.matriculas)
         assert all('target_class' not in r.features.model_dump() for r in contrato.matriculas)
+
+
+def test_separador_gold_se_admite_solo_en_edicion():
+    from src.datos import construir_lotes
+    from api.esquemas import SolicitudLote
+    import copy
+    payload=construir_lotes(fuente_operativa())[0]['solicitud']
+    for campo in ['cohorte_id','matricula','persona']:
+        altered=copy.deepcopy(payload)
+        if campo=='cohorte_id':altered[campo]='cohorte|con|separadores'
+        else:altered['matriculas'][0][campo]='identificador|ambiguo'
+        with pytest.raises(ValueError):SolicitudLote.model_validate(altered)
