@@ -1,9 +1,9 @@
 {
   "status": "ok",
   "root": "pset_3",
-  "files_verified": 330,
-  "zip_sha256": "46653540ba18bb669d9f5792d58e9de2a42d4f0dba4abfe7ee5a32235d1f950b",
-  "zip_bytes": 2417548,
+  "files_verified": 336,
+  "zip_sha256": "d5c208e73ff141bf94600a7c5b646dda83f7c4626c5229df4faac2722eab585d",
+  "zip_bytes": 2426554,
   "required_paths_verified": [
     "docker-compose.yml",
     ".env.example",
@@ -21,5 +21,5 @@
   ],
   "symlinks": 0,
   "private_resources_included": false,
-  "source_commit": "cbe7ef6195402a6ae5d560c8edf69aab8e3bd1a5"
+  "source_commit": "137c18cd6cd5c64692cb813de4fb89ac16a30184"
 }
