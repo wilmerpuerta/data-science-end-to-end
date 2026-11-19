@@ -192,3 +192,101 @@ def test_separador_gold_se_admite_solo_en_edicion():
         if campo=='cohorte_id':altered[campo]='cohorte|con|separadores'
         else:altered['matriculas'][0][campo]='identificador|ambiguo'
         with pytest.raises(ValueError):SolicitudLote.model_validate(altered)
+
+
+def test_psi_es_finito_con_ceros_y_detecta_desplazamiento():
+    from monitoreo.deriva import psi
+    import math
+    assert psi([100,0,20],[100,0,20])==0
+    assert math.isfinite(psi([100,0],[0,100]))
+    assert psi([100,0],[0,100])>.25
+
+
+def test_psi_binario_y_nueva_categoria_no_se_confunden_con_nulos():
+    import pandas as pd
+    from monitoreo.deriva import perfil_entrenamiento,calidad_y_deriva
+    train=pd.DataFrame({'is_imd_missing':[0.]*200+[1.]*200,'region':['A']*400})
+    test=pd.DataFrame({'is_imd_missing':[1.]*400,'region':['NUEVA']*399+[None]})
+    r=calidad_y_deriva(test,perfil_entrenamiento(train,list(train)))
+    assert r['is_imd_missing']['psi']>.25
+    assert r['region']['categorias_nuevas']==399/400
+    assert r['region']['faltantes']==1/400
+
+
+def metricas_alertas(caida=False,cambio=False,completas=True,lote='L06',corte=28,dia=283):
+    return {'lote_id':lote,'corte':corte,'dia_revision':dia,'dia_prediccion':29,'n':400,
+        'etiquetas_completas':completas,'caida_ap':caida,'ap_fail':.2 if caida else .6,'umbral_ap':.4,
+        'datos':{'studied_credits':{'psi':.8 if cambio else 0,'fuera_contrato':0,'categorias_nuevas':0}},
+        'sistema':{'solicitudes_atribuidas':1}}
+
+
+def test_cambio_sin_caida_no_propone_reentrenar_y_pendientes_tampoco():
+    from monitoreo.alertas import evaluar_alertas,diagnostico
+    alerts,trigger=evaluar_alertas(metricas_alertas(cambio=True))
+    assert alerts and not trigger
+    assert diagnostico(True,False,True)[0]=='datos_sin_impacto'
+    pending=metricas_alertas(cambio=True,completas=False)
+    alerts,trigger=evaluar_alertas(pending,[metricas_alertas(caida=True,lote='L05')])
+    assert not trigger and not any(a['tipo']=='desempeno' for a in alerts)
+
+
+def test_dos_caidas_mismo_corte_proponen_revision_sin_promover():
+    from monitoreo.alertas import evaluar_alertas
+    old=metricas_alertas(caida=True,lote='L06');old['dia_prediccion']=29
+    current=metricas_alertas(caida=True,cambio=True,lote='L07');current['dia_prediccion']=30
+    alerts,trigger=evaluar_alertas(current,[old])
+    assert trigger and any(a['tipo']=='reentrenamiento_propuesto' for a in alerts)
+    old['corte']=14
+    assert evaluar_alertas(current,[old])[1] is False
+    old['corte']=28;old['dia_revision']=284
+    assert evaluar_alertas(current,[old])[1] is False
+
+
+def test_referencia_monitoreo_tiene_identidad_y_cv_historica():
+    from monitoreo.deriva import REFERENCIA
+    from src.datos import identidad,ROOT
+    import json
+    ref=json.loads(REFERENCIA.read_text());native=json.loads((ROOT/'tests/fixtures/referencia.json').read_text())
+    assert identidad({k:v for k,v in ref.items() if k!='id'})==ref['id']
+    assert ref['snapshot_id']==native['modelos']['14']['snapshot_id']
+    for cut,info in ref['cortes'].items():
+        assert info['global']['cv_ap_mean']==pytest.approx(native['modelos'][cut]['cv_ap_fail_mean'])
+        assert len(info['ondas'])==4
+
+
+def test_induccion_preserva_control_targets_y_presupuesto():
+    from src.datos import construir_lotes,preparar_plan,PLAN_CONTROL,PLAN_DERIVA,identidad
+    import copy
+    originals=construir_lotes(fuente_operativa());before=identidad(originals)
+    class Repo:
+        def __init__(self):self.data={}
+        def contenido(self,tabla,plan,lote=None):
+            if plan==PLAN_CONTROL:
+                if tabla=='PLANES':return {'lotes':originals,'matriculas_corte':sum(len(l['solicitud']['matriculas']) for l in originals)}
+                return next(l for l in originals if l['lote_id']==lote)
+            return self.data.get((tabla,plan,lote))
+        def insertar(self,tabla,rows):
+            for r in rows:self.data[(tabla,r['PLAN_ID'],r.get('LOTE_ID'))]=copy.deepcopy(r['CONTENIDO'])
+    repo=Repo();preparar_plan(repo,PLAN_DERIVA)
+    assert identidad(originals)==before
+    for original in originals:
+        changed=repo.contenido('LOTES_ENTRADA',PLAN_DERIVA,original['lote_id'])
+        assert changed['manifiesto']['base']==original['manifiesto']['base']
+        assert changed['fuentes']==original['fuentes']
+        for a,b in zip(original['solicitud']['matriculas'],changed['solicitud']['matriculas']):
+            assert 'target_class' not in b['features']
+            if changed['alterado']:assert b['features']['studied_credits']==a['features']['studied_credits']+120
+            else:assert a['features']==b['features']
+
+
+def test_migracion_de_telemetria_preserva_registros_historicos(tmp_path):
+    import sqlite3
+    from src.datos import Almacen
+    path=tmp_path/'old.sqlite'
+    with sqlite3.connect(path) as db:
+        db.execute('CREATE TABLE peticiones(id INTEGER PRIMARY KEY,momento TEXT,codigo INTEGER,latencia_ms REAL)')
+        db.execute("INSERT INTO peticiones VALUES(1,'2026-01-01',422,3.)")
+    almacen=Almacen(path);almacen.registrar_peticion(200,10.,'plan','L01','ejecucion')
+    with almacen.conexion() as db:
+        rows=db.execute('SELECT codigo,plan_id FROM peticiones ORDER BY id').fetchall()
+    assert [tuple(r) for r in rows]==[(422,None),(200,'plan')]

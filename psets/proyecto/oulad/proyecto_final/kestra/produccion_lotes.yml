@@ -8,7 +8,7 @@ inputs:
   - id: plan_id
     type: SELECT
     defaults: oulad-2014j-control-v1
-    values: [oulad-2014j-control-v1]
+    values: [oulad-2014j-control-v1, oulad-2014j-deriva-v1]
   - id: liberar_targets
     type: BOOLEAN
     defaults: false
@@ -42,6 +42,16 @@ tasks:
           type: constant
           interval: PT10S
           maxAttempt: 3
+      - id: monitorear_lote
+        type: io.kestra.plugin.core.flow.Subflow
+        namespace: pset4.oulad
+        flowId: monitoreo
+        wait: true
+        transmitFailed: true
+        inputs:
+          plan_id: '{{ inputs.plan_id }}'
+          lote_id: '{{ taskrun.value }}'
+          fase: prediccion
   - id: etiquetas
     type: io.kestra.plugin.core.flow.If
     condition: '{{ inputs.liberar_targets }}'
@@ -52,3 +62,13 @@ tasks:
           type: io.kestra.plugin.core.runner.Process
         commands:
           - python3 -m src.datos --liberar-etiquetas 283 --plan '{{ inputs.plan_id }}' --base-local /workspace/.local/operacion.sqlite
+      - id: monitorear_resultados
+        type: io.kestra.plugin.core.flow.Subflow
+        namespace: pset4.oulad
+        flowId: monitoreo
+        wait: true
+        transmitFailed: true
+        inputs:
+          plan_id: '{{ inputs.plan_id }}'
+          lote_id: todos
+          fase: maduro

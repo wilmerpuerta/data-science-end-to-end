@@ -155,3 +155,15 @@ def test_un_nombre_nuevo_no_renueva_el_presupuesto(servicio):
     with pytest.raises(ValueError, match='presupuesto nuevo'):
         app.state.almacen.registrar_cohorte({'cohorte_id': 'otra', 'base': base,
             'elegibles': {'14': base, '28': base}, 'personas': {f'M{i:03}': f'P{i:03}' for i in range(40)}})
+
+
+def test_atribucion_operativa_de_solicitudes_validas_e_invalidas(servicio):
+    app,client=servicio
+    headers={'X-Pset4-Plan':'oulad-2014j-control-v1','X-Pset4-Lote':'L01','X-Pset4-Ejecucion':'prueba-1'}
+    invalid=datos();invalid['matriculas'][0]['features']['region']='DESCONOCIDA'
+    assert client.post('/predecir',json=invalid,headers=headers).status_code==422
+    assert client.post('/predecir',json=datos(),headers=headers).status_code==200
+    with app.state.almacen.conexion() as db:
+        rows=db.execute('SELECT codigo,plan_id,lote_id FROM peticiones').fetchall()
+    assert [r['codigo'] for r in rows]==[422,200]
+    assert all(r['plan_id']=='oulad-2014j-control-v1' and r['lote_id']=='L01' for r in rows)
