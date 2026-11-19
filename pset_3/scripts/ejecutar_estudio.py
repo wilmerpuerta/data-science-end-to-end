@@ -44,7 +44,12 @@ def retry_unbilled_rejection(text,book,attempted):
  return key
 
 def main():
- parser=argparse.ArgumentParser();parser.add_argument('--desde',choices=[p for p,_ in PHASES],default='modelos');args=parser.parse_args();plan=protocolo();amendment=json.loads((ROOT/'docs/enmienda-transporte.json').read_text());assert amendment['id']==identity(amendment['content']) and amendment['content']['base_protocol_id']==plan['id'];private=ROOT/'.local';status=ROOT/'docs/estado-v2.json';book=LibroCostos(private/'llm/costos.json',10)
+ parser=argparse.ArgumentParser();parser.add_argument('--desde',choices=[p for p,_ in PHASES],default='modelos');parser.add_argument('--verificar',action='store_true');parser.add_argument('--reanudar',action='store_true');args=parser.parse_args();plan=protocolo();amendment=json.loads((ROOT/'docs/enmienda-transporte.json').read_text());assert amendment['id']==identity(amendment['content']) and amendment['content']['base_protocol_id']==plan['id'];private=ROOT/'.local';status=ROOT/'docs/estado-v2.json';book=LibroCostos(private/'llm/costos.json',10)
+ existing=json.loads(status.read_text()) if status.exists() else {}
+ if args.verificar or (existing.get('complete') and not args.reanudar):
+  from verificar_fase import verificar
+  for phase in ['modelos','tuning','ablacion','negocio','anticipacion','seleccion']:verificar(phase)
+  print('Estudio finalizado verificado; sin nuevas ejecuciones. --reanudar es una acción explícita distinta.');return existing
  with (private/'ejecucion-v2.lock').open('a') as lock:
   try:fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
   except BlockingIOError:raise RuntimeError('Ya hay un coordinador v2 activo; no ejecutar dos estudios')

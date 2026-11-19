@@ -1,0 +1,23 @@
+{
+  "state": "complete_with_declared_limitations",
+  "complete": true,
+  "experiments_complete": true,
+  "phase": "closed",
+  "notebooks_complete": true,
+  "notebooks_executed": [
+    "01_eda.ipynb",
+    "02_features.ipynb",
+    "03_baseline_candidatos.ipynb",
+    "04_tuning.ipynb",
+    "05_seleccion.ipynb",
+    "anexos/06_anticipacion.ipynb"
+  ],
+  "remaining": [],
+  "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+  "distribution": "pset_3",
+  "origin": "Restored from completed evidence and fresh-kernel delivery verification, not a new experiment",
+  "limits": [
+    "2014J reused retrospective benchmark",
+    "Exact reproduction requires private runtime and MLflow volumes"
+  ]
+}

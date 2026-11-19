@@ -26,4 +26,7 @@ def main():
   report['budget']=client.book.summary();destination.write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n');print(json.dumps(report,ensure_ascii=False,indent=2),flush=True)
  if report['status']!='ok':raise SystemExit(2)
  return report
-if __name__=='__main__':main()
+if __name__=='__main__':
+ if sys.argv[1:]==['--verificar']:
+  print(json.dumps({'status':'configuration_checked','configured':credential_status()['configured'],'root':str(ROOT),'new_api_requests':0,'live_inference_tested':False}))
+ else:main()
