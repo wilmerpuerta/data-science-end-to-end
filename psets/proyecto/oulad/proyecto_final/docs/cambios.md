@@ -121,3 +121,27 @@ Los avisos de deprecación observados proceden de dependencias fijadas; las comp
 El workflow canónico está en `.github/workflows/ci.yml` de `proyecto_final/`. Se mantiene idéntico en la raíz Git de trabajo y en la raíz del fork publicado para que GitHub lo ejecute en push/PR. Instala la resolución con hashes, ejecuta las pruebas offline, construye la imagen y prueba dentro de ella. La comprobación general del repositorio mantiene las pruebas portables; el job dedicado usa las versiones del modelo y `PSET4_FULL_TESTS=1`.
 
 Pendientes: carga/orquestación Snowflake/Kestra, Compose único completo, lotes/etiquetas diferidas, monitoreo de datos/modelo, alertas, tablero, reentrenamiento y aprobación humana, CD/GHCR, subgrupos, CSV de simulación, documentos y video. El rollback mecánico no sustituye la comparación y decisión de un challenger reentrenado. El reparto 25/75 permanece provisional.
+
+## Integración operativa y lotes de control — 19-nov-2026
+
+- Fuente de continuidad del PSet 02: `pset_2/`. `pset-02/` no se utiliza en el nuevo desarrollo ni como dependencia de ejecución. Las fuentes de dbt y Spark incorporadas se verificaron contra `pset_2/`; los servicios finales usan rutas de `proyecto_final/`.
+- `src/datos.py` incorpora el contrato separado `PSET2_OULAD.ANALYTICS`, carga inmutable, conciliación de identificadores y contenido, plan de lotes y reloj monotónico. Las capas históricas permanecen como fuentes de lectura.
+- Protocolo predeclarado `control-retrospectivo-1`: se reutiliza 2014J, el holdout ya examinado en PSet 03, sin afirmar validación prospectiva nueva. Siete módulos se ordenan y distribuyen circularmente en cuatro ondas de ediciones completas. Hay despachos en días relativos simulados 14, 15, 16, 17, 28, 29, 30 y 31. Las features se congelan en los cortes 14/28; la demora de 0..3 días representa una cola operativa supuesta. No son ocho semestres independientes ni ocho poblaciones independientes. Cada edición pertenece a una única onda y conserva un solo presupuesto entre cortes; no se fragmenta para aumentar cupos.
+- El calendario absoluto y la fecha real de publicación de resultados no están disponibles. Se supone explícitamente disponibilidad del target al fin del módulo +14 días; se filtra en Snowflake antes de extraerlo. El reloj simulado se registra aparte del timestamp real de inferencia. No se incorporan etiquetas a las solicitudes de la API.
+- Estos ocho lotes son controles originales. La deriva inducida, monitoreo, comparación con el estático, evaluación presupuestaria y ciclo de reentrenamiento se desarrollan en bloques posteriores; no se declara alcanzada la meta de +10 % ni ahorro o tutorías efectivamente realizadas.
+- `kestra/produccion_lotes.yml` ejecuta los lotes secuencialmente con reintentos y carga periódica desde el registro durable. Las tablas y los volúmenes finales tienen identificación propia; se reutiliza ANALYTICS sin modificar OBT_FEATURES. La API no recibe credenciales Snowflake; solo Kestra las monta como archivos privados. El target se libera únicamente al solicitarlo en el flujo, tras las ocho predicciones.
+
+Evidencia del bloque: ejecución Kestra `59E27va9JE8WDXxidPfqbp` en SUCCESS, ocho lotes y 18.323 predicciones únicas conciliadas. El primer lote necesitó un reintento tras ajustar el contrato a claves Gold con `|`; el resultado y sus intentos se conservan. El día simulado 31 no consulta etiquetas; se rechazó una modificación intencional de un registro publicado y se mantuvieron las 18.323 claves. `docs/predicciones.csv` exporta únicamente este plan, sin los ejemplos sintéticos. Las 42 pruebas completas pasaron localmente y dentro del contenedor.
+
+| Lote | Día simulado | Corte | Matrículas | Propuestas nuevas |
+|---|---:|---:|---:|---:|
+| L01 | 14 | 14 | 1369 | 33 |
+| L02 | 15 | 14 | 3637 | 90 |
+| L03 | 16 | 14 | 2750 | 67 |
+| L04 | 17 | 14 | 1475 | 36 |
+| L05 | 28 | 28 | 1359 | 103 |
+| L06 | 29 | 28 | 3590 | 273 |
+| L07 | 30 | 28 | 2684 | 207 |
+| L08 | 31 | 28 | 1459 | 111 |
+
+La repetición integral `4zb5Bywcxv9fxfy8mWGFq1` terminó en SUCCESS sin repuntuar ni agregar claves. Tras verificar cero etiquetas en día 31, el avance explícito al día 283 materializó 9.231 resultados maduros. Hay 226 propuestas nuevas en semana 2 y 694 en semana 4, 920 en total; son propuestas bajo cupos experimentales, no tutorías realizadas. El CSV conserva 18.323 filas, sin target.

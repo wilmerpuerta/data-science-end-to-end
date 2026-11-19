@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: api/Dockerfile
+      target: api
     environment:
       MLFLOW_TRACKING_URI: ${MLFLOW_TRACKING_URI:-http://host.docker.internal:5001}
       PSET4_MODEL_MODE: ${PSET4_MODEL_MODE:-mlflow}
@@ -23,3 +24,92 @@ services:
       - ./.local:/app/.local
     mem_limit: 1536m
     restart: unless-stopped
+  postgres:
+    image: postgres:17.6@sha256:b86568d3e0fe1dfaeff52714f9da36f206a30e4c49131b82bf96982d78627409
+    platform: linux/amd64
+    environment:
+      POSTGRES_DB: kestra
+      POSTGRES_USER: kestra
+      POSTGRES_PASSWORD: ${PSET4_POSTGRES_PASSWORD:?Configurar secreto local}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -d "$${POSTGRES_DB}" -U "$${POSTGRES_USER}"']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    mem_limit: 384m
+    restart: unless-stopped
+  kestra:
+    image: proyecto-final-kestra:local
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+      target: kestra
+    user: root
+    command: server standalone
+    environment:
+      JAVA_OPTS: -Xms256m -Xmx1024m
+      KESTRA_CONFIGURATION: |
+        datasources:
+          postgres:
+            url: jdbc:postgresql://postgres:5432/kestra
+            driverClassName: org.postgresql.Driver
+            username: kestra
+            password: ${PSET4_POSTGRES_PASSWORD:?Configurar secreto local}
+        kestra:
+          server:
+            basicAuth:
+              username: admin@psets.local
+              password: ${PSET4_KESTRA_PASSWORD:?Configurar secreto local}
+          repository:
+            type: postgres
+          queue:
+            type: postgres
+          storage:
+            type: local
+            local:
+              basePath: /app/storage
+          tasks:
+            tmpDir:
+              path: /tmp/kestra-wd/tmp
+          url: http://localhost:${PSET4_KESTRA_PORT:-8094}/
+    ports:
+      - 127.0.0.1:${PSET4_KESTRA_PORT:-8094}:8080
+      - 127.0.0.1:${PSET4_KESTRA_MANAGEMENT_PORT:-8095}:8081
+    volumes:
+      - kestra-data:/app/storage
+      - kestra-tmp:/tmp/kestra-wd
+      - ./src:/workspace/src:ro
+      - ./tests/fixtures:/workspace/tests/fixtures:ro
+      - ./.local:/workspace/.local
+      - type: bind
+        source: ${SNOWFLAKE_CONNECTION_HOST_PATH:?Configurar ruta privada}
+        target: /run/secrets/snowflake_connection.json
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${SNOWFLAKE_PRIVATE_KEY_HOST_PATH:?Configurar ruta privada}
+        target: /run/secrets/snowflake_key.p8
+        read_only: true
+        bind:
+          create_host_path: false
+    depends_on:
+      postgres:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, curl, --fail, --silent, http://localhost:8081/health]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+    mem_limit: 1792m
+    restart: unless-stopped
+volumes:
+  postgres-data:
+  kestra-data:
+  kestra-tmp:

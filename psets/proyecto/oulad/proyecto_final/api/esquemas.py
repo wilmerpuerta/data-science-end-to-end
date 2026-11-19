@@ -42,7 +42,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictStr, field
 
 Numero = Annotated[StrictFloat, Field(allow_inf_nan=False)]
 NoNegativo = Annotated[StrictFloat, Field(ge=0, allow_inf_nan=False)]
-Identificador = Annotated[StrictStr, Field(min_length=1, max_length=128, pattern=r'^[A-Za-z0-9._:-]+$')]
+Identificador = Annotated[StrictStr, Field(min_length=1, max_length=128, pattern=r'^[A-Za-z0-9._:|\-]+$')]
 
 
 class Features(BaseModel):

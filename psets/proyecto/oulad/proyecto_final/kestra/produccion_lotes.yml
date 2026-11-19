@@ -1,0 +1,54 @@
+id: produccion_lotes
+namespace: pset4.oulad
+description: Ocho despachos retrospectivos, presupuesto por edición y targets diferidos; un escritor.
+concurrency:
+  limit: 1
+  behavior: QUEUE
+inputs:
+  - id: plan_id
+    type: SELECT
+    defaults: oulad-2014j-control-v1
+    values: [oulad-2014j-control-v1]
+  - id: liberar_targets
+    type: BOOLEAN
+    defaults: false
+tasks:
+  - id: preparar
+    type: io.kestra.plugin.scripts.shell.Commands
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - python3 -m src.datos --preparar-plan --plan '{{ inputs.plan_id }}' --base-local /workspace/.local/operacion.sqlite
+    retry:
+      type: constant
+      interval: PT10S
+      maxAttempt: 2
+  - id: lotes
+    type: io.kestra.plugin.core.flow.ForEach
+    concurrencyLimit: 1
+    values: '["L01","L02","L03","L04","L05","L06","L07","L08"]'
+    tasks:
+      - id: predecir_y_conciliar
+        type: io.kestra.plugin.scripts.shell.Commands
+        timeout: PT10M
+        taskRunner:
+          type: io.kestra.plugin.core.runner.Process
+        commands:
+          - >-
+            python3 -m src.datos --procesar-lote '{{ taskrun.value }}'
+            --plan '{{ inputs.plan_id }}' --execution-id '{{ execution.id }}'
+            --base-local /workspace/.local/operacion.sqlite
+        retry:
+          type: constant
+          interval: PT10S
+          maxAttempt: 3
+  - id: etiquetas
+    type: io.kestra.plugin.core.flow.If
+    condition: '{{ inputs.liberar_targets }}'
+    then:
+      - id: madurar
+        type: io.kestra.plugin.scripts.shell.Commands
+        taskRunner:
+          type: io.kestra.plugin.core.runner.Process
+        commands:
+          - python3 -m src.datos --liberar-etiquetas 283 --plan '{{ inputs.plan_id }}' --base-local /workspace/.local/operacion.sqlite
