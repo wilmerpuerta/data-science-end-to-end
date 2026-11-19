@@ -1,0 +1,7 @@
+{
+  "checked_at_utc": "2026-11-12T21:30:28.796197+00:00",
+  "connector_version": "4.7.4",
+  "status": "ok",
+  "scope": "Autenticación y contexto de sesión; sin cargas ni prueba de dbt/Spark.",
+  "expected_session_context_verified": true
+}

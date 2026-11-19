@@ -1,0 +1,11 @@
+{
+  "checked_at_utc": "2026-11-12T23:08:53.699373+00:00",
+  "run_id": "6Se60WiFEd3vbAndnh6E0J",
+  "attempt_id": "6b6c90ea106a4de588360ff1f0b28d3b",
+  "status": "ok",
+  "files": [],
+  "mode": "connection",
+  "source_partition": "all",
+  "expected_session_context_verified": true,
+  "finished_at_utc": "2026-11-12T23:08:56.974211+00:00"
+}

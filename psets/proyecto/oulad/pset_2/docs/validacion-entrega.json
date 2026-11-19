@@ -1,0 +1,513 @@
+{
+  "status": "verified_with_declared_limits",
+  "checked_at_local": "2026-11-18T22:46:13.528009-05:00",
+  "root": "pset_2",
+  "original_preserved": true,
+  "required_root": [
+    "docker-compose.yml",
+    ".env.example",
+    "README.md",
+    "kestra/",
+    "dbt/",
+    "spark/",
+    "docs/"
+  ],
+  "source_files_identical_to_historical": [
+    {
+      "file": "dbt/bootstrap.py",
+      "sha256": "b10e39e2e858fd679b774bd95ae3f6548b92c5eebf0f7dc2a776775a5ea35e28"
+    },
+    {
+      "file": "dbt/profiles.yml",
+      "sha256": "e82ef19e6eb1a32330fccc9583e6beaa274a6d862387c625c301a72f2d756af6"
+    },
+    {
+      "file": "dbt/requirements.txt",
+      "sha256": "48b694e2f275ed8dc3e07ffd7e75a4dfd41bd4abd6bf326b45865a2948165cf6"
+    },
+    {
+      "file": "dbt/dbt_project.yml",
+      "sha256": "536c16bd1a476c31cbc163f70289b61f00dbab65d9f630df3786eaa4bac7ab43"
+    },
+    {
+      "file": "dbt/tests/contract_vle.sql",
+      "sha256": "7f27afe21d7a060ec0da1c74b7082f75674f58e84234affc36fce38759d01b09"
+    },
+    {
+      "file": "dbt/tests/silver_activity_domains.sql",
+      "sha256": "bd565e3fe783b4bdde3ee18429c53891e156da7d5cd8ff4f5eb076552ec7ef0e"
+    },
+    {
+      "file": "dbt/tests/gold_relative_day_contract.sql",
+      "sha256": "e7cfc4cd69ba74c5c19faebfde5894cd1b6f1c698761b915a5fafef5979fc423"
+    },
+    {
+      "file": "dbt/tests/dim_student_keys_preserved.sql",
+      "sha256": "b5b857360f73372b9f9747978e55f36cde9eff0c4d4d6b04ef34f75592e7ba81"
+    },
+    {
+      "file": "dbt/tests/gold_activity_reconciliation.sql",
+      "sha256": "05db30a6af8315ea14fe7520949e743116dccabb742a5213a2e71c3598bdfa80"
+    },
+    {
+      "file": "dbt/tests/dim_resource_keys_preserved.sql",
+      "sha256": "8f70383062f5179fdfba371faf684e6835c425d06a01559341b442fcf4324d02"
+    },
+    {
+      "file": "dbt/tests/valid_domains_bronze.sql",
+      "sha256": "922de64040a5844ddf1221ec90159d8372c22f62500b041b0b8d4beedfd65daa"
+    },
+    {
+      "file": "dbt/tests/gold_enrollment_context.sql",
+      "sha256": "b9034a7b200951abd3dd39d03998ba54850939536010c3ca2abdbb023ef115ba"
+    },
+    {
+      "file": "dbt/tests/silver_activity_keys_preserved.sql",
+      "sha256": "2a7dfe87eacd2d6e864cab23d509fac80564072b70f074aedcfed379882767c8"
+    },
+    {
+      "file": "dbt/tests/silver_outcomes_preserved.sql",
+      "sha256": "96fb22b7bd0d24529a175374b2087a448087441138613ddb7437e1af439d5d01"
+    },
+    {
+      "file": "dbt/tests/fact_enrollment_keys_preserved.sql",
+      "sha256": "45aa9accd59f4a556e5fe07d0634351e90b5924c677199e4588a615f28e15e51"
+    },
+    {
+      "file": "dbt/tests/gold_feature_column_allowlist.sql",
+      "sha256": "f38160776e019e3222a0e1fdf9f5fa79936f59cc8708cdf786bdf9c8446358c7"
+    },
+    {
+      "file": "dbt/tests/gold_outcomes_preserved.sql",
+      "sha256": "e5070ebaacb0572b93f2dc904b06c0cb032aade65be47236fa3d3f4d3310e732"
+    },
+    {
+      "file": "dbt/tests/slv_resources_keys_preserved.sql",
+      "sha256": "f0b1ff5177fda05d712bd8f64941baa6580de63867aa39f9990e10fa2155a3d6"
+    },
+    {
+      "file": "dbt/tests/gold_activity_context.sql",
+      "sha256": "4c0ca54d394c87a9b244bcbb18d755364f18a1f9dc8dbfc23d97b9b68992f586"
+    },
+    {
+      "file": "dbt/tests/contract_courses.sql",
+      "sha256": "cb193635f96b6784df3ce50592a4784abf9de16fa62dd0696b65b7dc240c4492"
+    },
+    {
+      "file": "dbt/tests/gold_activity_keys_preserved.sql",
+      "sha256": "1c0b84a7644a12f24bba058bcdf58733ebd3b1fd745fa11146a830125037d857"
+    },
+    {
+      "file": "dbt/tests/gold_enrollment_join.sql",
+      "sha256": "a28c3905d7aadd8de6a07acbe7cf8b64970847ab4b4eb52399bf16a2232f0361"
+    },
+    {
+      "file": "dbt/tests/outcome_enrollment_keys_preserved.sql",
+      "sha256": "2cb15a9c0601e39dbdfbe0e75ab7e7951dd4239a808dd86f1536d12d314b3291"
+    },
+    {
+      "file": "dbt/tests/silver_activity_reconciliation.sql",
+      "sha256": "ae0dcfc9d8985c58c2c9f08ff324424951bd60c9d10c722a1a14a2f744766a44"
+    },
+    {
+      "file": "dbt/tests/slv_outcomes_keys_preserved.sql",
+      "sha256": "bfff726638f2016e5bbe437b99f4e32338ea6f616ad2eec1248f315114e9ed60"
+    },
+    {
+      "file": "dbt/tests/dim_enrollment_keys_preserved.sql",
+      "sha256": "79a0068e1621aa63feb203e23454463ae56b9c261972d4219473d91f66684c43"
+    },
+    {
+      "file": "dbt/tests/gold_dimensional_join.sql",
+      "sha256": "069e08136b12c8d38f149a002af8201ef7b211bafe41c5a9487728f37f93a9b5"
+    },
+    {
+      "file": "dbt/tests/contract_student_vle.sql",
+      "sha256": "c198933e34808cc51c6498f76735830855bac0ab4a557cc229c61888094ca4e7"
+    },
+    {
+      "file": "dbt/tests/slv_enrollments_keys_preserved.sql",
+      "sha256": "51774d168f9e97a2a045d7e3855ff3400dbb83d069ec04a25e5b2f901fa62356"
+    },
+    {
+      "file": "dbt/tests/contract_student_info.sql",
+      "sha256": "1250811c72fe424f0346cf69081bb0627f6a59edf49460f2f9beaddf7ab8dc05"
+    },
+    {
+      "file": "dbt/tests/silver_registration_policy.sql",
+      "sha256": "42ba39359930293d84be92adfe87847fa3f53a660e85746964cd497eac3799dc"
+    },
+    {
+      "file": "dbt/tests/dim_edition_keys_preserved.sql",
+      "sha256": "32845dbfe0208bdb9d78320891e21583f2f8cc985ca1d20a8368c938574dc8e9"
+    },
+    {
+      "file": "dbt/tests/contract_student_registration.sql",
+      "sha256": "0c2b30624146640a6145ca05494ad616588272ea5dff046e88e5beba0413736d"
+    },
+    {
+      "file": "dbt/tests/silver_enrollment_columns.sql",
+      "sha256": "10bd98ab0669419f681161e1571b7c426906a2def1c7dcaa3694282b79be1e9b"
+    },
+    {
+      "file": "dbt/tests/slv_registration_keys_preserved.sql",
+      "sha256": "c61c60132c4c242a511ce04178c4835ccff5536a2f420bab2460204ecb4d0796"
+    },
+    {
+      "file": "dbt/tests/slv_editions_keys_preserved.sql",
+      "sha256": "531f325ed793cb8ef7ec55f96e315a8e20d662c9c6c3e8c35819881ca26e4bf8"
+    },
+    {
+      "file": "dbt/tests/enrollment_withdrawal_keys_preserved.sql",
+      "sha256": "3d7bc4ca98c14d1f97b7cebb6df7185ec97aada852ea567f430e79aba4ef1e73"
+    },
+    {
+      "file": "dbt/models/sources.yml",
+      "sha256": "4aef3e77f632aefa6b56c413997b3806fd5946d2557aaa7e6cd3b0487512c95a"
+    },
+    {
+      "file": "dbt/models/bronze/schema.yml",
+      "sha256": "40aa6e9858dd7bc7d15362598d4185ce97d652e618688e84dfede16513bc8ee4"
+    },
+    {
+      "file": "dbt/models/bronze/stg_courses.sql",
+      "sha256": "ab61933a64dc6a3da14c10a3b9ea73bc5822b63d12876b5f0e123f2bc79b0adb"
+    },
+    {
+      "file": "dbt/models/bronze/dq_bronze_profile.sql",
+      "sha256": "d98529be7b32a2cc288d2d5aee6d8f3c7ed1447ecebbf2a9721dbcf8077636a5"
+    },
+    {
+      "file": "dbt/models/bronze/stg_vle.sql",
+      "sha256": "e31e8808c507f5bf32d017db27c3dfdb3e256eb66739dca947f0b2867376ee18"
+    },
+    {
+      "file": "dbt/models/bronze/stg_student_info.sql",
+      "sha256": "b9e26c422a0a8ae2680b2b955f6f8a972f4e974f8e0cd763eea88b79ddab5c2a"
+    },
+    {
+      "file": "dbt/models/bronze/stg_student_registration.sql",
+      "sha256": "0b55e9a9c5487c471c0a5a445902b6965f133347d6d0ba0c855792aba41f2396"
+    },
+    {
+      "file": "dbt/models/bronze/stg_student_vle.sql",
+      "sha256": "b1d2e02d6e893c132b8ab724f8a24f301e8dff013d475bdcf9b55d96be928459"
+    },
+    {
+      "file": "dbt/models/silver/slv_outcomes.sql",
+      "sha256": "2068b6258235521d9832407c54784033683211147b7f5ee550f9293ad02692c7"
+    },
+    {
+      "file": "dbt/models/silver/schema.yml",
+      "sha256": "8400e47f9367ba086cbb771d8e69c21584cf12ebfb59585d9c2ab007311d7406"
+    },
+    {
+      "file": "dbt/models/silver/slv_editions.sql",
+      "sha256": "9c8f648fa2f82a5092b9b9c2b571bc34d4de55786c3d3ff6697f2b18c9cb7440"
+    },
+    {
+      "file": "dbt/models/silver/slv_enrollments.sql",
+      "sha256": "875b488c4bc74a34f59bc387fb704634d8bf6efab577b4154e155c32265bcf11"
+    },
+    {
+      "file": "dbt/models/silver/slv_resources.sql",
+      "sha256": "e5c3f25af67f9a2631542b29c607e6eff61001ae552c1d85dec278237a144493"
+    },
+    {
+      "file": "dbt/models/silver/slv_registration.sql",
+      "sha256": "276f29b441de10cfeeb1546e71889696becf5479e996223ed1f488255e1770cc"
+    },
+    {
+      "file": "dbt/models/silver/slv_activity_daily.sql",
+      "sha256": "043756e24473122960ff1c2b6e6d75b6447a517208abfbb71a0c9d55125efbd6"
+    },
+    {
+      "file": "dbt/models/silver/dq_silver_profile.sql",
+      "sha256": "ea69896ed330cf93f1979790ffaefc330cfc230da4e11511036ba07210d7a033"
+    },
+    {
+      "file": "dbt/models/gold/dq_gold_profile.sql",
+      "sha256": "4b568483307404546f6e20197f2a71558cafe75d3f45f9def5440210c70099ad"
+    },
+    {
+      "file": "dbt/models/gold/schema.yml",
+      "sha256": "1c7a84022617942f1551fbb9b1a4af874ac90c85e07c356afd26108922541430"
+    },
+    {
+      "file": "dbt/models/gold/dim_relative_day.sql",
+      "sha256": "3f2fa0ef75428c0c72407fe365e3b012617b5ba9d1a560f30d3dec967d137542"
+    },
+    {
+      "file": "dbt/models/gold/outcome_enrollment.sql",
+      "sha256": "6948fa474081052dc167c28825da3c1d0f44dab92352851c825a165ac5d4a6fe"
+    },
+    {
+      "file": "dbt/models/gold/dim_resource.sql",
+      "sha256": "6d8a31547e6693ad60387567ccd2c8423bda3b735a8ca6493bf1c892ef4ea25b"
+    },
+    {
+      "file": "dbt/models/gold/enrollment_withdrawal.sql",
+      "sha256": "edcbb07420e203fecfa466d864db3dc7b4c50bd52011e5ee3867f9c5a0335ada"
+    },
+    {
+      "file": "dbt/models/gold/dim_enrollment.sql",
+      "sha256": "acc1e563f112cad684e2a3b4db52f9ff5720f343370d59f1c0c601b4a155b230"
+    },
+    {
+      "file": "dbt/models/gold/fact_activity_daily.sql",
+      "sha256": "bbf3f2e4f5912f3f9ca5ae1f77431ae4c2dde1a343729dafa3f4427641001663"
+    },
+    {
+      "file": "dbt/models/gold/dim_student.sql",
+      "sha256": "fe3694615554d2062d6797085dee48cb65319836d2699d2f02a8a292e0730f48"
+    },
+    {
+      "file": "dbt/models/gold/dim_edition.sql",
+      "sha256": "d5bc26e4a7540a58773c06982d4bf737e1f48c54d1a2b56047203f791e8d76fe"
+    },
+    {
+      "file": "dbt/models/gold/fact_enrollment.sql",
+      "sha256": "58cf6a18fbe7fc1e9c204ac04ee317c4ab5cf23f26e62ecb53cdb9cbb3d549fb"
+    },
+    {
+      "file": "dbt/macros/unique_key.sql",
+      "sha256": "213d1202a82816bcfa64d785fb2fcef0d313f1d282a506871445de2dab3b64e1"
+    },
+    {
+      "file": "dbt/macros/integer_or_null.sql",
+      "sha256": "c355374ae811c64844832f79152d22d7e004aed0afa557a83ddcbd53379edbd9"
+    },
+    {
+      "file": "dbt/macros/generate_schema_name.sql",
+      "sha256": "e54005ea4158717458346d68cfb99e05f6ac8536f6c7f7e2f010f65420478695"
+    },
+    {
+      "file": "spark/smoke_test.py",
+      "sha256": "ac25181af3568bf8da1bc301af7ff841b6f04ba7a128544e710b171e96cab505"
+    },
+    {
+      "file": "spark/feature-contract.json",
+      "sha256": "d646b574c265bbfd3a9278ce9473e91957492e1b6daedf0905001ea19e07906c"
+    },
+    {
+      "file": "spark/test_features.py",
+      "sha256": "4605a4d38bceea46ab7a7c39a9466eebc1760d7fc4fb2b72fdac1f8d44348300"
+    },
+    {
+      "file": "spark/requirements.txt",
+      "sha256": "a6b096a034bec276d5cf71384f043c899f6537f0704b403d78caa103fb91e1d4"
+    },
+    {
+      "file": "spark/jars.lock.json",
+      "sha256": "4162c4a8fefe3061687c141c4f52de6d55c668dec2f49d91351edf43a41f3f76"
+    },
+    {
+      "file": "spark/features.py",
+      "sha256": "9c8741b03c9b64f8382e339da51984c44d577cd58bd1c79f58c584fc2164d313"
+    },
+    {
+      "file": "spark/build_obt.py",
+      "sha256": "d5b3142ba1a583b3a8385e003a9d70bd6eb95d4b0bfce59ea3ee1b57e68a3b0c"
+    },
+    {
+      "file": "spark/fetch_jars.py",
+      "sha256": "f33c2baf6b8066c1cd2490e81ca36a97be08499a159c94a12eb777e46b5fc807"
+    },
+    {
+      "file": "kestra/ingestion/requirements.txt",
+      "sha256": "a6b096a034bec276d5cf71384f043c899f6537f0704b403d78caa103fb91e1d4"
+    },
+    {
+      "file": "kestra/ingestion/load_raw.py",
+      "sha256": "798aa1e16c9e3959e49e85736d92b4bd1a92641f78c1f072d06b51e0c2641067"
+    },
+    {
+      "file": "kestra/orchestration/verify_pipeline.py",
+      "sha256": "493935606fb6576f3b8d927dac96c8d6add6952539261417902e5a6b876a30ca"
+    },
+    {
+      "file": "kestra/orchestration/probe_worker_api.py",
+      "sha256": "71d0751b80b5526bccdc5901454f5848cd05a6798df9ee0c5ea96f2e12c7f646"
+    },
+    {
+      "file": "kestra/orchestration/job_client.py",
+      "sha256": "ae39759e034ba454ec7cdd94da654e046c5ade7d7cb0085f017424f77e317293"
+    },
+    {
+      "file": "kestra/orchestration/gate.py",
+      "sha256": "66dec2083e2ad813de1a594afdd97475ee85fface575fe692fe74b307f9be0e6"
+    },
+    {
+      "file": "kestra/orchestration/runner_service.py",
+      "sha256": "61cdeca40a4f1b862bfa512c5912feacc9d254b99e0c6d44bda0c2feab7f646a"
+    }
+  ],
+  "scientific_transformations_unchanged": true,
+  "raw_test_import_adapted_for_pytest_coexistence": true,
+  "compose_local_and_cloud_valid": true,
+  "own_images_built_from_new_contexts": 3,
+  "new_project": "pset2-entrega",
+  "new_ports": [
+    18090,
+    18091
+  ],
+  "local_stack_was_healthy": true,
+  "local_stack_stopped_after_test": true,
+  "historical_stack_preserved": true,
+  "kestra_local_execution": {
+    "status": "ok",
+    "flow": "pset2.local/infra_smoke",
+    "api_prefix": "/api/v1/main",
+    "seed": false,
+    "unauthenticated_request_rejected": true,
+    "execution_id": "62bNVfahtBxZgfVUzc1pDt",
+    "execution_state": "SUCCESS"
+  },
+  "pipeline_and_raw_flows_deployed": true,
+  "schedules_enabled": false,
+  "raw_unit_tests": 4,
+  "pytest_tests_old_and_new_distributions": 8,
+  "dbt_parse": {
+    "status": "ok",
+    "counts": {
+      "model": 23,
+      "test": 168
+    },
+    "snowflake_connection_attempted": false
+  },
+  "spark_smoke": {
+    "status": "ok",
+    "spark_version": "3.5.6",
+    "range_sum": 45,
+    "student_info_rows": 32593,
+    "datasets_read_only": true,
+    "verified_input_files": 5,
+    "scope": "Prueba local de motor y lectura; sin conexión Snowflake."
+  },
+  "spark_synthetic_tests": {
+    "checked_at_utc": "2026-11-19T03:38:42.705411+00:00",
+    "action": "test-features",
+    "run_id": "21e43b86cd8446f7a93f1066d46ce4a6",
+    "status": "ok",
+    "cases_passed": 7,
+    "scope": "Casos sintéticos: elegibilidad inclusiva, ventanas, cambio, ausencia de actividad, perturbación futura, columnas e IMD."
+  },
+  "cli_help_checks": [
+    {
+      "script": "kestra/scripts/comprobar_kestra.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/comprobar_repeticion_gold.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/comprobar_repeticion_obt.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/comprobar_repeticion_silver.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/configurar_cloud.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/diagnostico.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/ejecutar_dbt.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/ejecutar_pipeline.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/ejecutar_raw.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/ejecutar_spark.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/infra.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/preparar_claves.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/probar_conexion.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/publicar_evidencia_pipeline.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/reproduccion_limpia.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/verificar_memo.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    },
+    {
+      "script": "kestra/scripts/verificar_paquete.py",
+      "mode": "help_from_external_cwd",
+      "returncode": 0
+    }
+  ],
+  "fresh_export_prepared": {
+    "status": "ok",
+    "state": "PREPARED",
+    "exported_files": 208,
+    "code_sha256": "16e2fcc171171a84df785f27fe6428e8919cba2dfb974fb09db9523e5b465437",
+    "compose_local_and_cloud_valid": true,
+    "cloud_run_started": false,
+    "private_keys_copied": false
+  },
+  "memo": {
+    "pages": 6,
+    "checks_passed": 31,
+    "sha256": "fb62e40e67957b292b9d93968a60ac5cfa95a246f8e720f03d34ff2b64b78cad",
+    "unchanged": true,
+    "all_six_rendered_pages_visually_reviewed": true
+  },
+  "private_resources_in_public_delivery": false,
+  "new_snowflake_connections": 0,
+  "new_cloud_pipeline_runs": 0,
+  "limits": [
+    "Local smoke and synthetic tests plus dbt parse were executed; 168 dbt data tests belong to the retained historical cloud run",
+    "Fresh export was prepared and both Compose configurations validated, but its cloud execution was not started",
+    "Original CSV and external Snowflake credentials/resources are required for an integral rerun",
+    "The approved memo retains original source paths translated by docs/rutas-entrega.md",
+    "Public-file pattern scan is not a guarantee about every possible secret or the entire Git history"
+  ],
+  "runtime_requirements": "Docker Compose; pinned Python and images; original CSV; Snowflake account/role/warehouse and private key for cloud operations. Editorial Python dependencies are separate.",
+  "zip_standalone_verifier_passed": true,
+  "zip_crc_and_sha256_manifest_passed": true,
+  "zip_root": "pset_2",
+  "zip_pdf_only_under_docs": true
+}
