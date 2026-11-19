@@ -1,0 +1,17 @@
+{
+  "checked_at_utc": "2026-11-13T15:08:10.508369+00:00",
+  "status": "ok",
+  "first_run_id": "262e515bed0243478d80042b9f3516b5",
+  "second_run_id": "6e944512032a677434f15a762defb3d2",
+  "checks": {
+    "rows": true,
+    "unique_keys": true,
+    "per_cutoff": true,
+    "content_sha256_by_cutoff": true,
+    "output_columns": true,
+    "source_manifest_sha256": true
+  },
+  "rows_per_run": 108277,
+  "cutoff_fingerprints_compared": 4,
+  "scope": "SHA-256 por corte de filas JSON canónicas ordenadas, esquema, población y métricas iguales; lectura de vuelta completa en ambos runs."
+}

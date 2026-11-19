@@ -1,0 +1,173 @@
+{
+  "checked_at_utc": "2026-11-13T15:02:39.603836+00:00",
+  "action": "quality-export-silver",
+  "status": "ok",
+  "returncode": 0,
+  "dbt_core": "1.10.13",
+  "dbt_snowflake": "1.10.2",
+  "pipeline_execution_id": "6X7mzEdM0yvoBSbp8MnALv",
+  "metrics": [
+    {
+      "dataset": "activity_daily",
+      "metric": "clicks",
+      "value": 39605099,
+      "denominator": null
+    },
+    {
+      "dataset": "activity_daily",
+      "metric": "exact_value_excess",
+      "value": 787170,
+      "denominator": 10655280
+    },
+    {
+      "dataset": "activity_daily",
+      "metric": "multiple_source_groups",
+      "value": 1614505,
+      "denominator": 8459320
+    },
+    {
+      "dataset": "activity_daily",
+      "metric": "natural_key_excess",
+      "value": 2195960,
+      "denominator": 10655280
+    },
+    {
+      "dataset": "activity_daily",
+      "metric": "prestart_clicks",
+      "value": 2147947,
+      "denominator": 39605099
+    },
+    {
+      "dataset": "activity_daily",
+      "metric": "prestart_groups",
+      "value": 600241,
+      "denominator": 8459320
+    },
+    {
+      "dataset": "activity_daily",
+      "metric": "rows",
+      "value": 8459320,
+      "denominator": 8459320
+    },
+    {
+      "dataset": "activity_daily",
+      "metric": "source_rows",
+      "value": 10655280,
+      "denominator": null
+    },
+    {
+      "dataset": "editions",
+      "metric": "rows",
+      "value": 22,
+      "denominator": 22
+    },
+    {
+      "dataset": "enrollments",
+      "metric": "missing_imd",
+      "value": 1111,
+      "denominator": 32593
+    },
+    {
+      "dataset": "enrollments",
+      "metric": "registered_at_start_without_activity",
+      "value": 3309,
+      "denominator": 32593
+    },
+    {
+      "dataset": "enrollments",
+      "metric": "rows",
+      "value": 32593,
+      "denominator": 32593
+    },
+    {
+      "dataset": "enrollments",
+      "metric": "without_activity",
+      "value": 3365,
+      "denominator": 32593
+    },
+    {
+      "dataset": "outcomes",
+      "metric": "Approved",
+      "value": 15385,
+      "denominator": 32593
+    },
+    {
+      "dataset": "outcomes",
+      "metric": "Fail",
+      "value": 7052,
+      "denominator": 32593
+    },
+    {
+      "dataset": "outcomes",
+      "metric": "Withdrawn",
+      "value": 10156,
+      "denominator": 32593
+    },
+    {
+      "dataset": "outcomes",
+      "metric": "other_outcome_with_date",
+      "value": 9,
+      "denominator": 32593
+    },
+    {
+      "dataset": "outcomes",
+      "metric": "rows",
+      "value": 32593,
+      "denominator": 32593
+    },
+    {
+      "dataset": "outcomes",
+      "metric": "withdrawn_without_date",
+      "value": 93,
+      "denominator": 32593
+    },
+    {
+      "dataset": "registration",
+      "metric": "late_registration",
+      "value": 234,
+      "denominator": 32593
+    },
+    {
+      "dataset": "registration",
+      "metric": "missing_registration",
+      "value": 45,
+      "denominator": 32593
+    },
+    {
+      "dataset": "registration",
+      "metric": "registered_at_start",
+      "value": 32314,
+      "denominator": 32593
+    },
+    {
+      "dataset": "registration",
+      "metric": "rows",
+      "value": 32593,
+      "denominator": 32593
+    },
+    {
+      "dataset": "registration",
+      "metric": "withdrawn_by_start",
+      "value": 3062,
+      "denominator": 32314
+    },
+    {
+      "dataset": "resources",
+      "metric": "rows",
+      "value": 6364,
+      "denominator": 6364
+    },
+    {
+      "dataset": "resources",
+      "metric": "unknown_schedule",
+      "value": 5243,
+      "denominator": 6364
+    },
+    {
+      "dataset": "sensitivity",
+      "metric": "clicks_if_exact_deduplicated",
+      "value": 38343063,
+      "denominator": null
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "id": "7deb66f98a2443a6406d48d4fe62ed8d7e219ec82a63ecce251327b2265e93f9",
+  "content": {
+    "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+    "cuts": [
+      14,
+      28,
+      42,
+      56
+    ],
+    "fold_seed": 1706,
+    "assignments_sha256": "fa59fe77d8f905af57eb68ade05e536dac5460b477b44cedfcfd6cefcbb9fe3a",
+    "families": [
+      {
+        "family": "boosting",
+        "params": {
+          "early_stopping": false,
+          "l2_regularization": 0.2387981007415031,
+          "learning_rate": 0.021812743276338767,
+          "max_depth": 8,
+          "max_iter": 160,
+          "max_leaf_nodes": 7,
+          "min_samples_leaf": 80
+        }
+      },
+      {
+        "family": "lineal",
+        "params": {
+          "C": 0.0019517224641449498,
+          "class_weight": "balanced",
+          "max_iter": 300,
+          "tol": 0.00015930522616241006
+        }
+      }
+    ],
+    "variants": [
+      "estatico",
+      "indicador",
+      "longitudinal"
+    ],
+    "hyperparameters": "same longitudinal-finalist parameters fixed across all information variants and cuts, no early-cohort tuning",
+    "cohort": "own eligible cohort each cut, purge all students appearing in any 2014J features without using outcomes",
+    "sequential_policy": {
+      "rounds": [
+        14,
+        28,
+        42
+      ],
+      "shares": [
+        0.4,
+        0.3,
+        0.3
+      ],
+      "capacity": 0.1
+    },
+    "margin_scenarios": {
+      "coordination_days": 7,
+      "support_days": 14,
+      "deadlines": [
+        56,
+        70
+      ],
+      "validated": false
+    },
+    "uses_test_labels": false
+  }
+}

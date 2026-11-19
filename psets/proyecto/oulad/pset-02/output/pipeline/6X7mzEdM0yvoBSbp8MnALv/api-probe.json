@@ -1,0 +1,22 @@
+{
+  "execution_id": "6X7mzEdM0yvoBSbp8MnALv",
+  "status": "ok",
+  "workers": {
+    "dbt": {
+      "health_ok": true,
+      "arbitrary_command_rejected": true,
+      "invalid_request_started_no_job": true,
+      "duplicate_post_reused_job": true,
+      "job_id": "22f1d22997ff08e16f80bbb5b995d2ea",
+      "attempt": 1
+    },
+    "spark": {
+      "health_ok": true,
+      "arbitrary_command_rejected": true,
+      "invalid_request_started_no_job": true,
+      "duplicate_post_reused_job": true,
+      "job_id": "6e944512032a677434f15a762defb3d2",
+      "attempt": 1
+    }
+  }
+}

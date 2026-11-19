@@ -1,0 +1,7 @@
+variable,faltante,n,n_fail,tasa_fail
+imd_band,False,15754,4823,0.30614447
+imd_band,True,577,95,0.16464471
+click_ratio_14d,False,13815,3417,0.24733985
+click_ratio_14d,True,2516,1501,0.59658188
+recency_days,False,15899,4591,0.2887603
+recency_days,True,432,327,0.75694444

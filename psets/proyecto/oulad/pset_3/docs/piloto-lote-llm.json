@@ -1,0 +1,17 @@
+{
+  "status": "ok",
+  "rows": 1000,
+  "fold": 0,
+  "all_rows_from_training_fold": true,
+  "validation_rows_queried": 0,
+  "holdout_rows_queried": 0,
+  "performance_metrics_computed": false,
+  "query_alignment": "fixed fields q000.. within each batch",
+  "elapsed_seconds": 27.328220832976513,
+  "budget": {
+    "limit_usd": "10",
+    "accounted_spend_usd": "0.102845025",
+    "pending_upper_usd": "0",
+    "completed_paid_calls": 73
+  }
+}

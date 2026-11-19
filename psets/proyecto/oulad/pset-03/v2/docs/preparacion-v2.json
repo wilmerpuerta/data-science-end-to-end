@@ -1,0 +1,12 @@
+{
+  "state": "prepared_not_executed",
+  "version_root": "/Users/wilmer.puerta/Documents/Documents - MacBook/MCD-USFQ/MSDS_6003_CD_Erick_Naunay/Proyecto CD/psets/pset-03/v2",
+  "original_backup_verified": true,
+  "original_unchanged": true,
+  "new_study_models_fitted": 0,
+  "api_spend_usd": 0,
+  "user_budget_usd": 10,
+  "protocol_frozen": false,
+  "key_present": true,
+  "next": "complete experiment code, preflight OpenAI, freeze protocol and source commit before definitive fits"
+}

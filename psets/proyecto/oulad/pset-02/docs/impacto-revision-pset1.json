@@ -1,0 +1,90 @@
+{
+  "status": "ok",
+  "scope": "Validación local de contratos, código y evidencia previa; sin conexión a Snowflake ni ejecución del pipeline. Recuento independiente de los tres CSV pequeños.",
+  "checks": {
+    "studentInfo.csv_unchanged": true,
+    "studentRegistration.csv_unchanged": true,
+    "courses.csv_unchanged": true,
+    "population_14": true,
+    "fail_and_capacity_14": true,
+    "population_28": true,
+    "fail_and_capacity_28": true,
+    "population_42": true,
+    "fail_and_capacity_42": true,
+    "population_56": true,
+    "fail_and_capacity_56": true,
+    "schema_35_verified": true,
+    "groups_disjoint": true,
+    "no_target_in_features": true,
+    "lead_inputs_present": true,
+    "separate_labels_available": true,
+    "same_cutoffs": true,
+    "past_temporal_tests_and_readback": true,
+    "tested_runtime_unchanged": true
+  },
+  "per_cutoff": [
+    {
+      "cutoff_day": 14,
+      "N": 27881,
+      "Fail": 6972,
+      "K": 2779
+    },
+    {
+      "cutoff_day": 28,
+      "N": 27307,
+      "Fail": 6972,
+      "K": 2719
+    },
+    {
+      "cutoff_day": 42,
+      "N": 26795,
+      "Fail": 6972,
+      "K": 2672
+    },
+    {
+      "cutoff_day": 56,
+      "N": 26294,
+      "Fail": 6972,
+      "K": 2619
+    }
+  ],
+  "rows_obt": 108277,
+  "lead_weeks_available": [
+    25.4,
+    30.4
+  ],
+  "runtime_files_compared": 99,
+  "checked_at_utc": "2026-11-15T12:52:59.890272+00:00",
+  "review_date": "2026-11-15",
+  "conclusion": {
+    "pipeline_code_change_required": false,
+    "obt_schema_change_required": false,
+    "cloud_rerun_required_for_this_review": false,
+    "documentation_alignment_recommended": true,
+    "policy_simulation_and_prediction_still_pending": true
+  },
+  "reviewed_input_sha256": {
+    "pset-01/propuesta-pset1.md": "8c6c0f812e5735188a8f24722f2499c752722fc406dfadef57797837cc602401",
+    "pset-01/docs/metricas-negocio.json": "4934b3c4dff9f68404d64145980222cadad2f2c9a5f7126edbeef1a9a5393af7",
+    "pset-02/docs/contrato-datos.md": "097cae0e1d0e62eb16853a0f960f0a3c9b68363f2dd54ce45aac24d79b908890",
+    "pset-02/memo-pset2.md": "2b884238967d25b9a5f627b4d3be40e69faed5019fee92ed073bc1081c45867d",
+    "pset-02/spark/feature-contract.json": "d646b574c265bbfd3a9278ce9473e91957492e1b6daedf0905001ea19e07906c",
+    "pset-02/spark/features.py": "9c8741b03c9b64f8382e339da51984c44d577cd58bd1c79f58c584fc2164d313",
+    "pset-02/spark/build_obt.py": "d5b3142ba1a583b3a8385e003a9d70bd6eb95d4b0bfce59ea3ee1b57e68a3b0c",
+    "pset-02/dbt/models/gold/dim_edition.sql": "d5bc26e4a7540a58773c06982d4bf737e1f48c54d1a2b56047203f791e8d76fe",
+    "pset-02/dbt/models/gold/outcome_enrollment.sql": "6948fa474081052dc167c28825da3c1d0f44dab92352851c825a165ac5d4a6fe",
+    "pset-02/dbt/models/gold/enrollment_withdrawal.sql": "edcbb07420e203fecfa466d864db3dc7b4c50bd52011e5ee3867f9c5a0335ada",
+    "pset-02/docs/obt-verificacion.json": "dc0ff33303a01a53d67c2fe622f7555c18194e88e7549e30ca6a1a817cd7c61c",
+    "pset-02/docs/reproduccion-limpia.json": "b06b55e054eac9fc3a072ac4dc372b5f072325774a6d3d60881d70faf3dce199"
+  },
+  "documentation_followup": {
+    "date": "2026-11-15",
+    "user_authorized": true,
+    "status": "applied",
+    "files_sha256": {
+      "pset-02/README.md": "36bd61f15324aff61df19ea08b99bb4f299aaecf6f1d3a4bdb1a426414b7ee1d",
+      "pset-02/docs/contrato-datos.md": "d2d27f71841394988df32240aca6afcaea04b40e94b42accb66dc09017fed364"
+    },
+    "note": "Los reviewed_input_sha256 originales identifican las entradas del diagnóstico previo a las aclaraciones. El runtime y esquema OBT se conservan."
+  }
+}

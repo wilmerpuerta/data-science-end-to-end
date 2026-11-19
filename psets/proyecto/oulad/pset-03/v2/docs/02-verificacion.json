@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "checked_at_utc": "2026-11-18T10:28:20.072594+00:00",
+  "notebook_sha256": "7a3b3140b2d0171f351d7cbb547ed183204f325866c473ec24544fcaa32eb237",
+  "fresh_kernel": true,
+  "code_cells": 4,
+  "snapshot_id": "0a75615bd8ff6b166d366cf78c8303845852cbeb23387ac24a64fe4962f01027",
+  "split_id": "231cd638f375de2a8c70b4482fdf6a98dbe022371a409f1fc92bc97189cf7736",
+  "new_classifier_fits": 0,
+  "new_holdout_analysis": false
+}

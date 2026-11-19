@@ -1,0 +1,79 @@
+{
+  "state": "complete_with_declared_limitations",
+  "started_at_utc": "2026-11-18T11:09:53.463775+00:00",
+  "code_commit": "dabe4ba3a5594153a0cd23cbfeda410b81b902e7",
+  "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+  "io_patch_id": "55f6fcc95f839abe9632a92a2c20e888f92c61371637278548acb6b3324a80dc",
+  "complete": true,
+  "experiments_complete": true,
+  "unit_tests": 48,
+  "notebooks_executed": [
+    "01_eda.ipynb",
+    "02_features.ipynb",
+    "03_baseline_candidatos.ipynb",
+    "04_tuning.ipynb",
+    "05_seleccion.ipynb",
+    "anexos/06_anticipacion.ipynb"
+  ],
+  "finished_phases": [
+    "modelos",
+    "tuning",
+    "ablacion",
+    "negocio",
+    "anticipacion",
+    "seleccion",
+    "reproduccion"
+  ],
+  "format_recoveries": [],
+  "transport_retries": [],
+  "execution_amendment_id": "c807812b9ea209fae712a42d68833c0a4daafe5874d57bf8ecf0ec69ed8fb989",
+  "backup_v1_verified": true,
+  "old_attempts_preserved": [
+    ".local/attempts/intento_1",
+    ".local/attempts/intento_2"
+  ],
+  "limits": [
+    "2014J observed in v1; reused retrospective benchmark",
+    "API upper accounted cost includes all attempts and integration tests",
+    "format recovery only uses complete archived JSON, without changing values or re-requesting the failed batch",
+    "No demonstrated stable superiority across folds; no causal effect of tutoring established",
+    "Exact runtime reproduction requires the verified private snapshot, archived API responses and MLflow backup"
+  ],
+  "phase": "closed",
+  "log": ".local/definitivo-reproduccion.log",
+  "updated_at_utc": "2026-11-18T15:31:00.559525+00:00",
+  "api_budget": {
+    "limit_usd": "10",
+    "accounted_spend_usd": "1.116765500",
+    "pending_upper_usd": "0",
+    "completed_paid_calls": 720
+  },
+  "remaining": [],
+  "notebooks_complete": true,
+  "finished_at_utc": "2026-11-18T13:24:15.771865+00:00",
+  "editorial_complete": true,
+  "pdf_pages": 6,
+  "rubric_audit_status": "verified_with_declared_limitations",
+  "backup_v2_verified": true,
+  "publication_payload_commit": "9535ad51f2da6130e87b3741d95654821a9fc506",
+  "publication_repository": "https://github.com/wilmerpuerta/data-science-end-to-end",
+  "publication_history_branch": "oulad/pset3-experimentos-20261118",
+  "editorial_revision": {
+    "changed_pages": [
+      4
+    ],
+    "unchanged_pages": [
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "pdf_sha256": "108a70a93e74b150121382b5cd266e64e61cf40435eb0d4c01c5b1089c4393c6",
+    "private_revision_backup": "backups/pset-03-grafico-tuning-20261118-153100",
+    "model_experiments_unchanged": true,
+    "notebook04_refreshed_in_fresh_kernel": true,
+    "tuning_graph_added": true
+  },
+  "audit_checks_passed": 21
+}

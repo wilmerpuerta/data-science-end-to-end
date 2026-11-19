@@ -1,0 +1,49 @@
+{
+  "checked_at_utc": "2026-11-12T23:11:30.935741+00:00",
+  "run_id": "r1LqZg1v9JkEQEq1LgAnO",
+  "attempt_id": "bbd6145ec54b4cbb80d879cb9e847423",
+  "status": "ok",
+  "files": [
+    {
+      "file": "studentInfo.csv",
+      "status": "LOADED",
+      "rows": 32593,
+      "unique_source_rows": 32593,
+      "other_checksums": 0
+    },
+    {
+      "file": "studentRegistration.csv",
+      "status": "LOADED",
+      "rows": 32593,
+      "unique_source_rows": 32593,
+      "other_checksums": 0
+    },
+    {
+      "file": "courses.csv",
+      "status": "NOOP",
+      "rows": 22,
+      "unique_source_rows": 22,
+      "other_checksums": 0
+    },
+    {
+      "file": "vle.csv",
+      "status": "LOADED",
+      "rows": 6364,
+      "unique_source_rows": 6364,
+      "other_checksums": 0
+    },
+    {
+      "file": "studentVle.csv",
+      "status": "LOADED",
+      "rows": 10655280,
+      "unique_source_rows": 10655280,
+      "other_checksums": 0
+    }
+  ],
+  "mode": "load",
+  "source_partition": "all",
+  "phase": "completed",
+  "active_file": "studentVle.csv",
+  "datasets_read_only": true,
+  "finished_at_utc": "2026-11-12T23:13:01.245826+00:00"
+}

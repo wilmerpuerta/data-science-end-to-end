@@ -1,0 +1,31 @@
+name: pset2_oulad
+version: '1.0.0'
+config-version: 2
+profile: pset2_oulad
+model-paths: [models]
+macro-paths: [macros]
+test-paths: [tests]
+clean-targets: [/workspace/artifacts/target]
+models:
+  pset2_oulad:
+    bronze:
+      +schema: BRONZE
+      +materialized: view
+      +tags: [bronze]
+      +persist_docs:
+        relation: true
+        columns: true
+    silver:
+      +schema: SILVER
+      +materialized: table
+      +tags: [silver]
+      +persist_docs:
+        relation: true
+        columns: true
+    gold:
+      +schema: GOLD
+      +materialized: table
+      +tags: [gold]
+      +persist_docs:
+        relation: true
+        columns: true

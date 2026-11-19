@@ -1,3 +1,18 @@
+# Proyecto OULAD: apoyo académico preventivo
+
+Wilmer Puerta. El proyecto restaurado conserva la estructura por etapas en [oulad/](oulad/README.md).
+
+- [PSet 1: propuesta, auditoría y entregables](oulad/pset-01/README.md).
+- [PSet 2: entrega con estructura pset_2](oulad/pset_2/README.md); [versión histórica](oulad/pset-02/README.md).
+- [PSet 3: entrega con estructura pset_3](oulad/pset_3/README.md); [versiones históricas](oulad/pset-03/README.md).
+- [PSet 4: alcance y planificación](oulad/pset-04/README.md).
+- [Proyecto final: implementación en curso](oulad/proyecto_final/README.md).
+- [ZIP PSet 2](oulad/PSet2_entrega_Puerta_Wilmer.zip) y [ZIP PSet 3](oulad/PSet3_entrega_Puerta_Wilmer.zip).
+
+PSet 3 conserva los modelos y métricas históricos. PSet 4 tiene el núcleo de priorización probado; sus servicios e integración siguen pendientes. La publicación excluye datos privados, credenciales, entornos, cachés y respaldos.
+
+---
+
 # [Nombre de tu proyecto]
 
 > Este es el README de tu proyecto: reemplaza cada sección entre corchetes a medida que avanzas. Escríbelo para alguien que clona tu fork sin haber estado en clase y necesita entender qué hace el proyecto y correrlo, no como una nota para ti.

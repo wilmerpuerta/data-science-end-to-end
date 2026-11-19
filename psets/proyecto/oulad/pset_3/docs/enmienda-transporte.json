@@ -1,0 +1,19 @@
+{
+  "id": "c807812b9ea209fae712a42d68833c0a4daafe5874d57bf8ecf0ec69ed8fb989",
+  "content": {
+    "base_protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+    "declared_at_utc": "2026-11-18T10:58:11.608610+00:00",
+    "scope": "execution resilience only; unchanged data, folds, prompts, model, scores, selection and holdout rules",
+    "evidence": "docs/diagnostico-http400.json: a single manually diagnosed identical request changed from pre-inference HTTP400 invalid_prompt to HTTP200 with valid probabilities",
+    "rule": "one retry per exact request hash, only for confirmed unbilled HTTP400 invalid_prompt invalid_request_error; maximum 20 such recoveries per phase; existing conservative reservation before any new call",
+    "exclusions": [
+      "no retry of valid probabilities",
+      "no retry of quota/auth errors",
+      "no retry with uncertain pending charges",
+      "no completion or guessing of missing predictions",
+      "no dropping of failed query rows"
+    ],
+    "format_recovery": "unique complete archived JSON extraction, no new inference for recovered batch; maximum 10 per phase",
+    "no_automatic_retry_rule": "this explicit operational amendment supersedes the original no-retry rule only for the documented unbilled transient rejection; all other failures still stop"
+  }
+}

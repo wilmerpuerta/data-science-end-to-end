@@ -1,0 +1,60 @@
+{
+  "checked_at_utc": "2026-11-12T23:32:32.629752+00:00",
+  "run_id": "2Hcieq22YuYbMLC5o27ouS",
+  "attempt_id": "00e7b6454e144bb8a6aabeb621680a7a",
+  "status": "ok",
+  "files": [
+    {
+      "file": "studentInfo.csv",
+      "status": "NOOP",
+      "rows": 32593,
+      "unique_source_rows": 32593,
+      "other_checksums": 0
+    },
+    {
+      "file": "studentRegistration.csv",
+      "status": "NOOP",
+      "rows": 32593,
+      "unique_source_rows": 32593,
+      "other_checksums": 0
+    },
+    {
+      "file": "courses.csv",
+      "status": "NOOP",
+      "rows": 22,
+      "unique_source_rows": 22,
+      "other_checksums": 0
+    },
+    {
+      "file": "vle.csv",
+      "status": "NOOP",
+      "rows": 6364,
+      "unique_source_rows": 6364,
+      "other_checksums": 0
+    },
+    {
+      "file": "studentVle.csv",
+      "status": "NOOP",
+      "rows": 10655280,
+      "unique_source_rows": 10655280,
+      "other_checksums": 0
+    }
+  ],
+  "mode": "load",
+  "source_partition": "all",
+  "phase": "completed",
+  "active_file": "studentVle.csv",
+  "datasets_read_only": true,
+  "source_value_checks": {
+    "Fail": 7052,
+    "Withdrawn": 10156,
+    "Approved": 15385,
+    "empty_imd_band": 1111,
+    "empty_registration_date": 45,
+    "empty_unregistration_date": 22521,
+    "empty_week_from": 5243,
+    "empty_week_to": 5243,
+    "source_empty_values_preserved": true
+  },
+  "finished_at_utc": "2026-11-12T23:33:00.624676+00:00"
+}

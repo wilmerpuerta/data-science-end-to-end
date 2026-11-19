@@ -1,0 +1,4 @@
+reportlab==5.1.0
+PyMuPDF==1.28.2
+pillow==13.0.0
+websocket-client==1.9.2

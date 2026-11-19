@@ -1,0 +1,5 @@
+{
+  "method": "global permutation only; no forest path available",
+  "predicted_fail_score_highest": 0.812453405459903,
+  "interpretation": "descriptive model behavior; no causal interpretation"
+}

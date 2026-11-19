@@ -1,0 +1,9 @@
+{
+  "checked_at_utc": "2026-11-13T01:12:07.233099+00:00",
+  "action": "parse",
+  "status": "ok",
+  "returncode": 0,
+  "dbt_core": "1.10.13",
+  "dbt_snowflake": "1.10.2",
+  "scope": "Proyecto parseado sin consultas de datos"
+}

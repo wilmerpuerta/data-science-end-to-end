@@ -1,0 +1,8 @@
+{
+  "previous_experiment_id": "5",
+  "previous_experiment_preserved": true,
+  "reason": "raw response repeated probability rows until 5376 tokens, fixed-field output replaces variable array",
+  "old_protocol_id": "2f9a83562d0466d9ae19fe0ae26d9ac2cd072335f1608de6e45a03149908e45d",
+  "LLM_validation_metrics_observed": false,
+  "test_accessed": false
+}

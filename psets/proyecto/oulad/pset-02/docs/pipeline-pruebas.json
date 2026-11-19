@@ -1,0 +1,26 @@
+{
+  "checked_at_utc": "2026-11-13T16:03:04.726113+00:00",
+  "status": "ok",
+  "success_execution_id": "6X7mzEdM0yvoBSbp8MnALv",
+  "failure_execution_id": "rO8O8wCISIAhJx4fYSR2K",
+  "raw_execution_id": "1tO0m3BdzY1gz3ZRkkR8sQ",
+  "task_order": [
+    "raw",
+    "gate",
+    "dbt",
+    "spark",
+    "verificar"
+  ],
+  "gate_attempts": 2,
+  "dbt_tests_passed": 168,
+  "dbt_models_succeeded": 23,
+  "obt_rows": 108277,
+  "obt_columns": 35,
+  "stopped_after_injected_failure": true,
+  "failure_raw_all_noop": true,
+  "no_downstream_jobs_on_failure": true,
+  "worker_api_contract_verified": true,
+  "duplicate_requests_reused_jobs": true,
+  "calendars_enabled": false,
+  "scope": "Prueba de fallo permanente y retry inyectados; una cadena completa real. No se simula una caída real del proveedor."
+}

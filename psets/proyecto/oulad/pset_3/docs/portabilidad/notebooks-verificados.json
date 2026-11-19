@@ -1,0 +1,15 @@
+{
+  "status": "ok",
+  "notebooks": [
+    "01_eda.ipynb",
+    "02_features.ipynb",
+    "03_baseline_candidatos.ipynb",
+    "04_tuning.ipynb",
+    "05_seleccion.ipynb",
+    "anexos/06_anticipacion.ipynb"
+  ],
+  "runs_before": 382,
+  "runs_after": 382,
+  "new_api_requests": 0,
+  "budget_unchanged": true
+}

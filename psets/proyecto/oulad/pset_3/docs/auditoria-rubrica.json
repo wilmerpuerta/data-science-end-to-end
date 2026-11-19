@@ -1,0 +1,216 @@
+{
+  "status": "verified_with_declared_limitations",
+  "checked_at_utc": "2026-11-19T03:25:08.755088+00:00",
+  "checks": [
+    {
+      "check": "CSV_vs_servidor",
+      "passed": true,
+      "evidence": "docs/corridas.csv / servidor vivo"
+    },
+    {
+      "check": "snapshot_splits_y_CV",
+      "passed": true,
+      "evidence": "bundles con hash y cinco folds persistidos"
+    },
+    {
+      "check": "metadata_todas_corridas",
+      "passed": true,
+      "evidence": {
+        "runs": 382,
+        "missing": []
+      }
+    },
+    {
+      "check": "commits_Git_reales",
+      "passed": true,
+      "evidence": {
+        "unique_commits": 4,
+        "missing": [],
+        "current_source_commit": "4fd4889f4a29ba7bc27ba5d3deca86544679b24d"
+      }
+    },
+    {
+      "check": "dos_baselines_y_seis_familias",
+      "passed": true,
+      "evidence": "Dummy, reactiva, cinco familias tabulares y GPT evaluado"
+    },
+    {
+      "check": "baselines_antes_de_candidatos",
+      "passed": true,
+      "evidence": {
+        "earliest_candidate_ms": 1794997823871,
+        "latest_baseline_end_ms": 1794997820679
+      }
+    },
+    {
+      "check": "tres_por_treinta",
+      "passed": true,
+      "evidence": {
+        "lineal": 30,
+        "boosting": 30,
+        "bayes": 30
+      }
+    },
+    {
+      "check": "top3_por_negocio",
+      "passed": true,
+      "evidence": [
+        "lineal",
+        "boosting",
+        "bayes"
+      ]
+    },
+    {
+      "check": "tuning_nested",
+      "passed": true,
+      "evidence": "90 configuraciones hijas; padres no se suman como configuraciones"
+    },
+    {
+      "check": "grafico_tuning_documento_y_notebook",
+      "passed": true,
+      "evidence": {
+        "memo_page": 4,
+        "native_vector_graphs": 1,
+        "notebook04_figure_outputs": 1,
+        "metric": "CV Fail coverage; mean ± fold SD, not CI",
+        "run_ids_match_frozen_decision": true
+      }
+    },
+    {
+      "check": "pipelines_firma_y_ejemplo",
+      "passed": true,
+      "evidence": {
+        "fit_runs": 369,
+        "pipelines": 370,
+        "failures": []
+      }
+    },
+    {
+      "check": "decision_previa_integra",
+      "passed": true,
+      "evidence": "docs/negocio/finalistas.json / docs/seleccion/evaluacion.json"
+    },
+    {
+      "check": "aliases_registry",
+      "passed": true,
+      "evidence": [
+        {
+          "alias": "champion",
+          "version": "1",
+          "run_id": "fcd23ae22d6c46ffb41c1e4f23e1c02d",
+          "source_model_run_id": "dc2fa9bb8bee4944bd00611a6ac5c34f",
+          "family": "boosting",
+          "uri": "models:/oulad-apoyo-academico-v2-modelo@champion"
+        },
+        {
+          "alias": "challenger",
+          "version": "2",
+          "run_id": "fcd23ae22d6c46ffb41c1e4f23e1c02d",
+          "source_model_run_id": "bb2b400975994efdb01ea418118dda67",
+          "family": "lineal",
+          "uri": "models:/oulad-apoyo-academico-v2-modelo@challenger"
+        }
+      ]
+    },
+    {
+      "check": "reproduccion_exacta_proceso_limpio",
+      "passed": true,
+      "evidence": "docs/seleccion/reproduccion-champion.json"
+    },
+    {
+      "check": "seis_notebooks_ejecutados_y_hashed",
+      "passed": true,
+      "evidence": [
+        {
+          "name": "01_eda.ipynb",
+          "present": true,
+          "executed": true,
+          "verified": true
+        },
+        {
+          "name": "02_features.ipynb",
+          "present": true,
+          "executed": true,
+          "verified": true
+        },
+        {
+          "name": "03_baseline_candidatos.ipynb",
+          "present": true,
+          "executed": true,
+          "verified": true
+        },
+        {
+          "name": "04_tuning.ipynb",
+          "present": true,
+          "executed": true,
+          "verified": true
+        },
+        {
+          "name": "05_seleccion.ipynb",
+          "present": true,
+          "executed": true,
+          "verified": true
+        },
+        {
+          "name": "anexos/06_anticipacion.ipynb",
+          "present": true,
+          "executed": true,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "check": "anticipacion_y_un_solo_cupo",
+      "passed": true,
+      "evidence": "24 variantes, cohortes propias, K compartido, matrícula sin repetir; personas únicas informadas"
+    },
+    {
+      "check": "ausencia_registros_asociacion_ablacion",
+      "passed": true,
+      "evidence": "asociación, IC por estudiante, estandarización y E/E+I/L; sin causalidad"
+    },
+    {
+      "check": "estaticos_no_Dummy_y_reactiva_acotada",
+      "passed": true,
+      "evidence": "controles independientes; reacción posterior separada"
+    },
+    {
+      "check": "PDF_seis_paginas_y_revision_visual",
+      "passed": true,
+      "evidence": "seis páginas renderizadas con Poppler, figuras vectoriales y captura real"
+    },
+    {
+      "check": "prompting_conclusion_negocio",
+      "passed": true,
+      "evidence": "factible; costo medido separado de costo operativo futuro y evaluación posterior con Universidad"
+    },
+    {
+      "check": "presupuesto_incluye_intentos",
+      "passed": true,
+      "evidence": {
+        "limit_usd": "10",
+        "accounted_spend_usd": "1.116765500",
+        "pending_upper_usd": "0",
+        "completed_paid_calls": 720
+      }
+    }
+  ],
+  "runs": 382,
+  "finished": 379,
+  "failed_runs": 3,
+  "model_pipelines_verified": 370,
+  "api_budget": {
+    "limit_usd": "10",
+    "accounted_spend_usd": "1.116765500",
+    "pending_upper_usd": "0",
+    "completed_paid_calls": 720
+  },
+  "academic_grade_assigned": false,
+  "limitations": [
+    "2014J observed in v1: retrospective reused benchmark, not newly independent hold-out",
+    "No demonstrated stable superiority or causal effect of tutoring; maturation and publication of labels unverified",
+    "Private snapshot, native models, LLM responses and MLflow volumes excluded from public package; exact runtime reproduction conditional on private backup",
+    "Filename Puerta_Wilmer follows author authorization; delivery uses real files directly under pset_3",
+    "Auxiliary multi-cut policy inherits cutoff_day=56 from the common logger; actual rounds 14/28/42 are explicit in its policy artifact; it is not a fitted cutoff-56 estimator"
+  ]
+}

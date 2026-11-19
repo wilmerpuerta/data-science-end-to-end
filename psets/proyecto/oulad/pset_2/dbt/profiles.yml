@@ -1,0 +1,18 @@
+# Solo referencias: los valores privados los proporciona bootstrap.py en memoria.
+pset2_oulad:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('DBT_ENV_SECRET_ACCOUNT') }}"
+      user: PSET2_SVC
+      role: PSET2_PIPELINE
+      database: PSET2_OULAD
+      warehouse: PSET2_WH
+      schema: BRONZE
+      threads: 2
+      private_key_path: /run/secrets/snowflake_key.p8
+      private_key_passphrase: "{{ env_var('DBT_ENV_SECRET_PRIVATE_KEY_PASSPHRASE') }}"
+      client_session_keep_alive: false
+      connect_timeout: 30
+      query_tag: pset02_dbt_bronze

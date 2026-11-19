@@ -1,0 +1,88 @@
+{
+  "checked_at_utc": "2026-11-13T16:03:03.808455+00:00",
+  "status": "ok",
+  "scope": "Evidencia de la etapa Raw. El avance posterior dbt/Spark se registra en sus informes específicos.",
+  "initial_load_execution": "r1LqZg1v9JkEQEq1LgAnO",
+  "idempotence_execution": "1tO0m3BdzY1gz3ZRkkR8sQ",
+  "tables": [
+    {
+      "file": "studentInfo.csv",
+      "status": "NOOP",
+      "rows": 32593,
+      "unique_source_rows": 32593,
+      "other_checksums": 0
+    },
+    {
+      "file": "studentRegistration.csv",
+      "status": "NOOP",
+      "rows": 32593,
+      "unique_source_rows": 32593,
+      "other_checksums": 0
+    },
+    {
+      "file": "courses.csv",
+      "status": "NOOP",
+      "rows": 22,
+      "unique_source_rows": 22,
+      "other_checksums": 0
+    },
+    {
+      "file": "vle.csv",
+      "status": "NOOP",
+      "rows": 6364,
+      "unique_source_rows": 6364,
+      "other_checksums": 0
+    },
+    {
+      "file": "studentVle.csv",
+      "status": "NOOP",
+      "rows": 10655280,
+      "unique_source_rows": 10655280,
+      "other_checksums": 0
+    }
+  ],
+  "total_source_rows": 10726852,
+  "source_value_checks": {
+    "Fail": 7052,
+    "Withdrawn": 10156,
+    "Approved": 15385,
+    "empty_imd_band": 1111,
+    "empty_registration_date": 45,
+    "empty_unregistration_date": 22521,
+    "empty_week_from": 5243,
+    "empty_week_to": 5243,
+    "source_empty_values_preserved": true
+  },
+  "retry_probe": {
+    "execution_id": "38VvKsLM0lGFdDSQn8jNaE",
+    "controlled_failure": true,
+    "attempt_counts": [
+      2
+    ],
+    "final_state": "SUCCESS"
+  },
+  "backfill": {
+    "execution_id": "5XSG2Kwy2wmOIhVhbbJsBs",
+    "partition": "courses.csv",
+    "rows": 22,
+    "final_state": "SUCCESS"
+  },
+  "schedule": {
+    "cron": "0 9 1,15 * *",
+    "timezone": "America/Guayaquil",
+    "enabled": false,
+    "scope": "Configurado y validado por Kestra; aún sin prueba de disparo temporal."
+  },
+  "evidence": [
+    "output/raw/r1LqZg1v9JkEQEq1LgAnO_bbd6145ec54b4cbb80d879cb9e847423.json",
+    "output/raw/1tO0m3BdzY1gz3ZRkkR8sQ_ea096f16339743e8914993ca9747ee7a.json",
+    "output/raw/execution_38VvKsLM0lGFdDSQn8jNaE.json",
+    "output/raw/execution_5XSG2Kwy2wmOIhVhbbJsBs.json"
+  ],
+  "limitations": [
+    "Un escritor mediante concurrencia=1; no ejecutar cargadores paralelos por fuera del flujo.",
+    "Backfill por fichero/checksum completo; no por módulo-edición en esta versión.",
+    "Retries acotados del proceso; errores permanentes también agotan los intentos, sin publicar datos inválidos.",
+    "No se cuantificó consumo monetario; el warehouse del proyecto se utilizó para COPY y verificaciones."
+  ]
+}

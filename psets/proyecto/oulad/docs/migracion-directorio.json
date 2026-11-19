@@ -1,0 +1,567 @@
+{
+  "checked_at_utc": "2026-11-17T01:40:31.639268+00:00",
+  "new_root": "/Users/wilmer.puerta/Documents/Documents - MacBook/MCD-USFQ/MSDS_6003_CD_Erick_Naunay/Proyecto CD/psets",
+  "old_root": "/Users/wilmer.puerta/Documents/Documents - MacBook/MCD-USFQ/MSDS_6003 Ciencias de Datos - Erick Ñauñay/Proyecto CD/psets",
+  "backup_directory": "tmp/migracion-ruta-20261117T014031Z",
+  "launchers_repaired": 84,
+  "files": [
+    {
+      "path": ".venv/bin/activate.bat",
+      "before_sha256": "3f406acf0e46622d7b7ea31ec3a2506789d24b8ea62336c0249b8d2b038d1370",
+      "after_sha256": "a6a826c2c1c54329deb1917273ba35f361989f31fc0b803f7d95f12f4bb2fee0"
+    },
+    {
+      "path": ".venv/bin/pymupdf",
+      "before_sha256": "874c6cbc4742e69a75159388834bf7bd8ca1815d832836a5d94fb976dd302024",
+      "after_sha256": "b28d23721b5aa2083ed2e6d675af546a9b1ccbb82b03241340826e016cee8af9"
+    },
+    {
+      "path": ".venv/bin/activate.fish",
+      "before_sha256": "38449d278ed961ff30a409137ec771971db87045cf6713e68d55ccea7771d8ea",
+      "after_sha256": "69c23b654e5ec97668c762cf3eb60787cbb9fc2fcbc595c30c304f434a9a3441"
+    },
+    {
+      "path": ".venv/bin/f2py",
+      "before_sha256": "5265a64d3776630bea644c27abc55a8f05c783ea3ffb0fb7fd817516c3e44bab",
+      "after_sha256": "652ba395ca8ca9b7748158fad9d3bb02147b616a8bc8760a5f11f6f7a8f46bae"
+    },
+    {
+      "path": ".venv/bin/jsonschema",
+      "before_sha256": "af5e5eda257f8ee410e69f0be964877e21d78bb7a677260ee20e2bd3ff3ad8b9",
+      "after_sha256": "b6ce5f324d07dc121ccb136f2d11d62295c5df0934eecc7a801f6ddaceceb2d3"
+    },
+    {
+      "path": ".venv/bin/jupyter-troubleshoot",
+      "before_sha256": "d63910e9d08f8a6ab102abd055abf6818894994529de6cb5045465699f850893",
+      "after_sha256": "c1fe1426943ecfc26f90d795af3e56aebaf8851f73df1ff3f11bb1badb19c6ba"
+    },
+    {
+      "path": ".venv/bin/jupyter-migrate",
+      "before_sha256": "675be10f532001116837d791b1dc003f3a6561adf70da60414f992f1f86f6303",
+      "after_sha256": "cc207b9b98ede22de0b8ac9b2caaf54b903e8b3f56da3e9ece4343f7c19132fb"
+    },
+    {
+      "path": ".venv/bin/activate",
+      "before_sha256": "63cd27879f0da3b3918fa28f2742d854c115653ea24d90944d556e4e7e55d47c",
+      "after_sha256": "4cfe2b33a166fc6da37c9c6086001a54e60201e00cd717fcf6d23198c74dbd03"
+    },
+    {
+      "path": ".venv/bin/activate.nu",
+      "before_sha256": "d4afc87d9f447bdb1cd101f4ab03fcd49d91fabd4c1688315c67941c8527d4b0",
+      "after_sha256": "921efdf43f765a4177edc4607fc98f15d5351bfc0b4563530c0ce43211a8221c"
+    },
+    {
+      "path": ".venv/bin/normalizer",
+      "before_sha256": "9058e8404734e611d308f9ce1c3c947ebe4fb02c7ad72a5aeba13c1083aa363c",
+      "after_sha256": "1a96b77eaa31e01ccc1d831e7ba27433d3496d7193e2b1317caae2d00b89eb99"
+    },
+    {
+      "path": ".venv/bin/numpy-config",
+      "before_sha256": "2319c0430c57be1461d17e249b7a6d5f7b68362b86a1d21351685fbade81fb09",
+      "after_sha256": "57f4c8f55f2270669f0d5de2c24d2ca18dd38741ca8a96e1c16ba4eb569aaf4b"
+    },
+    {
+      "path": ".venv/bin/jupyter-trust",
+      "before_sha256": "9a6995e26e8ecf6349566e3696b7de46c5352d500669cf20a9155756b3e8fd2a",
+      "after_sha256": "230c667ec5352af928dfbc54b09f1efc5f4b219702bc0c49790bd2242745d016"
+    },
+    {
+      "path": ".venv/bin/jupyter",
+      "before_sha256": "cb9e0928b1df9f462442ab2974ab4df0ea5ccb1a8498d67de3cc3f729ed1246a",
+      "after_sha256": "ad5e1593ba355cf842a218c8f6aff89c96eeddb570efc811718321f02083df48"
+    },
+    {
+      "path": ".venv/bin/activate.csh",
+      "before_sha256": "f2f73cfcf4d5f77a316c94e8ccf3e3a2340dade19ee7c9308a0dd62edf8fbae7",
+      "after_sha256": "4f8775b4176b92bf95e3d97d876ca5d99c1b0a5cf18716d2ae7d31626ad02deb"
+    },
+    {
+      "path": "pset-02/.venv/bin/activate.bat",
+      "before_sha256": "7237a102275fb7152878bad0c5177c6411323946b5f8dacd5c842329c5da9a70",
+      "after_sha256": "8a2309ea67cd9769b725db038d47ab66247d0839c91e658af111d73f63d7a344"
+    },
+    {
+      "path": "pset-02/.venv/bin/activate.fish",
+      "before_sha256": "c8cffcebccda3396c8b7d7519e0e19256dd9bef94c6fe8dccf986575447af0ab",
+      "after_sha256": "d0ab9739781d568ed1bb2e3000018decebe83273a3b5620213418e96369336ac"
+    },
+    {
+      "path": "pset-02/.venv/bin/idna",
+      "before_sha256": "6f5867d0ede56bcd9253383809b98adf0db90feb9a629f5ed7332e16e03092f6",
+      "after_sha256": "eb1625a46d4f76b5b922cb4025bd0179b228a84e8c139fb0e5eabae78c10a1b4"
+    },
+    {
+      "path": "pset-02/.venv/bin/snowflake-dump-ocsp-response-cache",
+      "before_sha256": "45156f54ebad2c29a06768564e1bd5a4c1bf8e51edb6e5ade29162325c327932",
+      "after_sha256": "8a0f2cf2134bdb71f81b35ceb1b0523396a6a8be41520236ef410a2de844da5f"
+    },
+    {
+      "path": "pset-02/.venv/bin/cffi-gen-src",
+      "before_sha256": "5d8c926f676ca5f477930e6658a84d301b1f573fd6e007c23ddc3d2a13528b0a",
+      "after_sha256": "9e966e1f85c1a5e7ac3042a47e95a60756ac77862f1403fe7594d47b49f5a251"
+    },
+    {
+      "path": "pset-02/.venv/bin/jp.py",
+      "before_sha256": "8bc752460d1d75400fb7837a9cfaf272c0a2dcdc59e1022858ed24537f104ada",
+      "after_sha256": "f7b35ac8f9205421eac1c98affae8035800470a5326d40edfaac4d69086a751a"
+    },
+    {
+      "path": "pset-02/.venv/bin/activate",
+      "before_sha256": "697df3c57fa734813b0403bfd943b85f7c7aa5beecfd50715a5be6ec739a57da",
+      "after_sha256": "37a86b2939f3cafb50979dc884b16819a91c634e9fc7cbd6c9b5fda8ff6c0463"
+    },
+    {
+      "path": "pset-02/.venv/bin/activate.nu",
+      "before_sha256": "7994841b50e4a9f2f08effd3f7a0001994940e8c1e01b0b155ee545cd8d9e26c",
+      "after_sha256": "6a85371bdb3f74babec2071b1ed5242c72cf416dcead7dc6fe7919414b21f17b"
+    },
+    {
+      "path": "pset-02/.venv/bin/snowflake-dump-certs",
+      "before_sha256": "e5b9b0055895c18ef47c0168212c692324d0ecb7f730a36be6a283c550101e1b",
+      "after_sha256": "50cce03b4680f090615a9954bba5f587e8d9d24bd7f5688215e20a5abe167f6b"
+    },
+    {
+      "path": "pset-02/.venv/bin/snowflake-dump-ocsp-response",
+      "before_sha256": "6e7a1664a9ed401aad6e5c160bc090c1e85aff0070827bba5a1759396a18f674",
+      "after_sha256": "9faea45e6ce93b50208d06d8effbcdeff3bcec445a7696858e7def6c01997718"
+    },
+    {
+      "path": "pset-02/.venv/bin/normalizer",
+      "before_sha256": "187430e6590e730d6b83bd0d84f3f3c9181fc22bd1a886ccf8484565b040bc95",
+      "after_sha256": "1ce8fcd30cb52985797ece1e94888aeeab5b98ec88cf2f23b51a2e9e0b9a32a2"
+    },
+    {
+      "path": "pset-02/.venv/bin/activate.csh",
+      "before_sha256": "b75ebb1579853ba6d8c547cdd7381a3a7eae59315e80a544164e0a21276323e0",
+      "after_sha256": "d4000658e4cb8a63b57ae0bc44e471cc0ec89def2a6b05b19b7d5b1418b3bc54"
+    },
+    {
+      "path": "pset-03/.venv/bin/flask",
+      "before_sha256": "47b08eda3a6e16ed63a118db0ed61945841f165b94e8f17e42fcaedaf07c1901",
+      "after_sha256": "2d2938b236b93806c92dc07326ae7a9f8a11e45c7da9548e9ddd03129136f17a"
+    },
+    {
+      "path": "pset-03/.venv/bin/activate.bat",
+      "before_sha256": "ec0bb10deda3a7ac4c51eb54543d94f78b6b85aa40e905cce3a92d87f24555dc",
+      "after_sha256": "3cf829193abaf13e7c5c106cb2f2df3f37d6d2a468cec5ee749a25557aaa03d4"
+    },
+    {
+      "path": "pset-03/.venv/bin/pyftsubset",
+      "before_sha256": "f9987547bc575fc7f9c8030258870badcf2ac4acee8a661ea15c2a9d5164d66b",
+      "after_sha256": "963d4070a098df97eb2f9d47f0b9779d0658a248165ea8a977165fd848782557"
+    },
+    {
+      "path": "pset-03/.venv/bin/markdown_py",
+      "before_sha256": "9d0148813e73c34ed4c547a5b2e151da1c81c65a51550a3e4c44c10a294777a8",
+      "after_sha256": "baef54fac9c7936a6a85defa358b00fa94bbb76dd96720625ca1c591baa0f2aa"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter-run",
+      "before_sha256": "c57d8fa6539d394ec6b138027e2963d367fdb3c348e0b0b05d8c5168787cee91",
+      "after_sha256": "9a7d07a69c981889ed95425ce0daa735db77b7d021657e2698137ee89bce994b"
+    },
+    {
+      "path": "pset-03/.venv/bin/pyjson5",
+      "before_sha256": "381f6fdccf8be1b599c059f763599e10d448dbbe5e3a7f734697820ad201024b",
+      "after_sha256": "6674388e35a5b85eeec3d1ab668ed5c6f354f457413ce41dd585f02ea6de1b65"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter-labextension",
+      "before_sha256": "1027e92299280dd28b859cfbcede6c8f23a6c9ecb731ee6e368865c0b97305aa",
+      "after_sha256": "07aa33116d3e13d934337f2828f5481f77b035202f8475e0833ed5d8c2754419"
+    },
+    {
+      "path": "pset-03/.venv/bin/dotenv",
+      "before_sha256": "0013512e9d1a4f86fd4b73627b734d419c2658ff1551e35b48e9d7f0a8f6e292",
+      "after_sha256": "dc9c4a2fe7ef4fa8566e536e91793ae2d41d825c31b6a484e4e719afe47310a5"
+    },
+    {
+      "path": "pset-03/.venv/bin/mistune",
+      "before_sha256": "d45faa96516f4869be4dab75c96af82cc64509e698af99bac92edb1fb41cca8f",
+      "after_sha256": "5db78f1af2474ce7b2c49ca701acd1fa382359617c557e021d9b40c8669da446"
+    },
+    {
+      "path": "pset-03/.venv/bin/pybabel",
+      "before_sha256": "a8c82e13224dc3fa653cbe0b104d00b720507fbd1b1e47568cd6a9bdbc083abc",
+      "after_sha256": "3093169c8534ca8c66531c7d24b632d411b7329b96340b0730e34d9771602c39"
+    },
+    {
+      "path": "pset-03/.venv/bin/jlpm",
+      "before_sha256": "bc9d6920fe2068048782ae4ad180fa7ee0169ae6a9bef139fb7d5bebef994e6a",
+      "after_sha256": "59068126ff73cc278310078a06271e10f086f74b1ba0e2f73e0d2bbdc7568a31"
+    },
+    {
+      "path": "pset-03/.venv/bin/ttx",
+      "before_sha256": "840392261c925ca3bf558bc2fffe96f2264d5990cf4a126d055856c90e189d10",
+      "after_sha256": "50ae99acb759937032629930ce7afcb1dfdab5dde3dbf84abe9a04b3b8fe2635"
+    },
+    {
+      "path": "pset-03/.venv/bin/debugpy",
+      "before_sha256": "57ad0b06bfcd893d33b326f8bafea08c2814be5452ce799271d4adec0d17bdb4",
+      "after_sha256": "28c90bb92ec89324278ee0bc02f7592a5fcc08e1a8f835493bbce41303fca88c"
+    },
+    {
+      "path": "pset-03/.venv/bin/ipython",
+      "before_sha256": "d9e3ff0ebfd44f5ce19ad55861faf8c27f9d995f04b0bd5c00ab479f959ebefb",
+      "after_sha256": "ff8e6ec61d8af92b6bf5ef7e7cad546b906b4dbdad9d6dd8a0f7f48bc1df0e33"
+    },
+    {
+      "path": "pset-03/.venv/bin/activate.fish",
+      "before_sha256": "c2adf42871eb492ab34d8ea0181968b27f7a0b7e77b7a6b01a114794b94defac",
+      "after_sha256": "2757dfb3faf4aa32f36125f8d1037855d3a7dfc1b0df20f18c035e24c55e9e96"
+    },
+    {
+      "path": "pset-03/.venv/bin/send2trash",
+      "before_sha256": "20223388f8e3931d6eeca94c2acfa9853336e42135000892ca00a71a5b875456",
+      "after_sha256": "328391d867041026b5b8621e309aa92bcd4f8988601aba37a3f078634782925d"
+    },
+    {
+      "path": "pset-03/.venv/bin/fonttools",
+      "before_sha256": "cded7acb290e5f77df96411f04fff6a133c72504ed6c1cf60f5c0717281e31fc",
+      "after_sha256": "a6ede899e06740652931c64cf44960b0ed6b28d1712abef9b326fd172660f846"
+    },
+    {
+      "path": "pset-03/.venv/bin/idna",
+      "before_sha256": "b183f7735b89e5f58a69dc32cd102c60f0691d66768a24e17c61e5bdea30860c",
+      "after_sha256": "9726f595d965b65ab944e310022f8c86281dbc9b0105c86a9b7bfb0e72466623"
+    },
+    {
+      "path": "pset-03/.venv/bin/mako-render",
+      "before_sha256": "e5a27e40ebf037d0ce129b6d6419737ce0f0533080738aed4fec4b4a2a68fc53",
+      "after_sha256": "093d49acdb820d846a9e35b398c1bd08dee1a7b856ad8e61fbd5d2538d7cdb5a"
+    },
+    {
+      "path": "pset-03/.venv/bin/mlflow",
+      "before_sha256": "ccac8eddbf8fd5f4e8b13bd754072906bacc46a4e34e61d9d291a01a93745c03",
+      "after_sha256": "d41713b39805e3ffff4171cbb9be6f740ef63e5477e8992ed126eb05e2ede337"
+    },
+    {
+      "path": "pset-03/.venv/bin/snowflake-dump-ocsp-response-cache",
+      "before_sha256": "f39b8d7816961aabb8aad89bf76bcdb45c6326c42568296fc38653cac084ca11",
+      "after_sha256": "ab2a5913ec3d10001baaea0193bfbd6d280912e6b63a3aac45ecf604b74ba495"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter-labhub",
+      "before_sha256": "e65f71fb3af238c6d5d3e1017643c7f7765c0ecddd161d5dacb26a85ef6c2a73",
+      "after_sha256": "c6ac54e4ad58a340b4eaafb98a5ca02a7ebeceab5b1290552dfc6c8429bc79aa"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter-server",
+      "before_sha256": "b2b6ea067e34b11d79c6bea5a4e3ca2c093a60ae3700eaec791cce545a6cccfd",
+      "after_sha256": "685da7e96d27340effc1d0de82a90005230dd79abc34da43f23a32eb920bc667"
+    },
+    {
+      "path": "pset-03/.venv/bin/gunicorn",
+      "before_sha256": "7d5f410ceec79624cc6f3d2a52d63116d937dd7cfdafc31f40f68e5a5504972a",
+      "after_sha256": "161073d3eddf61e6d2b2192d55e114853d0a7055f3ca4f3928308617528a56b3"
+    },
+    {
+      "path": "pset-03/.venv/bin/sqlformat",
+      "before_sha256": "15ea1407f73ae9c16e734c24af5dbed51d0b65878a246496c2b8c1166c34d7d9",
+      "after_sha256": "161703a20946224cf7e5a37e55e3cd63314f1115294cc8567eb44abc89ff9f3d"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter-dejavu",
+      "before_sha256": "4c4f9a3b9c8187ad24650c99d6d23903c838d37c3581e24b6154ff7c8266b157",
+      "after_sha256": "b59c7ed8f4bafe23d2f3c9bafb17c0dfcb5af41fa4d90eb549a3a630d4ea9af6"
+    },
+    {
+      "path": "pset-03/.venv/bin/f2py",
+      "before_sha256": "042e3dcf3fb076db1990e0392d3bf6e8380fe2edd8e4069c060309704e734f5b",
+      "after_sha256": "311f745e419e71880637fe9c57cb02f523c6805eff6580ba0d63a054cbf92bde"
+    },
+    {
+      "path": "pset-03/.venv/bin/ipython3",
+      "before_sha256": "d9e3ff0ebfd44f5ce19ad55861faf8c27f9d995f04b0bd5c00ab479f959ebefb",
+      "after_sha256": "ff8e6ec61d8af92b6bf5ef7e7cad546b906b4dbdad9d6dd8a0f7f48bc1df0e33"
+    },
+    {
+      "path": "pset-03/.venv/bin/httpx",
+      "before_sha256": "f5c722553927f32b2099e65cfa2f37998d8302e9387d8640958bb61c46847b10",
+      "after_sha256": "1407dae63a5a194b16207ae16663e2803b26ed62a12a18ae5ac98ca6c239aa50"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter-nbconvert",
+      "before_sha256": "b4b4932c0fee4648c0122b8c6a1f58c95f07ec115b94574b808bb1d43a9df107",
+      "after_sha256": "38ebb711b56906097acde6238fb613e2efb09be1aa39dabba50e76093836f20e"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter-lab",
+      "before_sha256": "2927ab13a5db7a3ad5d5cfe32a3d90dbe5ef5c9861e32842a706eb808b180010",
+      "after_sha256": "aa0f5e85bdfd055296274b245a8534f2111b4f33758fc37139fbd904db0dfdf8"
+    },
+    {
+      "path": "pset-03/.venv/bin/jsonschema",
+      "before_sha256": "e9abadbbb2aec3fbbcd1a10d0d06aef9e8abdfffcebb01f63faf9db093ea87c7",
+      "after_sha256": "3a10f3910c14f1fc43829b12c0947c88b273cf1f0708ac1142ccb62d12cc1b1d"
+    },
+    {
+      "path": "pset-03/.venv/bin/wsdump",
+      "before_sha256": "2e074359f66c3f437b6df91adb2fef3c374b1153eb650419dd9069d8baf0ce35",
+      "after_sha256": "f40177d6602645d74058f360e5f3062bd6da50004326ad1d07b0730be884e067"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter-troubleshoot",
+      "before_sha256": "225c876c0e494778a5db7d795f4fcfe2f5140c62f09f0a587ff0df740079bed2",
+      "after_sha256": "b14eefcf41aa9cbfe87241d8cd9d551627fe7732e6865a05e612867d887e32bc"
+    },
+    {
+      "path": "pset-03/.venv/bin/fastapi",
+      "before_sha256": "328fa8044b63b34cda2fb950592a2334511d646db2991edbfd1d559662da29a0",
+      "after_sha256": "6a5a9deea32133f0323fe3324f895b2da16b909a7a3baf9bff0235cf787fe046"
+    },
+    {
+      "path": "pset-03/.venv/bin/pygmentize",
+      "before_sha256": "73dbf82d1d2b1de9d59feec5956ed346d6a30be6d03bddca59cd6db7055fea48",
+      "after_sha256": "e97dbeb84015168dfa2305060494a5290fb7f97b16ee8f4f5fcd91a9788a9998"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter-migrate",
+      "before_sha256": "4ae99c7d5e77d0f5f35b10147e7ea720b25ae358bbb9bc17b835c5bda5bdcc8f",
+      "after_sha256": "29a47775377a337589f5e8a9ff9397189ed627b540c59e1e6f99051c515e56b8"
+    },
+    {
+      "path": "pset-03/.venv/bin/cffi-gen-src",
+      "before_sha256": "413f47d9dc4c57a9dc2666e7724498bd377ab31a39d6eac7f00fb3ffa7d19d25",
+      "after_sha256": "8c433fd6a290e86680e55660b040696689da782f0e70d2c37e723119e2e52563"
+    },
+    {
+      "path": "pset-03/.venv/bin/jp.py",
+      "before_sha256": "276947cfae167827fd187dbd16eed16d55c3a3318ef3ee0baea91af9dc04bff2",
+      "after_sha256": "d610d0f67562699727de19794b086ddd58589c2cc99480e895cf26ddc7c892bd"
+    },
+    {
+      "path": "pset-03/.venv/bin/uvicorn",
+      "before_sha256": "894a85f62873f765862e7ec2526c5a2123da1c9461e1e10b454cbecf3428d03d",
+      "after_sha256": "971555b1c4edbf6c9f7f8e4b11ef5bd3dc01306a674f5687d231510486b2a88f"
+    },
+    {
+      "path": "pset-03/.venv/bin/alembic",
+      "before_sha256": "acae5daf8956fc98e2dce3eac858eae8c541eee3bab59c1eedbabf56afd32711",
+      "after_sha256": "d143e02198f8fb08f3a69ef4cb6479822bfbda05a732c52789d1cb613cc5d5b0"
+    },
+    {
+      "path": "pset-03/.venv/bin/activate",
+      "before_sha256": "950e6d86f791194c549bb4df876f801b19c732c56e1f00d4696b24771a61cbc3",
+      "after_sha256": "2fa9b82fe02d35b0c5f77389b52cfb7d58c84a5570d627fc6c2175ab60974f88"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter-events",
+      "before_sha256": "5d8f470d6ac8edcf1d81c86fd006e4a7d567f7a0791a800cf5e1f638fad47e9d",
+      "after_sha256": "79ccf3cc2b4bdad772679a6744fe9c04a1888c6cb0bbee342c27c1f485496de4"
+    },
+    {
+      "path": "pset-03/.venv/bin/activate.nu",
+      "before_sha256": "3b56be1c8a0a9c6e12dc65ff7b896516cadf73d82474ffb8b28446b87cbdb0c0",
+      "after_sha256": "f5b29354356312ba3fe3c19f98559aa987a720517e448d6d25882c0614598677"
+    },
+    {
+      "path": "pset-03/.venv/bin/snowflake-dump-certs",
+      "before_sha256": "7ba84ce2ba726313787c0a7926878bbf5dc82fcd873c1e3c50d7002b058ae58e",
+      "after_sha256": "12788a374532cce55396c9dfb23d5db39b1686e5067b6a50356ccd4abe6df4ec"
+    },
+    {
+      "path": "pset-03/.venv/bin/snowflake-dump-ocsp-response",
+      "before_sha256": "3d68025c4be1e935a77e0f2de84de00b0a05987906a4e6ce66049d68f906e782",
+      "after_sha256": "3a363578d1305f591d5808e72291e5ab776bea19e963371d25b37066601735a4"
+    },
+    {
+      "path": "pset-03/.venv/bin/normalizer",
+      "before_sha256": "160597f52eb6e2f15bfed6824f8c8c4676dfa5dce81401b43caaf6c7ffbaa09e",
+      "after_sha256": "76fd80e61cd4b211a9b8a640617635c391eca662068c9efa3d4c0d0b7e4e9ba0"
+    },
+    {
+      "path": "pset-03/.venv/bin/numpy-config",
+      "before_sha256": "35a821db5c9634ec5d7f5ce8025ab2189330e2518343d71a8818592204aff253",
+      "after_sha256": "29688fb98b47a3ea2b9d34b579f5e3ff7e4e7608e4163d97d5daa010b7cce060"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter-trust",
+      "before_sha256": "673a7ce8378662fc545070bf43b15bb532fc5e599619c86d2a616a07e103e769",
+      "after_sha256": "daeaceae691019d5016a77bd797866fda750ec9dbc4f516a8b041659e6247a0c"
+    },
+    {
+      "path": "pset-03/.venv/bin/jsonpointer",
+      "before_sha256": "773f359419d886236b3bec868294b135285a824f4a1996d2ea536d1ed21d35e1",
+      "after_sha256": "c1bb5e223fbc2f6e6faf40657afe98a914db16a6dc5b60f1d894e813d66b1679"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter-builder",
+      "before_sha256": "8ffc1062f6fa5df12f03bfffe8bcc96c2cf34a99ffb4e9f8b57a8d0801db2fd1",
+      "after_sha256": "047351d0b8b6385528d793c8875b15d484230cef10aa81c5a3b9d642004c4d96"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter-kernelspec",
+      "before_sha256": "5344e1e446d3bfb50ddbf4a55ca9ac2e61637bd8fdecb18ba63a20f55e156f71",
+      "after_sha256": "b75e573b7c006b723d9e669fdb90ec058f35f21892e992e1ad4001f80c74014e"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter-kernel",
+      "before_sha256": "5ec4167640a59749849c6d65c81be1837d330c17c271eaa445fb95f3548e8f9a",
+      "after_sha256": "4c85e815ed8ee8125804f3dfb6b35b4469fdae98f0037af71161039b4981d880"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter",
+      "before_sha256": "036f440bf1edd9125eceabeb39857783008c47d4b360833d13f5d2f752859ede",
+      "after_sha256": "d5573ac193efe076c164e0574082362e95dc8742c807a381712422969b71dfcf"
+    },
+    {
+      "path": "pset-03/.venv/bin/debugpy-adapter",
+      "before_sha256": "af9850e2784316b8ab3d872bcfd1160f7a3bf174d533664d0bf03648fd0056dc",
+      "after_sha256": "7dedd0e65192a9774a214db617d7e27d38d78e4f116dc03bf046fd073fbcfd47"
+    },
+    {
+      "path": "pset-03/.venv/bin/pyftmerge",
+      "before_sha256": "1f066b7449eb0e4db1b236091c55f07da74cb5242050111d00f6ff913b0bde18",
+      "after_sha256": "0bad5ec4a6f4dce84ed6929dcc62653f5ba51c21b5f931020775d4095a471aa2"
+    },
+    {
+      "path": "pset-03/.venv/bin/jupyter-execute",
+      "before_sha256": "89fe997269dfed7db42ef9c5f511beddc97db43067ae16c4fc4dc0461ee79d81",
+      "after_sha256": "f14ac60591def6b25d1b818ed31b41b496b8b3ce4541ee2b510f1117979d11f1"
+    },
+    {
+      "path": "pset-03/.venv/bin/activate.csh",
+      "before_sha256": "29a6f58e1a3a509def05b5ef76944ebf5c25366b4db815df87413302095fd42f",
+      "after_sha256": "27b0a9ce6405dad13bb9f448e0446df3c400e247651012622523f1377f453a12"
+    }
+  ],
+  "packages_reinstalled": false,
+  "python_symlink_targets_preserved": true,
+  "docker_verification": "passed",
+  "checks": {
+    "dependencias_.venv": {
+      "passed": true,
+      "returncode": 0
+    },
+    "dependencias_pset-02/.venv": {
+      "passed": true,
+      "returncode": 0
+    },
+    "dependencias_pset-03/.venv": {
+      "passed": true,
+      "returncode": 0
+    },
+    "lanzador_jupyter_raiz": {
+      "passed": true,
+      "returncode": 0
+    },
+    "lanzador_mlflow": {
+      "passed": true,
+      "returncode": 0
+    },
+    "lanzador_jupyterlab": {
+      "passed": true,
+      "returncode": 0
+    },
+    "cliente_snowflake_import": {
+      "passed": true,
+      "returncode": 0
+    },
+    "compose_pset2_valido": {
+      "passed": true,
+      "returncode": 0
+    },
+    "compose_pset3_valido": {
+      "passed": true,
+      "returncode": 0
+    },
+    "no_active_jobs": {
+      "passed": true,
+      "kestra_state_counts": {
+        "RUNNING": 0,
+        "QUEUED": 0,
+        "RESTARTED": 0,
+        "RETRYING": 0,
+        "PAUSED": 0
+      }
+    },
+    "recrear_pset2": {
+      "passed": true,
+      "returncode": 0
+    },
+    "recrear_pset3": {
+      "passed": true,
+      "returncode": 0
+    },
+    "kestra_flujo_persistido": {
+      "passed": true,
+      "returncode": 0
+    },
+    "mlflow_corrida_artefacto_modelo_persistidos": {
+      "passed": true,
+      "returncode": 0
+    },
+    "container_mounted_files_readable": {
+      "passed": true,
+      "containers": [
+        "pset2-kestra-1",
+        "pset2-dbt-runner-1",
+        "pset2-spark-runner-1",
+        "pset2-spark-1"
+      ]
+    },
+    "no_old_venv_runtime_paths": {
+      "passed": true
+    },
+    "jupyter_kernel_new_interpreter": {
+      "passed": true
+    },
+    "shared_pipeline_synthetic_fit": {
+      "passed": true
+    },
+    "pset1_artifacts_readable": {
+      "passed": true
+    }
+  },
+  "operational_references_repaired": [
+    "pset-02/.local/reproduction/849681d33298.json",
+    "tmp/reproduccion-849681d33298/repo/pset-02/.env.infra"
+  ],
+  "docker_services": [
+    {
+      "name": "pset3-oulad-mlflow-1",
+      "healthy": true,
+      "bind_mounts_checked": 0,
+      "same_volumes": true
+    },
+    {
+      "name": "pset2-kestra-1",
+      "healthy": true,
+      "bind_mounts_checked": 9,
+      "same_volumes": true
+    },
+    {
+      "name": "pset2-spark-runner-1",
+      "healthy": true,
+      "bind_mounts_checked": 8,
+      "same_volumes": true
+    },
+    {
+      "name": "pset2-spark-1",
+      "healthy": true,
+      "bind_mounts_checked": 6,
+      "same_volumes": true
+    },
+    {
+      "name": "pset2-dbt-runner-1",
+      "healthy": true,
+      "bind_mounts_checked": 6,
+      "same_volumes": true
+    },
+    {
+      "name": "pset2-postgres-1",
+      "healthy": true,
+      "bind_mounts_checked": 0,
+      "same_volumes": true
+    }
+  ],
+  "archived_stopped_reproduction_containers": {
+    "project": "pset2repro_849681d33298",
+    "state": "stopped",
+    "old_container_metadata_preserved": true,
+    "resume_policy": "Recrear desde el destino migrado; no usar docker start sobre contenedores históricos."
+  },
+  "finished_at_utc": "2026-11-17T01:50:56.989923+00:00",
+  "scope": "Rutas, dependencias, kernel, montajes y persistencia local. No entrenamiento OULAD ni reconstrucción de tablas Snowflake."
+}

@@ -1,0 +1,20 @@
+{
+  "id": "411b394f6ce436b14b8efd5ec7a3512c0d2dac34ba93f7d8a97edff99ba92afe",
+  "content": {
+    "declared_at_utc": "2026-11-19T02:48:35.580399+00:00",
+    "base_protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+    "base_io_patch_id": "55f6fcc95f839abe9632a92a2c20e888f92c61371637278548acb6b3324a80dc",
+    "scope": "Distribution paths only: Git root discovery and package-local credentials; no changed data, preparation, requests, model, scores, metrics or selection",
+    "validator_sha256": "35e982e02f9ec678b8d4cff372bf7ec84f8b0ac236e89fd3fca7ca419ededf62",
+    "sources": {
+      "src/seguimiento.py": {
+        "before": "2091094930ccc7cda51a8c3addad8c2d0146e05c7a0385dbaa4f0f20474fdcba",
+        "after": "10813645f6d106db274040afd2efd9a065b8767c09c1ed3c13c4a541e5761ba6"
+      },
+      "src/openai_api.py": {
+        "before": "8325eff9c1aafd90697fafb78921ef14ec6db6976df0ddc2946933a9add8a788",
+        "after": "1de478bbfd9e0a10b4e13483b2e2d4128d162bca614a7c32081bfaa39a1568b8"
+      }
+    }
+  }
+}

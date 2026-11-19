@@ -1,0 +1,11 @@
+{
+  "checked_at_utc": "2026-11-13T02:44:01.269037+00:00",
+  "action": "check-connection",
+  "run_id": "843091af0eed499ea7d3d4dddc047bdd",
+  "status": "failed",
+  "published": false,
+  "category": "spark_pipeline_error",
+  "phase": "initialize",
+  "error_class": "Py4JError",
+  "elapsed_seconds": 2.53
+}

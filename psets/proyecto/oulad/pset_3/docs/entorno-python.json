@@ -1,0 +1,18 @@
+{
+  "python": "3.11.16",
+  "platform": "macOS-15.7.9-x86_64-i386-64bit",
+  "architecture": "x86_64",
+  "packages": {
+    "mlflow": "2.22.0",
+    "scikit-learn": "1.7.2",
+    "pandas": "2.3.3",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "pyarrow": "19.0.1",
+    "jupyterlab": "4.6.6",
+    "snowflake-connector-python": "4.8.1",
+    "sqlalchemy": "2.0.58",
+    "cryptography": "48.0.1"
+  },
+  "lock_sha256": "388fcf8bf234c3bc3b479a7e88c75774f6a62e58213085079e24c3c3f50dff6a"
+}

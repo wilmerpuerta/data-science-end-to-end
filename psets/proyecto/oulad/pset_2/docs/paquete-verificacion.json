@@ -1,0 +1,26 @@
+{
+  "status": "ok",
+  "checked_at_utc": "2026-11-19T03:47:14.601506+00:00",
+  "checks": {
+    "required_structure": true,
+    "public_root_matches_required_layout": true,
+    "public_files_no_symlinks_or_large_files": true,
+    "secret_and_personal_path_patterns_absent": true,
+    "active_markdown_links_resolve": true,
+    "23_unique_models": true,
+    "dbt_references_resolve": true,
+    "dbt_graph_acyclic": true,
+    "docker_images_and_dependencies_pinned": true,
+    "password_examples_are_placeholders": true,
+    "approved_pdf_unchanged": true,
+    "compose_local-only": true,
+    "compose_cloud": true
+  },
+  "files": 251,
+  "python_files_parsed": 42,
+  "json_files_parsed": 77,
+  "findings_metadata_only": [],
+  "broken_links": [],
+  "cloud_execution_repeated": false,
+  "scope": "Public files in pset_2; metadata-only pattern scan, active links, syntax, dependencies and structure. Historical memo source retains original paths; use docs/rutas-entrega.md. No full-history secret audit or Snowflake execution."
+}
