@@ -1,0 +1,26 @@
+{
+  "id": "55f6fcc95f839abe9632a92a2c20e888f92c61371637278548acb6b3324a80dc",
+  "content": {
+    "base_protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+    "declared_at_utc": "2026-11-18T11:07:32.934647+00:00",
+    "scope": "IO decoding bug fix only; no changed request, model, features, labels, folds, metrics, selection or holdout rule",
+    "reason": "The original reader concatenated commentary and final_answer messages. Read exactly one completed assistant final_answer; legacy unphased output must be a unique completed assistant message.",
+    "official_reference": "https://developers.openai.com/api/reference/resources/responses/methods/create",
+    "cached_response_audit": {
+      "checked": 283,
+      "probability_differences": 0,
+      "no_new_requests": true
+    },
+    "request_payload_ast_identical": true,
+    "sources": {
+      "src/openai_api.py": {
+        "before": "82ea925972ba4da92287f776be19b86b9508e69835968ced5376b9ff8390d65e",
+        "after": "8325eff9c1aafd90697fafb78921ef14ec6db6976df0ddc2946933a9add8a788"
+      },
+      "src/seguimiento.py": {
+        "before": "cd4000fd46997dea3a3443affbfa1ee26e7e61d6450b2c7b61a2c7acbcf00cd4",
+        "after": "2091094930ccc7cda51a8c3addad8c2d0146e05c7a0385dbaa4f0f20474fdcba"
+      }
+    }
+  }
+}

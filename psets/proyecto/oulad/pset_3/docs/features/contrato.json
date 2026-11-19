@@ -1,0 +1,103 @@
+{
+  "version": "pset3.features.v1",
+  "cutoff_day": 56,
+  "features": [
+    {
+      "name": "log1p_clicks_current_14d",
+      "formula": "log(1 + clicks_current_14d)",
+      "source_columns": [
+        "clicks_current_14d"
+      ],
+      "evidence": "EDA: mediana 53, máximo 7028, asimetría 8.82. Compresión determinista de cola; aporte pendiente de ablación."
+    },
+    {
+      "name": "clicks_per_active_day_14d",
+      "formula": "clicks_current_14d / active_days_current_14d si denominador > 0; NaN en otro caso",
+      "source_columns": [
+        "clicks_current_14d",
+        "active_days_current_14d"
+      ],
+      "evidence": "EDA: actividad y resultado asociados; normalizar intensidad por exposición registrada. 2602 denominadores cero. Aporte pendiente de ablación."
+    }
+  ],
+  "availability": "Solo agregados ya calculados <= cutoff. No consulta etiquetas, retiros ni eventos futuros. Supone disponibilidad de registros y atributos según límites PSet 2.",
+  "numeric_missing": "Mediana de fit; add_indicator=True; keep_empty_features=True (fallback 0 si columna totalmente faltante en fit). Indicadores con StandardScaler junto a numéricas.",
+  "categorical_missing": "pd.NA/None -> np.nan; categoría __MISSING__; OneHotEncoder(handle_unknown=ignore, sparse_output=False). No se supone orden entre categorías.",
+  "numeric_scaling": "StandardScaler aprendido solo en fit; no clipping ni eliminación de extremos.",
+  "booleans": "is_imd_missing estática y has_recorded_activity longitudinal como 0/1. No se incluyen audit log_coverage_known ni last_activity_day como predictores.",
+  "variants": {
+    "estatica": {
+      "numeric": [
+        "num_of_prev_attempts",
+        "studied_credits",
+        "module_presentation_length",
+        "registration_days_before_start",
+        "is_imd_missing"
+      ],
+      "categorical": [
+        "gender",
+        "region",
+        "highest_education",
+        "imd_band",
+        "age_band",
+        "disability"
+      ]
+    },
+    "longitudinal_original": {
+      "numeric": [
+        "num_of_prev_attempts",
+        "studied_credits",
+        "module_presentation_length",
+        "registration_days_before_start",
+        "is_imd_missing",
+        "clicks_through_cutoff",
+        "active_days_through_cutoff",
+        "resources_through_cutoff",
+        "clicks_current_14d",
+        "active_days_current_14d",
+        "clicks_previous_14d",
+        "click_change_14d",
+        "recency_days",
+        "has_recorded_activity"
+      ],
+      "categorical": [
+        "gender",
+        "region",
+        "highest_education",
+        "imd_band",
+        "age_band",
+        "disability"
+      ]
+    },
+    "longitudinal_derivadas": {
+      "numeric": [
+        "num_of_prev_attempts",
+        "studied_credits",
+        "module_presentation_length",
+        "registration_days_before_start",
+        "is_imd_missing",
+        "clicks_through_cutoff",
+        "active_days_through_cutoff",
+        "resources_through_cutoff",
+        "clicks_current_14d",
+        "active_days_current_14d",
+        "clicks_previous_14d",
+        "click_change_14d",
+        "recency_days",
+        "has_recorded_activity",
+        "log1p_clicks_current_14d",
+        "clicks_per_active_day_14d"
+      ],
+      "categorical": [
+        "gender",
+        "region",
+        "highest_education",
+        "imd_band",
+        "age_band",
+        "disability"
+      ]
+    }
+  },
+  "ablation_plan": "Tras registrar ingenua y reactiva, comparar misma familia/folds: estática, longitudinal original y longitudinal derivadas; además activar cada derivada por separado en una extensión de versión si se atribuye aporte individual. No elegir por hold-out.",
+  "no_benefit_claimed": true
+}

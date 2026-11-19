@@ -1,0 +1,110 @@
+{
+  "version": "pset3.protocol.v2.2",
+  "state": "predeclared_until_freeze",
+  "primary_cutoff_day": 56,
+  "snapshot_id": "0a75615bd8ff6b166d366cf78c8303845852cbeb23387ac24a64fe4962f01027",
+  "split_id": "231cd638f375de2a8c70b4482fdf6a98dbe022371a409f1fc92bc97189cf7736",
+  "primary_business_metric": "mean CV Fail coverage at floor(10% N) per edition per validation fold",
+  "secondary_metrics": [
+    "AP Fail",
+    "log-loss",
+    "Brier Fail",
+    "precision_at_k",
+    "training and inference seconds",
+    "API accounted spend"
+  ],
+  "selection_ties": [
+    "lower coverage std",
+    "higher AP",
+    "lower Brier",
+    "lower cost",
+    "run_id"
+  ],
+  "cv": "same five persisted student-group folds for all six candidates",
+  "candidates": [
+    "lineal",
+    "bagging",
+    "boosting",
+    "red_neuronal",
+    "bayes",
+    "llm_generativo"
+  ],
+  "baselines": [
+    "DummyClassifier most_frequent",
+    "reactive after closure, preventive coverage 0 and late capacity bounded"
+  ],
+  "llm": {
+    "provider": "OpenAI API",
+    "model": "gpt-6-luna",
+    "api": "Responses",
+    "reasoning_effort": "none",
+    "structured_output": true,
+    "examples_per_class": 6,
+    "batch_size": 32,
+    "label_order": [
+      "Approved",
+      "Fail",
+      "Withdrawn"
+    ],
+    "context_source": "only current training fold; balanced examples and full-fold empirical priors",
+    "preparation": "same train-fold-fitted median/one-hot/scaler; LLM receives names and sparse values of that same prepared matrix",
+    "representation_precision": "six significant digits, recorded as interface precision, not an additional learned transform",
+    "reproduction": "archive requests/responses privately and reproduce scores from cache; provider nondeterminism is not hidden",
+    "budget_usd": 10,
+    "safety": "reserve a conservative cost bound before each call; ambiguous failures keep reservation, no automatic retries",
+    "max_workers": 8,
+    "max_output_tokens": "max(1024,160*batch_rows+256)",
+    "probability_output_precision": "at most four decimal places in prompting",
+    "cache_write_rates_per_million_usd": {
+      "ttl_30m": 0.125,
+      "ttl_12h": 0.25
+    },
+    "cost_accounting": "input base plus cache-write premiums, no cache-read discount; reserve highest 12h input rate by total JSON byte bound",
+    "response_format": "strict fixed objects probabilities.q000..q031 with named Approved, Fail, Withdrawn fields; exact query coverage and duplicate-key rejection",
+    "integration_gate": "all 1000 fixed training-metric rows of fold0 before freezing, no validation metrics used"
+  },
+  "tuning": {
+    "families": 3,
+    "min_unique_configurations_per_family": 30,
+    "criterion": "best default candidate CV business coverage",
+    "same_folds": true,
+    "llm_tuning_if_top3": true,
+    "budget_gate": "do not silently omit required configs/folds when budget is insufficient"
+  },
+  "train_metric_sampling": {
+    "rows_per_training_fold": 1000,
+    "same_rows_for_all_candidates": true,
+    "selection": "seeded stratified subset only of training-fold; explicitly labelled as sampled train metric"
+  },
+  "static_controls": "independently tuned matched family, same search draws plus default as longitudinal final family",
+  "anticipation": {
+    "cutoffs": [
+      14,
+      28,
+      42
+    ],
+    "own_eligible_cohort_each_cut": true,
+    "same_available_training_pool_and_validation_for_compared_models": true,
+    "models_to_evaluate": "finalist families plus matched static and indicator ablation; include LLM if finalist",
+    "budget": "one shared initial capacity across rounds; no repeated enrollment; report unique students",
+    "margin_scenarios": {
+      "coordination_days": 7,
+      "minimum_support_days": 14,
+      "deadlines": [
+        56,
+        70
+      ],
+      "institutionally_validated": false
+    }
+  },
+  "holdout": {
+    "presentation": "2014J",
+    "already_observed_in_v1": true,
+    "claim": "retrospective reused benchmark, not a newly untouched independent test",
+    "new_version_rule": "freeze top2 and static controls by CV before a single final batch; no holdout tuning"
+  },
+  "git": "commit source before definitive runs; source cleanliness is required; no invented historical SHA",
+  "final_memo_pages_max": 6,
+  "old_version": "preserve full private verified backup; original artifacts are not copied as v2 results",
+  "revision_reason": "Incomplete repeated-array generation in attempt 2 before LLM validation; fixed named-query output fields and duplicate-key rejection. Preserve all attempts/costs and repeat every family in a fresh experiment."
+}

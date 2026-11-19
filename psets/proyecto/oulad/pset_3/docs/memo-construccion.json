@@ -1,0 +1,122 @@
+{
+  "pages": 6,
+  "pdf_sha256": "108a70a93e74b150121382b5cd266e64e61cf40435eb0d4c01c5b1089c4393c6",
+  "source_sha256": "0e8336f7698ca53a4c557a9ea38002721984ed69906eec170668851a66cee283",
+  "native_vector_figures": [
+    {
+      "page": 1,
+      "kind": "native_target_and_iqr_reference",
+      "height_pt": 148,
+      "target_denominator": 16331,
+      "target_percentages": true,
+      "click_axis": "log1p",
+      "iqr_upper_limit_is_reference": true
+    },
+    {
+      "page": 1,
+      "kind": "native_spearman_heatmap",
+      "cell_size_pt": 35,
+      "matrix_size": 5,
+      "color_scale": [
+        -1,
+        1
+      ]
+    },
+    {
+      "page": 3,
+      "kind": "native_vector_bars",
+      "labels": [
+        "Logística",
+        "HGB",
+        "GaussianNB",
+        "RandomForest",
+        "MLP",
+        "GPT prompting",
+        "Dummy"
+      ],
+      "values": [
+        0.2292255188171798,
+        0.22807368839944137,
+        0.22781849528837222,
+        0.22568600740058362,
+        0.20091119524928946,
+        0.1486560039294525,
+        0.09154214204195664
+      ]
+    },
+    {
+      "kind": "native_tuning_default_vs_adjusted",
+      "height_pt": 110,
+      "metric": "CV Fail coverage at fixed 10% capacity",
+      "error_type": "fold standard deviation, not confidence interval",
+      "axis_percent": [
+        21,
+        25
+      ],
+      "rows": [
+        {
+          "family": "lineal",
+          "label": "Logística",
+          "default_mean": 0.2292255188171798,
+          "default_sd": 0.008011721739768937,
+          "tuned_mean": 0.23235925608205354,
+          "tuned_sd": 0.005616946743624212,
+          "delta_pp": 0.31337372648737316,
+          "default_run_id": "7f75bbbab6ed4f56b58caa0850529b34",
+          "tuned_run_id": "bb2b400975994efdb01ea418118dda67"
+        },
+        {
+          "family": "boosting",
+          "label": "HGB",
+          "default_mean": 0.22807368839944137,
+          "default_sd": 0.008208645748169508,
+          "tuned_mean": 0.23398183613263052,
+          "tuned_sd": 0.009338351412435388,
+          "delta_pp": 0.5908147733189151,
+          "default_run_id": "61ef18564a504ec4bc39e454cbe1f8e9",
+          "tuned_run_id": "dc2fa9bb8bee4944bd00611a6ac5c34f"
+        },
+        {
+          "family": "bayes",
+          "label": "GaussianNB",
+          "default_mean": 0.22781849528837222,
+          "default_sd": 0.010679736087937026,
+          "tuned_mean": 0.22824008335152154,
+          "tuned_sd": 0.010213013949650587,
+          "delta_pp": 0.04215880631493196,
+          "default_run_id": "dccc18435ccf489794cadd3ce4903342",
+          "tuned_run_id": "e7c7aeb2d49b4f14bdbcbe39b30197c7"
+        }
+      ],
+      "page": 4
+    },
+    {
+      "page": 5,
+      "kind": "native_vector_bars",
+      "labels": [
+        "HGB estático",
+        "HGB longitudinal",
+        "Logística long."
+      ],
+      "values": [
+        309,
+        465,
+        477
+      ]
+    }
+  ],
+  "native_UI_screenshot": "docs/evidencia/mlflow-comparacion-detalle.png",
+  "minimum_cursor_y": {
+    "1": 62.689763779527695,
+    "2": 83.48976377952769,
+    "3": 56.689763779527745,
+    "4": 53.08976377952769,
+    "5": 76.88976377952771,
+    "6": 88.8897637795277
+  },
+  "body_font_pt": 10.5,
+  "table_font_pt": 9.2,
+  "font": "embedded Arial or DejaVu",
+  "source": "completed v2 reports only; no new training, test evaluation or API calls",
+  "prompting_summary_included": true
+}

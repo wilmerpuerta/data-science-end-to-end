@@ -1,6 +1,6 @@
-# PSet 3 - entrega final reconstruida
+# PSet 3 - historial de la experimentación
 
-La versión activa es **[v2](v2/README.md)**. Contiene seis familias, ensayo GPT mediante prompting, tuning por el criterio del negocio y Registry reproducible.
+La entrega organizada según la rúbrica está en **[pset_3/](../pset_3/README.md)**, con archivos reales en su raíz. Esta carpeta conserva el historial y la versión **[v2](v2/README.md)**. Contiene seis familias, ensayo GPT mediante prompting, tuning por el criterio del negocio y Registry reproducible.
 
 - [Memo final: seis páginas](v2/docs/PSet3_memo_Puerta_Wilmer.pdf).
 - [Notebooks ejecutados](v2/notebooks/).

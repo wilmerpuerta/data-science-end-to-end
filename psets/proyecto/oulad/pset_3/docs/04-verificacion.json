@@ -1,0 +1,14 @@
+{
+  "status": "ok",
+  "checked_at_utc": "2026-11-19T02:56:01.444165+00:00",
+  "notebook_sha256": "ccc0ffc501523a57ec072c24a0fda077c262b1731ea5488e4ec608107f332e69",
+  "fresh_kernel": true,
+  "code_cells": 4,
+  "elapsed_seconds": 8.946582601987757,
+  "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+  "distribution_patch_id": "411b394f6ce436b14b8efd5ec7a3512c0d2dac34ba93f7d8a97edff99ba92afe",
+  "new_model_fits": 0,
+  "new_classifier_fits": 0,
+  "new_api_requests": 0,
+  "scope": "Packaged paths; recompute EDA/preparation and replay original recorded evidence; no new experiment runs"
+}

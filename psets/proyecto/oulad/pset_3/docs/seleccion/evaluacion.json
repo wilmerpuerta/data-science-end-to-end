@@ -1,0 +1,307 @@
+{
+  "status": "registered",
+  "decision_id": "2aa29e8d53d88d39bb331285faaa376ec556fe764ea13ef50651d045488ae2e4",
+  "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+  "final_run_id": "fcd23ae22d6c46ffb41c1e4f23e1c02d",
+  "evaluated_at_utc": "2026-11-18T12:06:52.538551+00:00",
+  "rows": 8758,
+  "unique_students": 8442,
+  "models": {
+    "winner": {
+      "source_model_run_id": "dc2fa9bb8bee4944bd00611a6ac5c34f",
+      "family": "boosting",
+      "technical": {
+        "ap_fail": 0.4265069557086188,
+        "logloss": 0.8422316826632126,
+        "brier_fail": 0.1597176865864827
+      },
+      "business": {
+        "0.05": {
+          "tp": 243,
+          "fp": 191,
+          "fn": 1704,
+          "n": 8758,
+          "fail": 1947,
+          "k": 434,
+          "coverage": 0.12480739599383667,
+          "precision_at_k": 0.5599078341013825,
+          "unique_students_selected": 417
+        },
+        "0.1": {
+          "tp": 465,
+          "fp": 407,
+          "fn": 1482,
+          "n": 8758,
+          "fail": 1947,
+          "k": 872,
+          "coverage": 0.23882896764252695,
+          "precision_at_k": 0.533256880733945,
+          "unique_students_selected": 845
+        },
+        "0.2": {
+          "tp": 798,
+          "fp": 950,
+          "fn": 1149,
+          "n": 8758,
+          "fail": 1947,
+          "k": 1748,
+          "coverage": 0.4098613251155624,
+          "precision_at_k": 0.45652173913043476,
+          "unique_students_selected": 1687
+        }
+      },
+      "test_inference_seconds": 0.5567672959878109,
+      "test_api_cost_usd": 0.0,
+      "relative_error_cost_scenarios": {
+        "1": 1889,
+        "2": 3371,
+        "5": 7817,
+        "10": 15227
+      }
+    },
+    "challenger": {
+      "source_model_run_id": "bb2b400975994efdb01ea418118dda67",
+      "family": "lineal",
+      "technical": {
+        "ap_fail": 0.4387553004201111,
+        "logloss": 0.9352937095476912,
+        "brier_fail": 0.15974346060225178
+      },
+      "business": {
+        "0.05": {
+          "tp": 263,
+          "fp": 171,
+          "fn": 1684,
+          "n": 8758,
+          "fail": 1947,
+          "k": 434,
+          "coverage": 0.13507960965588084,
+          "precision_at_k": 0.6059907834101382,
+          "unique_students_selected": 422
+        },
+        "0.1": {
+          "tp": 477,
+          "fp": 395,
+          "fn": 1470,
+          "n": 8758,
+          "fail": 1947,
+          "k": 872,
+          "coverage": 0.24499229583975346,
+          "precision_at_k": 0.5470183486238532,
+          "unique_students_selected": 846
+        },
+        "0.2": {
+          "tp": 806,
+          "fp": 942,
+          "fn": 1141,
+          "n": 8758,
+          "fail": 1947,
+          "k": 1748,
+          "coverage": 0.4139702105803801,
+          "precision_at_k": 0.4610983981693364,
+          "unique_students_selected": 1695
+        }
+      },
+      "test_inference_seconds": 0.07714031799696386,
+      "test_api_cost_usd": 0.0,
+      "relative_error_cost_scenarios": {
+        "1": 1865,
+        "2": 3335,
+        "5": 7745,
+        "10": 15095
+      }
+    },
+    "static_boosting": {
+      "source_model_run_id": "2d66e6d882bf4e73ae8aa8001c0dbb76",
+      "family": "boosting",
+      "technical": {
+        "ap_fail": 0.3104552438407714,
+        "logloss": 0.9252037916372208,
+        "brier_fail": 0.17160823318628723
+      },
+      "business": {
+        "0.05": {
+          "tp": 164,
+          "fp": 270,
+          "fn": 1783,
+          "n": 8758,
+          "fail": 1947,
+          "k": 434,
+          "coverage": 0.08423215202876219,
+          "precision_at_k": 0.3778801843317972,
+          "unique_students_selected": 426
+        },
+        "0.1": {
+          "tp": 309,
+          "fp": 563,
+          "fn": 1638,
+          "n": 8758,
+          "fail": 1947,
+          "k": 872,
+          "coverage": 0.15870570107858242,
+          "precision_at_k": 0.3543577981651376,
+          "unique_students_selected": 857
+        },
+        "0.2": {
+          "tp": 606,
+          "fp": 1142,
+          "fn": 1341,
+          "n": 8758,
+          "fail": 1947,
+          "k": 1748,
+          "coverage": 0.31124807395993837,
+          "precision_at_k": 0.34668192219679633,
+          "unique_students_selected": 1708
+        }
+      },
+      "test_inference_seconds": 1.0056513239978813,
+      "test_api_cost_usd": 0.0,
+      "relative_error_cost_scenarios": {
+        "1": 2201,
+        "2": 3839,
+        "5": 8753,
+        "10": 16943
+      }
+    },
+    "static_lineal": {
+      "source_model_run_id": "569fe3e173834163b37843e00ef04c0d",
+      "family": "lineal",
+      "technical": {
+        "ap_fail": 0.31541049078744904,
+        "logloss": 0.9169694153000657,
+        "brier_fail": 0.17039312868664297
+      },
+      "business": {
+        "0.05": {
+          "tp": 165,
+          "fp": 269,
+          "fn": 1782,
+          "n": 8758,
+          "fail": 1947,
+          "k": 434,
+          "coverage": 0.0847457627118644,
+          "precision_at_k": 0.38018433179723504,
+          "unique_students_selected": 427
+        },
+        "0.1": {
+          "tp": 323,
+          "fp": 549,
+          "fn": 1624,
+          "n": 8758,
+          "fail": 1947,
+          "k": 872,
+          "coverage": 0.16589625064201335,
+          "precision_at_k": 0.3704128440366973,
+          "unique_students_selected": 854
+        },
+        "0.2": {
+          "tp": 613,
+          "fp": 1135,
+          "fn": 1334,
+          "n": 8758,
+          "fail": 1947,
+          "k": 1748,
+          "coverage": 0.3148433487416538,
+          "precision_at_k": 0.35068649885583525,
+          "unique_students_selected": 1713
+        }
+      },
+      "test_inference_seconds": 0.23701790301129222,
+      "test_api_cost_usd": 0.0,
+      "relative_error_cost_scenarios": {
+        "1": 2173,
+        "2": 3797,
+        "5": 8669,
+        "10": 16789
+      }
+    },
+    "dummy": {
+      "source_model_run_id": "dcb91965644a479baa7a0f08555df32e",
+      "family": "dummy",
+      "technical": {
+        "ap_fail": 0.22231102991550583,
+        "logloss": 13.889852727594244,
+        "brier_fail": 0.22231102991550583
+      },
+      "business": {
+        "0.05": {
+          "tp": 92,
+          "fp": 342,
+          "fn": 1855,
+          "n": 8758,
+          "fail": 1947,
+          "k": 434,
+          "coverage": 0.04725218284540318,
+          "precision_at_k": 0.2119815668202765,
+          "unique_students_selected": 426
+        },
+        "0.1": {
+          "tp": 174,
+          "fp": 698,
+          "fn": 1773,
+          "n": 8758,
+          "fail": 1947,
+          "k": 872,
+          "coverage": 0.08936825885978428,
+          "precision_at_k": 0.19954128440366972,
+          "unique_students_selected": 860
+        },
+        "0.2": {
+          "tp": 382,
+          "fp": 1366,
+          "fn": 1565,
+          "n": 8758,
+          "fail": 1947,
+          "k": 1748,
+          "coverage": 0.19619928094504366,
+          "precision_at_k": 0.21853546910755148,
+          "unique_students_selected": 1719
+        }
+      },
+      "test_inference_seconds": 0.2512280369992368,
+      "test_api_cost_usd": 0.0,
+      "relative_error_cost_scenarios": {
+        "1": 2471,
+        "2": 4244,
+        "5": 9563,
+        "10": 18428
+      }
+    }
+  },
+  "reactive": {
+    "preventive_coverage": 0.0,
+    "after_closure_tp": 872,
+    "capacity": 872,
+    "fail": 1947,
+    "after_closure_coverage": 0.4478685156651258
+  },
+  "longitudinal_vs_matched_static": {
+    "static_tp": 309,
+    "longitudinal_tp": 465,
+    "absolute_tp_gain": 156,
+    "relative_tp_gain_pct": 50.48543689320388,
+    "causal_effect": false
+  },
+  "winner_changed_using_test": false,
+  "test_previously_observed_in_v1": true,
+  "threshold_rule": "top floor(.10*N) per edition, score descending and key ascending for ties; maximizes expected Fail capture at fixed filled capacity and homogeneous error costs. Monetary costs unspecified; relative FN/FP weights are scenarios.",
+  "prediction_sha256": "4b74e44dc7da68eb6565723b388512d32f10cb58080c19bf039f37e0a1f474dd",
+  "registry": [
+    {
+      "alias": "champion",
+      "version": "1",
+      "run_id": "fcd23ae22d6c46ffb41c1e4f23e1c02d",
+      "source_model_run_id": "dc2fa9bb8bee4944bd00611a6ac5c34f",
+      "family": "boosting",
+      "uri": "models:/oulad-apoyo-academico-v2-modelo@champion"
+    },
+    {
+      "alias": "challenger",
+      "version": "2",
+      "run_id": "fcd23ae22d6c46ffb41c1e4f23e1c02d",
+      "source_model_run_id": "bb2b400975994efdb01ea418118dda67",
+      "family": "lineal",
+      "uri": "models:/oulad-apoyo-academico-v2-modelo@challenger"
+    }
+  ]
+}

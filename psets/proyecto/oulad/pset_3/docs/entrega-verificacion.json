@@ -1,0 +1,25 @@
+{
+  "status": "ok",
+  "root": "pset_3",
+  "files_verified": 330,
+  "zip_sha256": "46653540ba18bb669d9f5792d58e9de2a42d4f0dba4abfe7ee5a32235d1f950b",
+  "zip_bytes": 2417548,
+  "required_paths_verified": [
+    "docker-compose.yml",
+    ".env.example",
+    "requirements.txt",
+    "README.md",
+    "src/datos.py",
+    "src/pipeline.py",
+    "docs/corridas.csv",
+    "docs/PSet3_memo_Puerta_Wilmer.pdf",
+    "notebooks/01_eda.ipynb",
+    "notebooks/02_features.ipynb",
+    "notebooks/03_baseline_candidatos.ipynb",
+    "notebooks/04_tuning.ipynb",
+    "notebooks/05_seleccion.ipynb"
+  ],
+  "symlinks": 0,
+  "private_resources_included": false,
+  "source_commit": "cbe7ef6195402a6ae5d560c8edf69aab8e3bd1a5"
+}

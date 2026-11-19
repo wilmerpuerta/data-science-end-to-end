@@ -1,0 +1,7 @@
+feature,clase,observados,faltantes,mediana
+log1p_clicks_current_14d,Approved,9219,0,4.356708826689592
+log1p_clicks_current_14d,Fail,4918,0,2.995732273553991
+log1p_clicks_current_14d,Withdrawn,2194,0,3.6109179126442243
+clicks_per_active_day_14d,Approved,8716,503,15.125
+clicks_per_active_day_14d,Fail,3300,1618,13.354166666666668
+clicks_per_active_day_14d,Withdrawn,1713,481,13.5

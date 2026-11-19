@@ -1,0 +1,41 @@
+variable,categoria,n,pct
+gender,M,8489,51.980895
+gender,F,7842,48.019105
+region,East Anglian Region,1771,10.844406
+region,Scotland,1616,9.8952912
+region,South Region,1607,9.8401813
+region,London Region,1574,9.6381116
+region,North Western Region,1391,8.5175433
+region,West Midlands Region,1288,7.886841
+region,South West Region,1247,7.6357847
+region,East Midlands Region,1145,7.0112057
+region,Wales,1138,6.9683424
+region,South East Region,1061,6.4968465
+region,Yorkshire Region,1001,6.1294471
+region,North Region,886,5.4252648
+region,Ireland,606,3.7107342
+highest_education,A Level or Equivalent,7119,43.591942
+highest_education,Lower Than A Level,6611,40.481293
+highest_education,HE Qualification,2289,14.016288
+highest_education,No Formal quals,173,1.059335
+highest_education,Post Graduate Qualification,139,0.851142
+imd_band,30-40%,1801,11.028106
+imd_band,20-30%,1780,10.899516
+imd_band,10-20,1740,10.654583
+imd_band,0-10%,1631,9.987141
+imd_band,40-50%,1615,9.8891678
+imd_band,50-60%,1573,9.6319882
+imd_band,70-80%,1450,8.8788194
+imd_band,60-70%,1436,8.7930929
+imd_band,80-90%,1396,8.5481599
+imd_band,90-100%,1332,8.1562672
+imd_band,(faltante),577,3.5331578
+age_band,0-35,11450,70.112057
+age_band,35-55,4790,29.330721
+age_band,55<=,91,0.55722246
+disability,N,14827,90.790521
+disability,Y,1504,9.2094789
+is_imd_missing,False,15754,96.466842
+is_imd_missing,True,577,3.5331578
+has_recorded_activity,True,15899,97.354724
+has_recorded_activity,False,432,2.6452759

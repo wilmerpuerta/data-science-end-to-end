@@ -1,0 +1,16 @@
+{
+  "http_status": 200,
+  "status": "diagnostic_request_completed",
+  "rows": 32,
+  "probabilities_valid": true,
+  "request_hash": "2abd2768eed4d5edc532bc04580da168e5db268c492d49141e1dcaaf6c08f3f9",
+  "manual_diagnostic": true,
+  "maximum_requests": 1,
+  "original_request_reconstructed_by_exact_hash": true,
+  "budget": {
+    "limit_usd": "10",
+    "accounted_spend_usd": "0.245278325",
+    "pending_upper_usd": "0",
+    "completed_paid_calls": 163
+  }
+}
