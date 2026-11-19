@@ -62,7 +62,7 @@ def main():
    while True:
     with logfile.open('a') as log:
      log.write('\nEjecución del coordinador: '+datetime.now(timezone.utc).isoformat()+'\n');log.flush();offset=log.tell()
-     process=subprocess.Popen([sys.executable,str(ROOT/'scripts'/script)],cwd=ROOT,stdout=log,stderr=subprocess.STDOUT);state['phase_pid']=process.pid;publish()
+     process=subprocess.Popen([sys.executable,str(ROOT/'scripts'/script)]+(['--ejecutar'] if phase!='reproduccion' else []),cwd=ROOT,stdout=log,stderr=subprocess.STDOUT);state['phase_pid']=process.pid;publish()
      while process.poll() is None:time.sleep(10);publish()
     if not process.returncode:break
     with logfile.open() as log:log.seek(offset);failure=log.read()

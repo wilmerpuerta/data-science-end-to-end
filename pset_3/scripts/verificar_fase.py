@@ -13,3 +13,12 @@ def verificar(phase):
  elif phase=='seleccion':assert report['status']=='registered' and report['winner_changed_using_test'] is False
  else:assert report['status']=='complete'
  result={'status':'verified_existing','phase':phase,'root':str(ROOT),'protocol_id':plan['id'],'new_model_fits':0,'new_api_requests':0};print(json.dumps(result,ensure_ascii=False));return result
+
+def entrada(phase,function):
+ import argparse
+ parser=argparse.ArgumentParser(description='Reutiliza evidencia terminada; --ejecutar activa la fase original deliberadamente')
+ group=parser.add_mutually_exclusive_group();group.add_argument('--verificar',action='store_true');group.add_argument('--ejecutar',action='store_true')
+ args=parser.parse_args()
+ if args.ejecutar:return function()
+ if args.verificar or (ROOT/REPORTS[phase]).is_file():return verificar(phase)
+ return function()
