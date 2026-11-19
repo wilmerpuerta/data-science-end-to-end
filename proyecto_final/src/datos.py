@@ -471,7 +471,7 @@ def exportar_predicciones(repo, destino, plan_id=PLAN_CONTROL):
     destino.parent.mkdir(parents=True, exist_ok=True)
     temporal = destino.with_suffix(destino.suffix+'.tmp')
     with temporal.open('w', newline='') as output:
-        writer = csv.writer(output)
+        writer = csv.writer(output, lineterminator='\n')
         writer.writerow([c.lower() for c in columnas])
         for row in rows:
             writer.writerow([json.dumps(json.loads(value), separators=(',', ':'), ensure_ascii=False) if TABLAS_OPERACION['PREDICCIONES'][col]=='VARIANT' else value for col, value in zip(columnas, row)])
