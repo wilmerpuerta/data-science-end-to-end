@@ -1,0 +1,60 @@
+{
+  "events": [
+    {
+      "status": "ok",
+      "recorded_at_utc": "2026-11-18T10:46:04.467391+00:00",
+      "method": "explicit technical recovery, not a new model call and not an automatic retry",
+      "recovered": [
+        {
+          "request_hash": "3226f1d36a7cbcfff5a747c37384908ccc1aea716e16106030cc4b6452c991cb",
+          "rows": 32,
+          "original_response_sha256": "f9d0d2035e36ee66fcb02151af45d61f58e5cb8d11d2649c7b570f2db5353d00",
+          "original_response_preserved": true,
+          "probabilities_changed": false,
+          "new_api_requests": 0,
+          "prefix_chars": 42,
+          "suffix_chars": 0,
+          "json_sha256": "ed53ca21c98630ef664fa6476a00d52bc529503ada276e7d69fc614b075f6592"
+        }
+      ],
+      "rejected": [],
+      "new_api_requests": 0,
+      "scope": "Only complete unique objects matching every requested key, class, numeric range and probability sum; no truncation repair, no filled or guessed predictions."
+    },
+    {
+      "status": "requires_inspection",
+      "recorded_at_utc": "2026-11-18T11:01:28.325886+00:00",
+      "method": "explicit technical recovery, not a new model call and not an automatic retry",
+      "recovered": [],
+      "rejected": [
+        {
+          "request_hash": "5922bbeee306bf5f675a0fe7160d384505f98e78c962b7e0a91bc4650ea67d55",
+          "reason": "Texto u objeto adicional después del JSON"
+        }
+      ],
+      "new_api_requests": 0,
+      "scope": "Only complete unique objects matching every requested key, class, numeric range and probability sum; no truncation repair, no filled or guessed predictions."
+    },
+    {
+      "status": "ok",
+      "recorded_at_utc": "2026-11-18T11:07:55.868372+00:00",
+      "method": "explicit technical recovery, not a new model call and not an automatic retry",
+      "recovered": [
+        {
+          "request_hash": "5922bbeee306bf5f675a0fe7160d384505f98e78c962b7e0a91bc4650ea67d55",
+          "rows": 32,
+          "original_response_sha256": "640e0bf3a205fc408b12174c597c3b03bbc18591e10f27c115c3cb795aef9711",
+          "original_response_preserved": true,
+          "probabilities_changed": false,
+          "new_api_requests": 0,
+          "prefix_chars": 0,
+          "suffix_chars": 0,
+          "json_sha256": "dbf32c39c284072de02c75f9370173f6257c3164f81cad563031057871ecffc9"
+        }
+      ],
+      "rejected": [],
+      "new_api_requests": 0,
+      "scope": "Only complete unique objects matching every requested key, class, numeric range and probability sum; no truncation repair, no filled or guessed predictions."
+    }
+  ]
+}

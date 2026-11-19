@@ -1,0 +1,47 @@
+{
+  "status": "reconciled",
+  "before_usd": "0.0072047",
+  "after_usd": "0.008556375",
+  "corrections": [
+    {
+      "request_hash": "911805e65114b96cbd37608aa6b689c0629c2b4d15b515a665eae57675e70b2c",
+      "old": "0.0000307",
+      "reconciled": "0.0000307"
+    },
+    {
+      "request_hash": "3a64e6a46c30c4c63e3f24863cc63aba82b7793eb548c4c6b230241dcef542d1",
+      "old": "0.0011016",
+      "reconciled": "0.00132705"
+    },
+    {
+      "request_hash": "6e653280b523c205ea99e99c6e8181bdc786ff31db15b281e9caa67efe2d6c80",
+      "old": "0.0011009",
+      "reconciled": "0.001326175"
+    },
+    {
+      "request_hash": "5e8ba8ddab78cd874bd22459984cd88c85b009eb19cd5274436bd2b404012e39",
+      "old": "0.0011004",
+      "reconciled": "0.00132555"
+    },
+    {
+      "request_hash": "de3e82b2ffb70fdf122e21f353dcac4c9a9c8a965c545ca76704889c5151c632",
+      "old": "0.0011017",
+      "reconciled": "0.001327175"
+    },
+    {
+      "request_hash": "170287a50d824342877247ca236192145d359c24e33a7dff72d008b320c7b782",
+      "old": "0.0011006",
+      "reconciled": "0.0013258"
+    },
+    {
+      "request_hash": "beb4b0643b83cbcb77a0a29ded660504c7f51ccb39cf4ee94a7e118ffa9bff24",
+      "old": "0.0016688",
+      "reconciled": "0.001893925"
+    }
+  ],
+  "old_experiment_id": "4",
+  "old_experiment_name": "oulad-apoyo-academico-v2-intento1",
+  "all_old_runs_preserved": true,
+  "new_validation_metrics_for_llm": 0,
+  "test_accessed": false
+}

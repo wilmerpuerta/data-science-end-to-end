@@ -1,0 +1,559 @@
+{
+  "id": "5ce82c30a0d72a9cb51fcf061617d09e1fb7755c633e8181845146436ef8d7a4",
+  "content": {
+    "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+    "families": [
+      "lineal",
+      "boosting",
+      "bayes"
+    ],
+    "draws": {
+      "lineal": [
+        {
+          "C": 0.0745934328572655,
+          "class_weight": null,
+          "max_iter": 1000,
+          "tol": 0.000291063591313307
+        },
+        {
+          "C": 0.9846738873614566,
+          "class_weight": null,
+          "max_iter": 600,
+          "tol": 2.0511104188433963e-05
+        },
+        {
+          "C": 0.0019517224641449498,
+          "class_weight": "balanced",
+          "max_iter": 300,
+          "tol": 0.00015930522616241006
+        },
+        {
+          "C": 3.4702669886504163,
+          "class_weight": "balanced",
+          "max_iter": 300,
+          "tol": 0.0008706020878304854
+        },
+        {
+          "C": 14.528246637516036,
+          "class_weight": "balanced",
+          "max_iter": 600,
+          "tol": 2.3102018878452926e-05
+        },
+        {
+          "C": 0.008260808399079604,
+          "class_weight": "balanced",
+          "max_iter": 600,
+          "tol": 0.00011207606211860574
+        },
+        {
+          "C": 0.14445251022763064,
+          "class_weight": null,
+          "max_iter": 1000,
+          "tol": 0.00016738085788752134
+        },
+        {
+          "C": 0.004982752357076452,
+          "class_weight": "balanced",
+          "max_iter": 1000,
+          "tol": 8.168455894760161e-05
+        },
+        {
+          "C": 8.43101393208247,
+          "class_weight": null,
+          "max_iter": 1000,
+          "tol": 0.0009256818992066875
+        },
+        {
+          "C": 0.21568228019263963,
+          "class_weight": null,
+          "max_iter": 1000,
+          "tol": 0.00022941144328643973
+        },
+        {
+          "C": 0.17885301261862016,
+          "class_weight": "balanced",
+          "max_iter": 300,
+          "tol": 0.0008536189862866829
+        },
+        {
+          "C": 11.015056790269638,
+          "class_weight": null,
+          "max_iter": 600,
+          "tol": 1.5679933916722995e-05
+        },
+        {
+          "C": 2.6373339933815254,
+          "class_weight": null,
+          "max_iter": 1000,
+          "tol": 0.00016595613641357258
+        },
+        {
+          "C": 14.654619905022198,
+          "class_weight": null,
+          "max_iter": 600,
+          "tol": 6.055098539300343e-05
+        },
+        {
+          "C": 0.008150428444364774,
+          "class_weight": "balanced",
+          "max_iter": 600,
+          "tol": 7.084541505250227e-05
+        },
+        {
+          "C": 0.010957420145894578,
+          "class_weight": "balanced",
+          "max_iter": 600,
+          "tol": 1.1551186209730991e-05
+        },
+        {
+          "C": 16.271360716645862,
+          "class_weight": "balanced",
+          "max_iter": 600,
+          "tol": 6.170217483403153e-05
+        },
+        {
+          "C": 42.982762978218666,
+          "class_weight": null,
+          "max_iter": 1000,
+          "tol": 1.5030900645056805e-05
+        },
+        {
+          "C": 0.009548041810464166,
+          "class_weight": null,
+          "max_iter": 600,
+          "tol": 4.473636174621264e-05
+        },
+        {
+          "C": 0.08777815504719653,
+          "class_weight": "balanced",
+          "max_iter": 1000,
+          "tol": 0.00045443839603360173
+        },
+        {
+          "C": 0.06078083099681954,
+          "class_weight": "balanced",
+          "max_iter": 300,
+          "tol": 1.913588048769229e-05
+        },
+        {
+          "C": 10.25616274847308,
+          "class_weight": null,
+          "max_iter": 300,
+          "tol": 0.0009413993046829941
+        },
+        {
+          "C": 7.264803074826735,
+          "class_weight": "balanced",
+          "max_iter": 1000,
+          "tol": 0.0004274869455295214
+        },
+        {
+          "C": 3.4220529032706923,
+          "class_weight": null,
+          "max_iter": 1000,
+          "tol": 0.000348771262454593
+        },
+        {
+          "C": 0.002345434227726052,
+          "class_weight": null,
+          "max_iter": 600,
+          "tol": 1.70505392602693e-05
+        },
+        {
+          "C": 20.67840939783948,
+          "class_weight": "balanced",
+          "max_iter": 600,
+          "tol": 1.5517445651473878e-05
+        },
+        {
+          "C": 0.07146464833933036,
+          "class_weight": "balanced",
+          "max_iter": 300,
+          "tol": 0.0002878805718308924
+        },
+        {
+          "C": 1.5409457762881555,
+          "class_weight": null,
+          "max_iter": 1000,
+          "tol": 8.798929749689021e-05
+        },
+        {
+          "C": 0.00396251783257234,
+          "class_weight": "balanced",
+          "max_iter": 1000,
+          "tol": 0.0003323304206226791
+        },
+        {
+          "C": 0.6403036652671171,
+          "class_weight": null,
+          "max_iter": 600,
+          "tol": 9.718319944817387e-05
+        }
+      ],
+      "boosting": [
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.014544826070394656,
+          "learning_rate": 0.021518143418284147,
+          "max_depth": 8,
+          "max_iter": 60,
+          "max_leaf_nodes": 7,
+          "min_samples_leaf": 80
+        },
+        {
+          "early_stopping": true,
+          "l2_regularization": 0.11122230802829748,
+          "learning_rate": 0.0495232966283625,
+          "max_depth": 5,
+          "max_iter": 100,
+          "max_leaf_nodes": 63,
+          "min_samples_leaf": 80
+        },
+        {
+          "early_stopping": true,
+          "l2_regularization": 0.001097981124910401,
+          "learning_rate": 0.08561522610715987,
+          "max_depth": null,
+          "max_iter": 100,
+          "max_leaf_nodes": 15,
+          "min_samples_leaf": 20
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.001228837190541927,
+          "learning_rate": 0.1813435297322284,
+          "max_depth": 3,
+          "max_iter": 60,
+          "max_leaf_nodes": 31,
+          "min_samples_leaf": 10
+        },
+        {
+          "early_stopping": true,
+          "l2_regularization": 0.0011725302629539483,
+          "learning_rate": 0.08666864554402191,
+          "max_depth": 3,
+          "max_iter": 60,
+          "max_leaf_nodes": 31,
+          "min_samples_leaf": 40
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.0029690795279269256,
+          "learning_rate": 0.14302557427398904,
+          "max_depth": null,
+          "max_iter": 160,
+          "max_leaf_nodes": 31,
+          "min_samples_leaf": 10
+        },
+        {
+          "early_stopping": true,
+          "l2_regularization": 0.006441132481603203,
+          "learning_rate": 0.16190911492626434,
+          "max_depth": 8,
+          "max_iter": 100,
+          "max_leaf_nodes": 31,
+          "min_samples_leaf": 20
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.01887758713748266,
+          "learning_rate": 0.12462492555478916,
+          "max_depth": 5,
+          "max_iter": 160,
+          "max_leaf_nodes": 63,
+          "min_samples_leaf": 10
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.0021741133987864853,
+          "learning_rate": 0.06494747634578137,
+          "max_depth": 3,
+          "max_iter": 160,
+          "max_leaf_nodes": 31,
+          "min_samples_leaf": 20
+        },
+        {
+          "early_stopping": true,
+          "l2_regularization": 0.0014641030643206747,
+          "learning_rate": 0.12754684527416793,
+          "max_depth": 8,
+          "max_iter": 60,
+          "max_leaf_nodes": 7,
+          "min_samples_leaf": 20
+        },
+        {
+          "early_stopping": true,
+          "l2_regularization": 0.0002508290887729708,
+          "learning_rate": 0.031057687317698156,
+          "max_depth": 3,
+          "max_iter": 160,
+          "max_leaf_nodes": 15,
+          "min_samples_leaf": 20
+        },
+        {
+          "early_stopping": true,
+          "l2_regularization": 0.00035672394152766777,
+          "learning_rate": 0.02255272248049354,
+          "max_depth": null,
+          "max_iter": 160,
+          "max_leaf_nodes": 31,
+          "min_samples_leaf": 80
+        },
+        {
+          "early_stopping": true,
+          "l2_regularization": 0.0006624806955694138,
+          "learning_rate": 0.02712615821048341,
+          "max_depth": 3,
+          "max_iter": 160,
+          "max_leaf_nodes": 31,
+          "min_samples_leaf": 20
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.0019229003498912407,
+          "learning_rate": 0.07087759096083104,
+          "max_depth": 3,
+          "max_iter": 60,
+          "max_leaf_nodes": 7,
+          "min_samples_leaf": 40
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.19560005180929727,
+          "learning_rate": 0.1509340675193341,
+          "max_depth": 5,
+          "max_iter": 160,
+          "max_leaf_nodes": 7,
+          "min_samples_leaf": 40
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.2387981007415031,
+          "learning_rate": 0.021812743276338767,
+          "max_depth": 8,
+          "max_iter": 160,
+          "max_leaf_nodes": 7,
+          "min_samples_leaf": 80
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.25355199905885606,
+          "learning_rate": 0.08579496880506642,
+          "max_depth": 5,
+          "max_iter": 100,
+          "max_leaf_nodes": 7,
+          "min_samples_leaf": 40
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.001761439780656174,
+          "learning_rate": 0.03257170321576937,
+          "max_depth": 3,
+          "max_iter": 60,
+          "max_leaf_nodes": 63,
+          "min_samples_leaf": 20
+        },
+        {
+          "early_stopping": true,
+          "l2_regularization": 0.0003659311583556352,
+          "learning_rate": 0.14266835536894382,
+          "max_depth": null,
+          "max_iter": 60,
+          "max_leaf_nodes": 31,
+          "min_samples_leaf": 10
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.66624762713108,
+          "learning_rate": 0.04451525982087449,
+          "max_depth": 5,
+          "max_iter": 60,
+          "max_leaf_nodes": 7,
+          "min_samples_leaf": 20
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.0005389202368322367,
+          "learning_rate": 0.030106445639482338,
+          "max_depth": 8,
+          "max_iter": 160,
+          "max_leaf_nodes": 63,
+          "min_samples_leaf": 80
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.00031229372077883267,
+          "learning_rate": 0.044239029282848126,
+          "max_depth": 3,
+          "max_iter": 160,
+          "max_leaf_nodes": 63,
+          "min_samples_leaf": 40
+        },
+        {
+          "early_stopping": true,
+          "l2_regularization": 1.321655287814034,
+          "learning_rate": 0.021813997843130716,
+          "max_depth": 8,
+          "max_iter": 60,
+          "max_leaf_nodes": 31,
+          "min_samples_leaf": 20
+        },
+        {
+          "early_stopping": true,
+          "l2_regularization": 0.0011507294489147874,
+          "learning_rate": 0.04112020005384153,
+          "max_depth": 8,
+          "max_iter": 60,
+          "max_leaf_nodes": 31,
+          "min_samples_leaf": 10
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.027328864077059548,
+          "learning_rate": 0.1410208495554848,
+          "max_depth": 3,
+          "max_iter": 160,
+          "max_leaf_nodes": 7,
+          "min_samples_leaf": 40
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.9151154538466267,
+          "learning_rate": 0.023183000427395333,
+          "max_depth": null,
+          "max_iter": 160,
+          "max_leaf_nodes": 15,
+          "min_samples_leaf": 10
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.5264314255845272,
+          "learning_rate": 0.06518783473176208,
+          "max_depth": null,
+          "max_iter": 60,
+          "max_leaf_nodes": 31,
+          "min_samples_leaf": 80
+        },
+        {
+          "early_stopping": false,
+          "l2_regularization": 0.0057365373968895185,
+          "learning_rate": 0.06523606488629348,
+          "max_depth": 5,
+          "max_iter": 60,
+          "max_leaf_nodes": 63,
+          "min_samples_leaf": 40
+        },
+        {
+          "early_stopping": true,
+          "l2_regularization": 1.0398479534854992,
+          "learning_rate": 0.09502776172487228,
+          "max_depth": 8,
+          "max_iter": 60,
+          "max_leaf_nodes": 15,
+          "min_samples_leaf": 80
+        },
+        {
+          "early_stopping": true,
+          "l2_regularization": 0.4377723086987933,
+          "learning_rate": 0.04615726326027965,
+          "max_depth": 3,
+          "max_iter": 100,
+          "max_leaf_nodes": 15,
+          "min_samples_leaf": 80
+        }
+      ],
+      "bayes": [
+        {
+          "var_smoothing": 0.0007963493341668714
+        },
+        {
+          "var_smoothing": 8.828817540003107e-08
+        },
+        {
+          "var_smoothing": 3.412131166244928e-10
+        },
+        {
+          "var_smoothing": 4.961421161938752e-12
+        },
+        {
+          "var_smoothing": 1.0005192842424796e-08
+        },
+        {
+          "var_smoothing": 1.799996778347655e-08
+        },
+        {
+          "var_smoothing": 2.7333673857475874e-12
+        },
+        {
+          "var_smoothing": 2.950665874052077e-11
+        },
+        {
+          "var_smoothing": 1.1054940347884762e-11
+        },
+        {
+          "var_smoothing": 4.4312386928134127e-07
+        },
+        {
+          "var_smoothing": 5.077365612731257e-05
+        },
+        {
+          "var_smoothing": 7.09449994682225e-07
+        },
+        {
+          "var_smoothing": 0.0008250782956906394
+        },
+        {
+          "var_smoothing": 1.7106325660929e-08
+        },
+        {
+          "var_smoothing": 3.6698672271128263e-07
+        },
+        {
+          "var_smoothing": 3.4994908215124795e-10
+        },
+        {
+          "var_smoothing": 0.0006081767904485957
+        },
+        {
+          "var_smoothing": 1.1418577192604718e-06
+        },
+        {
+          "var_smoothing": 9.220999510567922e-09
+        },
+        {
+          "var_smoothing": 4.0474925893757443e-10
+        },
+        {
+          "var_smoothing": 3.8663143060275185e-08
+        },
+        {
+          "var_smoothing": 1.0283668350851e-11
+        },
+        {
+          "var_smoothing": 1.1030446792974339e-10
+        },
+        {
+          "var_smoothing": 2.027546120886287e-08
+        },
+        {
+          "var_smoothing": 1.53046503099978e-10
+        },
+        {
+          "var_smoothing": 3.103435033895917e-09
+        },
+        {
+          "var_smoothing": 2.343477823353129e-05
+        },
+        {
+          "var_smoothing": 4.686699046410332e-12
+        },
+        {
+          "var_smoothing": 0.00020339761269726496
+        },
+        {
+          "var_smoothing": 1.0569750554045815e-10
+        }
+      ]
+    }
+  }
+}

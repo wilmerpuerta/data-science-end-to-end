@@ -1,0 +1,10 @@
+.local/
+.venv/
+.env
+.secrets/
+__pycache__/
+.ipynb_checkpoints/
+tmp/
+output/*.zip
+output/*.sha256
+.DS_Store

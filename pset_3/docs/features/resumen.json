@@ -1,0 +1,28 @@
+{
+  "status": "ok",
+  "snapshot_id": "0a75615bd8ff6b166d366cf78c8303845852cbeb23387ac24a64fe4962f01027",
+  "split_id": "231cd638f375de2a8c70b4482fdf6a98dbe022371a409f1fc92bc97189cf7736",
+  "snapshot_at_utc": "2026-11-16T19:38:45.158000-08:00",
+  "development_rows": 16331,
+  "new_features": 2,
+  "preparation_fits": 15,
+  "cv_folds": 5,
+  "variants": [
+    "estatica",
+    "longitudinal_original",
+    "longitudinal_derivadas"
+  ],
+  "zero_current_active_days": 2602,
+  "derived_missing": 2602,
+  "heldout_analyzed": false,
+  "classifier_fitted": false,
+  "ablation_performance_pending": true,
+  "code_sha256": {
+    "src/pipeline.py": "2e45d564d37ff34de666adaa09c5d440cd61f7c7c16378ea354cf9cbbd3e10be",
+    "src/features_evidencia.py": "c41363abd461cd36f49034ccf967ddcfc83a6f145611fc32333c218f32296afd",
+    "requirements.lock.txt": "388fcf8bf234c3bc3b479a7e88c75774f6a62e58213085079e24c3c3f50dff6a"
+  },
+  "run_id": "d5c53f801c314ff9b15b63a6c2a53d12",
+  "experiment_id": "6",
+  "notebook_source_sha256": "7945e51940bf18a1197989a90f2ef758217c09ae14bf8bfa027c2ee213ae24c0"
+}

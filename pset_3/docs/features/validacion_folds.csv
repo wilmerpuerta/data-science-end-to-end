@@ -1,0 +1,16 @@
+variante,fold,filas_fit,filas_validacion,columnas_salida,salida_finita,medianas_solo_fit,escalado_solo_fit,transform_sin_reajuste,etiquetas_ids_futuro_ignorados,alumnos_compartidos
+estatica,0,13055,3276,41,True,True,True,True,True,0
+estatica,1,13049,3282,41,True,True,True,True,True,0
+estatica,2,13066,3265,41,True,True,True,True,True,0
+estatica,3,13054,3277,41,True,True,True,True,True,0
+estatica,4,13100,3231,41,True,True,True,True,True,0
+longitudinal_original,0,13055,3276,51,True,True,True,True,True,0
+longitudinal_original,1,13049,3282,51,True,True,True,True,True,0
+longitudinal_original,2,13066,3265,51,True,True,True,True,True,0
+longitudinal_original,3,13054,3277,51,True,True,True,True,True,0
+longitudinal_original,4,13100,3231,51,True,True,True,True,True,0
+longitudinal_derivadas,0,13055,3276,54,True,True,True,True,True,0
+longitudinal_derivadas,1,13049,3282,54,True,True,True,True,True,0
+longitudinal_derivadas,2,13066,3265,54,True,True,True,True,True,0
+longitudinal_derivadas,3,13054,3277,54,True,True,True,True,True,0
+longitudinal_derivadas,4,13100,3231,54,True,True,True,True,True,0

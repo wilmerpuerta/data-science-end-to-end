@@ -1,0 +1,12 @@
+{
+  "status": "ok",
+  "checked_at_utc": "2026-11-18T15:28:07.620683+00:00",
+  "notebook_sha256": "21ea0d1ed836bcbbe5df5ca6bfc6080eb1fb970c129582b6b3b6a7e66b4fe80e",
+  "fresh_kernel": true,
+  "code_cells": 4,
+  "elapsed_seconds": 14.690237269998761,
+  "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+  "new_model_fits": 0,
+  "new_api_requests": 0,
+  "scope": "Fresh kernel replay of frozen tuning results; includes default vs adjusted figure from the recorded decision run_ids; no new search or inference"
+}
