@@ -1,0 +1,21 @@
+# Configuración y recursos privados
+.env
+.env.*
+!.env.example
+.venv/
+.local/
+.secrets/
+__pycache__/
+*.pyc
+*.log
+*.tmp
+*.pem
+*.p8
+*.key
+*.pub
+*.local.sql
+.DS_Store
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+docs/evidencia/**/.retry-probes/

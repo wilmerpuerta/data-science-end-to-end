@@ -1,0 +1,304 @@
+{
+  "version": 2,
+  "models": [
+    {
+      "name": "stg_student_info",
+      "description": "Staging Bronze: tipado sin excluir, imputar ni deduplicar filas; conserva linaje Raw.",
+      "data_tests": [
+        {
+          "unique_key": {
+            "columns": [
+              "source_sha256",
+              "source_row_number"
+            ]
+          }
+        }
+      ],
+      "columns": [
+        {
+          "name": "code_module",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "code_presentation",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "id_student",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "enrollment_key",
+          "data_tests": [
+            "not_null",
+            "unique"
+          ]
+        },
+        {
+          "name": "final_result",
+          "description": "Resultado retrospectivo; prohibido como predictor.",
+          "data_tests": [
+            "not_null",
+            {
+              "accepted_values": {
+                "values": [
+                  "Fail",
+                  "Withdrawn",
+                  "Pass",
+                  "Distinction"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "edition_key",
+          "data_tests": [
+            {
+              "relationships": {
+                "to": "ref('stg_courses')",
+                "field": "edition_key"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stg_student_registration",
+      "description": "Staging Bronze: tipado sin excluir, imputar ni deduplicar filas; conserva linaje Raw.",
+      "data_tests": [
+        {
+          "unique_key": {
+            "columns": [
+              "source_sha256",
+              "source_row_number"
+            ]
+          }
+        }
+      ],
+      "columns": [
+        {
+          "name": "code_module",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "code_presentation",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "id_student",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "enrollment_key",
+          "data_tests": [
+            "not_null",
+            "unique",
+            {
+              "relationships": {
+                "to": "ref('stg_student_info')",
+                "field": "enrollment_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "edition_key",
+          "data_tests": [
+            {
+              "relationships": {
+                "to": "ref('stg_courses')",
+                "field": "edition_key"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stg_courses",
+      "description": "Staging Bronze: tipado sin excluir, imputar ni deduplicar filas; conserva linaje Raw.",
+      "data_tests": [
+        {
+          "unique_key": {
+            "columns": [
+              "source_sha256",
+              "source_row_number"
+            ]
+          }
+        }
+      ],
+      "columns": [
+        {
+          "name": "code_module",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "code_presentation",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "edition_key",
+          "data_tests": [
+            "not_null",
+            "unique"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stg_vle",
+      "description": "Staging Bronze: tipado sin excluir, imputar ni deduplicar filas; conserva linaje Raw.",
+      "data_tests": [
+        {
+          "unique_key": {
+            "columns": [
+              "source_sha256",
+              "source_row_number"
+            ]
+          }
+        }
+      ],
+      "columns": [
+        {
+          "name": "code_module",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "code_presentation",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "id_site",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "resource_key",
+          "data_tests": [
+            "not_null",
+            "unique"
+          ]
+        },
+        {
+          "name": "edition_key",
+          "data_tests": [
+            {
+              "relationships": {
+                "to": "ref('stg_courses')",
+                "field": "edition_key"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stg_student_vle",
+      "description": "Staging Bronze: tipado sin excluir, imputar ni deduplicar filas; conserva linaje Raw.",
+      "data_tests": [
+        {
+          "unique_key": {
+            "columns": [
+              "source_sha256",
+              "source_row_number"
+            ]
+          }
+        }
+      ],
+      "columns": [
+        {
+          "name": "code_module",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "code_presentation",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "id_student",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "id_site",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "enrollment_key",
+          "data_tests": [
+            {
+              "relationships": {
+                "to": "ref('stg_student_info')",
+                "field": "enrollment_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "resource_key",
+          "data_tests": [
+            {
+              "relationships": {
+                "to": "ref('stg_vle')",
+                "field": "resource_key"
+              }
+            }
+          ]
+        },
+        {
+          "name": "date",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "sum_click",
+          "data_tests": [
+            "not_null"
+          ]
+        },
+        {
+          "name": "edition_key",
+          "data_tests": [
+            {
+              "relationships": {
+                "to": "ref('stg_courses')",
+                "field": "edition_key"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

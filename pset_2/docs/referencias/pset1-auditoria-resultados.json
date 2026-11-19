@@ -1,0 +1,211 @@
+{
+  "manifest": {
+    "dataset": "OULAD",
+    "source": "https://research.stem.open.ac.uk/ouanalyse/dataset/",
+    "license": "CC BY 4.0",
+    "release": "histórico 2013–2014, publicación 2017; versión de descarga no aportada",
+    "audited_at": "2026-11-12T15:25:33.765580+00:00",
+    "files": {
+      "studentInfo.csv": {
+        "sha256": "7e6f3e474a5eee00639d2a414a6c7e928745823c2d2c2563ca1780145f99b0d6",
+        "bytes": 3461652,
+        "local_mtime_utc": "2026-11-12T14:53:20.025944+00:00",
+        "original_download_date": "no proporcionada",
+        "rows": 32593
+      },
+      "studentRegistration.csv": {
+        "sha256": "0d32676285372aaf2e7a80304e5b274b4fba24313e2ca4c04317225e1ec90170",
+        "bytes": 1109984,
+        "local_mtime_utc": "2026-11-12T14:53:20.008804+00:00",
+        "original_download_date": "no proporcionada",
+        "rows": 32593
+      },
+      "courses.csv": {
+        "sha256": "4f16eee7454b15e109b0a21a0e43be820e6846ed6f9301bb7feb5ab5ad737a75",
+        "bytes": 526,
+        "local_mtime_utc": "2026-11-12T14:53:20.069978+00:00",
+        "original_download_date": "no proporcionada",
+        "rows": 22
+      },
+      "vle.csv": {
+        "sha256": "d1b28303dea802ad87b4484e1196e878e06824850b9a4fe8aa34693439fe87e9",
+        "bytes": 260126,
+        "local_mtime_utc": "2026-11-12T14:53:19.978167+00:00",
+        "original_download_date": "no proporcionada",
+        "rows": 6364
+      },
+      "studentVle.csv": {
+        "sha256": "52668253d876c5becbcb72185977152700cecab2942aca807fecc3dd54b937f0",
+        "bytes": 453836331,
+        "local_mtime_utc": "2026-11-12T14:53:19.953528+00:00",
+        "original_download_date": "no proporcionada",
+        "rows": 10655280
+      }
+    },
+    "publication_doi": "https://doi.org/10.1038/sdata.2017.171",
+    "published_archive_reference": "https://doi.org/10.6084/m9.figshare.5081998.v1"
+  },
+  "checks": {
+    "studentInfo": {
+      "rows": 32593,
+      "duplicate_keys": 0,
+      "missing_key_values": 0
+    },
+    "studentRegistration": {
+      "rows": 32593,
+      "duplicate_keys": 0,
+      "missing_key_values": 0
+    },
+    "courses": {
+      "rows": 22,
+      "duplicate_keys": 0,
+      "missing_key_values": 0
+    },
+    "vle": {
+      "rows": 6364,
+      "duplicate_keys": 0,
+      "missing_key_values": 0
+    },
+    "info_registration": {
+      "rows_after": 32593,
+      "unmatched": 0,
+      "registration_without_info": 0
+    },
+    "studentVle": {
+      "rows": 10655280,
+      "orphan_enrollment_rows": 0,
+      "orphan_resource_rows": 0,
+      "negative_click_rows": 0,
+      "date_min": -25,
+      "date_max": 269,
+      "duplicate_keys_within_chunks": 2195910,
+      "global_daily_duplicate_check": "pendiente: conteo por chunks no demuestra unicidad global"
+    },
+    "courses_relation": {
+      "info_without_course": 0
+    }
+  },
+  "missing_values": {
+    "studentInfo": {
+      "code_module": 0,
+      "code_presentation": 0,
+      "id_student": 0,
+      "gender": 0,
+      "region": 0,
+      "highest_education": 0,
+      "imd_band": 1111,
+      "age_band": 0,
+      "num_of_prev_attempts": 0,
+      "studied_credits": 0,
+      "disability": 0,
+      "final_result": 0
+    },
+    "studentRegistration": {
+      "code_module": 0,
+      "code_presentation": 0,
+      "id_student": 0,
+      "date_registration": 45,
+      "date_unregistration": 22521
+    },
+    "courses": {
+      "code_module": 0,
+      "code_presentation": 0,
+      "module_presentation_length": 0
+    },
+    "vle": {
+      "id_site": 0,
+      "code_module": 0,
+      "code_presentation": 0,
+      "activity_type": 0,
+      "week_from": 5243,
+      "week_to": 5243
+    },
+    "studentVle": {
+      "code_module": 0,
+      "code_presentation": 0,
+      "id_student": 0,
+      "id_site": 0,
+      "date": 0,
+      "sum_click": 0
+    }
+  },
+  "populations": {
+    "original": {
+      "N": 32593,
+      "Fail": 7052,
+      "Withdrawn": 10156,
+      "Approved": 15385
+    },
+    "initial": {
+      "N": 32314,
+      "Fail": 6980,
+      "Withdrawn": 10068,
+      "Approved": 15266
+    },
+    "unique_students": 28785,
+    "late_registration": 234,
+    "missing_registration_date": 45,
+    "cuts": {
+      "14": {
+        "N": 27881,
+        "Fail": 6972,
+        "Withdrawn": 5643,
+        "Approved": 15266,
+        "K_sum_by_edition": 2779,
+        "without_recorded_activity": 1582,
+        "withdrawn_by_cut": 4433
+      },
+      "28": {
+        "N": 27307,
+        "Fail": 6972,
+        "Withdrawn": 5069,
+        "Approved": 15266,
+        "K_sum_by_edition": 2719,
+        "without_recorded_activity": 881,
+        "withdrawn_by_cut": 5007
+      },
+      "42": {
+        "N": 26795,
+        "Fail": 6972,
+        "Withdrawn": 4557,
+        "Approved": 15266,
+        "K_sum_by_edition": 2672,
+        "without_recorded_activity": 684,
+        "withdrawn_by_cut": 5519
+      },
+      "56": {
+        "N": 26294,
+        "Fail": 6972,
+        "Withdrawn": 4056,
+        "Approved": 15266,
+        "K_sum_by_edition": 2619,
+        "without_recorded_activity": 576,
+        "withdrawn_by_cut": 6020
+      }
+    }
+  },
+  "activity_rows_by_edition": {
+    "AAA/2013J": 180982,
+    "AAA/2014J": 169316,
+    "BBB/2013B": 403266,
+    "BBB/2013J": 452638,
+    "BBB/2014B": 273236,
+    "BBB/2014J": 438424,
+    "CCC/2014B": 496181,
+    "CCC/2014J": 711646,
+    "DDD/2013B": 536837,
+    "DDD/2013J": 680806,
+    "DDD/2014B": 379942,
+    "DDD/2014J": 568901,
+    "EEE/2013J": 356262,
+    "EEE/2014B": 202224,
+    "EEE/2014J": 402947,
+    "FFF/2013B": 946765,
+    "FFF/2013J": 1172101,
+    "FFF/2014B": 685274,
+    "FFF/2014J": 1210359,
+    "GGG/2013J": 145995,
+    "GGG/2014B": 123319,
+    "GGG/2014J": 117859
+  }
+}

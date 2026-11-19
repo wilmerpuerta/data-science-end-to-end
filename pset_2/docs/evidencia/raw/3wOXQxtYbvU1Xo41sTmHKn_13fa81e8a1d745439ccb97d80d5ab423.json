@@ -1,0 +1,21 @@
+{
+  "checked_at_utc": "2026-11-12T23:10:05.247413+00:00",
+  "run_id": "3wOXQxtYbvU1Xo41sTmHKn",
+  "attempt_id": "13fa81e8a1d745439ccb97d80d5ab423",
+  "status": "ok",
+  "files": [
+    {
+      "file": "courses.csv",
+      "status": "LOADED",
+      "rows": 22,
+      "unique_source_rows": 22,
+      "other_checksums": 0
+    }
+  ],
+  "mode": "load",
+  "source_partition": "courses.csv",
+  "phase": "completed",
+  "active_file": "courses.csv",
+  "datasets_read_only": true,
+  "finished_at_utc": "2026-11-12T23:10:22.642176+00:00"
+}

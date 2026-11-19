@@ -1,0 +1,54 @@
+id: oulad_raw
+namespace: pset2.oulad
+description: Carga Raw de los cinco originales; un escritor, publicación transaccional por fichero.
+concurrency:
+  limit: 1
+  behavior: QUEUE
+inputs:
+  - id: source_file
+    type: SELECT
+    defaults: all
+    values:
+      - all
+      - studentInfo.csv
+      - studentRegistration.csv
+      - courses.csv
+      - vle.csv
+      - studentVle.csv
+  - id: check_connection
+    type: BOOLEAN
+    defaults: false
+  - id: force_reload
+    type: BOOLEAN
+    defaults: false
+  - id: retry_probe
+    type: BOOLEAN
+    defaults: false
+tasks:
+  - id: cargar_raw
+    type: io.kestra.plugin.scripts.shell.Commands
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - >-
+        env PYTHONPATH=/opt/oulad-deps python3 /workspace/ingestion/load_raw.py
+        --run-id '{{ execution.id }}'
+        --file '{{ inputs.source_file }}'
+        {% if inputs.check_connection %}--check-connection{% endif %}
+        {% if inputs.force_reload %}--force-reload{% endif %}
+        {% if inputs.retry_probe %}--retry-probe{% endif %}
+    retry:
+      type: exponential
+      interval: PT5S
+      maxInterval: PT30S
+      maxAttempt: 3
+triggers:
+  - id: revision_historico
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: '0 9 1,15 * *'
+    timezone: America/Guayaquil
+    disabled: true
+    inputs:
+      source_file: all
+      check_connection: false
+      force_reload: false

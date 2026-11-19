@@ -1,0 +1,50 @@
+{
+  "checked_at_utc": "2026-11-13T15:07:03.927419+00:00",
+  "execution_id": "6X7mzEdM0yvoBSbp8MnALv",
+  "state": "SUCCESS",
+  "flow": "pset2.oulad/oulad_pipeline",
+  "tasks": [
+    {
+      "task_id": "raw",
+      "state": "SUCCESS",
+      "attempts": 1,
+      "started_at": "2026-11-13T15:00:08.049518Z",
+      "finished_at": "2026-11-13T15:00:38.133511Z"
+    },
+    {
+      "task_id": "gate",
+      "state": "SUCCESS",
+      "attempts": 2,
+      "started_at": "2026-11-13T15:00:38.495051Z",
+      "finished_at": "2026-11-13T15:00:44.240537Z"
+    },
+    {
+      "task_id": "dbt",
+      "state": "SUCCESS",
+      "attempts": 1,
+      "started_at": "2026-11-13T15:00:44.282925Z",
+      "finished_at": "2026-11-13T15:02:44.753705Z"
+    },
+    {
+      "task_id": "spark",
+      "state": "SUCCESS",
+      "attempts": 1,
+      "started_at": "2026-11-13T15:02:44.929336Z",
+      "finished_at": "2026-11-13T15:07:02.038925Z"
+    },
+    {
+      "task_id": "verificar",
+      "state": "SUCCESS",
+      "attempts": 1,
+      "started_at": "2026-11-13T15:07:02.491326Z",
+      "finished_at": "2026-11-13T15:07:03.010447Z"
+    }
+  ],
+  "inputs": {
+    "force_reload": false,
+    "retry_probe": true,
+    "fail_after_raw": false,
+    "source_file": "all"
+  },
+  "raw_execution_id": "1tO0m3BdzY1gz3ZRkkR8sQ"
+}
