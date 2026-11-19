@@ -14,7 +14,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.utils import ImageReader
 V=Path(__file__).resolve().parents[1];W,H=A4;M=40;CW=W-2*M
-OUT=V/'output/pdf/PSet3_memo_Puerta_Wilmer.pdf';OUT.parent.mkdir(parents=True,exist_ok=True)
+OUT=V/'docs/PSet3_memo_Puerta_Wilmer.pdf';OUT.parent.mkdir(parents=True,exist_ok=True)
 for folder,a,b in [(Path('/System/Library/Fonts/Supplemental'),'Arial.ttf','Arial Bold.ttf'),(Path('/usr/share/fonts/truetype/dejavu'),'DejaVuSans.ttf','DejaVuSans-Bold.ttf')]:
  if (folder/a).exists():pdfmetrics.registerFont(TTFont('Memo',str(folder/a)));pdfmetrics.registerFont(TTFont('MemoBold',str(folder/b)));break
 else:raise RuntimeError('Instalar Arial o DejaVu')
@@ -198,7 +198,7 @@ section('8. Limitaciones y conclusión sobre prompting')
 para('<b>Prompting sí es factible y se ensayó.</b> Su costo operativo puede ser relevante a escala: la adopción de un LLM externo queda como una <b>decisión de negocio posterior</b>, para evaluar consumo, latencia, integración, mantenimiento y valor incremental mediante un análisis de <b>costo-beneficio con la Universidad</b>. El ensayo costó cerca de USD 1,12 y no prueba un gasto elevado en esta muestra; tampoco justifica su adopción, dado el menor desempeño del GPT probado.')
 para('Límites: 2014J es un benchmark ya observado; CV y decisiones reutilizan desarrollo. La maduración de etiquetas no tiene fecha de publicación conocida; el margen curso-terminado/corte sería -12, +2, +16 y +30 días en cortes 14/28/42/56, insuficiente para certificar un despliegue prospectivo temprano. Las probabilidades del proveedor no son deterministas ni se conoce su preentrenamiento sobre OULAD; la reproducción usa respuestas archivadas.')
 para('La evidencia termina en predicción y simulación. El siguiente paso es acordar con la Universidad el plazo mínimo de acción, el cupo por persona y los costos de atención. Una cohorte futura y un piloto con un diseño de evaluación adecuado permitirán estimar el efecto de las tutorías, su equidad y su costo-beneficio. Un eventual LLM externo deberá justificar valor incremental frente a los modelos tabulares, considerando precisión, latencia, integración y mantenimiento, además del consumo de API. Código, seis notebooks con salidas, CSV, contratos y verificación acompañan la entrega.')
-finish();assert page_no==6;c.save();shutil.copyfile(OUT,V/'docs'/OUT.name)
+finish();assert page_no==6;c.save()
 (V/'memo-pset3.md').write_text('\n\n'.join(MD)+'\n')
 meta={'pages':6,'pdf_sha256':hashlib.sha256(OUT.read_bytes()).hexdigest(),'source_sha256':hashlib.sha256((V/'memo-pset3.md').read_bytes()).hexdigest(),'native_vector_figures':FIGURES,'native_UI_screenshot':'docs/evidencia/mlflow-comparacion-detalle.png','minimum_cursor_y':MIN_Y,'body_font_pt':10.5,'table_font_pt':9.2,'font':'embedded Arial or DejaVu','source':'completed v2 reports only; no new training, test evaluation or API calls','prompting_summary_included':True}
 (V/'docs/memo-construccion.json').write_text(json.dumps(meta,ensure_ascii=False,indent=2)+'\n');print(json.dumps({'pages':6,'minimum_y':MIN_Y,'output':str(OUT)}))

@@ -16,7 +16,7 @@ def main():
  required=['docker-compose.yml','.env.example','requirements.txt','README.md','src/datos.py','src/pipeline.py','docs/corridas.csv','docs/PSet3_memo_Puerta_Wilmer.pdf']+[f'notebooks/{n}' for n in ['01_eda.ipynb','02_features.ipynb','03_baseline_candidatos.ipynb','04_tuning.ipynb','05_seleccion.ipynb']]
  assert set(required)<=set(files)
  manifest={'root':'pset_3','source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip(),'files':{k:{'bytes':len(v),'sha256':sha(v)} for k,v in files.items()},'private_runtime_included':False,'symlinks':0}
- out=ROOT/'output/PSet3_Puerta_Wilmer.zip';out.parent.mkdir(exist_ok=True)
+ out=ROOT.parent/'PSet3_entrega_Puerta_Wilmer.zip'
  with zipfile.ZipFile(out,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as z:
   for name,data in files.items():z.writestr('pset_3/'+name,data)
   z.writestr('pset_3/entrega-manifest.json',json.dumps(manifest,ensure_ascii=False,indent=2))

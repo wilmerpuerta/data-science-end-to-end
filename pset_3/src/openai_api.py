@@ -41,7 +41,7 @@ def credential_status():
 
 class ResponsesClient:
  def __init__(self):
-  if not (ROOT/'config/protocolo-v2.json').is_file():raise RuntimeError('Defina PSET3_V2_ROOT con la carpeta v2 antes de realizar llamadas nuevas')
+  if not (ROOT/'config/protocolo-v2.json').is_file():raise RuntimeError('Defina PSET3_V2_ROOT con la carpeta pset_3 antes de realizar llamadas nuevas')
   self.cache=ROOT/'.local/llm/requests';self.cache.mkdir(parents=True,exist_ok=True)
   self.book=LibroCostos(ROOT/'.local/llm/costos.json',10)
  def predict_batch(self,system,user,n):

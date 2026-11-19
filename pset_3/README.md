@@ -9,7 +9,7 @@ Esta es la carpeta de entrega **`pset_3/`**, con los archivos de la rúbrica dir
 - [Corridas exportadas](docs/corridas.csv), [auditoría](docs/auditoria-rubrica.md) y [gráfico de tuning](docs/tuning/default_vs_ajustado.svg).
 - Champion: `models:/oulad-apoyo-academico-v2-modelo@champion`, HGB versión 1. Challenger: logística versión 2.
 
-Se conserva el nombre del PDF acordado con el autor: primer apellido y nombre. El análisis, los modelos, las particiones, las métricas, el PDF y los run_ids históricos proceden de la experimentación definitiva del PSet 03. El empaquetado no constituye un experimento nuevo.
+Se conserva el nombre del PDF acordado con el autor: primer apellido y nombre. El análisis, los modelos, las particiones, las métricas, el PDF y los run_ids históricos proceden de la experimentación definitiva del PSet 03. El empaquetado no constituye un experimento nuevo. El generador también guarda el PDF directamente en `docs/`; la entrega no contiene `output/pdf/`.
 
 La carpeta incluye además `config/`, `prompts/`, `scripts/`, `tests/` y `mlflow/`: contienen dependencias reales del código y del servidor. El árbol de la rúbrica muestra los archivos mínimos, no todas estas dependencias.
 
