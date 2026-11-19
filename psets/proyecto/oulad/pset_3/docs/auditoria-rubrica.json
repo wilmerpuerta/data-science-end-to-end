@@ -1,6 +1,6 @@
 {
   "status": "verified_with_declared_limitations",
-  "checked_at_utc": "2026-11-19T02:58:36.774921+00:00",
+  "checked_at_utc": "2026-11-19T03:25:08.755088+00:00",
   "checks": [
     {
       "check": "CSV_vs_servidor",
@@ -26,7 +26,7 @@
       "evidence": {
         "unique_commits": 4,
         "missing": [],
-        "current_source_commit": "6c538eb0e4ca25ed6a97bf02d77943aad14f28c9"
+        "current_source_commit": "4fd4889f4a29ba7bc27ba5d3deca86544679b24d"
       }
     },
     {

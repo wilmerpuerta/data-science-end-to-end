@@ -7,6 +7,7 @@ Esta es la carpeta de entrega **`pset_3/`**, con los archivos de la rúbrica dir
 - [Documento técnico de seis páginas](docs/PSet3_memo_Puerta_Wilmer.pdf).
 - [Notebooks 01-05 con salidas guardadas](notebooks/); el análisis de anticipación está en `notebooks/anexos/06_anticipacion.ipynb`.
 - [Corridas exportadas](docs/corridas.csv), [auditoría](docs/auditoria-rubrica.md) y [gráfico de tuning](docs/tuning/default_vs_ajustado.svg).
+- [Validación de ejecutables y rutas de esta entrega](docs/validacion-ejecutables.md).
 - Champion: `models:/oulad-apoyo-academico-v2-modelo@champion`, HGB versión 1. Challenger: logística versión 2.
 
 Se conserva el nombre del PDF acordado con el autor: primer apellido y nombre. El análisis, los modelos, las particiones, las métricas, el PDF y los run_ids históricos proceden de la experimentación definitiva del PSet 03. El empaquetado no constituye un experimento nuevo. El generador también guarda el PDF directamente en `docs/`; la entrega no contiene `output/pdf/`.
@@ -55,7 +56,11 @@ Seleccionar el kernel preparado mediante `JUPYTER_PATH=.local/share/jupyter` y e
 
 Para ejecutar los seis de forma consecutiva en kernels nuevos: `.venv/bin/python scripts/ejecutar_notebooks_entrega.py`.
 
-Los notebooks de entrega recalculan EDA y preparación y verifican resultados, decisiones y reproducción desde las evidencias originales. Los run_ids que muestran son referencias históricas; no se registran nuevos entrenamientos ni nuevas corridas al releer la entrega. Los scripts de ejecución del estudio se conservan para una repetición deliberada y separada, sujeta al protocolo y los recursos privados.
+Los notebooks de entrega recalculan EDA y preparación y verifican resultados, decisiones y reproducción desde las evidencias originales. Los run_ids que muestran son referencias históricas; no se registran nuevos entrenamientos ni nuevas corridas al releer la entrega.
+
+En este estudio cerrado, `ejecutar_comparacion.py`, `ejecutar_tuning.py`, `ejecutar_ablacion.py`, `ejecutar_negocio.py`, `ejecutar_anticipacion.py` y `ejecutar_seleccion.py` comprueban por defecto la evidencia ya existente. `--verificar` exige esa evidencia. Para invocar deliberadamente la implementación científica original se usa `--ejecutar`, con sus insumos privados y recursos disponibles. Si falta el informe, la ejecución sin argumentos también intenta realizar la fase. `ejecutar_estudio.py` verifica el estudio completo cuando su estado es cerrado; `--reanudar` solicita continuar las fases originales. Repetir entrenamiento requiere conservar el protocolo y la separación de prueba; una ejecución nueva del LLM requiere credenciales, disponibilidad de API y saldo dentro del libro de costos histórico.
+
+Los auxiliares `ejecutar_preparacion.py`, `ejecutar_notebooks_finales.py` y `cerrar_notebooks_cuando_listo.py` utilizan el kernel `pset3-entrega` y reutilizan verificaciones vigentes cuando coinciden los hashes de los notebooks. El cierre exige el estado completo y falla con una explicación si no está disponible. Para forzar una ejecución nueva de todos los notebooks, usar `ejecutar_notebooks_entrega.py`.
 
 ```sh
 PYTHONPATH=. .venv/bin/python -m unittest discover -s tests -v
@@ -64,6 +69,10 @@ PYTHONPATH=. .venv/bin/python -m unittest discover -s tests -v
 ```
 
 El pytest general del repositorio omite las pruebas que requieren recursos privados; se habilitan con `PSET3_PYTEST=1` cuando se proporciona el entorno preparado. Los manifiestos `docs/01-verificacion.json` a `06-verificacion.json` identifican la ejecución guardada de esta distribución.
+
+`preflight_openai.py --verificar` revisa la configuración sin consumir API; `recuperar_respuestas_llm.py --verificar` inspecciona el registro local. Estos modos no prueban autenticación ni respuestas nuevas del proveedor. `generar_memo.py` requiere además `requirements-editorial.txt` y escribe en `docs/`. `capturar_mlflow.py` necesita Google Chrome y el servidor MLflow disponible; puede indicarse el navegador con `CHROME_BIN`. La validación del generador y de las capturas se realizó en una copia temporal, conservando el PDF aprobado.
+
+`empaquetar_entrega.py` crea el ZIP en la carpeta contenedora de `pset_3`, con un manifiesto SHA-256. Incluye los archivos versionados de esta entrega y excluye los entornos, claves, datos privados y enlaces simbólicos.
 
 ## Resultados y límites
 

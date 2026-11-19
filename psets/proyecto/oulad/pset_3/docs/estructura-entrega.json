@@ -29,5 +29,9 @@
   "unit_tests_passed": 48,
   "new_experiment_runs": 0,
   "new_api_requests": 0,
-  "private_runtime_excluded_from_public_zip": true
+  "private_runtime_excluded_from_public_zip": true,
+  "executables_validation": "docs/validacion-ejecutables.json",
+  "executables_verified": 24,
+  "fresh_kernel_environment": "pset_3/.venv",
+  "audit_checks_passed": 21
 }

@@ -52,4 +52,8 @@ def main():
   recovered.append({'request_hash':key,'rows':len(parsed),'original_response_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'original_response_preserved':True,'probabilities_changed':False,'new_api_requests':0,**normalization})
  report={'status':'ok' if not rejected else 'requires_inspection','recorded_at_utc':datetime.now(timezone.utc).isoformat(),'method':'explicit technical recovery, not a new model call and not an automatic retry','recovered':recovered,'rejected':rejected,'new_api_requests':0,'scope':'Only complete unique objects matching every requested key, class, numeric range and probability sum; no truncation repair, no filled or guessed predictions.'}
  output=ROOT/'docs/recuperacion-respuestas-llm.json';prior=json.loads(output.read_text()) if output.exists() else {'events':[]};prior['events'].append(report);output.write_text(json.dumps(prior,ensure_ascii=False,indent=2)+'\n');print(json.dumps(report,ensure_ascii=False,indent=2));return report
-if __name__=='__main__':main()
+if __name__=='__main__':
+ if sys.argv[1:]==['--verificar']:
+  ledger=json.loads((ROOT/'.local/llm/costos.json').read_text())
+  print(json.dumps({'status':'paths_checked','requests':len(list((ROOT/'.local/llm/requests').glob('*.json'))),'responses':len(list((ROOT/'.local/llm/responses').glob('*.json'))),'new_api_requests':0,'recovery_executed':False}))
+ else:main()

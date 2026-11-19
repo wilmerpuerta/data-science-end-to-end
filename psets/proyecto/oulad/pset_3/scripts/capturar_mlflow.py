@@ -1,14 +1,22 @@
-import base64,json,subprocess,tempfile,time,urllib.request,urllib.parse,hashlib
+import base64,json,subprocess,tempfile,time,urllib.request,urllib.parse,hashlib,sys,os,shutil
 from datetime import datetime,timezone
 from pathlib import Path
 import websocket
 ROOT=Path(__file__).resolve().parents[1]
+def chrome_binary():
+ configured=os.environ.get('CHROME_BIN')
+ candidate=configured or shutil.which('google-chrome') or shutil.which('chromium') or '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+ if not Path(candidate).is_file():raise RuntimeError('Configurar CHROME_BIN con un Chrome/Chromium instalado')
+ return candidate
+if sys.argv[1:]==['--verificar']:
+ urllib.request.urlopen('http://127.0.0.1:5001/health',timeout=5).read()
+ print(json.dumps({'status':'browser_and_server_checked','browser':chrome_binary(),'root':str(ROOT),'screenshot_captured':False}));raise SystemExit(0)
 profile=Path(tempfile.mkdtemp(prefix='pset3-mlflow-chrome-'))
-chrome=subprocess.Popen(['/Applications/Google Chrome.app/Contents/MacOS/Google Chrome','--headless=new','--remote-debugging-port=0','--remote-allow-origins=*','--no-first-run','--no-default-browser-check','--disable-background-networking','--disable-sync','--user-data-dir='+str(profile),'about:blank'],stdout=subprocess.DEVNULL,stderr=open('/private/tmp/pset3-chrome.log','w'))
+chrome=subprocess.Popen([chrome_binary(),'--headless=new','--remote-debugging-port=0','--remote-allow-origins=*','--no-first-run','--no-default-browser-check','--disable-background-networking','--disable-sync','--user-data-dir='+str(profile),'about:blank'],stdout=subprocess.DEVNULL,stderr=open(profile/'chrome.log','w'))
 try:
  for _ in range(100):
   if (profile/'DevToolsActivePort').exists():break
-  if chrome.poll() is not None:raise RuntimeError('Chrome exited: '+Path('/private/tmp/pset3-chrome.log').read_text()[-1000:])
+  if chrome.poll() is not None:raise RuntimeError('Chrome exited: '+(profile/'chrome.log').read_text()[-1000:])
   time.sleep(.2)
  port=(profile/'DevToolsActivePort').read_text().splitlines()[0]
  pages=json.load(urllib.request.urlopen('http://127.0.0.1:'+port+'/json'))
@@ -37,12 +45,12 @@ try:
  print('URL',evaluate('location.href'))
  print('TEXT',evaluate('document.body.innerText')[:3500])
  print('HEADINGS',evaluate("Array.from(document.querySelectorAll('*')).filter(e=>e.children.length===0 && ['Visualizations','Parameters','Metrics'].includes(e.textContent)).map(e=>e.parentElement.outerHTML.slice(0,300))"))
- Path('/private/tmp/pset3-cdp.json').write_text(json.dumps({'port':port,'ws':pages[0]['webSocketDebuggerUrl'],'url':url}))
+ (profile/'pset3-cdp.json').write_text(json.dumps({'port':port,'ws':pages[0]['webSocketDebuggerUrl'],'url':url}))
  out=ROOT/'docs/evidencia';out.mkdir(exist_ok=True)
  shot=call('Page.captureScreenshot',{'format':'png','captureBeyondViewport':False})
  (out/'mlflow-comparacion.png').write_bytes(base64.b64decode(shot['data']))
- Path('/private/tmp/pset3-ui-text.txt').write_text(evaluate('document.body.innerText'))
- Path('/private/tmp/pset3-ui.html').write_text(evaluate('document.body.innerHTML'))
+ (profile/'pset3-ui-text.txt').write_text(evaluate('document.body.innerText'))
+ (profile/'pset3-ui.html').write_text(evaluate('document.body.innerHTML'))
  meta={'captured_at_utc':datetime.now(timezone.utc).isoformat(),'source':'MLflow 2.22.0 real local comparison UI rendered by Chrome headless','url':url,'run_ids':['dc2fa9bb8bee4944bd00611a6ac5c34f','bb2b400975994efdb01ea418118dda67'],'browser':call('Browser.getVersion'),'viewport_css':[900,1120],'device_scale_factor':2,'actions':actions,'image_modified':False,'sha256':hashlib.sha256((out/'mlflow-comparacion.png').read_bytes()).hexdigest()}
  rect=evaluate("(()=>{const e=document.evaluate(\"//*[normalize-space(text())='Metrics']\",document,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null).singleNodeValue;const r=(e.closest('[role=button]')||e).getBoundingClientRect();return {x:0,y:r.y+window.scrollY,width:900,height:270,scale:1}})()")
  detail=call('Page.captureScreenshot',{'format':'png','captureBeyondViewport':True,'clip':rect})

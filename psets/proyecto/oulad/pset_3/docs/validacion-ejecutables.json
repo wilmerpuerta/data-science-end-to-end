@@ -1,0 +1,534 @@
+{
+  "status": "verified_for_packaged_reproduction_with_external_dependencies",
+  "checked_at_local": "2026-11-18T22:26:27.386348-05:00",
+  "distribution": "pset_3",
+  "python_environment": ".venv (Python 3.11.16, requirements.lock.txt)",
+  "scientific_runtime": [
+    "mlflow 2.22.0",
+    "scikit-learn 1.7.2"
+  ],
+  "editorial_environment": "requirements-editorial.txt, separate editorial Python environment",
+  "script_count": 24,
+  "scripts": [
+    {
+      "script": "scripts/auditar_entrega.py",
+      "sha256": "e68e630ae7bbbca11134dfb2ce9ef79d35321d4b8ccff3c6e8c84f413ce120bc",
+      "executions": [
+        {
+          "mode": "real",
+          "exit_code": 0,
+          "elapsed_seconds": 16.841275290003978,
+          "args": [],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/capturar_mlflow.py",
+      "sha256": "38b5650337ef20c9bdc00080b2fa137812ad9d353489450c9dc89156396cddce",
+      "executions": [
+        {
+          "mode": "browser_server_dependency_check",
+          "exit_code": 0,
+          "elapsed_seconds": 0.23748146701836959,
+          "args": [
+            "--verificar"
+          ],
+          "passed": true
+        },
+        {
+          "mode": "full_headless_chrome_capture_in_temporary_copy",
+          "passed": true,
+          "png_bytes": 220950
+        }
+      ]
+    },
+    {
+      "script": "scripts/cerrar_notebooks_cuando_listo.py",
+      "sha256": "55ca86a8fd0a457470af4c105e3eccadf3714e1ed38febbb11335e83f71d94cd",
+      "executions": [
+        {
+          "mode": "real",
+          "exit_code": 0,
+          "elapsed_seconds": 11.348387295962311,
+          "args": [],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/congelar_protocolo.py",
+      "sha256": "936206e5cd414e7cbcbb566402bbb0db3d3e3717b092a47dffbad39b9717dc1f",
+      "executions": [
+        {
+          "mode": "real",
+          "exit_code": 0,
+          "elapsed_seconds": 5.438735652016476,
+          "args": [],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/ejecutar_ablacion.py",
+      "sha256": "0b3c54a3014f67b9771b75c7c3635be74a32c49dc471ac079b4d58e6946bba29",
+      "executions": [
+        {
+          "mode": "default_reuses_verified_results",
+          "exit_code": 0,
+          "elapsed_seconds": 6.813363395980559,
+          "args": [],
+          "passed": true
+        },
+        {
+          "mode": "explicit_verification_no_training",
+          "exit_code": 0,
+          "elapsed_seconds": 6.553941429010592,
+          "args": [
+            "--verificar"
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/ejecutar_anticipacion.py",
+      "sha256": "ff71cb4ca1d2ff69055ee3405951e7a2e03042faea8e978092c3d33317827d8e",
+      "executions": [
+        {
+          "mode": "default_reuses_verified_results",
+          "exit_code": 0,
+          "elapsed_seconds": 15.984497855999507,
+          "args": [],
+          "passed": true
+        },
+        {
+          "mode": "explicit_verification_no_training",
+          "exit_code": 0,
+          "elapsed_seconds": 16.090584877994843,
+          "args": [
+            "--verificar"
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/ejecutar_comparacion.py",
+      "sha256": "eda5e56b327dae62a8a0f96271b1579c648a981233552453a633e6b1591c15bd",
+      "executions": [
+        {
+          "mode": "default_reuses_verified_results",
+          "exit_code": 0,
+          "elapsed_seconds": 7.451012124016415,
+          "args": [],
+          "passed": true
+        },
+        {
+          "mode": "explicit_verification_no_training",
+          "exit_code": 0,
+          "elapsed_seconds": 6.748552476987243,
+          "args": [
+            "--verificar"
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/ejecutar_estudio.py",
+      "sha256": "1c3e6d25f833f46b39b1f85cf551be51bc218298ac10a6c41bdeba81529c1d93",
+      "executions": [
+        {
+          "mode": "closed_study_verification",
+          "exit_code": 0,
+          "elapsed_seconds": 17.23521269398043,
+          "args": [],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/ejecutar_negocio.py",
+      "sha256": "99ac92236d728aba9d288810f11a20d8e901cec023b6ec046c012cf137c090c3",
+      "executions": [
+        {
+          "mode": "default_reuses_verified_results",
+          "exit_code": 0,
+          "elapsed_seconds": 6.607189776026644,
+          "args": [],
+          "passed": true
+        },
+        {
+          "mode": "explicit_verification_no_training",
+          "exit_code": 0,
+          "elapsed_seconds": 11.30367141100578,
+          "args": [
+            "--verificar"
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/ejecutar_notebooks_entrega.py",
+      "sha256": "394efaeb8a3bb094ebe3a20d77928785b5b35e88fbb1d866f1288ae9ac7138c4",
+      "executions": [
+        {
+          "mode": "full_six_fresh_kernels_own_venv",
+          "passed": true,
+          "notebooks": 6,
+          "new_api_requests": 0,
+          "new_experiment_runs": 0
+        }
+      ]
+    },
+    {
+      "script": "scripts/ejecutar_notebooks_finales.py",
+      "sha256": "06db237fb7b7598faf7c44215457f331fe67a6a0e9b1389a4412529bcda4937d",
+      "executions": [
+        {
+          "mode": "real",
+          "exit_code": 0,
+          "elapsed_seconds": 10.611505047010724,
+          "args": [],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/ejecutar_preparacion.py",
+      "sha256": "4dd365dd665d893ecb99335730536bb71077cb5845690177e56bdb745660a0b5",
+      "executions": [
+        {
+          "mode": "real",
+          "exit_code": 0,
+          "elapsed_seconds": 11.589632660034113,
+          "args": [],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/ejecutar_seleccion.py",
+      "sha256": "9a602f9ea9f7bb14f7f2dba6ef6df271ac7b14b8d572d0b74248337c6d30918a",
+      "executions": [
+        {
+          "mode": "default_reuses_verified_results",
+          "exit_code": 0,
+          "elapsed_seconds": 9.854213183978572,
+          "args": [],
+          "passed": true
+        },
+        {
+          "mode": "explicit_verification_no_training",
+          "exit_code": 0,
+          "elapsed_seconds": 7.901179317967035,
+          "args": [
+            "--verificar"
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/ejecutar_tuning.py",
+      "sha256": "185f4174881a23e02e5d7fcd38513ce3260216f9fd8561eba2c5d4cf822787f2",
+      "executions": [
+        {
+          "mode": "default_reuses_verified_results",
+          "exit_code": 0,
+          "elapsed_seconds": 6.4299122510128655,
+          "args": [],
+          "passed": true
+        },
+        {
+          "mode": "explicit_verification_no_training",
+          "exit_code": 0,
+          "elapsed_seconds": 6.439086200029124,
+          "args": [
+            "--verificar"
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/empaquetar_entrega.py",
+      "sha256": "510abdb75461e49e97a5e57f8b2faa34b20ffebfa266f9903ae7fd4fcba12333",
+      "executions": [
+        {
+          "mode": "real_zip_generation_crc_and_manifest",
+          "passed": true,
+          "required_paths_verified": 13
+        }
+      ]
+    },
+    {
+      "script": "scripts/explicar_local.py",
+      "sha256": "7532045fe0c11f366abe05fde16048e4a0dd238284a9d400362d24ded18babac",
+      "executions": [
+        {
+          "mode": "full_native_model_scoring_in_temporary_copy",
+          "passed": true,
+          "new_fits": 0,
+          "new_api_requests": 0
+        }
+      ]
+    },
+    {
+      "script": "scripts/figura_tuning.py",
+      "sha256": "5ddf4959f9b515bfe0fff290ab7129e2b7edd3ac6ff5a28e26a391f6690e7b0a",
+      "executions": [
+        {
+          "mode": "library_called_by_memo_notebook_and_audit",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/generar_memo.py",
+      "sha256": "af299bedf4217e5ddad08a3101efbc12e389c2005a4fc7b5f0f403f5a7d3051e",
+      "executions": [
+        {
+          "mode": "full_generation_in_temporary_copy",
+          "passed": true,
+          "pages": 6,
+          "all_pages_pixel_identical_to_approved": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/preflight_openai.py",
+      "sha256": "9f9b245ec598cc29b2dd746b16ed83bbbe73fc6d93608ad390c20a65ba0d7a62",
+      "executions": [
+        {
+          "mode": "configuration_or_cache_only",
+          "exit_code": 0,
+          "elapsed_seconds": 0.22714065900072455,
+          "args": [
+            "--verificar"
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/preparar_runtime_local.py",
+      "sha256": "3cc37fc51a3e6d3c3f0408babf7290586b38cb9d8be62b10f253cace96cddda4",
+      "executions": [
+        {
+          "mode": "real",
+          "exit_code": 0,
+          "elapsed_seconds": 0.07357670000055805,
+          "args": [],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/recuperar_respuestas_llm.py",
+      "sha256": "663fdafce0dd32b3bdf4475c8a00b83511d512ad14513ee59887546813974bc7",
+      "executions": [
+        {
+          "mode": "configuration_or_cache_only",
+          "exit_code": 0,
+          "elapsed_seconds": 0.17893315199762583,
+          "args": [
+            "--verificar"
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/reproducir.py",
+      "sha256": "b3d812867c6a751f4773979af9671aa03b5ff445725a775a900edf221cc8adc1",
+      "executions": [
+        {
+          "mode": "real",
+          "exit_code": 0,
+          "elapsed_seconds": 9.42435614799615,
+          "args": [],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/verificar_avance_rubrica.py",
+      "sha256": "986c38c51832f95d760539d26672449ff7d4deb75ce9fa9c9cebbc6520fc43aa",
+      "executions": [
+        {
+          "mode": "real_with_report_output_redirect",
+          "exit_code": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "scripts/verificar_fase.py",
+      "sha256": "f34522d11159cb217cea919d633a9ce9d7e9a1abf93aa2e4fd0b826faef53f98",
+      "executions": [
+        {
+          "mode": "library_called_by_all_six_phase_wrappers_and_coordinator",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "python_files_parsed": 52,
+  "unit_tests_passed": 48,
+  "modules_imported_from_distribution": 20,
+  "notebooks": [
+    {
+      "status": "ok",
+      "checked_at_utc": "2026-11-19T03:23:02.065706+00:00",
+      "notebook_sha256": "6788ec0efc4acb0d6e2c0a16998fddad367658295617f43625622c8ce2e41037",
+      "fresh_kernel": true,
+      "code_cells": 10,
+      "elapsed_seconds": 21.228606145945378,
+      "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+      "distribution_patch_id": "411b394f6ce436b14b8efd5ec7a3512c0d2dac34ba93f7d8a97edff99ba92afe",
+      "new_model_fits": 0,
+      "new_classifier_fits": 0,
+      "new_api_requests": 0,
+      "scope": "Packaged paths; recompute EDA/preparation and replay original recorded evidence; no new experiment runs",
+      "path": "notebooks/01_eda.ipynb"
+    },
+    {
+      "status": "ok",
+      "checked_at_utc": "2026-11-19T03:23:14.613364+00:00",
+      "notebook_sha256": "d254adb046bcc60d0b9bd466a6a2870a2d561cbf2220aa69ce44b10cc15b524e",
+      "fresh_kernel": true,
+      "code_cells": 4,
+      "elapsed_seconds": 12.544183139980305,
+      "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+      "distribution_patch_id": "411b394f6ce436b14b8efd5ec7a3512c0d2dac34ba93f7d8a97edff99ba92afe",
+      "new_model_fits": 0,
+      "new_classifier_fits": 0,
+      "new_api_requests": 0,
+      "scope": "Packaged paths; recompute EDA/preparation and replay original recorded evidence; no new experiment runs",
+      "path": "notebooks/02_features.ipynb"
+    },
+    {
+      "status": "ok",
+      "checked_at_utc": "2026-11-19T03:23:23.975748+00:00",
+      "notebook_sha256": "bcb59c2e27ca617f632b8c96c8d69e2c6a31a8c7d74689b6b4e7e46db4e98a2a",
+      "fresh_kernel": true,
+      "code_cells": 4,
+      "elapsed_seconds": 9.36086728295777,
+      "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+      "distribution_patch_id": "411b394f6ce436b14b8efd5ec7a3512c0d2dac34ba93f7d8a97edff99ba92afe",
+      "new_model_fits": 0,
+      "new_classifier_fits": 0,
+      "new_api_requests": 0,
+      "scope": "Packaged paths; recompute EDA/preparation and replay original recorded evidence; no new experiment runs",
+      "path": "notebooks/03_baseline_candidatos.ipynb"
+    },
+    {
+      "status": "ok",
+      "checked_at_utc": "2026-11-19T03:23:33.931178+00:00",
+      "notebook_sha256": "33d4b9c77acfedc860133d89e77dc7627d8e6d3b09586457beb36b413ad2065a",
+      "fresh_kernel": true,
+      "code_cells": 4,
+      "elapsed_seconds": 9.954196317004971,
+      "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+      "distribution_patch_id": "411b394f6ce436b14b8efd5ec7a3512c0d2dac34ba93f7d8a97edff99ba92afe",
+      "new_model_fits": 0,
+      "new_classifier_fits": 0,
+      "new_api_requests": 0,
+      "scope": "Packaged paths; recompute EDA/preparation and replay original recorded evidence; no new experiment runs",
+      "path": "notebooks/04_tuning.ipynb"
+    },
+    {
+      "status": "ok",
+      "checked_at_utc": "2026-11-19T03:23:53.079225+00:00",
+      "notebook_sha256": "71fc703a41961bc18cce87a006a40fc15a1e8e7335bafbd96bdf7056a1f52e90",
+      "fresh_kernel": true,
+      "code_cells": 5,
+      "elapsed_seconds": 19.14613406098215,
+      "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+      "distribution_patch_id": "411b394f6ce436b14b8efd5ec7a3512c0d2dac34ba93f7d8a97edff99ba92afe",
+      "new_model_fits": 0,
+      "new_classifier_fits": 0,
+      "new_api_requests": 0,
+      "scope": "Packaged paths; recompute EDA/preparation and replay original recorded evidence; no new experiment runs",
+      "path": "notebooks/05_seleccion.ipynb"
+    },
+    {
+      "status": "ok",
+      "checked_at_utc": "2026-11-19T03:24:00.302652+00:00",
+      "notebook_sha256": "8ce9acd9a56c7e4ee13f5199230da56711d890a76d88ca3c86001e96383648fc",
+      "fresh_kernel": true,
+      "code_cells": 4,
+      "elapsed_seconds": 7.221242806001101,
+      "protocol_id": "07111fdf724a0cd8936ea5abc0ff983769f15d0f6216b24172c56aaf18e8ab0d",
+      "distribution_patch_id": "411b394f6ce436b14b8efd5ec7a3512c0d2dac34ba93f7d8a97edff99ba92afe",
+      "new_model_fits": 0,
+      "new_classifier_fits": 0,
+      "new_api_requests": 0,
+      "scope": "Packaged paths; recompute EDA/preparation and replay original recorded evidence; no new experiment runs",
+      "path": "notebooks/anexos/06_anticipacion.ipynb"
+    }
+  ],
+  "audit_checks_passed": 21,
+  "audit_status": "verified_with_declared_limitations",
+  "model_pipelines_verified": 370,
+  "champion_predictions_exact": true,
+  "champion_max_abs_prediction_difference": 0.0,
+  "docker": {
+    "status": "ok",
+    "compose_configuration": "valid",
+    "image_build": "passed",
+    "isolated_container": true,
+    "http_status": 200,
+    "health": "OK",
+    "seconds": 11.669098324025981,
+    "historical_volumes_mounted": false,
+    "temporary_container_removed": true
+  },
+  "pdf_generation_test": {
+    "status": "ok",
+    "generated_pages": 6,
+    "all_pages_pixel_identical_to_approved": true,
+    "render_comparison_dpi": 110,
+    "approved_pdf_sha256": "108a70a93e74b150121382b5cd266e64e61cf40435eb0d4c01c5b1089c4393c6",
+    "approved_pdf_unchanged": true
+  },
+  "runs_before": 382,
+  "runs_after": 382,
+  "new_model_fits": 0,
+  "new_api_requests": 0,
+  "api_budget_after": {
+    "limit_usd": "10",
+    "accounted_spend_usd": "1.116765500",
+    "pending_upper_usd": "0",
+    "completed_paid_calls": 720
+  },
+  "closed_state_preserved": true,
+  "original_data_loader_and_pipeline_unchanged": true,
+  "fixes": [
+    "Runtime and kernel resolved from pset_3; own environment independent of old v2 environment",
+    "Preparation/final-notebook aliases use the packaged notebook runner",
+    "Completed state restored for coordinator and closure; no indefinite wait",
+    "Explicit cached-result verification and deliberate execution modes for the six phases",
+    "OpenAI preflight and response-ledger checks support verification without network inference",
+    "Chrome location configurable; generator writes PDF directly to docs",
+    "Audit instructions name the packaged environment"
+  ],
+  "not_executed": [
+    "Fresh training or tuning through --ejecutar / --reanudar",
+    "Paid live OpenAI inference or authentication from the new folder",
+    "Restoration on a second machine without the private runtime"
+  ],
+  "required_external_resources": [
+    "Original frozen private bundles and historical predictions/cost ledger",
+    "MLflow backend, model artifacts and registry restored from private backup",
+    "Python 3.11 environment with pinned requirements",
+    "Editorial dependencies and Chrome for memo/capture",
+    "Own OpenAI API credentials only for deliberately requested new API calls"
+  ],
+  "openai_key_configured_in_new_folder": false,
+  "private_logs_included": false,
+  "scope": "Functional reproduction of the closed study, not a fresh scientific experiment. Default phase wrappers validate existing reports; --ejecutar invokes original scientific code. Live API remains unverified."
+}
