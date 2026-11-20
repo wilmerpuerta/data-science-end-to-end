@@ -50,3 +50,5 @@ Destino de publicación autorizado: [wilmerpuerta/data-science-end-to-end](https
 ## Cambio de directorio local
 
 La migración a `MSDS_6003_CD_Erick_Naunay` está comprobada. Ver [correcciones, evidencia y uso desde el IDE](docs/migracion-directorio.md).
+
+Ética del proyecto final: auditoría por discapacidad declarada, revisión de la brecha de L06 y criterios de retirada documentados; interruptor de respaldo y reversibilidad HTTP verificados. El modelo se mantiene y las propuestas requieren revisión humana.

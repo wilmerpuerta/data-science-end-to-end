@@ -2,7 +2,7 @@
 
 ## Estado de esta etapa
 
-Estado actual: API batch, Snowflake, ocho despachos por escenario, monitoreo y challenger comparado. El challenger fue rechazado por decisión humana, Kestra terminó en SUCCESS y el CD/GHCR con rollback técnico quedó verificado; la integración y la comunicación finales siguen pendientes. Las secciones iniciales conservan el registro histórico; el estado vigente se detalla al final. La estructura final sigue el árbol de la rúbrica; las carpetas de trabajo y los entregables anteriores se preservan.
+Estado actual: API batch, Snowflake, ocho despachos por escenario, monitoreo y challenger comparado. El challenger fue rechazado por decisión humana, Kestra terminó en SUCCESS y el CD/GHCR con rollback técnico quedó verificado; la auditoría ética y el interruptor de respaldo quedaron verificados; integración y comunicación finales siguen pendientes. Las secciones iniciales conservan el registro histórico; el estado vigente se detalla al final. La estructura final sigue el árbol de la rúbrica; las carpetas de trabajo y los entregables anteriores se preservan.
 
 ## Registro de observaciones y ajustes
 
@@ -318,3 +318,18 @@ docker compose run --rm --no-deps --entrypoint python monitoreo -m monitoreo.der
 ```
 
 Los archivos privados `subgrupos.csv`, `subgrupos.json`, `brechas.json`, `retirada.json` y `linaje.json` conservan agregados, criterios y hashes de las entradas y etiquetas maduras. No se agregan CSV de fila individual al repositorio ni se alteran los cinco CSV de evidencia histórica requeridos. El comando rechaza la falta de etiquetas maduras y datos inconsistentes. La inclusión posterior en el notebook y memo final forma parte de la integración pendiente.
+
+
+## Demostración HTTP del respaldo y cierre de ética (20-nov-2026)
+
+Imagen `ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:e32f542e7320ae939625586d5ce8776fd1ac1933b596cb62b7676e98973ed2a3`, commit de publicación `6c392a3fc7d86e0774fc207d37f19bbc66768c07`, [CD](https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44722770969). Se aprobaron 63 pruebas del proyecto; la publicación registra dinámicamente el número real de pruebas aprobadas de la imagen. API, API sintética, monitor y tablero se desplegaron por digest y están healthy. Los modelos conservaron nombre, versión, run y snapshot y los dos registros SQLite mantuvieron sus conteos. Los campos nuevos de metadatos distinguen puntuación individual y cola administrativa.
+
+| Fase del servicio aislado | Configuración | Resultado HTTP y persistencia |
+|---|---:|---|
+| Normal | `PSET4_FORCE_FALLBACK=0` | 40 predicciones con champion versión 1 y puntuación individual. |
+| Respaldo | `PSET4_FORCE_FALLBACK=1` | 80 predicciones nuevas de semanas 2/4, 1+3 cupos sin repetición, mensaje de revisión y `puntuacion_individual=false`. Un tipo inválido siguió devolviendo 422. Repetir el lote normal devolvió su respuesta original. |
+| Reactivado | `PSET4_FORCE_FALLBACK=0` | 40 predicciones nuevas con el modelo. Repetir el lote de respaldo conservó la respuesta histórica de respaldo. |
+
+Se usó la misma imagen, recreando el contenedor para leer la variable en cada fase. Las tres cohortes son sintéticas, con un SQLite separado y sin credenciales Snowflake en esa API. Hay 160 predicciones de prueba, ninguna incorporada al análisis de negocio ni al presupuesto del control. El contenedor se retiró. No se cambiaron aliases, modelos, hiperparámetros, particiones ni fuentes Gold; el candidato rechazado sigue rechazado. Los servicios operativos terminan con respaldo no forzado y supervisión humana de propuestas.
+
+Con esto quedan demostrados el interruptor, su reversibilidad y el efecto sobre lotes nuevos sin reescribir historia. Los criterios de retirada continúan como recomendaciones auditables para responsables; L06 requiere revisión y no hay una suspensión persistente automática de producción. La comparación estática por lote y el escenario del 30 % pertenecen a la siguiente etapa de resultado de negocio.
