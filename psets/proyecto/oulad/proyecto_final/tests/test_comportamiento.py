@@ -362,3 +362,68 @@ def test_referencia_cv_corresponde_a_politica_de_dos_rondas():
     assert ref['protocolo']==PROTOCOLO_REENTRENAMIENTO
     assert len(ref['cv_politica']['DDD']['folds'])==5
     assert ref['cv_politica']['DDD']['std']>0
+
+
+
+def ejemplo_equidad():
+    rows=[]
+    for cut in [14,28]:
+        for m,grupo,target in [('A','Y','Fail'),('B','Y','Approved'),('C','N','Fail'),('D','N','Withdrawn')]:
+            if cut==28 and m=='A':continue
+            rows.append(dict(matricula=m,corte=cut,grupo=grupo,persona=m,edicion='AAA',cohorte_id='onda1',lote_id='L01' if cut==14 else 'L05',
+                riesgo=.8 if target=='Fail' else .2,consume_cupo_nuevo=(cut==14 and m=='A') or (cut==28 and m=='C'),
+                decision='proponer_tutoria' if ((cut==14 and m=='A') or (cut==28 and m=='C')) else 'seguimiento'))
+    return rows,{'A':'Fail','B':'Approved','C':'Fail','D':'Withdrawn'}
+
+
+def test_equidad_conserva_base_y_propuesta_que_perdio_elegibilidad():
+    from monitoreo.deriva import resumen_subgrupos
+    rows,labels=ejemplo_equidad();metrics,gaps=resumen_subgrupos(rows,labels)
+    y=next(r for r in metrics if r['ambito']=='global' and r['corte']==28 and r['grupo']=='Y')
+    assert y['n']==1 and y['n_base']==2 and y['fail_base']==1
+    assert y['tp_actual']==0 and y['tp_acumulado']==1 and y['cobertura_acumulada']==1
+    assert y['ap_fail'] is None and not y['equidad_evaluable']
+    assert sum(y['tasa_'+k] for k in ['proponer_tutoria','tutoria_ya_propuesta','seguimiento'])==1
+    assert not next(g for g in gaps if g['ambito']=='global' and g['corte']==28)['evaluable']
+
+
+def test_equidad_rechaza_escenario_inducido_targets_inmaduros_y_atributo_cambiante():
+    from monitoreo.deriva import resumen_subgrupos
+    rows,labels=ejemplo_equidad()
+    with pytest.raises(ValueError,match='control original'):resumen_subgrupos(rows,labels,'oulad-2014j-deriva-v1')
+    with pytest.raises(ValueError,match='etiquetas maduras'):resumen_subgrupos(rows,{k:v for k,v in labels.items() if k!='D'})
+    rows[-1]['grupo']='Y'
+    with pytest.raises(ValueError,match='Atributo cambió'):resumen_subgrupos(rows,labels)
+
+
+def evento_retirada():
+    return {'corte':28,'cohorte_id':'actual','lote_id':'L06','dia_revision':283,'dia_prediccion':29,
+        'equidad_evaluable':True,'brecha_cobertura':-.06,'brecha_fpr':0.,'errores_contrato':0}
+
+
+def test_retirada_exige_persistencia_del_mismo_corte_y_cohortes_distintas():
+    from monitoreo.alertas import evaluar_retirada
+    e=evento_retirada();prev={**e,'cohorte_id':'previa','lote_id':'L05','dia_prediccion':28}
+    assert [a['regla'] for a in evaluar_retirada(e,[prev])]==['equidad_persistente']
+    assert [a['regla'] for a in evaluar_retirada(e,[{**prev,'corte':14}])]==['equidad_revision']
+    assert [a['regla'] for a in evaluar_retirada(e,[{**prev,'cohorte_id':'actual'}])]==['equidad_revision']
+    assert evaluar_retirada({**e,'equidad_evaluable':False},[prev])==[]
+    assert evaluar_retirada({**e,'brecha_cobertura':.05,'brecha_fpr':.03},[])==[]
+
+
+def test_retirada_no_confunde_cupos_distintos_con_peor_valor_de_negocio():
+    from monitoreo.alertas import evaluar_retirada
+    e={**evento_retirada(),'equidad_evaluable':False,'tp_modelo':3,'tp_estatico':4,'cupos_modelo':10,'cupos_estatico':10,
+       'fail_base_modelo':20,'fail_base_estatico':20,'etiquetas_completas':True,'reentrenamiento_evaluado':True}
+    prev={**e,'cohorte_id':'previa','lote_id':'L05','dia_prediccion':28}
+    assert [a['regla'] for a in evaluar_retirada(e,[prev])]==['negocio_inferior']
+    for change in [{'cupos_estatico':11},{'fail_base_estatico':21},{'reentrenamiento_evaluado':False},{'etiquetas_completas':False},{'cupos_modelo':None}]:
+        assert evaluar_retirada({**e,**change},[prev])==[]
+
+
+def test_retirada_separa_contrato_integridad_y_caida_del_servicio():
+    from monitoreo.alertas import evaluar_retirada
+    e={**evento_retirada(),'equidad_evaluable':False,'errores_contrato':1,'artefacto_integro':False,
+       'solicitudes':20,'tasa_5xx':.05}
+    prev={**e,'cohorte_id':'previa','lote_id':'L05','dia_prediccion':28}
+    assert {a['regla'] for a in evaluar_retirada(e,[prev])}=={'calidad','integridad_disponibilidad','sistema_persistente'}

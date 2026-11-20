@@ -378,6 +378,113 @@ def tablero():
     else:st.caption('Todavía no hay reentrenamientos registrados: una alerta representa una propuesta pendiente de revisión.')
 
 
+def resumen_subgrupos(filas, labels, plan_id=PLAN_CONTROL):
+    """Métricas descriptivas por disability; nunca mezclar escenarios ni cortes."""
+    from monitoreo.alertas import PROTOCOLO_ETICA as p
+    if plan_id!=PLAN_CONTROL:raise ValueError('Equidad requiere el control original')
+    claves=[(r['matricula'],r['corte']) for r in filas]
+    if len(claves)!=len(set(claves)):raise ValueError('Predicciones duplicadas')
+    base={r['matricula']:r for r in filas if r['corte']==14}
+    if not base or not set(base)<=set(labels):raise ValueError('Faltan etiquetas maduras de la base')
+    if not set(labels.values())<={'Approved','Fail','Withdrawn'}:raise ValueError('Targets incompatibles')
+    for r in filas:
+        if r['corte'] not in [14,28] or r['matricula'] not in base:raise ValueError('Corte o población incompatible')
+        if r['grupo'] not in p['grupos'] or r['grupo']!=base[r['matricula']]['grupo']:raise ValueError('Atributo cambió entre cortes')
+        if r['decision'] not in ['proponer_tutoria','tutoria_ya_propuesta','seguimiento']:raise ValueError('Decisión desconocida')
+        if not np.isfinite(r['riesgo']) or not 0<=r['riesgo']<=1:raise ValueError('Score inválido')
+    divide=lambda a,b:a/b if b else None
+    resultado=[]
+    for corte in sorted({r['corte'] for r in filas}):
+        actuales=[r for r in filas if r['corte']==corte]
+        unidades=[('global','todos',actuales)]
+        for campo in ['lote_id','edicion']:
+            unidades.extend(('lote' if campo=='lote_id' else 'edicion',u,[r for r in actuales if r[campo]==u]) for u in sorted({r[campo] for r in actuales}))
+        for ambito,unidad,actual in unidades:
+            cohortes={r['cohorte_id'] for r in actual}
+            ids_base={k for k,r in base.items() if r['cohorte_id'] in cohortes and (ambito!='edicion' or r['edicion']==unidad)}
+            prev={r['matricula'] for r in filas if r['corte']<=corte and r['consume_cupo_nuevo'] and r['matricula'] in ids_base}
+            for grupo in p['grupos']:
+                grupo_actual=[r for r in actual if r['grupo']==grupo]
+                ids={k for k in ids_base if base[k]['grupo']==grupo}
+                y=[labels[r['matricula']]=='Fail' for r in grupo_actual];n=len(y);fail=sum(y)
+                positivos=[r for r in grupo_actual if r['decision']!='seguimiento']
+                tp=sum(labels[r['matricula']]=='Fail' for r in positivos);fp=len(positivos)-tp
+                base_fail=sum(labels[k]=='Fail' for k in ids);elegidos=ids&prev
+                tp_c=sum(labels[k]=='Fail' for k in elegidos);fp_c=len(elegidos)-tp_c
+                counts={d:sum(r['decision']==d for r in grupo_actual) for d in ['proponer_tutoria','tutoria_ya_propuesta','seguimiento']}
+                suficiente=lambda total,pos:total>=p['min_n'] and pos>=p['min_fail'] and total-pos>=p['min_no_fail']
+                ap=float(average_precision_score(y,[r['riesgo'] for r in grupo_actual])) if 0<fail<n else None
+                row={'ambito':ambito,'unidad':unidad,'corte':corte,'grupo':grupo,'n':n,'personas':len({r['persona'] for r in grupo_actual}),
+                     'fail':fail,'prevalencia_fail':divide(fail,n),'ap_fail':ap,'ap_evaluable':suficiente(n,fail),
+                     **counts,**{'tasa_'+k:divide(v,n) for k,v in counts.items()},
+                     'tp_actual':tp,'fp_actual':fp,'fn_actual':fail-tp,'fpr_actual':divide(fp,n-fail),
+                     'n_base':len(ids),'personas_base':len({base[k]['persona'] for k in ids}),'fail_base':base_fail,
+                     'propuestas_acumuladas':len(elegidos),'tp_acumulado':tp_c,'fp_acumulado':fp_c,'fn_acumulado':base_fail-tp_c,
+                     'cobertura_acumulada':divide(tp_c,base_fail),'fpr_acumulada':divide(fp_c,len(ids)-base_fail),
+                     'tasa_propuesta_acumulada':divide(len(elegidos),len(ids)),
+                     'equidad_evaluable':suficiente(len(ids),base_fail) and suficiente(n,fail)}
+                resultado.append(row)
+    brechas=[]
+    for key in sorted({(r['ambito'],r['unidad'],r['corte']) for r in resultado}):
+        d={r['grupo']:r for r in resultado if (r['ambito'],r['unidad'],r['corte'])==key}
+        usable=d['N']['equidad_evaluable'] and d['Y']['equidad_evaluable']
+        gap=d['Y']['cobertura_acumulada']-d['N']['cobertura_acumulada'] if usable else None
+        fpr=d['Y']['fpr_acumulada']-d['N']['fpr_acumulada'] if usable else None
+        brechas.append(dict(zip(['ambito','unidad','corte'],key),evaluable=usable,brecha_cobertura=gap,brecha_fpr=fpr,
+                      revision=bool(usable and (abs(gap)>p['brecha_cobertura']+1e-12 or abs(fpr)>p['brecha_fpr']+1e-12))))
+    return resultado,brechas
+
+
+def analizar_etica(destino,codigo):
+    """Lee solo controles y targets ya maduros; exportación privada y reproducible."""
+    import re
+    from src.datos import conectar_snowflake,RepositorioSnowflake,ESQUEMA_OPERACION
+    from monitoreo.alertas import PROTOCOLO_ETICA,evaluar_retirada
+    if not re.fullmatch('[0-9a-f]{40}',codigo):raise ValueError('Se requiere el commit de código congelado')
+    with conectar_snowflake() as conn:
+        repo=RepositorioSnowflake(conn);dia=repo.reloj(PLAN_CONTROL);plan=repo.contenido('PLANES',PLAN_CONTROL)
+        lotes=[repo.contenido('LOTES_ENTRADA',PLAN_CONTROL,l['lote_id']) for l in plan['lotes']]
+        if any(l.get('alterado') or repo.contenido('LOTES_PROCESADOS',PLAN_CONTROL,l['lote_id']) is None for l in lotes):
+            raise ValueError('Se requieren controles completos sin inducción')
+        with conn.cursor() as cur:
+            raw=cur.execute(f'SELECT MATRICULA,COHORTE_ID,LOTE_ID,CORTE,ENTRADAS,SALIDA,RESPALDO,VERSION_MODELO,RUN_ID FROM {ESQUEMA_OPERACION}.PREDICCIONES WHERE PLAN_ID=%s ORDER BY MATRICULA,CORTE',(PLAN_CONTROL,)).fetchall()
+            labels=dict(cur.execute(f'SELECT MATRICULA,TARGET_CLASS FROM {ESQUEMA_OPERACION}.ETIQUETAS WHERE PLAN_ID=%s AND DIA_DISPONIBLE<=%s',(PLAN_CONTROL,dia)).fetchall())
+            mon=[json.loads(r[0]) for r in cur.execute(f'SELECT CONTENIDO FROM {ESQUEMA_OPERACION}.MONITOREO WHERE PLAN_ID=%s',(PLAN_CONTROL,)).fetchall()]
+    if len(raw)!=sum(len(l['solicitud']['matriculas']) for l in lotes):raise ValueError('Predicciones incompletas')
+    filas=[]
+    for m,coh,lote,cut,entrada,salida,respaldo,version,run in raw:
+        if respaldo:raise ValueError('Separar políticas de respaldo de la auditoría del modelo')
+        features=json.loads(entrada);out=json.loads(salida)
+        grupo=features.get('disability') or 'sin_dato'
+        filas.append({'matricula':m,'cohorte_id':coh,'lote_id':lote,'corte':int(cut),'grupo':grupo,'persona':out['persona'],
+                      'edicion':out['edicion'],'riesgo':out['riesgo_fail'],'decision':out['decision'],
+                      'consume_cupo_nuevo':out['consume_cupo_nuevo'],'version':str(version),'run_id':run})
+    rows,gaps=resumen_subgrupos(filas,labels)
+    retiros=[];historia=[]
+    for event in sorted([m for m in mon if m['etiquetas_completas']],key=lambda m:(m['dia_revision'],m['dia_prediccion'],m['lote_id'])):
+        gap=next(r for r in gaps if r['ambito']=='lote' and r['unidad']==event['lote_id'] and r['corte']==event['corte'])
+        lote=next(l for l in lotes if l['lote_id']==event['lote_id'])
+        metricas={'corte':event['corte'],'cohorte_id':lote['cohorte_id'],'lote_id':event['lote_id'],
+                  'dia_revision':event['dia_revision'],'dia_prediccion':event['dia_prediccion'],
+                  'equidad_evaluable':gap['evaluable'],'brecha_cobertura':gap['brecha_cobertura'],'brecha_fpr':gap['brecha_fpr'],
+                  'errores_contrato':sum(d['fuera_contrato']+d['categorias_nuevas'] for d in event['datos'].values()),
+                  'modelo_disponible':event['respaldo_n']==0,'artefacto_integro':None,'etiquetas_completas':True,
+                  'tp_modelo':None,'tp_estatico':None,'reentrenamiento_evaluado':False,
+                  'solicitudes':event['sistema']['solicitudes_atribuidas'],'tasa_5xx':event['sistema']['tasa_5xx']}
+        retiros.append({'metricas':metricas,'acciones':evaluar_retirada(metricas,historia),'comparacion_estatica':'pendiente_por_lote'})
+        historia.append(metricas)
+    destino=Path(destino);destino.mkdir(parents=True,exist_ok=True)
+    linaje={'protocolo':PROTOCOLO_ETICA,'protocolo_sha256':identidad(PROTOCOLO_ETICA),'codigo_commit':codigo,
+            'codigo_sha256':{str(p.relative_to(ROOT)):sha256(p) for p in [Path(__file__),ROOT/'monitoreo/alertas.py',ROOT/'src/pipeline.py']},
+            'plan_id':PLAN_CONTROL,'plan_sha256':identidad(plan),'dia_simulado':dia,'predicciones_sha256':identidad(filas),
+            'etiquetas_maduras_sha256':identidad(labels),'predicciones':len(filas),'matriculas_base':sum(r['corte']==14 for r in filas),
+            'modelos':sorted({(r['corte'],r['version'],r['run_id']) for r in filas}),'fuentes_escritura':False}
+    for name,value in [('subgrupos.json',rows),('brechas.json',gaps),('retirada.json',retiros),('linaje.json',linaje)]:
+        path=destino/name;tmp=path.with_suffix('.json.tmp');tmp.write_text(json.dumps(value,indent=2,ensure_ascii=False,allow_nan=False)+'\n');tmp.replace(path)
+    pd.DataFrame(rows).to_csv(destino/'subgrupos.csv',index=False)
+    return {'plan_id':PLAN_CONTROL,'filas_agregadas':len(rows),'comparaciones':len(gaps),'eventos_revisados':len(retiros),'directorio':str(destino),'escrituras_snowflake':0}
+
+
 def main():
     if os.environ.get('PSET4_TABLERO')=='1':return tablero()
     parser=argparse.ArgumentParser(description=__doc__)
@@ -385,12 +492,15 @@ def main():
     group.add_argument('--preparar-referencia',type=Path)
     group.add_argument('--servir',action='store_true')
     group.add_argument('--exportar',type=Path)
+    group.add_argument('--etica',type=Path)
+    parser.add_argument('--codigo-etica')
     group.add_argument('--plan',choices=[PLAN_CONTROL,PLAN_DERIVA])
     parser.add_argument('--lote',default='todos')
     parser.add_argument('--fase',choices=['prediccion','maduro'],default='prediccion')
     args=parser.parse_args()
     if args.preparar_referencia:result=preparar_referencia(args.preparar_referencia)
     elif args.servir:return servir()
+    elif args.etica:result=analizar_etica(args.etica,args.codigo_etica or '')
     elif args.plan:result=ejecutar_monitoreo(args.plan,args.lote,args.fase)
     else:
         from src.datos import conectar_snowflake,RepositorioSnowflake

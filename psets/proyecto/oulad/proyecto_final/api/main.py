@@ -74,12 +74,13 @@ class ProveedorModelos:
                 model = self.cache[key]
                 encoder = model.named_steps['preparacion'].named_transformers_['cat'].named_steps['codificar']
                 meta['categorias'] = dict(zip(CATEGORICAS, [[str(x) for x in values if x != '__MISSING__'] for values in encoder.categories_]))
-            meta.update(respaldo=False, origen=self.modo, uri_solicitada=f'models:/{meta["nombre"]}@champion')
+            meta.update(puntuacion_individual=True, criterio_priorizacion='riesgo_fail', respaldo=False, origen=self.modo, uri_solicitada=f'models:/{meta["nombre"]}@champion')
             self.estados[corte] = dict(meta)
             return model, meta
         except Exception as exc:
             baseline = dict(self.referencia['baseline'])
-            baseline.update(respaldo=True, origen='baseline_pset3', cutoff_day=corte,
+            baseline.update(puntuacion_individual=False, criterio_priorizacion='orden_administrativo_matricula',
+                            respaldo=True, origen='baseline_pset3', cutoff_day=corte,
                             categorias=meta['categorias'], error_carga=type(exc).__name__,
                             uri_solicitada=f'models:/{meta["nombre"]}@champion')
             self.estados[corte] = dict(baseline)
@@ -211,7 +212,8 @@ def crear_app(*, ruta_db=None, modo=None, forzar_respaldo=None, politica=None, p
                     scores = p[:, list(model.classes_).index('Fail')]
             except Exception as exc:
                 meta = {**dict(referencia['baseline']), 'respaldo': True, 'origen': 'baseline_pset3',
-                        'cutoff_day': lote.corte_dias, 'error_carga': type(exc).__name__}
+                        'cutoff_day': lote.corte_dias, 'error_carga': type(exc).__name__,
+                        'puntuacion_individual': False, 'criterio_priorizacion': 'orden_administrativo_matricula'}
                 scores = np.full(len(x), meta['probabilidad_fail'])
             seleccionados = {r['matricula']: r['edicion'] for r in historia['predicciones'] if r['consume_cupo_nuevo']} if historia else {}
             candidatos = [Candidato(r.matricula, r.edicion, r.persona, float(score)) for r, score in zip(lote.matriculas, scores)]
@@ -220,6 +222,12 @@ def crear_app(*, ruta_db=None, modo=None, forzar_respaldo=None, politica=None, p
             public_meta = {k: v for k, v in meta.items() if k not in {'categorias', 'signature'}}
             result.update(cohorte_id=lote.cohorte_id, politica_id=politica_id, modelo=public_meta,
                           respaldo=meta['respaldo'], modo='experimental', momento=ahora())
+            if meta['respaldo']:
+                result['mensaje_operativo'] = ('Respaldo activo: el orden administrativo no estima el riesgo individual. '
+                                               'Revisar necesidades antes de proponer una tutoría.')
+                for row in result['predicciones']:
+                    row['accion'] = ('revision_humana_de_respaldo' if row['decision'] != 'seguimiento'
+                                     else 'mantener_canal_de_apoyo_sin_estimacion_individual')
             entradas = {r.matricula: r.features.model_dump(mode='json') for r in lote.matriculas}
             for row in result['predicciones']:
                 row['id_prediccion'] = uuid5(NAMESPACE_URL, '|'.join([lote.cohorte_id, str(lote.corte_dias), row['matricula'], politica_id, meta['nombre'], str(meta['version']), meta['run_id']])).hex
