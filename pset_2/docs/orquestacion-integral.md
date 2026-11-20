@@ -18,7 +18,7 @@ El Compose cloud añade dbt-runner y spark-runner. Reutilizan exactamente las im
 
 Los ejecutores usan una API HTTP mínima de la red Compose. Solo aceptan un execution_id válido; el tipo de servicio determina el único trabajo permitido: dbt build-gold con exportaciones de calidad, o Spark build-obt. No aceptan comandos, rutas, credenciales ni argumentos libres. Este es un despliegue local de un autor: la red Docker es la frontera de confianza; no se presenta como un servicio multiusuario expuesto a Internet. Kestra conserva su autenticación y sus puertos localhost.
 
-Cada ejecutor mantiene una cola de un trabajo a la vez. Un POST repetido para una ejecución QUEUED, RUNNING o SUCCESS devuelve el mismo job_id e intento. Si el trabajo terminó FAILED, una nueva petición inicia el siguiente intento. Así una respuesta perdida no inicia una segunda construcción simultánea. Los estados y logs completos se guardan en .local/orchestration, fuera de Git; solo informes agregados se escriben en output/pipeline/<execution_id>/.
+Cada ejecutor mantiene una cola de un trabajo a la vez. Un POST repetido para una ejecución QUEUED, RUNNING o SUCCESS devuelve el mismo job_id e intento. Si el trabajo terminó FAILED, una nueva petición inicia el siguiente intento. Así una respuesta perdida no inicia una segunda construcción simultánea. Los estados y logs completos se guardan en .local/orchestration, fuera de Git; solo informes agregados se escriben en docs/evidencia/pipeline/<execution_id>/.
 
 Al reiniciar un ejecutor, sus trabajos que quedaron RUNNING/QUEUED pasan a FAILED por interrupción; no se presume que terminaron correctamente. Un reintento posterior reconstruye con las mismas reglas idempotentes. Las pruebas de esta etapa validan duplicación de peticiones, fallo inyectado y retry; no acreditan recuperación frente a todas las modalidades de caída del proveedor o del equipo.
 
@@ -40,7 +40,7 @@ La clave de correlación es la ejecución padre. Raw tiene su propio execution_i
 
 Concurrency limit=1, behavior=QUEUE, serializa este flujo padre. No ejecutar cargas o transformaciones manuales paralelas: sus comandos independientes no comparten una transacción ni un bloqueo global con el padre. Los límites de contenedor son los documentados; dbt y Spark trabajan secuencialmente. Dos ejecutores adicionales en espera no significan dos trabajos pesados simultáneos.
 
-El calendario padre está configurado para días 1 y 15 a las 09:00 America/Guayaquil y permanece desactivado. El calendario del subflujo Raw también permanece desactivado. Si se decide automatizar el calendario al cerrar operación, activar solo el padre para evitar disparos independientes de Raw. OULAD es un histórico estático; la frecuencia no crea nuevos datos ni implica actualización del proveedor. No se ha observado un disparo horario automático.
+El calendario padre está activo para días 1 y 15 a las 09:00 America/Guayaquil. El subflujo Raw mantiene desactivado su calendario independiente para evitar cargas duplicadas. El 20-nov se verificó una ejecución Schedule al recuperar el intervalo del 15-nov mediante backfill: [evidencia](calendario-programado.md). No se afirma haber observado esa fecha en tiempo real. OULAD es un histórico estático: la frecuencia no crea nuevos datos ni demuestra actualización del proveedor.
 
 ## 3. Backfill y consulta de una ejecución
 

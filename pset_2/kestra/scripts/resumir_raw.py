@@ -41,6 +41,11 @@ def main():
                            'Backfill por fichero/checksum completo; no por módulo-edición en esta versión.',
                            'Retries acotados del proceso; errores permanentes también agotan los intentos, sin publicar datos inválidos.',
                            'No se cuantificó consumo monetario; el warehouse del proyecto se utilizó para COPY y verificaciones.']}
+    calendar=ROOT/'pset_2/docs/calendario-verificacion.json'
+    if calendar.is_file():
+        c=json.loads(calendar.read_text())
+        result['schedule']['scope']='Calendario independiente Raw desactivado: la ejecución periódica corresponde al padre oulad_pipeline.'
+        result['parent_schedule']={k:c[k] for k in ['cron','timezone','enabled','execution_id','scheduled_date','backfill_calendar','next_execution_date']}
     target=ROOT/'pset_2/docs/ingesta-raw-verificacion.json'
     target.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     print(f"Raw verificado: {result['total_source_rows']} filas; cinco NOOP; retry y backfill comprobados.")

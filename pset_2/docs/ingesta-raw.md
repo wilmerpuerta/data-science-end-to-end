@@ -1,6 +1,6 @@
 # Ingesta Raw con Kestra
 
-Estado: ejecutada y reconciliada. Se cargaron los cinco CSV originales a PSET2_OULAD.RAW desde el ejecutor de Kestra. Conexión desde contenedor, carga completa, idempotencia, retry controlado y backfill por fichero comprobados. El horario periódico está configurado pero desactivado; Bronze dbt se construyó después según [calidad-bronze.md](calidad-bronze.md); Silver también se construyó según [silver.md](silver.md); Gold también se construyó según [gold.md](gold.md); Spark/OBT ya se ejecutó: [guía](obt-spark.md) y [resultados](obt-resultados.md).
+Estado: ejecutada y reconciliada. Se cargaron los cinco CSV originales a PSET2_OULAD.RAW desde el ejecutor de Kestra. Conexión desde contenedor, carga completa, idempotencia, retry controlado y backfill por fichero comprobados. El calendario del padre está activo y el de Raw independiente permanece desactivado; Bronze dbt se construyó después según [calidad-bronze.md](calidad-bronze.md); Silver también se construyó según [silver.md](silver.md); Gold también se construyó según [gold.md](gold.md); Spark/OBT ya se ejecutó: [guía](obt-spark.md) y [resultados](obt-resultados.md).
 
 ## Reproducir preparación y carga
 
@@ -58,7 +58,7 @@ Sin --force-reload una partición ya reconciliada resulta NOOP. Tras una ejecuci
 
 ## Frecuencia y consumo
 
-El trigger validado por Kestra está definido para los días 1 y 15 a las 09:00 America/Guayaquil, con disabled=true. Es dos veces al mes, no un intervalo exacto de 14 días. OULAD es un histórico estático: la frecuencia revisa versiones y no implica nuevos datos del proveedor. El disparo temporal no se ha probado ni activado; no se presenta como una automatización calendarizada ya operativa. Se habilitará de forma explícita cuando se cierre el pipeline y su operación.
+El trigger revision_integral del padre oulad_pipeline está activo: días 1 y 15 a las 09:00 America/Guayaquil, disabled=false. El trigger independiente de oulad_raw continúa disabled=true porque Raw se invoca dentro del padre. Es dos veces al mes, no un intervalo exacto de 14 días. La [prueba Schedule con backfill de calendario](calendario-programado.md) conserva fecha programada y ejecución real; no equivale a observar el reloj del día 15. OULAD es un histórico estático: frecuencia no implica datos nuevos.
 
 Las pruebas de COPY y reconciliación utilizaron el warehouse del proyecto. No se atribuye gratuidad ni costo cuantificado sin datos de consumo. Conservar auto-suspend; las reejecuciones NOOP evitan cargas pero todavía ejecutan consultas de comprobación.
 

@@ -96,6 +96,11 @@ def main():
     check('obt_shape_matches_reproduction',obt['rows']==obt['unique_keys']==repro['obt_rows']==108277 and len(obt['output_columns'])==repro['obt_columns']==35)
     check('temporal_and_readback_evidence',synthetic['cases_passed']==7 and obt['temporal_tests_passed']==repro['future_perturbation_tests_passed']==4 and obt['readback_all_columns_equal'] and repro['readback_all_columns_equal'] and repro['content_sha256_matches_previous'])
     check('controlled_failure_scope',pipeline['stopped_after_injected_failure'] and pipeline['no_downstream_jobs_on_failure'] and pipeline['gate_attempts']==2 and not pipeline['calendars_enabled'])
+    calendar=BASE/'docs/calendario-verificacion.json'
+    if calendar.is_file():
+        c=json.loads(calendar.read_text())
+        check('active_schedule_verified',c['status']=='ok' and c['enabled'] and not c['raw_independent_schedule_enabled'] and c['state']=='SUCCESS' and c['trigger_type']=='io.kestra.plugin.core.trigger.Schedule')
+        check('schedule_backfill_explicit_in_memo',c['execution_id'] in sections[1] and 'backfill' in sections[1] and '20-nov' in sections[1])
     check('clean_reproduction_scope',repro['exported_files']==214 and repro['new_compose_project_and_volumes'] and repro['own_images_rebuilt_without_layer_cache'] and repro['snowflake_resources_reused'] and repro['original_stack_restored'])
     # Comparar cada cifra relevante en su sección correspondiente.
     expected = {
@@ -124,6 +129,7 @@ def main():
                 links.append(target)
     check('readme_and_memo_guide_links_exist',not links)
     referenced = ['docs/ingesta-raw-verificacion.json','docs/calidad-bronze.json','docs/calidad-silver.json','docs/calidad-gold.json','docs/obt-verificacion.json','spark/feature-contract.json','docs/pipeline-pruebas.json','docs/reproduccion-limpia.json','README.md']
+    if calendar.is_file():referenced.append('docs/calendario-verificacion.json')
     result = {'status':'ok','pages':len(pdf),'checks':checks,'source_sha256':sha(SOURCE),'pdf_sha256':sha(OUTPUT),'generator_sha256':sha(BASE/'kestra/scripts/generar_memo.py'),'evidence_sha256':{p:sha(BASE/p) for p in referenced},'minimum_font_pt':round(min(s['size'] for s in spans),2),'diagrams':diagram_counts,'missing_fragments':missing,'scope':'Coherencia textual por página, cifras contra JSON, geometría y Markdown derivados. La legibilidad de diagramas requiere además revisión visual de las seis páginas.'}
     REPORT.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     if args.render:

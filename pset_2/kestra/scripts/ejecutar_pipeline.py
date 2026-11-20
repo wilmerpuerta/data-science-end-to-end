@@ -29,7 +29,10 @@ def main():
             result=request('/flows','POST',content)
         else:result=request('/flows/pset2.oulad/oulad_pipeline','PUT',content)
         assert result['id']=='oulad_pipeline'
-        print('Flujo integral pset2.oulad/oulad_pipeline desplegado; ambos calendarios permanecen desactivados.');return 0
+        cron=next(t for t in result['triggers'] if t['id']=='revision_integral')
+        print(json.dumps({'flow':'pset2.oulad/oulad_pipeline','cron':cron['cron'],
+                          'timezone':cron['timezone'],'enabled':not cron.get('disabled',False),
+                          'raw_schedule_enabled':False},ensure_ascii=False));return 0
     if a.resume_execution:
         assert re.fullmatch('[A-Za-z0-9_-]{1,100}',a.resume_execution);identifier=a.resume_execution
     else:
@@ -50,6 +53,11 @@ def main():
             report={'checked_at_utc':datetime.now(timezone.utc).isoformat(),'execution_id':identifier,'state':state,
                     'flow':'pset2.oulad/oulad_pipeline','tasks':tasks,
                     'inputs':{k:inputs.get(k) is True for k in ['force_reload','retry_probe','fail_after_raw']}}
+            trigger=run.get('trigger') or {}
+            if trigger:
+                variables=trigger.get('variables') or {}
+                report['trigger']={'id':trigger.get('id'),'type':trigger.get('type'),
+                                   'variables':{k:variables[k] for k in ['date','previous','next','backfill'] if k in variables}}
             if inputs.get('source_file') in ['all','studentInfo.csv','studentRegistration.csv','courses.csv','vle.csv','studentVle.csv']:report['inputs']['source_file']=inputs['source_file']
             child=(run.get('outputs',{}).get('raw',{}) or {}).get('executionId')
             if not child:

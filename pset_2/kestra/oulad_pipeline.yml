@@ -80,7 +80,7 @@ triggers:
     type: io.kestra.plugin.core.trigger.Schedule
     cron: '0 9 1,15 * *'
     timezone: America/Guayaquil
-    disabled: true
+    disabled: false
     inputs:
       source_file: all
       force_reload: false

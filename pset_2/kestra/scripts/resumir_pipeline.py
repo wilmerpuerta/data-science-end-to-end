@@ -42,6 +42,11 @@ def render(data):
     folder=BASE/'docs/evidencia/pipeline'/data['success_execution_id']
     execution=json.loads((folder/'execution.json').read_text());v=json.loads((folder/'verification.json').read_text())
     def number(n):return f'{n:,}'.replace(',','.')
+    calendar=BASE/'docs/calendario-verificacion.json'
+    current_schedule=('El calendario padre está activo para días 1 y 15, 09:00 America/Guayaquil; '
+                      'Raw permanece sin calendario independiente. La prueba original de fallo/retry se conserva con su estado histórico; '
+                      'la ejecución Schedule recuperada se documenta en [calendario programado](calendario-programado.md).'
+                      if calendar.is_file() else 'Los calendarios padre y Raw permanecen desactivados en esta prueba histórica.')
     lines=['# Resultados de orquestación integral','',
            'Generado por `python3 pset_2/kestra/scripts/resumir_pipeline.py` desde informes de ejecuciones reales.','',
            f"**Kestra SUCCESS:** `{data['success_execution_id']}`. Raw → gate → dbt → Spark → verificación, sin intervención manual entre etapas.",'',
@@ -52,9 +57,9 @@ def render(data):
         '**Recuperación controlada:** gate falló una vez antes de dbt/Spark y pasó al segundo intento. La ejecución completa terminó correctamente. La prueba no representa una caída real de Snowflake.','',
         f"**Detención controlada:** `{data['failure_execution_id']}` terminó FAILED después de Raw y gate; dbt, Spark y verificación no se iniciaron. Raw produjo cinco NOOP y no hubo publicación OBT desde ese flujo. No se presenta ese FAILED deliberado como una ejecución productiva exitosa.",'',
         '**API interna:** ambos ejecutores rechazaron campos de comando libre con HTTP 400 sin crear trabajos. Repetir POST con la misma ejecución reutilizó el mismo job_id/intento para dbt y Spark; cada uno se ejecutó una vez en la cadena exitosa.','',
-        'Los calendarios padre y Raw permanecen desactivados. Un único flujo padre puede ejecutar a la vez; las operaciones manuales también deben respetar el escritor único. La atomicidad es por carga/modelo/publicación OBT, no una transacción de toda la cadena.','',
+        current_schedule+' Un único flujo padre puede ejecutar a la vez; las operaciones manuales también deben respetar el escritor único. La atomicidad es por carga/modelo/publicación OBT, no una transacción de toda la cadena.','',
         f"Evidencia: [resumen JSON](pipeline-pruebas.json), [cierre canónico](pipeline-verificacion.json), [ejecución exitosa](evidencia/pipeline/{data['success_execution_id']}/execution.json), [verificación](evidencia/pipeline/{data['success_execution_id']}/verification.json), [prueba API](evidencia/pipeline/{data['success_execution_id']}/api-probe.json), [fallo controlado](evidencia/pipeline/{data['failure_execution_id']}/execution.json), [guía](orquestacion-integral.md).",'',
-        'Reproducción desde exportación limpia verificada: [resultados](reproduccion-resultados.md). Memo técnico generado: [fuente y exportación](memo-tecnico.md). Revisión local del paquete completada: [informe](revision-paquete.md). Pendientes: cuantificación de costo monetario y publicación GitHub. No se ha publicado el repositorio ni activado el calendario.','']
+        'Reproducción desde exportación limpia verificada: [resultados](reproduccion-resultados.md). Memo técnico generado: [fuente y exportación](memo-tecnico.md). Revisión local del paquete: [informe](revision-paquete.md). El consumo monetario sigue sin cuantificar; [publicación GitHub](publicacion-github.md) y calendario tienen evidencia de cierre independiente.','']
     return '\n'.join(lines)
 
 if __name__=='__main__':

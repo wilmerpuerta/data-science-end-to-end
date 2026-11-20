@@ -1,5 +1,11 @@
 # PSet 2: pipeline de datos OULAD
 
+## Corrección de Kestra: calendario activo
+
+El flujo integral está activo para los días **1 y 15 a las 09:00, America/Guayaquil** (`0 9 1,15 * *`). Raw se ejecuta como subflujo y mantiene deshabilitado su calendario independiente. Se verificó una ejecución real creada por Schedule mediante recuperación del calendario del 15-nov-2026; no fue una ejecución manual del flujo ni se afirma que se observara la llegada del día 15 en tiempo real. [Evidencia, capturas y pasos](docs/calendario-programado.md), [verificación JSON](docs/calendario-verificacion.json).
+
+Kestra de esta entrega: `http://localhost:18090`. Próximo disparo registrado al verificar: **1-dic-2026, 09:00 Ecuador**. Mantener equipo/Docker/Kestra y acceso cloud disponibles para ejecutarlo. No activar otro pipeline escritor sobre las mismas tablas a la misma hora.
+
 Entrega de Wilmer Puerta. El pipeline prepara Fuente → Kestra → Snowflake Raw → dbt Bronze/Silver/Gold → Spark OBT → Snowflake. Esta carpeta contiene la implementación y evidencia del PSet 02 reorganizadas para la entrega. La reorganización no es una ejecución cloud nueva.
 
 ```text

@@ -18,6 +18,8 @@
     "obt_shape_matches_reproduction": true,
     "temporal_and_readback_evidence": true,
     "controlled_failure_scope": true,
+    "active_schedule_verified": true,
+    "schedule_backfill_explicit_in_memo": true,
     "clean_reproduction_scope": true,
     "page_1_metrics_match_json": true,
     "page_2_metrics_match_json": true,
@@ -34,19 +36,20 @@
     "pipeline_markdown_matches_json": true,
     "readme_and_memo_guide_links_exist": true
   },
-  "source_sha256": "2b884238967d25b9a5f627b4d3be40e69faed5019fee92ed073bc1081c45867d",
-  "pdf_sha256": "fb62e40e67957b292b9d93968a60ac5cfa95a246f8e720f03d34ff2b64b78cad",
-  "generator_sha256": "d790bc44a0df7ffc4961bb989188de5d2553138de6d7fa31fa1ce1d3325bbe0d",
+  "source_sha256": "8cdd516f702fc2e32e3319e6f02a23f475ef0e82c0470271a8fd7c07ecc4376c",
+  "pdf_sha256": "51ea66b4a77dc00f11adf181437b856dd46fd50aab1c514c1fa837c6a208209d",
+  "generator_sha256": "3d8cf0283a2b2bc45fbd52c355189d96c59a8c27e85b34c3979d8eb8d22ef818",
   "evidence_sha256": {
-    "docs/ingesta-raw-verificacion.json": "7df260a01a1951f336041ec8940497b1922191786b19a8ba319c061b04fcc7bf",
+    "docs/ingesta-raw-verificacion.json": "16e3d12b5c2efb621bb3abdb0f80cb7b01809f10c2c0512eee0df58662c539f5",
     "docs/calidad-bronze.json": "56ce5c49e1d0e511a07782f6edea36fea4b92277d59204b8e6371b366a6c3e1e",
     "docs/calidad-silver.json": "07eb3082a6bf506b3ab9d0947520abb0aff4a6960d83005c1487c3881df57fce",
     "docs/calidad-gold.json": "0c959a554461b93f613c54de6ee87af04453f6a19f4de9a6c4113f26f4655ff5",
     "docs/obt-verificacion.json": "dc0ff33303a01a53d67c2fe622f7555c18194e88e7549e30ca6a1a817cd7c61c",
     "spark/feature-contract.json": "d646b574c265bbfd3a9278ce9473e91957492e1b6daedf0905001ea19e07906c",
-    "docs/pipeline-pruebas.json": "7a9e705609891d418bc4cfd1876e0c7f1b1940e28c1c566cce50d0b7a603d6fd",
+    "docs/pipeline-pruebas.json": "1949b776d9641594dba5ff0e91a7b9d5d7ea7e4d25bf71cb9143094d270a5b40",
     "docs/reproduccion-limpia.json": "b06b55e054eac9fc3a072ac4dc372b5f072325774a6d3d60881d70faf3dce199",
-    "README.md": "0eed77a01620d299a54b6739a79e0794630dbfa4324af9c472e7b2653ce9bce3"
+    "README.md": "2d1ade1d81708f1c2271a5f28582c949fd7b964d78409b4876c23592d8a72f30",
+    "docs/calendario-verificacion.json": "43874c224ce3b6f0eaa19d0ab5e76cef4855d7b9076e0d4ea267f9910d16ba04"
   },
   "minimum_font_pt": 8.0,
   "diagrams": [

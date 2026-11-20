@@ -1,6 +1,6 @@
 # Rutas de la entrega PSet 2
 
-La carpeta `pset-02/` conserva la versión histórica. La entrega es `pset_2/`; los archivos son reales y la raíz contiene la estructura solicitada. El memo PDF y su fuente se conservan íntegros para mantener la evidencia aprobada. Sus referencias de ejecución se interpretan con esta tabla; los comandos vigentes están en el README.
+La carpeta `pset-02/` conserva la versión histórica. La entrega es `pset_2/`; los archivos son reales y la raíz contiene la estructura solicitada. El memo fue revisado el 20-nov para incorporar el calendario activo y las rutas vigentes. El PDF original aprobado se conserva en [historial](historial/PSet2_memo_Puerta_Wilmer_13nov2026.pdf); sus hashes y la revisión están en [registro de revisión](memo-revision-calendario.json). La tabla conserva la correspondencia histórica; los comandos vigentes están en el README.
 
 | Ubicación histórica | Ubicación de entrega |
 |---|---|

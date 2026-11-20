@@ -523,3 +523,12 @@ Se capturó directamente GitHub Actions en Chrome: run 44781023359, revisión 03
 `PSet4_anexos_Puerta_Wilmer.pdf` reúne sin modificar los tres memos anteriores y una copia fechada de este registro. El límite de 12 páginas aplica al memo principal y excluye estos anexos. La convención `Puerta_Wilmer` se mantiene por indicación del autor, sin atribuir una excepción docente al requisito literal de dos apellidos.
 
 Pendiente para cerrar el PSet 04: notebooks 01-07 con salidas y Restart/Run All, pitch histórico en PDF, grabación de la demo de máximo siete minutos, publicación del enlace e incorporación de la URL real al memo y auditoría final de la rúbrica. El guion y el marcador explícito «pendiente de publicación» no sustituyen el video. No se declara completado el proyecto final.
+
+
+## 2026-11-20 — Corrección del calendario de PSet 02
+
+Feedback recibido en Kestra (9,5): activar el cron de días 1 y 15 y presentar evidencia programada. Se corrigió `pset_2/kestra/oulad_pipeline.yml`: `0 9 1,15 * *`, 09:00 America/Guayaquil, padre activo y Raw sin calendario independiente. En la instancia de entrega `pset2-entrega` se recuperó mediante backfill la fecha del 15-nov-2026; el planificador creó `5Iuxh5EoC9h21NtOUObQuS` con trigger Schedule y la cadena terminó SUCCESS el 20-nov. No se afirma observar la llegada del cron el día 15 en tiempo real.
+
+Raw, 23 modelos y 168 pruebas dbt, y Spark aprobaron al primer intento; la OBT conservó 108.277 filas ×35 columnas y sus cuatro hashes. Un error EIO de lectura de `audit.json` requirió reponer la referencia idéntica a Git, remontar Kestra y reiniciar solo la verificación final; fallo y recuperación manual se conservan. La documentación y el memo de PSet 02 (seis páginas) se actualizaron, con el original aprobado preservado en su historial. Evidencia: `pset_2/docs/calendario-programado.md`, `calendario-verificacion.json` y capturas reales en `docs/evidencia/calendario/`.
+
+La corrección no cambia SQL, features, contrato, entrenamientos, aliases ni predicciones del proyecto final. El cron activo corresponde a PSet 02; `proyecto_final/kestra/ingesta.yml` no despliega un segundo cron sobre las mismas tablas. Antes de trasladar esa responsabilidad al despliegue final debe elegirse un único escritor calendarizado. Los originales OULAD y archivos del proyecto deben permanecer disponibles localmente; la siguiente fecha registrada es 1-dic-2026 09:00 y exige equipo, Docker, Kestra y acceso cloud disponibles. Los anexos de comunicación ya emitidos conservan su corte documental anterior a esta corrección.

@@ -1,6 +1,6 @@
 {
   "status": "ok",
-  "checked_at_utc": "2026-11-19T03:47:14.601506+00:00",
+  "checked_at_utc": "2026-11-20T21:53:01.075741+00:00",
   "checks": {
     "required_structure": true,
     "public_root_matches_required_layout": true,
@@ -12,13 +12,13 @@
     "dbt_graph_acyclic": true,
     "docker_images_and_dependencies_pinned": true,
     "password_examples_are_placeholders": true,
-    "approved_pdf_unchanged": true,
+    "approved_pdf_preserved_or_documented_revision": true,
     "compose_local-only": true,
     "compose_cloud": true
   },
-  "files": 251,
-  "python_files_parsed": 42,
-  "json_files_parsed": 77,
+  "files": 271,
+  "python_files_parsed": 43,
+  "json_files_parsed": 92,
   "findings_metadata_only": [],
   "broken_links": [],
   "cloud_execution_repeated": false,

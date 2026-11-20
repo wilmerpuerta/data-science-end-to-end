@@ -1,9 +1,9 @@
 {
-  "checked_at_utc": "2026-11-13T16:03:03.808455+00:00",
+  "checked_at_utc": "2026-11-20T21:48:40.745652+00:00",
   "status": "ok",
   "scope": "Evidencia de la etapa Raw. El avance posterior dbt/Spark se registra en sus informes específicos.",
   "initial_load_execution": "r1LqZg1v9JkEQEq1LgAnO",
-  "idempotence_execution": "1tO0m3BdzY1gz3ZRkkR8sQ",
+  "idempotence_execution": "2h7hAeixXhig6coSNWhVU2",
   "tables": [
     {
       "file": "studentInfo.csv",
@@ -71,18 +71,27 @@
     "cron": "0 9 1,15 * *",
     "timezone": "America/Guayaquil",
     "enabled": false,
-    "scope": "Configurado y validado por Kestra; aún sin prueba de disparo temporal."
+    "scope": "Calendario independiente Raw desactivado: la ejecución periódica corresponde al padre oulad_pipeline."
   },
   "evidence": [
-    "output/raw/r1LqZg1v9JkEQEq1LgAnO_bbd6145ec54b4cbb80d879cb9e847423.json",
-    "output/raw/1tO0m3BdzY1gz3ZRkkR8sQ_ea096f16339743e8914993ca9747ee7a.json",
-    "output/raw/execution_38VvKsLM0lGFdDSQn8jNaE.json",
-    "output/raw/execution_5XSG2Kwy2wmOIhVhbbJsBs.json"
+    "docs/evidencia/raw/r1LqZg1v9JkEQEq1LgAnO_bbd6145ec54b4cbb80d879cb9e847423.json",
+    "docs/evidencia/raw/2h7hAeixXhig6coSNWhVU2_c14873aeb67640769cfbb503b8deff65.json",
+    "docs/evidencia/raw/execution_38VvKsLM0lGFdDSQn8jNaE.json",
+    "docs/evidencia/raw/execution_5XSG2Kwy2wmOIhVhbbJsBs.json"
   ],
   "limitations": [
     "Un escritor mediante concurrencia=1; no ejecutar cargadores paralelos por fuera del flujo.",
     "Backfill por fichero/checksum completo; no por módulo-edición en esta versión.",
     "Retries acotados del proceso; errores permanentes también agotan los intentos, sin publicar datos inválidos.",
     "No se cuantificó consumo monetario; el warehouse del proyecto se utilizó para COPY y verificaciones."
-  ]
+  ],
+  "parent_schedule": {
+    "cron": "0 9 1,15 * *",
+    "timezone": "America/Guayaquil",
+    "enabled": true,
+    "execution_id": "5Iuxh5EoC9h21NtOUObQuS",
+    "scheduled_date": "2026-11-15T09:00:00-05:00",
+    "backfill_calendar": true,
+    "next_execution_date": "2026-12-01T09:00:00-05:00"
+  }
 }

@@ -1,0 +1,72 @@
+{
+  "status": "ok",
+  "checked_at_utc": "2026-11-20T21:47:52.507263+00:00",
+  "flow": "pset2.oulad/oulad_pipeline",
+  "flow_revision": 2,
+  "execution_flow_revision": 2,
+  "trigger_id": "revision_integral",
+  "trigger_type": "io.kestra.plugin.core.trigger.Schedule",
+  "cron": "0 9 1,15 * *",
+  "timezone": "America/Guayaquil",
+  "enabled": true,
+  "raw_independent_schedule_enabled": false,
+  "execution_id": "5Iuxh5EoC9h21NtOUObQuS",
+  "state": "SUCCESS",
+  "scheduled_date": "2026-11-15T09:00:00-05:00",
+  "actual_start_utc": "2026-11-20T21:36:23.310269Z",
+  "actual_end_utc": "2026-11-20T21:47:08.219764Z",
+  "next_execution_date": "2026-12-01T09:00:00-05:00",
+  "backfill_calendar": true,
+  "trigger_variables": {
+    "date": "2026-11-15T09:00:00-05:00",
+    "previous": "2026-11-01T09:00:00-05:00",
+    "next": "2026-12-01T09:00:00-05:00"
+  },
+  "tasks": [
+    {
+      "task_id": "raw",
+      "state": "SUCCESS",
+      "attempts": 1
+    },
+    {
+      "task_id": "gate",
+      "state": "SUCCESS",
+      "attempts": 1
+    },
+    {
+      "task_id": "dbt",
+      "state": "SUCCESS",
+      "attempts": 1
+    },
+    {
+      "task_id": "spark",
+      "state": "SUCCESS",
+      "attempts": 1
+    },
+    {
+      "task_id": "verificar",
+      "state": "SUCCESS",
+      "attempts": 2
+    }
+  ],
+  "raw_selected_rows": 10726852,
+  "dbt_models_succeeded": 23,
+  "dbt_tests_passed": 168,
+  "obt_rows": 108277,
+  "obt_columns": 35,
+  "obt_hashes_match_previous": true,
+  "pipeline_source_sha256": "56860ea34ab5dd2d917d98b7df28606a4a65499f0e801f33eac08c741b35ba8b",
+  "scope": "Ejecución real creada por Schedule al recuperar la fecha del calendario mediante backfill; no se afirma que el equipo estuviera encendido en esa fecha ni que se observara su llegada en tiempo real.",
+  "next_run_requires": "Equipo, Docker, Kestra y credenciales/recursos cloud disponibles.",
+  "api_base": "http://localhost:18090",
+  "evidence": "docs/evidencia/pipeline/5Iuxh5EoC9h21NtOUObQuS/verification.json",
+  "recovery": {
+    "initial_state": "FAILED",
+    "initial_failed_task": "verificar",
+    "error_class": "OSError EIO",
+    "action": "Referencia audit.json repuesta con bytes idénticos a Git; remonte de Kestra y restart de la tarea fallida.",
+    "manual_restart": true,
+    "upstream_tasks_repeated": false,
+    "evidence": "docs/evidencia/pipeline/5Iuxh5EoC9h21NtOUObQuS/antes-reintento-execution.json"
+  }
+}

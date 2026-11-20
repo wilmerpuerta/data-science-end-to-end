@@ -28,7 +28,7 @@ El MVP usa exclusivamente OULAD; D2L/WiFi institucionales quedan fuera y requier
 | Spark local | Trabajo real Spark 3.5.6: suma de rango, 32.593 matrículas y cinco checksums |
 | dbt Core en Docker | Core 1.10.13/adaptador 1.10.2 conectados; cinco vistas Bronze, perfil agregado y 45 tests aprobados |
 | Raw desde Kestra | Cinco fuentes, 10.726.852 filas reconciliadas; cinco NOOP, retry controlado y backfill por fichero comprobados |
-| Calendario Raw | Días 1 y 15 a las 09:00 America/Guayaquil; configurado y desactivado, sin disparo temporal probado |
+| Calendario integral | Activo: días 1 y 15, 09:00 America/Guayaquil; ejecución Schedule recuperada verificada. Raw sin calendario independiente; [evidencia](calendario-programado.md) |
 | Silver dbt | Siete tablas; 8.459.320 claves diarias, 39.605.099 clics conservados y 101 tests Bronze/Silver aprobados |
 | Gold dimensional | Cinco dimensiones, dos hechos y tres tablas complementarias/de calidad; 168 tests de las tres capas aprobados |
 | Spark cloud y OBT | 108.277 filas matrícula–corte y 35 columnas en ANALYTICS.OBT_FEATURES; población, pruebas temporales y lectura de vuelta verificadas |
@@ -137,7 +137,7 @@ En Kestra: namespace **pset2.oulad**, flujo **oulad_raw**. La conexión y las ci
 
 Reejecutar la última orden debe devolver NOOP para las cinco fuentes reconciliadas, sin agregar filas a los datos Raw. Backfill comprobado: `python3 pset_2/kestra/scripts/ejecutar_raw.py --file courses.csv --force-reload`. La partición de esta versión es fichero/checksum completo, no módulo-edición; se conserva la versión actual por fuente. La publicación solo afecta tablas con contrato gestionado y utiliza una transacción tras validar la tabla temporal.
 
-[Guía de ingesta](../docs/ingesta-raw.md), [evidencia real](../docs/ingesta-raw-verificacion.json) y [consultas de verificación](../dbt/snowflake/04_verificar_raw.sql). Los informes sanitizados están en output/raw/. La ingesta usa el warehouse: no se ha cuantificado consumo monetario. El trigger horario permanece desactivado; repetir manualmente toda la carga no es necesario para inspeccionar los resultados.
+[Guía de ingesta](../docs/ingesta-raw.md), [evidencia real](../docs/ingesta-raw-verificacion.json) y [consultas de verificación](../dbt/snowflake/04_verificar_raw.sql). Los informes sanitizados están en output/raw/. La ingesta usa el warehouse: no se ha cuantificado consumo monetario. El calendario independiente Raw permanece desactivado; el padre está activo ([evidencia](calendario-programado.md)); repetir manualmente toda la carga no es necesario para inspeccionar los resultados.
 
 ## Ejecutar dbt Bronze/Staging y revisar calidad
 
@@ -230,7 +230,7 @@ El flujo **pset2.oulad/oulad_pipeline** llama a Raw como subflujo, espera su res
 
 La ejecución **6X7mzEdM0yvoBSbp8MnALv** terminó SUCCESS: cinco fuentes Raw reconciliadas (NOOP), 23 modelos/168 tests dbt y OBT de 108.277 filas/35 columnas. El retry controlado falló una vez antes de dbt/Spark y se recuperó. Otra ejecución con fallo permanente se detuvo tras Raw y gate sin iniciar transformaciones. Repetir las solicitudes internas reutilizó el mismo job_id/intento de dbt y Spark.
 
-[Guía integral](../docs/orquestacion-integral.md), [resultados](../docs/pipeline-resultados.md), [pruebas JSON](../docs/pipeline-pruebas.json) y [cierre de la ejecución](../docs/pipeline-verificacion.json). La OBT orquestada mantiene las mismas cuatro huellas de contenido que la ejecución standalone previa. Los calendarios padre y Raw permanecen desactivados.
+[Guía integral](../docs/orquestacion-integral.md), [resultados](../docs/pipeline-resultados.md), [pruebas JSON](../docs/pipeline-pruebas.json) y [cierre de la ejecución](../docs/pipeline-verificacion.json). La OBT orquestada mantiene las mismas cuatro huellas de contenido que la ejecución standalone previa. El calendario padre está activo; Raw mantiene el suyo desactivado para evitar duplicación. La prueba de recuperación se conserva en [calendario programado](calendario-programado.md).
 
 Pruebas reproducibles: `ejecutar_pipeline.py --fail-after-raw` debe terminar con error deliberado; `ejecutar_pipeline.py --retry-probe` debe recuperarse y completar la cadena. Backfill disponible con `--file courses.csv --force-reload`, por fichero completo, seguido de reconstrucción completa. `--resume-execution ID` consulta una ejecución existente sin relanzarla. No ejecutar comandos manuales en paralelo con el padre. La atomicidad es por etapa, no una transacción de todo el pipeline.
 
@@ -253,7 +253,7 @@ El proyecto y los puertos se parametrizan en .env.infra mediante PSET2_COMPOSE_P
 
 ## Continuación del pipeline
 
-La carga Raw ya utiliza checksum/run_id/partición por fichero, publicación transaccional e idempotencia. Se probaron retry con un fallo controlado y backfill de courses.csv. El calendario está definido para días 1 y 15, pero desactivado hasta cerrar la operación del pipeline; no equivale a un disparo periódico probado. OULAD es un histórico estático: frecuencia de ejecución no implica nuevos datos. Bronze usa source(), ref() y tests de negocio. Silver, Gold y Spark/OBT están construidos; la orquestación integral y la reproducción desde exportación limpia están verificadas. El memo está generado y la revisión local está documentada; el destino GitHub y la actualización autorizada se registran en docs/publicacion-github.md. La OBT tiene grano matrícula–corte, elegibilidad antes de actividad y separación de target y predictores, conforme al contrato.
+La carga Raw ya utiliza checksum/run_id/partición por fichero, publicación transaccional e idempotencia. Se probaron retry con un fallo controlado y backfill de courses.csv. El calendario padre está activo para días 1 y 15 y tiene una ejecución Schedule por recuperación del 15-nov; fecha real y programada se distinguen. Raw no tiene calendario independiente activo. OULAD es un histórico estático: frecuencia de ejecución no implica nuevos datos. Bronze usa source(), ref() y tests de negocio. Silver, Gold y Spark/OBT están construidos; la orquestación integral y la reproducción desde exportación limpia están verificadas. El memo está generado y la revisión local está documentada; el destino GitHub y la actualización autorizada se registran en docs/publicacion-github.md. La OBT tiene grano matrícula–corte, elegibilidad antes de actividad y separación de target y predictores, conforme al contrato.
 
 Los comandos Raw ya se ejecutaron y verificaron. La cadena completa se ejecutó desde Kestra y desde una exportación limpia con volúmenes nuevos y dependencias cloud documentadas. Batch basta para revisión quincenal. Streaming requeriría fuente continua y necesidad validada de baja latencia; no se implementará. El costo monetario no está cuantificado; mantener auto-suspend y documentar suspensión/limpieza.
 
