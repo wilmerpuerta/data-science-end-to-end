@@ -247,3 +247,74 @@ Criterios descriptivos de revisión fijados: brecha absoluta Y-N de cobertura ac
 También quedan fijados: bloquear entradas fuera de contrato; pasar a respaldo ante modelo no disponible o artefacto incompatible; retirar ranking si rinde menos que el estático a iguales cupos y población Fail en dos lotes maduros tras evaluar reentrenamiento; y restaurar infraestructura/revisión manual ante 5xx >1 % en dos lotes con al menos 20 solicitudes cada uno. Las condiciones proponen acciones auditables y no promueven ni cambian modelos automáticamente. El comparador de negocio lote por lote se completará en la siguiente etapa.
 
 El respaldo existente conserva el Dummy congelado del PSet 03 y el orden por matrícula, los cupos compartidos y la persistencia. Se añade `puntuacion_individual=false`, un criterio administrativo y un mensaje operativo: el valor técnico constante de Dummy no expresa riesgo individual cero. La acción solicita revisión humana de necesidades. Esta aclaración es aditiva; no modifica respuestas históricas ya registradas ni la preparación del modelo.
+
+
+## Ética operativa: resultados y responsabilidades (20-nov-2026)
+
+El protocolo se congeló en `65cf599a34f8a18aa01d856fd20c184ce86ce10f` antes del cálculo. Se auditaron las 18.323 predicciones originales de control: 9.231 matrículas de semana 2 y 9.092 elegibles en semana 4, con targets maduros al día simulado 283. No se escribió en Snowflake, no se repuntuó ni se entrenó. Se excluyó el escenario sintético. Hay 72 filas agregadas y 24 comparaciones por ámbito (global, lote y edición); el grupo sin dato se conserva explícitamente y tiene cero casos. Los modelos y cupos originales no cambian.
+
+| Corte | Discapacidad declarada | Matrículas elegibles | Fail elegibles | AP de Fail | Cobertura acumulada | FPR acumulada |
+|---|---|---:|---:|---:|---:|---:|
+| Semana 2 | N | 8374 | 1731 | 0.3686 | 6,30 % | 1,43 % |
+| Semana 2 | Y | 857 | 216 | 0.4051 | 5,56 % | 1,56 % |
+| Semana 4 | N | 8250 | 1731 | 0.3789 | 21,89 % | 6,95 % |
+| Semana 4 | Y | 842 | 216 | 0.4281 | 18,98 % | 5,93 % |
+
+AP y prevalencia corresponden a las matrículas todavía elegibles en cada corte. La cobertura y FPR acumuladas utilizan la base de semana 2, separada por grupo, e incluyen propuestas previas aunque la matrícula ya no sea elegible. En esa base hay 8.374 matrículas N (1.731 Fail) y 857 Y (216 Fail); no se utiliza solo el saldo de semana 4 como denominador. La AP mayor en Y no garantiza igual acceso al apoyo: la prevalencia y la composición de módulos difieren. Las unidades son matrículas, no personas independientes; las personas únicas por grupo/corte se conservan en la exportación y no deben sumarse entre rondas o ediciones.
+
+| Corte | Grupo | Proponer tutoría nueva | Tutoría ya propuesta | Seguimiento |
+|---|---|---:|---:|---:|
+| Semana 2 | N | 2,44 % (204) | 0,00 % (0) | 97,56 % (8170) |
+| Semana 2 | Y | 2,57 % (22) | 0,00 % (0) | 97,43 % (835) |
+| Semana 4 | N | 7,72 % (637) | 2,42 % (200) | 89,85 % (7413) |
+| Semana 4 | Y | 6,77 % (57) | 2,61 % (22) | 90,62 % (763) |
+
+**Aceptabilidad condicionada.** En el agregado, la cobertura Y queda 0,74 puntos por debajo de N en semana 2 y 2,91 puntos por debajo en semana 4; las diferencias de FPR son +0,13 y −1,03 puntos. No cruzan los límites experimentales globales, pero no demuestran igualdad de oportunidades ni autorizan un despliegue institucional. Al desagregar aparece una señal que el promedio oculta:
+
+| L06, semana 4, control original | Base | Fail en base | TP acumulados | FN acumulados | Cobertura acumulada |
+|---|---:|---:|---:|---:|---:|
+| N | 3291 | 687 | 159 | 528 | 23,14 % |
+| Y | 346 | 87 | 13 | 74 | 14,94 % |
+
+En L06, Y presenta una brecha de cobertura de **−8,20 puntos porcentuales**, superior al límite de revisión de 5 puntos. Es una diferencia relevante para las personas y para la focalización: equivale descriptivamente a unas ocho propuestas menos por cada cien Fail de Y frente a la tasa de N. **No se acepta el uso automático sin revisión en esa onda.** La coordinación académica debe revisar composición por módulo, accesibilidad y necesidades con el equipo del modelo. No se infiere discriminación causal ni se retocan umbrales o cupos para hacer desaparecer la brecha en este benchmark ya observado. Los resultados por edición se conservaron para esa revisión; las celdas sin tamaño suficiente no se usan para afirmar ausencia de diferencias.
+
+Solo L06 activa `equidad_revision`; no hay dos cohortes comparables consecutivas con exceso, por lo que no se activa la regla de suspensión persistente. El servicio permanece como simulación con propuestas sujetas a revisión humana. N significa que no consta discapacidad declarada en ese registro; no demuestra ausencia de necesidades. La revisión por este atributo no cubre todos los riesgos de equidad ni reemplaza una evaluación prospectiva con la Universidad.
+
+### Quién asume el costo del error
+
+| Resultado | Persona o área que asume el costo | Respuesta operativa |
+|---|---|---|
+| FP: propuesta sobre matrícula que no termina en Fail | Universidad y tutores: tiempo y cupo; estudiante: tiempo de contacto y posible estigmatización; otras personas: oportunidad de apoyo postergada. | Revisar necesidad y consentimiento antes de confirmar atención. No llamar al estudiante «falso positivo». No-Fail incluye Withdrawn: una falsa alerta de Fail no prueba que el apoyo sea innecesario. |
+| FN: Fail que queda sin propuesta | Estudiante: oportunidad de contacto preventivo no priorizada; coordinación académica: posible carga reactiva posterior. | Mantener vías de apoyo y revisión a solicitud, revisar omisiones por grupo y edición. No afirmar que una tutoría habría evitado el Fail. |
+| Error o ausencia de datos | Equipo de datos y coordinación del módulo; el estudiante puede recibir una interpretación errónea. | Verificar cobertura y calendario; bloquear entradas inválidas. Ausencia de actividad no equivale a desinterés. |
+| Falla del servicio o del modelo | Operación de plataforma y responsable del modelo; tutores requieren continuidad de la cola de revisión. | Respaldo marcado si la API funciona; recuperación de infraestructura y revisión manual fuera del servicio si no funciona. |
+
+No se cuantifican dólares, eficacia tutorial, tutorías realizadas ni ahorros: esos datos no están disponibles.
+
+### Criterios observables de ajuste o retirada
+
+| Criterio | Métrica y umbral | Ventana y acción | Responsable |
+|---|---|---|---|
+| Calidad | Al menos una entrada fuera de contrato o categoría no admitida. | Inmediato: bloquear el lote (422), corregir la fuente. El respaldo no elude el contrato. | Equipo de datos. |
+| Integridad/disponibilidad | Error de carga, firma/preparación incompatible o modelo no disponible. | Inmediato: respaldo administrativo para lotes nuevos y revisión humana; corregir y verificar antes de reactivar. | Responsable del modelo y operación. |
+| Valor de negocio inferior | TP del modelo < TP estático, con iguales cupos y base Fail. | Dos lotes maduros de cohortes distintas del mismo corte, tras evaluar reentrenamiento: retirar ranking y operar revisión administrativa. La comparación estática por lote se completará en la etapa de negocio; aquí no se presenta como ejecutada. | Coordinación académica y responsable del modelo. |
+| Brecha de acceso | Diferencia absoluta de cobertura >5 puntos o FPR >3 puntos, con mínimo 200 casos/20 Fail/20 no-Fail por grupo. | Un lote: revisión; dos cohortes maduras consecutivas del mismo corte: proponer suspensión del ranking para lotes nuevos. No mezclar cortes ni repetir una cohorte para simular persistencia. | Coordinación académica y equipo del modelo. |
+| Fallo persistente del sistema | 5xx >1 % con al menos 20 solicitudes por lote. | Dos lotes consecutivos del mismo corte: restaurar servicio y evaluar respaldo; pausar despachos si la API no está disponible. Las muestras actuales no permiten estimar un SLA. | Operación de plataforma. |
+
+`monitoreo/alertas.py::evaluar_retirada` implementa las condiciones y sus responsables; las pruebas cubren tamaños, persistencia, distintos cortes y comparadores incompatibles. El fallo de carga ya activa respaldo en la API; las otras suspensiones requieren decisión del responsable y operación del interruptor. PSI solo no retira ni reentrena un modelo. Los umbrales son de demostración y deben acordarse con la Universidad, no se presentan como estándares legales.
+
+### Revisión del juicio humano del PSet 01
+
+Se conserva la revisión del tutor sobre contexto y contactos previos definida en `pset-01/proyecto-completo-pset1.md`, sección 3.1.6. Se precisa a la luz de L06: revisar accesibilidad, calidad del registro y oportunidad de apoyo por grupo antes de confirmar la propuesta; coordinación académica resuelve conflictos de cupo y puede suspender la priorización. El estudiante conserva canales habituales de atención y puede pedir revisión aunque no esté seleccionado.
+
+La decisión final de contacto/tutoría y el motivo de una modificación se registrarán en el proceso institucional; ese módulo de seguimiento y apelación no está implementado en la API del prototipo. La API sí conserva propuesta, origen, modelo, política y momento. El modelo no decide sanciones, causas de reprobación, diagnósticos ni recorte automático de presupuesto; una mejora predictiva no acredita tutorías realizadas o Fail evitados.
+
+### Reproducción del análisis
+
+Con Snowflake y las ocho ondas de control conciliadas y maduras:
+
+```sh
+docker compose run --rm --no-deps --entrypoint python monitoreo -m monitoreo.deriva --etica /app/.local/etica --codigo-etica <SHA_DE_CODIGO>
+```
+
+Los archivos privados `subgrupos.csv`, `subgrupos.json`, `brechas.json`, `retirada.json` y `linaje.json` conservan agregados, criterios y hashes de las entradas y etiquetas maduras. No se agregan CSV de fila individual al repositorio ni se alteran los cinco CSV de evidencia histórica requeridos. El comando rechaza la falta de etiquetas maduras y datos inconsistentes. La inclusión posterior en el notebook y memo final forma parte de la integración pendiente.
