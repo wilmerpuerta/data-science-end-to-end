@@ -497,3 +497,12 @@ Se conservaron íntegros los dos registros SQLite, los tres champions versión 1
 Los ejecutores HTTP no publican puertos al host, exigen un secreto interno y solo aceptan un `execution_id` válido, sin campos de comandos. Las pruebas HTTP comprobaron 401 sin secreto, rechazo 400 del comando libre, ausencia de trabajos tras la solicitud inválida y repetición de un trabajo exitoso con el mismo ID/intento. Kestra limita concurrencia a uno; no se ejecutan simultáneamente escritores de stacks históricos sobre la misma base.
 
 La nueva reproducción de infraestructura usa un solo Compose y el mismo orden de datos; no equivale a reentrenar ni a validar prospectivamente los modelos. La reconstrucción del Registry en una máquina nueva requiere restauración o registro de modelos. Permanecen pendientes los notebooks finales y la comunicación; no se declara cerrado el PSet 04.
+
+
+## Publicación y despliegue del Compose integrado (20-nov-2026)
+
+[PR #4](https://github.com/wilmerpuerta/data-science-end-to-end/pull/4), revisión `a4fc842a0f38ddf2f4ccba01638f6c67be36f9a3`, [CD](https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44757001546). CI validó el Compose sin servicios ni credenciales reales y aprobó 84 pruebas; la imagen exacta también aprobó 84 antes de publicarse. Referencia desplegada: `ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:c8c922877eeaa909c9463deaa877e3908451e1e373e5b9eeff10ed7b58ab5c96`.
+
+Nueve servicios saludables tras `docker compose up -d --no-build --pull never --wait`; cinco con digest/revisión OCI publicados. Se comprobaron código incorporado en dbt/Spark/Kestra, ausencia de sus binds de código y de puertos HTTP de los ejecutores al host. API y monitor resuelven `http://mlflow:5000`; la UI propia está en localhost:5004. Los datos originales siguen montados de solo lectura. Las credenciales se copiaron íntegramente a `.local/credenciales/`, sin retirar sus originales ni versionarlas.
+
+Se conservaron las filas de ambos SQLite, 36.646 predicciones / 32 eventos de monitoreo / cuatro eventos de reentrenamiento en Snowflake, y los hashes de todas las tablas del Registry frente al snapshot inicial. Los champions siguen en versión 1 y el challenger de semana 4 rechazado. El tablero confirmó 106 / 54 TP netos adicionales de control/deriva, sin errores. No se realizó entrenamiento, tuning, promoción ni consumo de API LLM. Se preservan fuente de datos, preparación, política y decisiones anteriores. Notebooks finales, memo, presentación y video siguen pendientes.
