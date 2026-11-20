@@ -309,7 +309,7 @@ def test_regla_sin_fail_no_inventa_mejora():
     assert result['ganancia_cobertura'] is None and not result['elegible_promocion']
 
 
-def test_reserva_excluye_personas_otros_cortes_y_etiquetas_futuras():
+def test_reserva_excluye_personas_otros_cortes_y_etiquetas_futuras(tmp_path):
     import pandas as pd
     from copy import deepcopy
     from src.datos import construir_lotes
@@ -321,6 +321,8 @@ def test_reserva_excluye_personas_otros_cortes_y_etiquetas_futuras():
     first=lotes[4]['solicitud']['matriculas'][0];future=first['matricula'];label[future]['dia']=284
     duplicated_person=lotes[5]['solicitud']['matriculas'][0];duplicated_person['persona']=next(iter(personas))
     f=deepcopy(first['features'])
+    f['is_imd_missing']=bool(f['is_imd_missing'])
+    f['has_recorded_activity']=bool(f['has_recorded_activity'])
     history=pd.DataFrame([{**f,'matricula':'hist-1','edicion':'H|2013J','persona':'old-person','target_class':'Approved'},
                           {**f,'matricula':'hist-leak','edicion':'H|2013J','persona':next(iter(personas)),'target_class':'Fail'}])
     train,audit=preparar_ventana(history,lotes,label,test,283)
@@ -329,6 +331,9 @@ def test_reserva_excluye_personas_otros_cortes_y_etiquetas_futuras():
     assert duplicated_person['matricula'] not in set(train.matricula)
     assert audit['solapamiento_personas']==0 and audit['excluidas_historico']==1
     assert not train.matricula.duplicated().any()
+    train.to_parquet(tmp_path/'ventana.parquet',index=False)
+    reloaded=pd.read_parquet(tmp_path/'ventana.parquet')
+    pd.testing.assert_frame_equal(train,reloaded)
 
 
 def test_politica_compartida_importable_sin_inicializar_api():

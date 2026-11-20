@@ -323,6 +323,10 @@ def preparar_ventana(historico,lotes,labels,comparacion,dia):
     historico['origen']='historico'
     fields=list(entrada(historico).columns)+['matricula','persona','edicion','target_class','origen']
     train=pd.concat([historico[fields],reciente[fields]],ignore_index=True).sort_values('matricula').reset_index(drop=True)
+    # La unión conserva los valores con los tipos de la firma del modelo.
+    normalizado=entrada(train)
+    for campo in normalizado:
+        train[campo]=normalizado[campo]
     if train.matricula.duplicated().any() or set(train.persona)&personas or set(train.matricula)&reservadas:
         raise ValueError('Fuga o duplicación en la ventana')
     if train.target_class.isna().any() or not set(train.target_class)<={'Approved','Fail','Withdrawn'}:
