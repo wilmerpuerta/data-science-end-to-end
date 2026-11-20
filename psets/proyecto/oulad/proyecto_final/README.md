@@ -198,3 +198,25 @@ docker compose exec -T monitoreo python -m src.datos --reentrenar solicitar
 La referencia pública fija el protocolo y sus cinco folds; `.local/reentrenamiento/` conserva el histórico privado, sus hashes, snapshot y checkpoint. El comando valida el código y datos antes de entrenar; el mismo ciclo se reutiliza sin duplicar el ajuste. Un cambio de datos, protocolo o champion requiere revisar/versionar el ciclo. El target solo entra una vez maduro; la reserva de comparación jamás se añade al entrenamiento. La operación ordinaria corre desde este proyecto y no importa módulos del PSet 02/03.
 
 El rechazo/aprobación se registra desde la tarea Pause de Kestra con decisión, responsable y motivo. El worker verifica esos inputs en la ejecución real antes de modificar un alias. Una aprobación no puede saltarse la regla cuantitativa. `--reentrenar rollback` exige una promoción aprobada previa y responsable/motivo explícitos; su demostración real y el CD de código/GHCR quedan para otro bloque.
+
+
+## Publicación de código en GHCR
+
+`.github/workflows/cd.yml` publica en cada integración a `main`, después de ejecutar el CI reutilizable. Construye `linux/amd64`, ejecuta las 57 pruebas dentro de esa imagen exacta y solo entonces publica `ghcr.io/wilmerpuerta/oulad-proyecto-final-api:<SHA_COMPLETO_DEL_COMMIT>`. El resumen y el artefacto `imagen-publicada-<SHA>` guardan el digest, commit, plataforma y ejecución. Un fallo de CI, build o pruebas impide publicar.
+
+Los workflows efectivos están en `.github/workflows/` de la raíz real del repositorio del curso; los de este directorio conservan la definición canónica para la entrega. `master` y su historial se conservan; `main` será la rama de integración del despliegue. La configuración de publicación está preparada; su ejecución, descarga y verificación operativa se documentarán al terminar este bloque.
+
+Para utilizar una versión publicada, copiar del resumen el valor completo `PSET4_API_IMAGE=ghcr.io/...@sha256:...` a `.env` y ejecutar:
+
+```sh
+docker compose pull api api_deriva monitoreo tablero
+docker compose up -d --no-build --pull never --wait api api_deriva monitoreo tablero
+curl --fail http://localhost:8004/salud
+curl --fail http://localhost:8004/modelo
+```
+
+`PSET4_API_IMAGE` es obligatorio: se fija un commit o, preferiblemente, un digest. Para desarrollo local se puede establecer explícitamente `proyecto-final-api:local` y construir con `docker compose build api`. El servicio Kestra mantiene por ahora su construcción local; el Compose único con MLflow/Spark sigue pendiente.
+
+GHCR puede exigir autenticación si el paquete permanece privado. Para descargar una imagen privada, configurar fuera del repositorio un token clásico con `read:packages` y usar `docker login ghcr.io --username <usuario> --password-stdin`. Nunca guardar el token en `.env`, notebooks o archivos versionados. Un paquete público permite descarga anónima; su visibilidad se administra aparte de la del repositorio.
+
+El despliegue de código no promueve modelos: el Registry mantiene sus aliases y la API los consulta para cada lote nuevo. El challenger rechazado continúa rechazado. La selección/promoción del modelo conserva su control de negocio y supervisión humana.

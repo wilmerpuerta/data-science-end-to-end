@@ -216,3 +216,10 @@ El ciclo queda **RECHAZADO**, el champion de semana 4 permanece en **versión 1*
 `docs/reentrenamientos.csv` exporta cuatro eventos: SOLICITADO, COMPARADO, DECISION_SOLICITADA y DECIDIDO; el último incluye estado RECHAZADO, responsable, motivo y evidencia de reanudación. `docs/corridas.csv` conserva 384 runs y refleja el tag del rechazo. La API y el tablero mantienen el modelo activo y muestran la decisión exportada. El respaldo privado preserva tanto la pausa anterior como el cierre, el Registry, la ventana de entrenamiento, el modelo y las particiones.
 
 Este cierre demuestra el camino de **rechazo con supervisión humana** de la rúbrica 7.2. La demostración controlada de promoción/rollback, el CD/GHCR y los restantes bloques del proyecto siguen pendientes. No se promueve un candidato insuficiente para producir artificialmente evidencia de reemplazo.
+
+
+## Despliegue continuo — configuración preparada (19-nov-2026)
+
+Se incorpora `cd.yml` canónico y efectivo en la raíz GitHub, con `push` a `main`, CI reutilizable obligatorio, permisos `packages:write` limitados al job de publicación y autenticación mediante `GITHUB_TOKEN`. La imagen lleva el SHA completo como tag y las etiquetas OCI de repositorio/revisión; se prueban las fixtures dentro del artefacto exacto antes de publicarlo. El digest se conserva en el resumen y en un artefacto JSON. El build utiliza la lista de archivos permitidos de `.dockerignore`, sin credenciales ni datos privados.
+
+Compose exige una referencia explícita en `PSET4_API_IMAGE`; API, escenario sintético, worker y tablero consumen la misma imagen. Kestra continúa con su imagen local. La ejecución y descarga GHCR, la actualización del servicio y la evidencia de rollback se comprobarán antes de declarar el bloque completado. No se cambia ningún alias del modelo en el workflow de publicación.
