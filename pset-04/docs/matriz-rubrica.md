@@ -1,6 +1,6 @@
-# Matriz de cobertura planificada
+# Matriz de cobertura y pendientes
 
-Fuente: [rúbrica original](../CD-PSet-4.pdf), 12 páginas. Los pesos son los del profesor. Esta matriz no asigna nota ni certifica ejecución; la API tiene 84 pruebas completas aprobadas y verificación en Docker. Controles y escenario sintético con 32 eventos, 28 alertas y tablero; integración final pendiente.
+Fuente: [rúbrica original](../CD-PSet-4.pdf), 12 páginas. Los pesos son los del profesor. Esta matriz no asigna nota ni certifica ejecución; la API tiene 84 pruebas completas aprobadas y verificación en Docker. Controles y escenario sintético con 32 eventos, 28 alertas y tablero; integración verificada y documentos de comunicación preparados. Quedan notebooks y video publicado, entre otros pendientes señalados.
 
 | Criterio | Peso | Evidencia que deberá existir | Estado |
 |---|---:|---|---|
@@ -10,8 +10,8 @@ Fuente: [rúbrica original](../CD-PSet-4.pdf), 12 páginas. Los pesos son los de
 | Simulación y métricas de monitoreo | 10 % | Ocho lotes, orden temporal y target diferido; Kestra; p50/p95, errores y volumen; métricas técnicas/de negocio por lote; datos faltantes, rangos y categorías; tablero. | Ocho controles y ocho lotes sintéticos, métricas por fase, etiquetas diferidas, tres CSV y tablero verificados. |
 | Deriva y alertas | 10 % | PSI por feature, KS y chi-cuadrado; referencia CV para desempeño; tabla diagnóstico/acción; alertas con umbral, ventana, severidad, receptor y acción; lote alterado y controles. | 32 revisiones, 28 alertas y escenario inducido verificados; controles con avisos y caída histórica documentados. |
 | Ética, retirada y respaldo | 10 % | Subgrupo con métrica técnica y tasas de decisión; responsables de errores; tres criterios observables de retirada; interruptor y fallback demostrados; supervisión humana. | Auditoría por discapacidad y revisión de L06, responsables FP/FN, cinco criterios y supervisión documentados; interruptor HTTP 0→1→0 demostrado con la imagen publicada, 160 predicciones aisladas y contrato/persistencia conservados. |
-| Resultado y presentación ejecutiva | 15 % | Negocio por lote frente a proceso actual y no actuar cuando aplique; cambios por reentrenamiento; respuesta al objetivo; 10-12 diapositivas comprensibles para patrocinador. | Negocio por lote y comparadores calculados: +33,76 % en control, limitaciones, rechazo sin cambio de scores y escenarios del 30 % documentados. Presentación ejecutiva pendiente. |
-| Integración, correcciones, reproducibilidad y documento | 20 % | `proyecto_final/`, Compose único, README completo, `docs/cambios.md`, trazabilidad Gold-OBT-run-versión-predicción, notebooks con salidas, cinco CSV, memo hasta 12 páginas y anexos, video hasta siete minutos. | Compose único y fuente→Raw→dbt→Spark OBT verificados; Registry propio íntegro, OBT idéntica y 84 pruebas. Notebooks, memo, presentación y video pendientes. |
+| Resultado y presentación ejecutiva | 15 % | Negocio por lote frente a proceso actual y no actuar cuando aplique; cambios por reentrenamiento; respuesta al objetivo; 10-12 diapositivas comprensibles para patrocinador. | Negocio por lote y comparadores calculados: +33,76 % en control, limitaciones, rechazo sin cambio de scores y escenarios del 30 % documentados. Presentación ejecutiva de 12 diapositivas preparada y revisada visualmente; expone beneficio, riesgos, rechazo y recomendación de piloto. |
+| Integración, correcciones, reproducibilidad y documento | 20 % | `proyecto_final/`, Compose único, README completo, `docs/cambios.md`, trazabilidad Gold-OBT-run-versión-predicción, notebooks con salidas, cinco CSV, memo hasta 12 páginas y anexos, video hasta siete minutos. | Compose único y fuente→Raw→dbt→Spark OBT verificados; Registry propio íntegro, OBT idéntica y 84 pruebas. Memo de 12 páginas, anexos y guion de 6:35 preparados y revisados; notebooks 01-07, pitch histórico y video/URL pendientes. |
 | **Total** | **100 %** | | |
 
 ## Detalles que no deben omitirse
@@ -27,4 +27,11 @@ Fuente: [rúbrica original](../CD-PSet-4.pdf), 12 páginas. Los pesos son los de
 - Los CSV requeridos son `corridas.csv`, `predicciones.csv`, `monitoreo.csv`, `alertas.csv` y `reentrenamientos.csv`.
 - El video debe mostrar infraestructura, ingesta hasta OBT, solicitud válida e inválida, rollback, alerta por deriva, reentrenamiento con pausa y el interruptor.
 - El memo incluye el enlace del video; anexos: memos anteriores y `docs/cambios.md`.
-- La rúbrica pide dos apellidos en los nombres finales. El PSet 03 usó primer apellido y nombre por indicación del autor; no se supone una excepción docente para el PSet 04.
+- La rúbrica pide dos apellidos en los nombres finales. Se mantiene `Puerta_Wilmer` por indicación del autor; no se supone una excepción docente.
+
+
+## Documentación preparada y límites del cierre
+
+El [memo](../../proyecto_final/docs/PSet4_memo_Puerta_Wilmer.pdf) tiene 12 páginas y los [anexos](../../proyecto_final/docs/PSet4_anexos_Puerta_Wilmer.pdf) reúnen los tres memos previos y cambios. La [presentación](../../proyecto_final/docs/PSet4_presentacion_Puerta_Wilmer.pdf) tiene 12 diapositivas; el [guion](../../proyecto_final/docs/guion_video.md), nueve escenas en 6:35. Memo páginas 8/11 muestran métricas por lote; página 11 marca el disparador y la reserva del reentrenamiento sin atribuir un cambio de scores inexistente. Página 7 contiene una captura real de Actions y el digest activo. Página 10 muestra AP, tasas de propuesta/seguimiento y cobertura/FPR por discapacidad.
+
+El enlace del video figura expresamente pendiente: se completará con la URL real tras grabar y verificar acceso. Los notebooks finales todavía no tienen las salidas requeridas, y falta el pitch histórico en PDF. Este estado no equivale a 100 % de cumplimiento ni asigna una calificación.
