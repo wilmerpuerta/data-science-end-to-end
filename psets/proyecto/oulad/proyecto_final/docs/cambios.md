@@ -475,3 +475,25 @@ La salida privada contiene `lotes`, `meta`, `presupuestos`, `finanzas`, `selecci
 [PR #3](https://github.com/wilmerpuerta/data-science-end-to-end/pull/3) integrado con sus controles aprobados. Imagen `ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:ee4e0da32b14bb5254463229dd40c31483118ef57360657a84ece166cff4b9f6`, revisión `eb8da65b6a7fcaa8f9ec4a19a2fcfbf9cfd18119`, [CD](https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44734850139). Se aprobaron 69 pruebas completas en CI y en la imagen final. API, API sintética, monitor y tablero están healthy con el mismo digest y revisión OCI. El tablero mostró 106 y 54 TP netos adicionales en control y deriva, sin excepciones y usando agregados de solo lectura.
 
 Se conservaron íntegros los dos registros SQLite, los tres champions versión 1 y el candidato de semana 4 rechazado. Snowflake mantiene 36.646 predicciones, 32 eventos de monitoreo y cuatro de reentrenamiento. La evaluación no entrenó, cambió alias ni escribió registros cloud; no se alteró la política experimental 10 % y reparto 25/75. La bolsa del 30 % sigue siendo un supuesto de análisis. Se conserva respaldo privado de agregados, linaje, registros y evidencias de ejecución, fuera de Git. El siguiente bloque es integración completa y comunicación; esta comprobación no cierra aún el PSet 04.
+
+
+## Compose único e ingesta hasta OBT (20-nov-2026)
+
+**Observación:** el proyecto todavía dependía del MLflow del PSet 03 y faltaba `kestra/ingesta.yml`. Se agregan MLflow, dbt y Spark al Compose propio y se integra la ingesta en `src/datos.py`. Los Dockerfiles de dbt/Spark y el target Kestra incorporan código, contratos y dependencias fijadas; no requieren ejecutar ni importar los proyectos anteriores. El SQL y las features originales y `src/pipeline.py` se conservan byte a byte. CI valida Compose con valores ficticios y las 84 pruebas verifican contrato, modelo, negocio y controles de publicación. No se llamó a un LLM ni se entrenó/promovió un modelo en esta etapa.
+
+**Registry:** copia SQLite online con integridad y comparación de filas/hashes de todas las tablas; artefactos en volúmenes independientes con 20.790 archivos / 2.838.908.573 bytes idénticos. Permanecen 825 runs, ocho experimentos y diez versiones, con los mismos IDs, fuentes, aliases, tags y decisiones. El MLflow histórico conserva su puerto 5001 y sus volúmenes; el proyecto final usa 5004 en el host y `http://mlflow:5000` entre servicios. No se cambiaron los modelos ni la decisión humana de rechazo.
+
+**Incidencia y corrección:** la ejecución inicial `sUznAZ24sXpaD706ZP4zH` terminó FAILED en dbt por un error de E/S al leer el perfil desde el directorio sincronizado; Spark no se ejecutó. Se corrigió el directorio de trabajo de dbt y se retiraron los mounts de código de los ejecutores, incorporándolo en las imágenes. Se conserva la evidencia fallida; no se oculta ni se atribuye a un problema del modelo.
+
+**Ejecución aceptada:** `2sQlV9Hreu3bWXWi7MtYRE` terminó SUCCESS, tareas Raw → dbt → Spark → verificar, todas a la primera, con código `74e1002c5b5ad9cca4931c44a540df1fc51202a5`. Raw reconcilió cinco archivos y 10.726.852 filas, sin recarga de una versión ya verificada. dbt aprobó 23 modelos y 168 pruebas. Spark publicó 108.277 claves matrícula/corte, 35 columnas y cuatro cortes con pruebas de perturbación futura; validó todas las columnas de lectura de vuelta antes del swap. Los hashes por corte coinciden con la referencia histórica `6X7mzEdM0yvoBSbp8MnALv` del PSet 02. Las evidencias completas son privadas en `.local/ingesta/`.
+
+| Corte | Filas OBT | Sin actividad registrada | Hash frente al PSet 02 |
+|---|---:|---:|---|
+| 14 | 27,881 | 1,582 | Idéntico |
+| 28 | 27,307 | 881 | Idéntico |
+| 42 | 26,795 | 684 | Idéntico |
+| 56 | 26,294 | 576 | Idéntico |
+
+Los ejecutores HTTP no publican puertos al host, exigen un secreto interno y solo aceptan un `execution_id` válido, sin campos de comandos. Las pruebas HTTP comprobaron 401 sin secreto, rechazo 400 del comando libre, ausencia de trabajos tras la solicitud inválida y repetición de un trabajo exitoso con el mismo ID/intento. Kestra limita concurrencia a uno; no se ejecutan simultáneamente escritores de stacks históricos sobre la misma base.
+
+La nueva reproducción de infraestructura usa un solo Compose y el mismo orden de datos; no equivale a reentrenar ni a validar prospectivamente los modelos. La reconstrucción del Registry en una máquina nueva requiere restauración o registro de modelos. Permanecen pendientes los notebooks finales y la comunicación; no se declara cerrado el PSet 04.

@@ -497,3 +497,118 @@ def test_escenario_rechaza_adelanto_mayor_que_bolsa_y_probabilidad_imposible():
     from src.reentrenar import escenario_bolsas
     with pytest.raises(ValueError):escenario_bolsas({'A':10},{'A':1},{'A':2},{'A':3},{'A':4},'1','1','1')
     with pytest.raises(ValueError):escenario_bolsas({'A':10},{'A':1},{'A':2},{'A':3},{'A':1},'1','5/4','1')
+
+
+# Publicación Raw integrada: se verifica sin servicios cloud ni datos reales.
+import csv,hashlib,json,tempfile,unittest
+from pathlib import Path
+from unittest.mock import MagicMock,patch
+from src import datos as loader
+
+class RawIntegracion(unittest.TestCase):
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
+        self.data=Path(self.tmp.name)
+        content=b'code_module,code_presentation\n"AAA","2013J"\n"AAA","2013J"\n"BBB",""\n'
+        (self.data/'courses.csv').write_bytes(content)
+        self.meta={'sha256':hashlib.sha256(content).hexdigest(),'bytes':len(content),'rows':3}
+        (self.data/'manifest.json').write_text(json.dumps({'files':{'courses.csv':self.meta}}))
+        self.columns=['code_module','code_presentation']
+        self.patch=patch.object(loader,'INGESTA_DATA',self.data);self.patch.start();self.addCleanup(self.patch.stop)
+
+    def test_source_duplicates_and_empty_values_preserved(self):
+        result=loader.raw_verified_files('courses.csv')
+        self.assertEqual(result[0][1]['rows'],3)
+        with (self.data/'courses.csv').open() as f:rows=list(csv.DictReader(f))
+        self.assertEqual(rows[0],rows[1]);self.assertEqual(rows[2]['code_presentation'],'')
+        (self.data/'courses.csv').write_text('changed')
+        with self.assertRaisesRegex(RuntimeError,'input_checksum_mismatch'):loader.raw_verified_files('courses.csv')
+
+    def cursor(self,fail_publish=False):
+        conn=MagicMock();cur=conn.cursor.return_value.__enter__.return_value
+        history=[]
+        def execute(sql,params=None):
+            history.append(sql)
+            if sql.startswith('DESC TABLE'):
+                cur.fetchall.return_value=[(c,) for c in ['CODE_MODULE','CODE_PRESENTATION','SOURCE_SHA256','SOURCE_ROW_NUMBER','LOAD_RUN_ID','LOADED_AT']]
+            if sql.startswith('PUT '):cur.fetchall.return_value=[('a','b',1,1,'GZIP','GZIP','UPLOADED','')]
+            if fail_publish and sql.startswith('INSERT INTO COURSES SELECT'):raise RuntimeError('simulated_publish_error')
+            return cur
+        cur.execute.side_effect=execute
+        return conn,history
+
+    def test_reconciled_version_is_noop(self):
+        conn,history=self.cursor()
+        with patch.object(loader,'raw_ensure_managed'),patch.object(loader,'raw_target_counts',return_value={'rows':3,'unique_source_rows':3,'other_checksums':0}):
+            result=loader.raw_load_file(conn,'courses.csv',self.meta,self.columns,'run1','attempt1')
+        self.assertEqual(result['status'],'NOOP')
+        self.assertFalse(any(s.startswith(('PUT ','DELETE FROM COURSES')) for s in history))
+
+    def test_bad_temporary_count_does_not_delete_target(self):
+        conn,history=self.cursor()
+        with patch.object(loader,'raw_ensure_managed'),patch.object(loader,'raw_target_counts',side_effect=[{'rows':0,'unique_source_rows':0,'other_checksums':0},{'rows':2,'unique_source_rows':2,'other_checksums':0}]):
+            with self.assertRaisesRegex(RuntimeError,'copy_reconciliation_failed'):
+                loader.raw_load_file(conn,'courses.csv',self.meta,self.columns,'run2','attempt2')
+        self.assertNotIn('BEGIN',history);self.assertFalse(any(s.startswith('DELETE FROM COURSES') for s in history))
+
+    def test_publish_error_rolls_back(self):
+        conn,history=self.cursor(fail_publish=True)
+        with patch.object(loader,'raw_ensure_managed'),patch.object(loader,'raw_target_counts',side_effect=[{'rows':0,'unique_source_rows':0,'other_checksums':0},{'rows':3,'unique_source_rows':3,'other_checksums':0}]):
+            with self.assertRaisesRegex(RuntimeError,'simulated_publish_error'):
+                loader.raw_load_file(conn,'courses.csv',self.meta,self.columns,'run3','attempt3')
+        self.assertIn('ROLLBACK',history);self.assertNotIn('COMMIT',history)
+
+
+
+@pytest.mark.parametrize('data',[{'execution_id':'../otro'},{'execution_id':'ok','command':'rm -rf /'},
+                                  {'execution_id':None},{'execution_id':''},[],{'execution_id':'x'*101}])
+def test_ingesta_rechaza_comandos_y_rutas_no_permitidas(data):
+    with pytest.raises(ValueError):loader.validar_solicitud_job(data)
+
+
+def test_ingesta_ejecutables_fijos_y_run_id_no_puede_inyectar_argumentos():
+    assert loader.validar_solicitud_job({'execution_id':'kestra-123_AB'})=='kestra-123_AB'
+    assert loader.comando_ingesta('dbt','a'*32)[-1]=='build-gold'
+    spark=loader.comando_ingesta('spark','a'*32)
+    assert spark[0]=='/opt/spark/bin/spark-submit' and spark[-1]=='a'*32
+    with pytest.raises(ValueError):loader.comando_ingesta('spark','a'*32+';echo')
+    with pytest.raises(ValueError):loader.comando_ingesta('shell','a'*32)
+
+
+def informes_ingesta():
+    manifest={'files':{'courses.csv':{'rows':2}}}
+    contract={'output_columns':['enrollment_key','cutoff_day'],'forbidden_columns':['target_class'],'cutoff_days':[14,28,42,56]}
+    raw={'run_id':'r1','status':'ok','mode':'load','source_partition':'courses.csv','source_manifest_sha256':'sha',
+         'files':[{'file':'courses.csv','status':'NOOP','rows':2,'unique_source_rows':2,'other_checksums':0}],'finished_at_utc':'1'}
+    dbt={'execution_id':'r1','status':'ok','results':[{'status':'success'},{'status':'pass'}],'models_succeeded':23,'tests_passed':168,
+         'started_at_utc':'2','finished_at_utc':'3','quality':{'gold':[{'dataset':'eligibility_day_'+str(n),'metric':'expected_enrollments','value':2} for n in [14,28,42,56]]}}
+    spark={'execution_id':'r1','status':'ok','source_manifest_sha256':'sha','started_at_utc':'4','finished_at_utc':'5',
+           'published':True,'population_key_sets_equal':True,'readback_all_columns_equal':True,'gold_source_sha256_verified':True,
+           'target_and_withdrawal_excluded':True,'output_columns':contract['output_columns'],'temporal_tests_passed':4,
+           'per_cutoff':[{'cutoff_day':n,'rows':2,'future_perturbation_unchanged':True} for n in [14,28,42,56]],
+           'rows':8,'unique_keys':8,'content_sha256_by_cutoff':{},'run_id':'a'*32}
+    return raw,dbt,spark,manifest,contract,'sha'
+
+
+def test_ingesta_validada_preserva_fuente_noop_y_grano():
+    out=loader.verificar_informes_ingesta(*informes_ingesta())
+    assert out['status']=='ok' and out['obt_unique_keys']==8 and out['raw_files'][0]['status']=='NOOP'
+
+
+def test_ingesta_no_avala_error_dbt_aunque_los_contadores_declaren_exito():
+    args=informes_ingesta();args[1]['results'].append({'status':'fail'})
+    with pytest.raises(ValueError,match='dbt incompleto'):loader.verificar_informes_ingesta(*args)
+
+
+def test_ingesta_no_avala_publicacion_con_manifest_distinto_o_sin_prueba_temporal():
+    args=informes_ingesta();args[2]['source_manifest_sha256']='otro'
+    with pytest.raises(ValueError,match='Manifiesto distinto'):loader.verificar_informes_ingesta(*args)
+    args=informes_ingesta();args[2]['per_cutoff'][0]['future_perturbation_unchanged']=False
+    with pytest.raises(ValueError,match='temporalidad'):loader.verificar_informes_ingesta(*args)
+
+
+def test_ingesta_rechaza_target_y_etapas_fuera_de_orden():
+    args=informes_ingesta();args[2]['output_columns']=[*args[4]['output_columns'],'target_class']
+    with pytest.raises(ValueError,match='features'):loader.verificar_informes_ingesta(*args)
+    args=informes_ingesta();args[2]['started_at_utc']='0'
+    with pytest.raises(ValueError,match='Orden de etapas'):loader.verificar_informes_ingesta(*args)

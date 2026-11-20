@@ -1,6 +1,6 @@
 # Proyecto final: apoyo académico preventivo
 
-Estado: **servicio batch implementado y verificado**, con modelos específicos de semanas 2 y 4, contrato Pydantic, registro transaccional, respaldo, fixtures y CI. La carga Snowflake y los ocho despachos de control quedaron verificados (18.323 predicciones únicas). Monitoreo, deriva y tablero quedaron verificados con controles y un escenario sintético separado. El challenger se reentrenó, comparó y rechazó por decisión humana; Kestra terminó en SUCCESS y el champion permanece en versión 1. La imagen GHCR y la recarga/rollback técnica quedaron verificadas. Los entregables de comunicación siguen pendientes. Este Compose integra las API de control y escenario sintético, Kestra/PostgreSQL, monitor y tablero, utilizando el Registry existente; todavía no es el Compose único de los cinco servicios finales.
+Estado: **servicio batch implementado y verificado**, con modelos específicos de semanas 2 y 4, contrato Pydantic, registro transaccional, respaldo, fixtures y CI. La carga Snowflake y los ocho despachos de control quedaron verificados (18.323 predicciones únicas). Monitoreo, deriva y tablero quedaron verificados con controles y un escenario sintético separado. El challenger se reentrenó, comparó y rechazó por decisión humana; Kestra terminó en SUCCESS y el champion permanece en versión 1. La imagen GHCR y la recarga/rollback técnica quedaron verificadas. El Compose único ya integra Kestra/PostgreSQL, dbt, Spark, MLflow propio, ambas API, monitor y tablero. La ingesta completa y la igualdad de la OBT frente al PSet 02 están verificadas. Notebooks y comunicación finales siguen pendientes.
 
 ## Objetivo de negocio
 
@@ -10,7 +10,7 @@ Control estático, Dummy y política reactiva son comparadores distintos. El ade
 
 ## Estructura y continuidad
 
-Se conserva el árbol de la rúbrica. `dbt/` y `spark/` contienen las fuentes del PSet 02 sin alterar; `src/pipeline.py` conserva byte a byte la preparación del PSet 03. Los tres memos anteriores están en `docs/historial/`; el pitch histórico y los notebooks integrados aún están pendientes. Las carpetas vacías usan `.gitkeep` solo para conservar su estructura. `.dockerignore` impide enviar entornos, credenciales y datos privados al build.
+Se conserva el árbol de la rúbrica. `dbt/` y `spark/` conservan el SQL, las features y los contratos del PSet 02; sus Dockerfiles incorporan el código de los ejecutores; `src/pipeline.py` conserva byte a byte la preparación del PSet 03. Los tres memos anteriores están en `docs/historial/`; el pitch histórico y los notebooks integrados aún están pendientes. Las carpetas vacías usan `.gitkeep` solo para conservar su estructura. `.dockerignore` impide enviar entornos, credenciales y datos privados al build.
 
 Los champions tempranos reutilizan los artefactos completos del PSet 03. Se reentrenó un challenger de semana 4 conservando la preparación y los hiperparámetros, sin repetir tuning. Los nombres son `oulad-apoyo-academico-semana2-modelo@champion` y `oulad-apoyo-academico-semana4-modelo@champion`. Ambos se sirven por versiones iniciales específicas de su corte. El champion histórico del día 56 permanece intacto. Este uso es experimental y no constituye validación prospectiva independiente.
 
@@ -36,11 +36,11 @@ Las fixtures se exportaron con `mlflow.sklearn.save_model`, con firma y `predict
 
 ## Ejecutar la API
 
-Para carga real por alias debe estar disponible el servidor del PSet 03 con sus artefactos y Registry, en `http://127.0.0.1:5001`. Dentro del contenedor se accede mediante `MLFLOW_TRACKING_URI=http://host.docker.internal:5001`; configurar otro destino si el servidor vive en otra máquina. La API no recibe claves Snowflake. Kestra realiza la carga periódica desde el registro durable local y concilia el lote antes de completarlo.
+Para carga real por alias se usa el servicio MLflow propio del Compose, accesible en `http://127.0.0.1:5004` desde el host y `http://mlflow:5000` entre contenedores. El Registry y sus artefactos se conservan en volúmenes del proyecto final. La API no recibe claves Snowflake. Kestra realiza la carga periódica desde el registro durable local y concilia el lote antes de completarlo.
 
 ```sh
 .venv/bin/python -m src.datos --ejemplo .local/ejemplo --cohorte-id ejemplo-modelo
-docker compose up -d --build --wait api
+docker compose up -d --no-build --pull never --wait api
 curl http://localhost:8004/salud
 curl 'http://localhost:8004/modelo?corte_dias=14'
 curl -X POST http://localhost:8004/predecir -H 'Content-Type: application/json' --data-binary @.local/ejemplo/semana2.json
@@ -87,13 +87,13 @@ La API resuelve el alias en cada lote nuevo y fija una versión durante todo ese
 
 ## Reproducir las fixtures y exportar corridas
 
-Las fixtures ya están incluidas. Para reconstruirlas deliberadamente se necesitan el Registry y el snapshot privado original; la ruta es un insumo de preparación, no una dependencia de ejecución de la API:
+Las fixtures ya están incluidas. Para reconstruirlas deliberadamente se necesitan el Registry y el snapshot privado original; la ruta es un insumo de preparación, no una dependencia de ejecución de la API. Para estos comandos opcionales, restaurar el snapshot original, sus punteros y los OOF en `.local/modelado/`; no basta con crear una carpeta vacía:
 
 ```sh
-MLFLOW_TRACKING_URI=http://127.0.0.1:5001 .venv/bin/python -m src.reentrenar --preparar-servicio --origen-local ../pset_3/.local
+MLFLOW_TRACKING_URI=http://127.0.0.1:5004 .venv/bin/python -m src.reentrenar --preparar-servicio --origen-local .local/modelado
 # Versionar el código antes de registrar una referencia nueva.
-MLFLOW_TRACKING_URI=http://127.0.0.1:5001 .venv/bin/python -m src.reentrenar --registrar-referencia
-MLFLOW_TRACKING_URI=http://127.0.0.1:5001 .venv/bin/python -m src.reentrenar --exportar-corridas
+MLFLOW_TRACKING_URI=http://127.0.0.1:5004 .venv/bin/python -m src.reentrenar --registrar-referencia
+MLFLOW_TRACKING_URI=http://127.0.0.1:5004 .venv/bin/python -m src.reentrenar --exportar-corridas
 ```
 
 La referencia CI se registra como `fase=preparacion_servicio`, sin entrenamiento y con su commit. `docs/corridas.csv` reúne las corridas del experimento definitivo del PSet 03 y del experimento operativo. La preparación valida snapshot y fuente y conserva el champion histórico; una versión temprana activa diferente no se reemplaza automáticamente.
@@ -102,7 +102,7 @@ La referencia CI se registra como `fase=preparacion_servicio`, sin entrenamiento
 
 `.github/workflows/ci.yml` instala las dependencias fijadas, prueba con fixtures sin MLflow/Snowflake, construye la imagen y prueba dentro del contenedor en cada push/PR. En el fork del curso se mantiene una copia idéntica en `.github/workflows/ci.yml` de la raíz real del repositorio; GitHub no ejecuta por sí solo workflows dentro de una carpeta anidada. La prueba general del repositorio conserva el núcleo portable; las pruebas de fixtures nativas se ejecutan en el job dedicado con sus versiones y `PSET4_FULL_TESTS=1`.
 
-Pendientes: ingesta integrada, Compose único con Kestra/Spark/MLflow/API/tablero, notebooks 01-07, CSV finales, pitch histórico en PDF, memo, presentación y video. [Cambios y evidencias](docs/cambios.md) distingue lo comprobado de lo pendiente.
+Pendientes: notebooks 01-07 reproducibles, cierre de CSV y trazabilidad, pitch histórico en PDF, memo, presentación y video. [Cambios y evidencias](docs/cambios.md) distingue lo comprobado de lo pendiente.
 
 Referencias técnicas: [pruebas del ciclo de vida de FastAPI](https://fastapi.tiangolo.com/advanced/testing-events/), [validación estricta de Pydantic](https://pydantic.dev/docs/validation/latest/concepts/strict_mode/) y [alias del Model Registry](https://www.mlflow.org/docs/latest/registry/).
 
@@ -114,7 +114,7 @@ La continuidad del PSet 02 utiliza `pset_2/` como referencia; el proyecto integr
 En `.env` local configurar dos contraseñas nuevas y las rutas absolutas a los archivos privados Snowflake existentes. No copiar sus contenidos al repositorio. Las variables `SNOWFLAKE_CONNECTION_HOST_PATH` y `SNOWFLAKE_PRIVATE_KEY_HOST_PATH` apuntan al JSON de conexión (`schema_version=1`, `account`, `private_key_passphrase`) y la clave cifrada. El rol de servicio es `PSET2_PIPELINE`, usuario `PSET2_SVC`, warehouse `PSET2_WH`; requiere crear las nuevas tablas identificadas dentro de `PSET2_OULAD.ANALYTICS`, schema ya autorizado para el servicio. El código rechaza objetos existentes con otra marca. Las capas históricas se consultan como fuentes.
 
 ```sh
-docker compose up -d --build --wait api postgres kestra
+docker compose up -d --no-build --pull never --wait api postgres kestra
 docker compose exec -T kestra python3 -m src.datos --preparar-plan --base-local /workspace/.local/operacion.sqlite
 ```
 
@@ -135,16 +135,16 @@ Los registros conservan entradas, salida, versión y run del modelo, snapshot, s
 
 Referencias: [conector Python de Snowflake](https://docs.snowflake.com/en/developer-guide/python-connector/python-connector-example) y [bucles de Kestra](https://kestra.io/docs/how-to-guides/loop).
 
-Validación ejecutada: 69 pruebas completas aprobadas localmente y en Docker. Se preservan los ocho controles y su repetición; el escenario de deriva completo terminó en SUCCESS. Hay 36.646 predicciones únicas entre ambos planes, 32 eventos de monitoreo y 28 alertas. `docs/predicciones.csv` incluye ambos planes; sus poblaciones y presupuestos se analizan por separado. La comparación de reentrenamiento sobre L08 incluye el estático con los mismos cupos; la comparación completa por lote ya quedó calculada y documentada.
+Validación actual: 84 pruebas completas aprobadas en Docker; CI también comprueba la configuración del Compose sin credenciales reales. Se preservan los ocho controles y su repetición; el escenario de deriva completo terminó en SUCCESS. Hay 36.646 predicciones únicas entre ambos planes, 32 eventos de monitoreo y 28 alertas. `docs/predicciones.csv` incluye ambos planes; sus poblaciones y presupuestos se analizan por separado. La comparación de reentrenamiento sobre L08 incluye el estático con los mismos cupos; la comparación completa por lote ya quedó calculada y documentada.
 
 
 ## Monitoreo, deriva y tablero
 
 ```sh
-docker compose up -d --build --wait api api_deriva monitoreo tablero kestra
+docker compose up -d --no-build --pull never --wait api api_deriva monitoreo tablero kestra
 ```
 
-El tablero está en `http://localhost:8504`; la API del escenario sintético usa `http://localhost:8006`. El monitor no publica un puerto al host. El servicio API conserva su registro local y carece de credenciales Snowflake; el worker de monitoreo realiza las consultas cloud. El tablero lee CSV de `docs/` y agregados privados de `.local/negocio/`, montados de solo lectura y sin claves. El Compose usa `!override` para separar los puertos de las dos API y requiere una versión de Compose que lo admita. La integración de Spark y MLflow dentro del Compose único todavía está pendiente.
+El tablero está en `http://localhost:8504`; la API del escenario sintético usa `http://localhost:8006`. El monitor no publica un puerto al host. El servicio API conserva su registro local y carece de credenciales Snowflake; el worker de monitoreo realiza las consultas cloud. El tablero lee CSV de `docs/` y agregados privados de `.local/negocio/`, montados de solo lectura y sin claves. El Compose usa `!override` para separar los puertos de las dos API y requiere una versión de Compose que lo admita. Spark y MLflow ya están integrados en este Compose; ver el procedimiento de infraestructura e ingesta al final.
 
 Importar primero `kestra/reentrenamiento.yml`, después `kestra/monitoreo.yml` y luego `kestra/produccion_lotes.yml`. Este último llama al monitor después de cada predicción. Ejecutar con `plan_id=oulad-2014j-deriva-v1` utiliza un SQLite separado, conserva las matrículas y cupos originales y modifica únicamente L06 y L07: permuta vectores completos de features dentro de cada edición, con semilla `5041+orden`, y suma 120 a `studied_credits`. Las etiquetas permanecen iguales y no participan de la alteración. Las demografías de esos dos lotes son sintéticas; la evaluación de equidad posterior usará los controles originales. El control no se sobrescribe.
 
@@ -173,9 +173,9 @@ cp .local/monitoreo-export/monitoreo.csv .local/monitoreo-export/alertas.csv doc
 cp .local/predicciones-escenarios.csv docs/predicciones.csv
 ```
 
-Para reconstruir deliberadamente la referencia, con el snapshot y los OOF privados originales: `PYTHONPATH=. .venv/bin/python -m monitoreo.deriva --preparar-referencia ../pset_3/.local`. La ejecución ordinaria usa la referencia publicada y funciona sin importar módulos históricos.
+Para reconstruir deliberadamente la referencia, restaurar el snapshot y los OOF privados originales en `.local/modelado/` y ejecutar: `PYTHONPATH=. .venv/bin/python -m monitoreo.deriva --preparar-referencia .local/modelado`. La ejecución ordinaria usa la referencia publicada y funciona sin importar módulos históricos.
 
-El reentrenamiento reserva L08 y excluye todas sus personas de la ventana. No mezcla control y escenario sintético como muestras independientes. La auditoría de equidad y la evaluación de negocio con escenario del 30 % están documentadas; permanecen pendientes la integración completa y la comunicación.
+El reentrenamiento reserva L08 y excluye todas sus personas de la ventana. No mezcla control y escenario sintético como muestras independientes. La auditoría de equidad y la evaluación de negocio con escenario del 30 % están documentadas; permanecen pendientes los notebooks finales y la comunicación.
 
 
 ## Reentrenamiento y revisión humana
@@ -189,9 +189,9 @@ Con 147 cupos, el champion detecta 77 Fail, el challenger 81 y el estático 54. 
 Para reproducir la preparación privada en un entorno con los datos históricos restaurados, antes de solicitar un ciclo nuevo:
 
 ```sh
-PYTHONPATH=. .venv/bin/python -m src.reentrenar --preparar-recursos --origen-local ../pset_3/.local
-# Con Registry en 5001, Snowflake y los flujos importados:
-docker compose up -d --build --wait api api_deriva monitoreo tablero kestra
+PYTHONPATH=. .venv/bin/python -m src.reentrenar --preparar-recursos --origen-local .local/modelado
+# Con Registry propio en 5004, Snowflake y los flujos importados:
+docker compose up -d --no-build --pull never --wait api api_deriva monitoreo tablero kestra
 docker compose exec -T monitoreo python -m src.datos --reentrenar solicitar
 ```
 
@@ -202,7 +202,7 @@ El rechazo/aprobación se registra desde la tarea Pause de Kestra con decisión,
 
 ## Publicación de código en GHCR
 
-`.github/workflows/cd.yml` publica en cada integración a `main`, después de ejecutar el CI reutilizable. Construye `linux/amd64`, ejecuta las 69 pruebas dentro de esa imagen exacta y solo entonces publica `ghcr.io/wilmerpuerta/oulad-proyecto-final-api:<SHA_COMPLETO_DEL_COMMIT>`. El resumen y el artefacto `imagen-publicada-<SHA>` guardan el digest, commit, plataforma y ejecución. Un fallo de CI, build o pruebas impide publicar.
+`.github/workflows/cd.yml` publica en cada integración a `main`, después de ejecutar el CI reutilizable. Construye `linux/amd64`, ejecuta las 84 pruebas dentro de esa imagen exacta y solo entonces publica `ghcr.io/wilmerpuerta/oulad-proyecto-final-api:<SHA_COMPLETO_DEL_COMMIT>`. El resumen y el artefacto `imagen-publicada-<SHA>` guardan el digest, commit, plataforma y ejecución. Un fallo de CI, build o pruebas impide publicar.
 
 Los workflows efectivos están en `.github/workflows/` de la raíz real del repositorio del curso; los de este directorio conservan la definición canónica para la entrega. `master` y su historial se conservan; `main` es la rama de integración del despliegue. El PR #1 se integró con las pruebas aprobadas; la imagen se publicó y descargó desde GHCR y se verificó en los cuatro servicios. El repositorio del curso conserva `master` como rama histórica y predeterminada; los cambios de este bloque están en `main`.
 
@@ -215,7 +215,7 @@ curl --fail http://localhost:8004/salud
 curl --fail http://localhost:8004/modelo
 ```
 
-`PSET4_API_IMAGE` es obligatorio: se fija un commit o, preferiblemente, un digest. Para desarrollo local se puede establecer explícitamente `proyecto-final-api:local` y construir con `docker compose build api`. El servicio Kestra mantiene por ahora su construcción local; el Compose único con MLflow/Spark sigue pendiente.
+`PSET4_API_IMAGE` es obligatorio: se fija un commit o, preferiblemente, un digest. Para desarrollo local se puede establecer explícitamente `proyecto-final-api:local` y construir con `docker compose build api`. Kestra, dbt y Spark se construyen localmente con fuentes y dependencias fijadas; el Compose único incluye MLflow propio.
 
 GHCR puede exigir autenticación si el paquete permanece privado. Para descargar una imagen privada, configurar fuera del repositorio un token clásico con `read:packages` y usar `docker login ghcr.io --username <usuario> --password-stdin`. Nunca guardar el token en `.env`, notebooks o archivos versionados. Un paquete público permite descarga anónima; su visibilidad se administra aparte de la del repositorio.
 
@@ -243,7 +243,7 @@ La auditoría original por discapacidad declarada y sus criterios de revisión e
 
 `PSET4_FORCE_FALLBACK=1` activa, al recrear API/API sintética, una cola administrativa sin estimación individual. La respuesta añade `puntuacion_individual=false` y un mensaje operativo; el valor numérico técnico del Dummy no significa riesgo cero. Las respuestas previas permanecen inmutables. [Procedimiento para operar el interruptor](docs/guia_usuario.md#operación-del-respaldo-y-revisión-de-necesidades).
 
-El análisis se reproduce con `python -m monitoreo.deriva --etica <directorio_privado> --codigo-etica <SHA_DE_CODIGO>` dentro del worker con credenciales Snowflake; usa únicamente controles y etiquetas ya maduras. La evaluación de negocio quedó calculada; notebooks, Compose único y comunicación siguen pendientes.
+El análisis se reproduce con `python -m monitoreo.deriva --etica <directorio_privado> --codigo-etica <SHA_DE_CODIGO>` dentro del worker con credenciales Snowflake; usa únicamente controles y etiquetas ya maduras. La evaluación de negocio quedó calculada; notebooks y comunicación siguen pendientes; el Compose único ya está verificado.
 
 
 ### Despliegue ético y comprobación del interruptor (histórico)
@@ -266,4 +266,39 @@ La evaluación se reproduce con `python -m src.reentrenar --evaluar-negocio <dir
 
 Imagen vigente y fijada en `.env.example`: `ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:ee4e0da32b14bb5254463229dd40c31483118ef57360657a84ece166cff4b9f6`, commit `eb8da65b6a7fcaa8f9ec4a19a2fcfbf9cfd18119`, [CD aprobado](https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44734850139). Las 69 pruebas completas aprobaron en CI y en la imagen publicada. Los cuatro servicios quedaron healthy por digest; modelos y conteos durables se conservaron. El tablero se verificó con control y deriva: 106 y 54 Fail adicionales netos, respectivamente, sin escribir en Snowflake. [Guía para consultar e interpretar el tablero](docs/guia_usuario.md#comparación-de-negocio-en-el-tablero).
 
-Siguiente etapa: integración de ingesta, Spark y MLflow en el Compose único, notebooks reproducibles y entregables de comunicación. La evaluación retrospectiva no sustituye la validación institucional ni un piloto de impacto.
+La ingesta, Spark y MLflow ya quedaron integrados en el Compose único. Siguiente etapa: notebooks reproducibles y entregables de comunicación. La evaluación retrospectiva no sustituye la validación institucional ni un piloto de impacto.
+
+## Infraestructura única e ingesta reproducible
+
+`docker-compose.yml` contiene Kestra, PostgreSQL, dbt, Spark, MLflow, las API de control/deriva, el monitor y el tablero. No requiere servicios de otros PSets ni importa código desde sus carpetas. Los ejecutores incorporan el código en sus imágenes; los volúmenes persistentes guardan el estado. Los CSV originales y las credenciales se montan de solo lectura. Solo se publican los puertos locales de los servicios de consulta; dbt y Spark no publican su ejecutor HTTP al host.
+
+1. Copiar `.env.example` a `.env` y configurar las dos rutas privadas Snowflake, la carpeta de datos con sus cinco CSV y `manifest.json`, y tres secretos locales distintos: `PSET4_POSTGRES_PASSWORD`, `PSET4_KESTRA_PASSWORD`, `PSET4_INGESTA_TOKEN`. Para generar cada secreto: `python3 -c "import secrets; print(secrets.token_hex(32))"`. Proteger `.env` con `chmod 600 .env`; no versionarlo. La conexión privada conserva `schema_version=1`, `account` y `private_key_passphrase`; la clave PKCS8 cifrada va en otro archivo privado. Se usa el usuario de servicio y rol definidos en `dbt/snowflake/`, sin credenciales administrativas en los contenedores.
+2. Descargar la imagen pública indicada por `PSET4_API_IMAGE` y construir los ejecutores desde esta carpeta:
+
+   ```sh
+   docker compose pull api api_deriva monitoreo tablero mlflow
+   docker compose build kestra dbt spark
+   docker compose config --quiet
+   docker compose up -d --no-build --pull never --wait
+   ```
+
+   El último comando levanta todos los servicios juntos. Para aplicar cambios al código de los ejecutores, reconstruir sus imágenes y repetirlo. No usar `down -v`: elimina las bases y el Registry del proyecto. `.dockerignore` limita las fuentes del build y excluye datos y secretos.
+3. Consultar [Kestra](http://localhost:8094), [MLflow](http://localhost:5004), [Swagger](http://localhost:8004/docs) y [el tablero](http://localhost:8504). Desde el host, `MLFLOW_TRACKING_URI=http://127.0.0.1:5004`; API y monitor usan `http://mlflow:5000` en la red de Compose. No se publica ni modifica el MLflow histórico del PSet 03.
+4. Importar los cuatro YAML de `kestra/` en Kestra y ejecutar `pset4.oulad/ingesta` con `source_file=all`, `force_reload=false`. La concurrencia es uno. No ejecutar simultáneamente otro escritor de la misma base Snowflake desde un stack histórico. La cadena es **fuente → Raw → dbt Bronze/Silver/Gold → Spark OBT → reconciliación**. Cada etapa debe terminar antes de la siguiente. Las tareas pueden repetirse sobre la misma ejecución sin crear otro trabajo exitoso del ejecutor; una ejecución nueva produce una nueva verificación.
+5. Consultar `.local/ingesta/pipeline/<execution_id>/verification.json`. Debe registrar éxito, 23 modelos y 168 pruebas dbt, cuatro pruebas temporales, el grano de la OBT, igualdad de lectura de vuelta y hashes por corte. Los informes y logs completos permanecen privados en `.local/ingesta/`; no se publican credenciales, targets en features ni filas individuales. `force_reload=true` es un backfill explícito del archivo seleccionado; no es necesario para una versión ya conciliada.
+6. Continuar con preparación/modelo y registro; después, `produccion_lotes.yml`, `monitoreo.yml` y, cuando proceda, `reentrenamiento.yml`. En una instalación nueva el Registry comienza vacío: hay que registrar o restaurar modelos antes de esperar scoring individual. Las fixtures son solo para pruebas y el respaldo administrativo no acredita un modelo registrado. Los notebooks finales que reúnen preparación, modelo y estas evidencias son la etapa siguiente.
+
+El flujo no aprende imputaciones ni modifica las features del PSet 03. Raw preserva duplicados de origen y valores vacíos, comprueba bytes/SHA256/filas y publica cada archivo completo en una transacción. dbt conserva sus 23 modelos y 168 pruebas. Spark conserva la generación de features, prueba la exclusión del futuro y publica mediante staging y swap después de reconciliar claves, columnas y contenido. `src/datos.py` integra la ingesta y coordina únicamente trabajos permitidos; no admite comandos libres. Los ejecutores requieren un secreto interno y no reciben claves cloud desde peticiones HTTP.
+
+### Conservación del Registry existente
+
+Para esta integración se hizo un backup SQLite online consistente y una copia independiente de todos los artefactos a los volúmenes propios `mlflow-backend` y `mlflow-artifacts`. Se comprobaron hashes de archivos y de tablas antes de cambiar la conexión. Se conservaron IDs de experimentos/runs, versiones, firmas, tags y aliases. Los servicios históricos y sus volúmenes se mantuvieron separados. Una migración futura debe hacerse hacia volúmenes vacíos y con un respaldo verificado; no debe superponer bases activas ni reemplazar alias por conveniencia.
+
+La conservación del Registry no es un nuevo entrenamiento ni una validación independiente. La integración de infraestructura tampoco constituye evidencia causal del efecto de tutorías. Para reconstruir el sistema en otra máquina hacen falta los datos originales, acceso de servicio a Snowflake y el registro/restauración del modelo; los notebooks y entregables de comunicación pendientes se identifican expresamente.
+
+
+### Ejecución integrada comprobada
+
+Kestra `pset4.oulad/ingesta`, ejecución `2sQlV9Hreu3bWXWi7MtYRE`, terminó en **SUCCESS** con las cuatro tareas aprobadas a la primera. Código de integración congelado en `74e1002c5b5ad9cca4931c44a540df1fc51202a5`. Raw verificó cinco archivos y **10.726.852 filas**, conservando NOOP sobre la versión ya publicada; dbt ejecutó **23 modelos y 168 pruebas**; Spark produjo **108.277 filas, 35 columnas**, cuatro pruebas temporales y lectura de vuelta idéntica. Los hashes de los cuatro cortes coinciden con la referencia del PSet 02; no cambió la población ni el contenido del modelo. La repetición de POST sobre cada trabajo exitoso reutilizó su identificador/intento, sin volver a ejecutarlo.
+
+El Registry independiente conservó **825 runs, ocho experimentos y diez versiones de modelos**; se verificaron **20.790 archivos, 2.838.908.573 bytes**, con hashes iguales. Los champions siguen en versión 1 y el candidato de semana 4 sigue rechazado. La primera ejecución de integración se detuvo en dbt por lectura del perfil desde el volumen sincronizado; fue corregida incorporando fuentes a las imágenes y fijando el directorio de dbt. Esa ejecución fallida se conserva en el historial y no se cuenta como ejecución completa.

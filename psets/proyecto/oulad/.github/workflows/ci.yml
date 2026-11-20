@@ -29,6 +29,16 @@ jobs:
             echo 'No se encuentra proyecto_final/requirements.txt'
             exit 1
           fi
+      - name: Validar Compose único sin servicios ni credenciales reales
+        working-directory: ${{ steps.proyecto.outputs.ruta }}
+        env:
+          PSET4_API_IMAGE: proyecto-final-api:ci
+          PSET4_POSTGRES_PASSWORD: ci-inactivo
+          PSET4_KESTRA_PASSWORD: ci-inactivo
+          PSET4_INGESTA_TOKEN: '00000000000000000000000000000000'
+          SNOWFLAKE_CONNECTION_HOST_PATH: /tmp/ci-snowflake.json
+          SNOWFLAKE_PRIVATE_KEY_HOST_PATH: /tmp/ci-snowflake.p8
+        run: docker compose config --quiet
       - name: Instalar dependencias fijadas
         working-directory: ${{ steps.proyecto.outputs.ruta }}
         run: |
