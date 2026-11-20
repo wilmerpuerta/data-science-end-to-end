@@ -20,3 +20,8 @@ COPY spark/requirements.txt /tmp/operacion-requirements.txt
 RUN python3 -m pip install --no-cache-dir --only-binary=:all: --require-hashes --target /opt/oulad-deps -r /tmp/operacion-requirements.txt
 ENV PYTHONPATH=/opt/oulad-deps:/workspace PYTHONDONTWRITEBYTECODE=1 PSET4_API_URL=http://api:8000
 WORKDIR /workspace
+COPY src/datos.py src/pipeline.py src/reentrenar.py /workspace/src/
+COPY monitoreo/deriva.py monitoreo/alertas.py /workspace/monitoreo/
+COPY api/main.py api/esquemas.py /workspace/api/
+COPY tests/fixtures /workspace/tests/fixtures
+COPY spark/feature-contract.json /workspace/spark/feature-contract.json
