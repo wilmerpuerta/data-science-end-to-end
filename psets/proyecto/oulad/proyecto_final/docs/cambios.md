@@ -2,7 +2,7 @@
 
 ## Estado de esta etapa
 
-Estado actual: API batch, Snowflake, ocho despachos por escenario, monitoreo y challenger comparado. El challenger fue rechazado por decisión humana y Kestra terminó en SUCCESS; la integración y la comunicación finales siguen pendientes. Las secciones iniciales conservan el registro histórico; el estado vigente se detalla al final. La estructura final sigue el árbol de la rúbrica; las carpetas de trabajo y los entregables anteriores se preservan.
+Estado actual: API batch, Snowflake, ocho despachos por escenario, monitoreo y challenger comparado. El challenger fue rechazado por decisión humana, Kestra terminó en SUCCESS y el CD/GHCR con rollback técnico quedó verificado; la integración y la comunicación finales siguen pendientes. Las secciones iniciales conservan el registro histórico; el estado vigente se detalla al final. La estructura final sigue el árbol de la rúbrica; las carpetas de trabajo y los entregables anteriores se preservan.
 
 ## Registro de observaciones y ajustes
 
@@ -223,3 +223,14 @@ Este cierre demuestra el camino de **rechazo con supervisión humana** de la rú
 Se incorpora `cd.yml` canónico y efectivo en la raíz GitHub, con `push` a `main`, CI reutilizable obligatorio, permisos `packages:write` limitados al job de publicación y autenticación mediante `GITHUB_TOKEN`. La imagen lleva el SHA completo como tag y las etiquetas OCI de repositorio/revisión; se prueban las fixtures dentro del artefacto exacto antes de publicarlo. El digest se conserva en el resumen y en un artefacto JSON. El build utiliza la lista de archivos permitidos de `.dockerignore`, sin credenciales ni datos privados.
 
 Compose exige una referencia explícita en `PSET4_API_IMAGE`; API, escenario sintético, worker y tablero consumen la misma imagen. Kestra continúa con su imagen local. La ejecución y descarga GHCR, la actualización del servicio y la evidencia de rollback se comprobarán antes de declarar el bloque completado. No se cambia ningún alias del modelo en el workflow de publicación.
+
+
+## CD/GHCR y rollback técnico verificados (19-nov-2026)
+
+El [PR #1](https://github.com/wilmerpuerta/data-science-end-to-end/pull/1) aprobó CI y se integró a `main` en `97e9a18003554e1d0de5287fb87c0f23812557f5`. Se preservan íntegros `master` y su historia; `master` permanece como rama predeterminada del repositorio del curso y `main` contiene la integración de despliegue. Los workflows efectivos están en la raíz real GitHub y coinciden con los canónicos de entrega. El [workflow CD](https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44660981181) ejecutó CI como dependencia y probó la imagen exacta antes de publicarla; el login usó `GITHUB_TOKEN`, sin agregar credenciales al repositorio.
+
+Imagen publicada por commit: `ghcr.io/wilmerpuerta/oulad-proyecto-final-api:97e9a18003554e1d0de5287fb87c0f23812557f5`. Digest comprobado y configurado en los cuatro servicios: `ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:bc5ff9e0b215795b3388bc4da526ea6bece369404f8ed2c7b4a24d6fda16cae5`. Plataforma `linux/amd64`. Se comprobó descarga desde GHCR, etiqueta OCI de revisión, servicios healthy, `/salud`, `/modelo` y tablero. Los modelos y todos los conteos de ambos SQLite permanecieron iguales antes/después del cambio. Kestra conserva su contenedor e historial de aprobación; no se alteraron los volúmenes ni las credenciales Snowflake. El Compose único con MLflow/Spark sigue pendiente.
+
+La recarga/rollback se demostró en un servicio aislado con un proveedor configurado mediante `crear_app`, reutilizando exactamente el código publicado. Se registraron dos versiones del mismo artefacto histórico de semana 2 bajo `oulad-apoyo-academico-recarga-cd-semana2`, etiquetadas como prueba mecánica y `new_training=false`. El servicio observó 1→2→1 desde el alias y produjo 40 predicciones por fase (120 en total), con igual imagen, mismo contenedor, probabilidades idénticas y sin respaldo. El modelo de prueba terminó en versión 1. Los aliases de semana 2/4 y día 56 permanecieron en 1; el candidato de semana 4 continúa rechazado. No se presenta esta prueba como mejora, nuevo candidato de negocio o promoción aprobada de producción.
+
+Las tres cohortes sintéticas usan un SQLite privado separado; no se cargan a Snowflake ni consumen los cupos de los dos escenarios operativos. La evidencia privada conserva metadatos de publicación, digest, identidades de contenedores, estado antes/después y resultados de recarga. El respaldo conserva también `.env` previo protegido, fuente versionada y Registry actualizado. No hubo tuning, entrenamiento ni llamadas LLM. La siguiente etapa pendiente es ética operativa, subgrupos, retirada y respaldo, seguida de evaluación final de negocio e integración/comunicación.

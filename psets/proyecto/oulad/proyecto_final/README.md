@@ -1,6 +1,6 @@
 # Proyecto final: apoyo académico preventivo
 
-Estado: **servicio batch implementado y verificado**, con modelos específicos de semanas 2 y 4, contrato Pydantic, registro transaccional, respaldo, fixtures y CI. La carga Snowflake y los ocho despachos de control quedaron verificados (18.323 predicciones únicas). Monitoreo, deriva y tablero quedaron verificados con controles y un escenario sintético separado. El challenger se reentrenó, comparó y rechazó por decisión humana; Kestra terminó en SUCCESS y el champion permanece en versión 1. Los entregables de comunicación siguen pendientes. Este Compose integra las API de control y escenario sintético, Kestra/PostgreSQL, monitor y tablero, utilizando el Registry existente; todavía no es el Compose único de los cinco servicios finales.
+Estado: **servicio batch implementado y verificado**, con modelos específicos de semanas 2 y 4, contrato Pydantic, registro transaccional, respaldo, fixtures y CI. La carga Snowflake y los ocho despachos de control quedaron verificados (18.323 predicciones únicas). Monitoreo, deriva y tablero quedaron verificados con controles y un escenario sintético separado. El challenger se reentrenó, comparó y rechazó por decisión humana; Kestra terminó en SUCCESS y el champion permanece en versión 1. La imagen GHCR y la recarga/rollback técnica quedaron verificadas. Los entregables de comunicación siguen pendientes. Este Compose integra las API de control y escenario sintético, Kestra/PostgreSQL, monitor y tablero, utilizando el Registry existente; todavía no es el Compose único de los cinco servicios finales.
 
 ## Objetivo de negocio
 
@@ -102,7 +102,7 @@ La referencia CI se registra como `fase=preparacion_servicio`, sin entrenamiento
 
 `.github/workflows/ci.yml` instala las dependencias fijadas, prueba con fixtures sin MLflow/Snowflake, construye la imagen y prueba dentro del contenedor en cada push/PR. En el fork del curso se mantiene una copia idéntica en `.github/workflows/ci.yml` de la raíz real del repositorio; GitHub no ejecuta por sí solo workflows dentro de una carpeta anidada. La prueba general del repositorio conserva el núcleo portable; las pruebas de fixtures nativas se ejecutan en el job dedicado con sus versiones y `PSET4_FULL_TESTS=1`.
 
-Pendientes: ingesta integrada, Compose único con Kestra/Spark/MLflow/API/tablero, notebooks 01-07, demostración controlada de promoción y rollback, CD/GHCR, análisis por subgrupos, CSV finales, pitch histórico en PDF, memo, presentación y video. [Cambios y evidencias](docs/cambios.md) distingue lo comprobado de lo pendiente.
+Pendientes: ingesta integrada, Compose único con Kestra/Spark/MLflow/API/tablero, notebooks 01-07, análisis por subgrupos, CSV finales, pitch histórico en PDF, memo, presentación y video. [Cambios y evidencias](docs/cambios.md) distingue lo comprobado de lo pendiente.
 
 Referencias técnicas: [pruebas del ciclo de vida de FastAPI](https://fastapi.tiangolo.com/advanced/testing-events/), [validación estricta de Pydantic](https://pydantic.dev/docs/validation/latest/concepts/strict_mode/) y [alias del Model Registry](https://www.mlflow.org/docs/latest/registry/).
 
@@ -197,14 +197,14 @@ docker compose exec -T monitoreo python -m src.datos --reentrenar solicitar
 
 La referencia pública fija el protocolo y sus cinco folds; `.local/reentrenamiento/` conserva el histórico privado, sus hashes, snapshot y checkpoint. El comando valida el código y datos antes de entrenar; el mismo ciclo se reutiliza sin duplicar el ajuste. Un cambio de datos, protocolo o champion requiere revisar/versionar el ciclo. El target solo entra una vez maduro; la reserva de comparación jamás se añade al entrenamiento. La operación ordinaria corre desde este proyecto y no importa módulos del PSet 02/03.
 
-El rechazo/aprobación se registra desde la tarea Pause de Kestra con decisión, responsable y motivo. El worker verifica esos inputs en la ejecución real antes de modificar un alias. Una aprobación no puede saltarse la regla cuantitativa. `--reentrenar rollback` exige una promoción aprobada previa y responsable/motivo explícitos; su demostración real y el CD de código/GHCR quedan para otro bloque.
+El rechazo/aprobación se registra desde la tarea Pause de Kestra con decisión, responsable y motivo. El worker verifica esos inputs en la ejecución real antes de modificar un alias. Una aprobación no puede saltarse la regla cuantitativa. `--reentrenar rollback` exige una promoción aprobada previa y responsable/motivo explícitos; la recarga/rollback técnica se verificó en un servicio aislado con la imagen publicada. No hubo promoción del candidato rechazado.
 
 
 ## Publicación de código en GHCR
 
 `.github/workflows/cd.yml` publica en cada integración a `main`, después de ejecutar el CI reutilizable. Construye `linux/amd64`, ejecuta las 57 pruebas dentro de esa imagen exacta y solo entonces publica `ghcr.io/wilmerpuerta/oulad-proyecto-final-api:<SHA_COMPLETO_DEL_COMMIT>`. El resumen y el artefacto `imagen-publicada-<SHA>` guardan el digest, commit, plataforma y ejecución. Un fallo de CI, build o pruebas impide publicar.
 
-Los workflows efectivos están en `.github/workflows/` de la raíz real del repositorio del curso; los de este directorio conservan la definición canónica para la entrega. `master` y su historial se conservan; `main` será la rama de integración del despliegue. La configuración de publicación está preparada; su ejecución, descarga y verificación operativa se documentarán al terminar este bloque.
+Los workflows efectivos están en `.github/workflows/` de la raíz real del repositorio del curso; los de este directorio conservan la definición canónica para la entrega. `master` y su historial se conservan; `main` es la rama de integración del despliegue. El PR #1 se integró con las pruebas aprobadas; la imagen se publicó y descargó desde GHCR y se verificó en los cuatro servicios. El repositorio del curso conserva `master` como rama histórica y predeterminada; los cambios de este bloque están en `main`.
 
 Para utilizar una versión publicada, copiar del resumen el valor completo `PSET4_API_IMAGE=ghcr.io/...@sha256:...` a `.env` y ejecutar:
 
@@ -220,3 +220,18 @@ curl --fail http://localhost:8004/modelo
 GHCR puede exigir autenticación si el paquete permanece privado. Para descargar una imagen privada, configurar fuera del repositorio un token clásico con `read:packages` y usar `docker login ghcr.io --username <usuario> --password-stdin`. Nunca guardar el token en `.env`, notebooks o archivos versionados. Un paquete público permite descarga anónima; su visibilidad se administra aparte de la del repositorio.
 
 El despliegue de código no promueve modelos: el Registry mantiene sus aliases y la API los consulta para cada lote nuevo. El challenger rechazado continúa rechazado. La selección/promoción del modelo conserva su control de negocio y supervisión humana.
+
+
+### Imagen publicada y comprobada
+
+Release verificado: `ghcr.io/wilmerpuerta/oulad-proyecto-final-api:97e9a18003554e1d0de5287fb87c0f23812557f5`. Referencia inmutable usada en los cuatro servicios y en `.env.example`:
+
+```text
+ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:bc5ff9e0b215795b3388bc4da526ea6bece369404f8ed2c7b4a24d6fda16cae5
+```
+
+[Publicación automática](https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44660981181) desde el [PR #1](https://github.com/wilmerpuerta/data-science-end-to-end/pull/1), con CI y pruebas de la imagen final aprobados. API, API sintética, monitor y tablero quedaron healthy con esa referencia y la etiqueta OCI de revisión `97e9a18003554e1d0de5287fb87c0f23812557f5`. Se conservaron los conteos de ambos SQLite y los modelos servidos en semanas 2 y 4.
+
+La prueba de recarga usó el modelo aislado `oulad-apoyo-academico-recarga-cd-semana2`: dos versiones de los mismos pesos históricos, marcadas como prueba, sin entrenamiento. Una instancia separada de la misma imagen observó 1→2→1 y produjo 120 predicciones sintéticas; conservaron imagen, contenedor y probabilidades. Los aliases operativos permanecieron en 1 durante toda la prueba y el candidato de semana 4 siguió rechazado. Las predicciones de prueba están en otro SQLite y no entran a Snowflake, presupuestos productivos ni CSV de negocio. Se retira la instancia aislada después de verificarla.
+
+Para revertir **código**, restaurar en `.env` el digest anterior conservado en el registro de despliegue y ejecutar `docker compose up -d --no-build --pull never --wait api api_deriva monitoreo tablero`; descargar antes esa referencia si no está en caché. Para revertir **modelo**, restaurar el alias a la versión previamente aprobada en el Registry; la API lo resuelve en el siguiente lote nuevo. No borrar volúmenes ni modificar el historial de predicciones. La decisión de modelo sigue separada de la publicación de código.

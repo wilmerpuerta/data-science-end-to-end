@@ -1,6 +1,6 @@
 # PSet 04: proyecto final de apoyo académico preventivo
 
-Estado: API batch y modelos tempranos implementados, con 57 pruebas completas aprobadas en el entorno del proyecto y en Docker. Control y escenario sintético están ejecutados; el challenger ya se comparó y rechazó por decisión humana; Kestra terminó en SUCCESS. La integración final sigue pendiente.
+Estado: API batch y modelos tempranos implementados, con 57 pruebas completas aprobadas en el entorno del proyecto y en Docker. Control y escenario sintético están ejecutados; el challenger ya se comparó y rechazó por decisión humana; Kestra terminó en SUCCESS. CD/GHCR y rollback técnico verificados; la integración final sigue pendiente.
 
 La [rúbrica original](CD-PSet-4.pdf) exige integrar los PSets 01-04 en una carpeta `proyecto_final/`, con infraestructura, API, pruebas, simulación, monitoreo, reentrenamiento y comunicación. La [extracción del enunciado](enunciado.md) conserva su contenido textual.
 
