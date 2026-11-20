@@ -1,7 +1,7 @@
 name: ${PSET4_COMPOSE_PROJECT:-proyecto-final}
 services:
   api:
-    image: ${PSET4_API_IMAGE:-proyecto-final-api:local}
+    image: ${PSET4_API_IMAGE:?Fijar imagen GHCR publicada por commit o digest}
     build:
       context: .
       dockerfile: api/Dockerfile
@@ -118,7 +118,7 @@ services:
     ports: !override
       - 127.0.0.1:${PSET4_API_DERIVA_PORT:-8006}:8000
   monitoreo:
-    image: ${PSET4_API_IMAGE:-proyecto-final-api:local}
+    image: ${PSET4_API_IMAGE:?Fijar imagen GHCR publicada por commit o digest}
     command: [python, -m, monitoreo.deriva, --servir]
     environment:
       MLFLOW_TRACKING_URI: ${MLFLOW_TRACKING_URI:-http://host.docker.internal:5001}
@@ -149,7 +149,7 @@ services:
     mem_limit: 1536m
     restart: unless-stopped
   tablero:
-    image: ${PSET4_API_IMAGE:-proyecto-final-api:local}
+    image: ${PSET4_API_IMAGE:?Fijar imagen GHCR publicada por commit o digest}
     command: [streamlit, run, monitoreo/deriva.py, --server.address=0.0.0.0, --server.port=8501, --browser.gatherUsageStats=false]
     environment:
       PSET4_TABLERO: '1'
