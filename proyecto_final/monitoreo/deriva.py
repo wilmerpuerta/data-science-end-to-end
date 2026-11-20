@@ -359,6 +359,30 @@ def tablero():
     st.subheader('Lectura de negocio por lote')
     st.dataframe(visible[['lote_id','corte','nuevas_propuestas','tp_nuevos','fp_nuevos','precision_nuevas','cobertura_acumulada','personas_unicas_propuestas']],hide_index=True)
     st.caption('La cobertura acumulada usa los Fail de la cohorte base de cada onda. Los cupos se cuentan por matrícula-asignatura; las personas únicas se muestran aparte.')
+    st.subheader('Valor de negocio frente al estático')
+    negocio_dir=Path(os.environ.get('PSET4_NEGOCIO',ROOT/'.local/negocio'))
+    negocio_path=negocio_dir/'lotes.csv'
+    if negocio_path.exists():
+        negocio=pd.read_csv(negocio_path)
+        muestra=negocio.loc[negocio.plan_id.eq(plan)&negocio.capacidad.eq('referencia')&negocio.tiempo.eq('dos_rondas')]
+        final=muestra.loc[muestra.cohorte_id.eq('GLOBAL')&muestra.corte.eq(28)]
+        tempranas=final.loc[final.politica.isin(['longitudinal','estatico','administrativo'])]
+        if len(tempranas)==3:
+            tp=dict(zip(tempranas.politica,tempranas.tp));cupos=dict(zip(tempranas.politica,tempranas.cupos))
+            if cupos['longitudinal']!=cupos['estatico']:raise ValueError('Comparadores de negocio sin cupo común')
+            st.metric('Fail adicionales netos a igual cupo',int(tp['longitudinal']-tp['estatico']))
+            if tp['estatico']>0:st.metric('Mejora relativa de cobertura',f"{100*(tp['longitudinal']/tp['estatico']-1):.2f} %")
+            barras=tempranas[['politica','tp','fp']].melt('politica',var_name='resultado',value_name='matriculas')
+            st.altair_chart(alt.Chart(barras).mark_bar().encode(x='politica:N',y='matriculas:Q',color='resultado:N',tooltip=['politica','resultado','matriculas']),width='stretch')
+        a=muestra.loc[muestra.politica.eq('longitudinal')&muestra.cohorte_id.ne('GLOBAL'),['lote_id','corte','cupos','tp','fp','reentrenamiento']].rename(columns={'tp':'tp_longitudinal','fp':'fp_longitudinal'})
+        b=muestra.loc[muestra.politica.eq('estatico')&muestra.cohorte_id.ne('GLOBAL'),['lote_id','corte','tp']].rename(columns={'tp':'tp_estatico'})
+        comparacion=a.merge(b,on=['lote_id','corte'],validate='one_to_one');comparacion['tp_adicionales_netos']=comparacion.tp_longitudinal-comparacion.tp_estatico
+        st.dataframe(comparacion.sort_values('lote_id'),hide_index=True)
+        st.caption('Las filas de semana 4 acumulan propuestas previas; no sumar ambos cortes. La meta +10 % es relativa y se evalúa globalmente a igual cupo. Una mejora global no garantiza mejora en cada lote o grupo ni reprobaciones evitadas. L07 sintético marca el disparador con etiquetas maduras; L08 compara el candidato rechazado. Los scores históricos siguen en versión 1.')
+        st.dataframe(final[['politica','cupos','tp','fp','cobertura','personas_propuestas','tp_reactivos_posteriores']].rename(columns={'cupos':'propuestas_tempranas','tp':'fail_priorizados_temprano','fp':'no_fail_priorizados_temprano','cobertura':'cobertura_temprana','personas_propuestas':'personas_con_propuesta','tp_reactivos_posteriores':'fail_conocidos_priorizados_despues'}),hide_index=True)
+        st.caption('La reactiva no anticipa Fail: sus casos posteriores se conocen solo al cierre+14 simulado. FP significa no-Fail observado y puede incluir retiros que también necesiten apoyo. El 30 % es un presupuesto hipotético, no financiación aprobada ni ahorro.')
+    else:
+        st.caption('La comparación con el estático aparecerá después de ejecutar la evaluación de negocio.')
     st.subheader('Cambios en los datos')
     cells=[]
     for _,row in visible.iterrows():
