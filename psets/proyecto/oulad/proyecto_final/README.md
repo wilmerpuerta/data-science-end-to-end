@@ -1,6 +1,6 @@
 # Proyecto final: apoyo académico preventivo
 
-Estado: **servicio batch implementado y verificado**, con modelos específicos de semanas 2 y 4, contrato Pydantic, registro transaccional, respaldo, fixtures y CI. La carga Snowflake y los ocho despachos de control quedaron verificados (18.323 predicciones únicas). Monitoreo, deriva y tablero quedaron verificados con controles y un escenario sintético separado. El challenger se reentrenó y comparó; Kestra está en pausa a la espera del rechazo o aprobación humana. Los entregables de comunicación siguen pendientes. Este Compose integra las API de control y escenario sintético, Kestra/PostgreSQL, monitor y tablero, utilizando el Registry existente; todavía no es el Compose único de los cinco servicios finales.
+Estado: **servicio batch implementado y verificado**, con modelos específicos de semanas 2 y 4, contrato Pydantic, registro transaccional, respaldo, fixtures y CI. La carga Snowflake y los ocho despachos de control quedaron verificados (18.323 predicciones únicas). Monitoreo, deriva y tablero quedaron verificados con controles y un escenario sintético separado. El challenger se reentrenó, comparó y rechazó por decisión humana; Kestra terminó en SUCCESS y el champion permanece en versión 1. Los entregables de comunicación siguen pendientes. Este Compose integra las API de control y escenario sintético, Kestra/PostgreSQL, monitor y tablero, utilizando el Registry existente; todavía no es el Compose único de los cinco servicios finales.
 
 ## Objetivo de negocio
 
@@ -83,7 +83,7 @@ curl -X POST http://localhost:8004/predecir -H 'Content-Type: application/json' 
 PSET4_FORCE_FALLBACK=0 docker compose up -d --wait api
 ```
 
-La API resuelve el alias en cada lote nuevo y fija una versión durante todo ese lote. Se comprobó la recarga 1→2→1 sin reconstruir la imagen. La versión 2 de esa demostración contiene los mismos pesos y está etiquetada como prueba mecánica; no es un challenger reentrenado ni una mejora. Las dos versiones activas volvieron a 1. El ciclo real ya entrenó un challenger distinto, registrado como versión 2 de semana 4; la comparación recomienda rechazarlo y el flujo espera la decisión humana. Los champions siguen en versión 1.
+La API resuelve el alias en cada lote nuevo y fija una versión durante todo ese lote. Se comprobó la recarga 1→2→1 sin reconstruir la imagen. La versión 2 de esa demostración contiene los mismos pesos y está etiquetada como prueba mecánica; no es un challenger reentrenado ni una mejora. Las dos versiones activas volvieron a 1. El ciclo real ya entrenó un challenger distinto, registrado como versión 2 de semana 4; la comparación recomendó rechazarlo y Wilmer Puerta confirmó ese rechazo. Los champions siguen en versión 1.
 
 ## Reproducir las fixtures y exportar corridas
 
@@ -102,7 +102,7 @@ La referencia CI se registra como `fase=preparacion_servicio`, sin entrenamiento
 
 `.github/workflows/ci.yml` instala las dependencias fijadas, prueba con fixtures sin MLflow/Snowflake, construye la imagen y prueba dentro del contenedor en cada push/PR. En el fork del curso se mantiene una copia idéntica en `.github/workflows/ci.yml` de la raíz real del repositorio; GitHub no ejecuta por sí solo workflows dentro de una carpeta anidada. La prueba general del repositorio conserva el núcleo portable; las pruebas de fixtures nativas se ejecutan en el job dedicado con sus versiones y `PSET4_FULL_TESTS=1`.
 
-Pendientes: ingesta integrada, Compose único con Kestra/Spark/MLflow/API/tablero, notebooks 01-07, resolución humana del challenger y demostración de rollback, CD/GHCR, análisis por subgrupos, CSV finales, pitch histórico en PDF, memo, presentación y video. [Cambios y evidencias](docs/cambios.md) distingue lo comprobado de lo pendiente.
+Pendientes: ingesta integrada, Compose único con Kestra/Spark/MLflow/API/tablero, notebooks 01-07, demostración controlada de promoción y rollback, CD/GHCR, análisis por subgrupos, CSV finales, pitch histórico en PDF, memo, presentación y video. [Cambios y evidencias](docs/cambios.md) distingue lo comprobado de lo pendiente.
 
 Referencias técnicas: [pruebas del ciclo de vida de FastAPI](https://fastapi.tiangolo.com/advanced/testing-events/), [validación estricta de Pydantic](https://pydantic.dev/docs/validation/latest/concepts/strict_mode/) y [alias del Model Registry](https://www.mlflow.org/docs/latest/registry/).
 
@@ -154,7 +154,7 @@ La referencia `tests/fixtures/referencia_monitoreo.json` contiene perfiles del e
 
 PSI usa bins congelados y pseudoconteo 0,5 por celda para evitar divisiones por cero, incluidos faltantes y categorías nuevas. 0,10 es una zona de vigilancia y >0,25 genera revisión en un lote con al menos 200 matrículas. Son umbrales operativos heurísticos predeclarados, no una prueba de causalidad. La duración curricular conserva PSI y rango como contexto, sin activar sola un incidente de comportamiento. KS es un respaldo aproximado con empates; chi-cuadrado agrupa categorías escasas y solo informa p cuando las frecuencias esperadas alcanzan 5. La decisión de deriva usa PSI. [Documentación de SciPy](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chi2_contingency.html).
 
-El desempeño se evalúa con todos los targets de la base disponibles y al menos 20 Fail y 20 no-Fail. AP inferior a media OOF menos dos desviaciones estándar genera revisión; dos caídas consecutivas etiquetadas del mismo corte proponen estudiar un challenger. La dispersión entre folds no es un intervalo de confianza. Los cambios de prevalencia y mezcla se muestran para investigar diagnósticos posibles. Cambios de entradas sin caída de desempeño no proponen reentrenar. La comparación ya se ejecutó y el flujo permanece en la pausa de aprobación humana; no hay promoción automática.
+El desempeño se evalúa con todos los targets de la base disponibles y al menos 20 Fail y 20 no-Fail. AP inferior a media OOF menos dos desviaciones estándar genera revisión; dos caídas consecutivas etiquetadas del mismo corte proponen estudiar un challenger. La dispersión entre folds no es un intervalo de confianza. Los cambios de prevalencia y mezcla se muestran para investigar diagnósticos posibles. Cambios de entradas sin caída de desempeño no proponen reentrenar. La comparación ya se ejecutó y la pausa se reanudó con el rechazo humano; el flujo terminó en SUCCESS sin promoción.
 
 Cada alerta registra métrica, valor, umbral, ventana, severidad, receptor y acción en `ALERTAS` y en el log de Kestra. El receptor es un rol operativo; no se envían mensajes externos. `MONITOREO` conserva latencias p50/p95, solicitudes, errores, distribución de scores/decisiones, calidad de las 20 entradas, AP, TP/FP, precisión de propuestas nuevas y cobertura acumulada de la cohorte base, además de modelo, run y referencia.
 
@@ -180,11 +180,11 @@ El reentrenamiento reserva L08 y excluye todas sus personas de la ventana. No me
 
 ## Reentrenamiento y revisión humana
 
-La alerta madura de L07 del escenario sintético inició el ciclo `reentrenamiento-28-deriva-v1`. Kestra ejecutó la preparación, entrenamiento y comparación y permanece en `aprobacion` (PAUSED), ejecución `6lcaE9ak8kGv4myx06ZMMw`. No reanudar automáticamente esta tarea. [Resultado, límites y criterio](docs/cambios.md#resultado-del-reentrenamiento-y-pausa-humana-19-nov-2026).
+La alerta madura de L07 del escenario sintético inició el ciclo `reentrenamiento-28-deriva-v1`. Kestra ejecutó la preparación, entrenamiento y comparación, esperó en `aprobacion` (PAUSED) y terminó en SUCCESS después del rechazo explícito de Wilmer Puerta, ejecución `6lcaE9ak8kGv4myx06ZMMw`. [Resultado, límites y criterio](docs/cambios.md#resultado-del-reentrenamiento-y-pausa-humana-19-nov-2026).
 
-Con 147 cupos, el champion detecta 77 Fail, el challenger 81 y el estático 54. El challenger mejora cuatro detecciones; la regla congelada exige al menos siete para superar una sigma de cobertura. **No es elegible para promoción; se recomienda rechazarlo y conservar el champion.** La meta de +10 % relativo frente al estático se supera en esta comparación local, sin demostrar un resultado causal o una validación prospectiva del objetivo global.
+Con 147 cupos, el champion detecta 77 Fail, el challenger 81 y el estático 54. El challenger mejora cuatro detecciones; la regla congelada exige al menos siete para superar una sigma de cobertura. **No es elegible para promoción; el responsable confirmó el rechazo y se conservó el champion.** La meta de +10 % relativo frente al estático se supera en esta comparación local, sin demostrar un resultado causal o una validación prospectiva del objetivo global.
 
-`docs/reentrenamientos.csv` contiene SOLICITADO y COMPARADO; todavía no existe una decisión humana. `docs/corridas.csv` incluye el nuevo entrenamiento (384 corridas históricas en total). Los aliases de semana 2 y 4 y el champion histórico permanecen sin modificación. El candidato se conserva como `@challenger` para auditoría.
+`docs/reentrenamientos.csv` contiene SOLICITADO, COMPARADO, DECISION_SOLICITADA y DECIDIDO; el último evento registra RECHAZADO, responsable, motivo y reanudación de la pausa. `docs/corridas.csv` incluye el nuevo entrenamiento (384 corridas históricas en total). Los aliases de semana 2 y 4 y el champion histórico permanecen sin modificación. El candidato se conserva como `@challenger` para auditoría, con `estado_aprobacion=rechazado` en el run y en su versión del Registry.
 
 Para reproducir la preparación privada en un entorno con los datos históricos restaurados, antes de solicitar un ciclo nuevo:
 
