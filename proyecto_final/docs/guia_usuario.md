@@ -160,3 +160,16 @@ Consultar `/salud` y `/modelo` y enviar únicamente lotes nuevos de cohortes con
 Para reactivar el modelo, el responsable revisa la causa, corrige el problema y valida el servicio. Establecer `PSET4_FORCE_FALLBACK=0` y repetir el comando. Las peticiones de lotes ya registrados devuelven su respuesta original, incluso si cambió el interruptor; esto preserva el historial y evita consumir cupos de nuevo. Reenviar un lote no lo convierte en una predicción nueva.
 
 El tutor revisa necesidades, accesibilidad, cobertura de los registros y contactos previos antes de confirmar una propuesta. La ausencia de actividad puede reflejar problemas de datos o formas distintas de estudiar. Quien no recibe propuesta conserva los canales habituales de apoyo y puede solicitar revisión. La coordinación académica resuelve desacuerdos y registra el motivo de cualquier decisión final; la API registra propuestas, no acredita tutorías realizadas ni dispone de un módulo de apelaciones implementado.
+
+
+## Comparación de negocio en el tablero
+
+Abrir [el tablero](http://localhost:8504) y elegir **Escenario**. Control y deriva se leen por separado: contienen las mismas matrículas con distintas entradas y no deben sumarse.
+
+En **Valor de negocio frente al estático**, el control muestra 420 Fail priorizados con el longitudinal frente a 314 con el estático: **106 netos adicionales, +33,76 % relativo, con los mismos 920 cupos**. El escenario sintético muestra 317 frente a 263: 54 netos adicionales. La meta +10 % corresponde al agregado del control; no garantiza mejora en todos los lotes. Revisar la tabla por lote para detectar empates y deterioros.
+
+Las filas de semana 4 incluyen las propuestas conservadas de semana 2. No sumar ambos cortes como si fueran cupos independientes. La fila reactiva muestra cero detección temprana y sus propuestas posteriores se basan en Fail ya conocidos al cierre; no es una predicción comparable en el mismo horizonte. FP significa resultado observado distinto de Fail y puede incluir retiros que necesiten apoyo.
+
+El tablero no modifica modelos, presupuestos o propuestas. Las comparaciones de calendario y del 30 % están en el [registro de cambios](cambios.md#resultado-de-negocio-focalización-oportunidad-y-presupuesto-20-nov-2026). Con la bolsa futura hipotética de 920 cupos, el adelanto es 274 por redondeo dentro de cada edición y quedan 646; no es ahorro observado ni aprobación presupuestaria. Las propuestas requieren revisión humana y no acreditan tutorías ni reprobaciones evitadas.
+
+Si no aparece la comparación, el responsable debe restaurar o generar los agregados privados de `.local/negocio/` siguiendo el README. El tablero lee esos archivos de solo lectura y no necesita claves Snowflake. No cargar datos privados en GitHub.
