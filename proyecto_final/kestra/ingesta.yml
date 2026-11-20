@@ -1,0 +1,57 @@
+id: ingesta
+namespace: pset4.oulad
+description: Fuente verificada -> Raw transaccional -> dbt Bronze/Silver/Gold -> Spark OBT y reconciliación.
+concurrency:
+  limit: 1
+  behavior: QUEUE
+inputs:
+  - id: source_file
+    type: SELECT
+    defaults: all
+    values: [all, studentInfo.csv, studentRegistration.csv, courses.csv, vle.csv, studentVle.csv]
+  - id: force_reload
+    type: BOOLEAN
+    defaults: false
+tasks:
+  - id: raw
+    type: io.kestra.plugin.scripts.shell.Commands
+    timeout: PT20M
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - >-
+        python3 -m src.datos --ingestar --source-file '{{ inputs.source_file }}'
+        --execution-id '{{ execution.id }}'
+        {% if inputs.force_reload %}--forzar-recarga{% endif %}
+    retry:
+      type: constant
+      interval: PT10S
+      maxAttempt: 3
+  - id: dbt
+    type: io.kestra.plugin.scripts.shell.Commands
+    timeout: PT25M
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - python3 -m src.datos --ejecutar-job dbt --execution-id '{{ execution.id }}'
+    retry:
+      type: constant
+      interval: PT10S
+      maxAttempt: 2
+  - id: spark
+    type: io.kestra.plugin.scripts.shell.Commands
+    timeout: PT25M
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - python3 -m src.datos --ejecutar-job spark --execution-id '{{ execution.id }}'
+    retry:
+      type: constant
+      interval: PT10S
+      maxAttempt: 2
+  - id: verificar
+    type: io.kestra.plugin.scripts.shell.Commands
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - python3 -m src.datos --verificar-ingesta --execution-id '{{ execution.id }}'

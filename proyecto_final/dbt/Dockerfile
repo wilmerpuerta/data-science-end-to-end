@@ -4,9 +4,15 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     DBT_SEND_ANONYMOUS_USAGE_STATS=false \
     DBT_PROFILES_DIR=/workspace/dbt
 WORKDIR /workspace/dbt
-COPY requirements.txt /tmp/requirements.txt
+COPY dbt/requirements.txt /tmp/requirements.txt
 RUN python -m pip install --no-cache-dir --only-binary=:all: --require-hashes -r /tmp/requirements.txt
 RUN useradd --create-home --uid 10001 runner
+COPY dbt/dbt_project.yml dbt/profiles.yml dbt/bootstrap.py /workspace/dbt/
+COPY dbt/models /workspace/dbt/models
+COPY dbt/macros /workspace/dbt/macros
+COPY dbt/tests /workspace/dbt/tests
+COPY src/datos.py /workspace/src/datos.py
+ENV PYTHONPATH=/workspace
 USER runner
 ENTRYPOINT ["dbt"]
 CMD ["--version"]

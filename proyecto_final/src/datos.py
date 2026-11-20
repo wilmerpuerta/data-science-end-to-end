@@ -3,6 +3,11 @@ from contextlib import contextmanager, closing
 from datetime import datetime, timezone
 from pathlib import Path
 import argparse
+import csv
+import gzip
+import shutil
+import tempfile
+import uuid
 import hashlib
 import json
 import os
@@ -526,9 +531,361 @@ def exportar_predicciones(repo, destino, plan_id=PLAN_CONTROL):
     return {'plan_id': plan_id, 'predicciones_exportadas': len(rows), 'sha256': sha256(destino)}
 
 
+ARCHIVOS_RAW = {'studentInfo.csv':'STUDENTINFO','studentRegistration.csv':'STUDENTREGISTRATION',
+                'courses.csv':'COURSES','vle.csv':'VLE','studentVle.csv':'STUDENTVLE'}
+INGESTA_DATA = Path('/datasets')
+INGESTA_RAW = ROOT/'.local/ingesta/raw'
+CTX_RAW = ('PSET2_SVC','PSET2_PIPELINE','PSET2_OULAD','RAW','PSET2_WH')
+
+
+def validar_execution_id(valor):
+    if not isinstance(valor,str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,100}',valor):
+        raise ValueError('Identificador de ejecución inválido')
+    return valor
+
+
+def guardar_informe(path,contenido):
+    path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
+    tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(contenido,ensure_ascii=False,indent=2)+'\n')
+    tmp.chmod(0o600);tmp.replace(path)
+
+
+def conectar_raw():
+    conn=conectar_snowflake()
+    with conn.cursor() as cur:
+        cur.execute('USE SCHEMA RAW')
+        cur.execute("ALTER SESSION SET QUERY_TAG='pset04_ingesta_raw'")
+    return conn
+
+
+def raw_verified_files(selected):
+    manifest = json.loads((INGESTA_DATA / 'manifest.json').read_text())
+    names = list(ARCHIVOS_RAW) if selected == 'all' else [selected]
+    result = []
+    for name in names:
+        meta = manifest['files'][name]
+        path = INGESTA_DATA / name
+        h = hashlib.sha256()
+        with path.open('rb') as f:
+            for b in iter(lambda: f.read(8 * 1024 * 1024), b''):
+                h.update(b)
+        if h.hexdigest() != meta['sha256'] or path.stat().st_size != meta['bytes']:
+            raise RuntimeError('input_checksum_mismatch')
+        with path.open(newline='', encoding='utf-8-sig') as f:
+            reader = csv.reader(f)
+            columns = next(reader)
+            count = 0
+            for row in reader:
+                if len(row) != len(columns):
+                    raise RuntimeError('source_column_count_mismatch')
+                count += 1
+            if count != meta['rows']:
+                raise RuntimeError('source_row_count_mismatch')
+        if not columns or len(set(columns)) != len(columns) or (not all((re.fullmatch('[a-z][a-z0-9_]*', c) for c in columns))):
+            raise RuntimeError('invalid_source_columns')
+        result.append((name, meta, columns))
+    return result
+
+def raw_ensure_managed(cur, table, definition, marker):
+    cur.execute(f"CREATE TABLE IF NOT EXISTS {table} ({definition}) COMMENT='{marker}'")
+    row = cur.execute("SELECT COMMENT FROM PSET2_OULAD.INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='RAW' AND TABLE_NAME=%s", (table,)).fetchone()
+    if not row or row[0] != marker:
+        raise RuntimeError('unmanaged_existing_table')
+
+def raw_target_counts(cur, table, checksum):
+    row = cur.execute(f'SELECT COUNT(*), COUNT(DISTINCT SOURCE_ROW_NUMBER),\n        COUNT_IF(SOURCE_SHA256 IS NULL OR SOURCE_SHA256 <> %s)\n        FROM {table}', (checksum,)).fetchone()
+    return {'rows': int(row[0]), 'unique_source_rows': int(row[1]), 'other_checksums': int(row[2] or 0)}
+
+def raw_audit(cur, name, checksum, run_id, attempt, status, expected, rows):
+    cur.execute('INSERT INTO INGESTION_LOG\n        (SOURCE_FILE,SOURCE_SHA256,RUN_ID,ATTEMPT_ID,STATUS,EXPECTED_ROWS,ACTUAL_ROWS,RECORDED_AT)\n        VALUES (%s,%s,%s,%s,%s,%s,%s,CURRENT_TIMESTAMP())', (name, checksum, run_id, attempt, status, expected, rows))
+
+def raw_verify_source_values(conn):
+    """Reconciliar clases y valores vacíos con la auditoría de esta copia."""
+    with conn.cursor() as cur:
+        classes = cur.execute("SELECT COUNT_IF(FINAL_RESULT='Fail'),COUNT_IF(FINAL_RESULT='Withdrawn'),COUNT_IF(FINAL_RESULT IN ('Pass','Distinction')),COUNT_IF(IMD_BAND=''),COUNT_IF(IMD_BAND IS NULL) FROM STUDENTINFO").fetchone()
+        registration = cur.execute("SELECT COUNT_IF(DATE_REGISTRATION=''),COUNT_IF(DATE_UNREGISTRATION=''),COUNT_IF(DATE_UNREGISTRATION IS NULL) FROM STUDENTREGISTRATION").fetchone()
+        resources = cur.execute("SELECT COUNT_IF(WEEK_FROM=''),COUNT_IF(WEEK_TO='') FROM VLE").fetchone()
+    if tuple(classes) != (7052, 10156, 15385, 1111, 0) or tuple(registration) != (45, 22521, 0) or tuple(resources) != (5243, 5243):
+        raise RuntimeError('source_value_reconciliation_failed')
+    return {'Fail': int(classes[0]), 'Withdrawn': int(classes[1]), 'Approved': int(classes[2]), 'empty_imd_band': int(classes[3]), 'empty_registration_date': int(registration[0]), 'empty_unregistration_date': int(registration[1]), 'empty_week_from': int(resources[0]), 'empty_week_to': int(resources[1]), 'source_empty_values_preserved': True}
+
+def raw_load_file(conn, name, meta, columns, run_id, attempt, force=False, progress=None):
+    table = ARCHIVOS_RAW[name]
+    checksum = meta['sha256']
+    expected = meta['rows']
+    cols = ', '.join((c.upper() + ' VARCHAR' for c in columns))
+    technical = 'SOURCE_SHA256 VARCHAR, SOURCE_ROW_NUMBER NUMBER, LOAD_RUN_ID VARCHAR, LOADED_AT TIMESTAMP_LTZ'
+    with conn.cursor() as cur:
+        if progress is not None:
+            progress['phase'] = 'target_contract'
+        raw_ensure_managed(cur, table, cols + ', ' + technical, 'pset2.raw.v1:' + name)
+        actual = [r[0] for r in cur.execute(f'DESC TABLE {table}').fetchall()]
+        if actual != [c.upper() for c in columns] + ['SOURCE_SHA256', 'SOURCE_ROW_NUMBER', 'LOAD_RUN_ID', 'LOADED_AT']:
+            raise RuntimeError('target_schema_mismatch')
+        current = raw_target_counts(cur, table, checksum)
+        if current == {'rows': expected, 'unique_source_rows': expected, 'other_checksums': 0} and (not force):
+            raw_audit(cur, name, checksum, run_id, attempt, 'NOOP', expected, expected)
+            return {'file': name, 'status': 'NOOP', **current}
+        temp = 'TMP_' + table + '_' + uuid.uuid4().hex[:12].upper()
+        if progress is not None:
+            progress['phase'] = 'temporary_table'
+        cur.execute(f'CREATE TEMPORARY TABLE {temp} LIKE {table}')
+        with tempfile.TemporaryDirectory(prefix='oulad-raw-') as work:
+            gzpath = Path(work) / (name + '.gz')
+            with (INGESTA_DATA / name).open('rb') as source, gzpath.open('wb') as target:
+                with gzip.GzipFile(filename='', fileobj=target, mode='wb', compresslevel=3, mtime=0) as compressed:
+                    shutil.copyfileobj(source, compressed, 8 * 1024 * 1024)
+            stage_path = f'@OULAD_FILES/{table}/{checksum}'
+            if progress is not None:
+                progress['phase'] = 'stage_upload'
+            cur.execute(f"PUT 'file://{gzpath}' {stage_path} AUTO_COMPRESS=FALSE SOURCE_COMPRESSION=GZIP OVERWRITE=FALSE PARALLEL=2")
+            put = cur.fetchall()
+            if not put or any((str(row[6]).upper() not in ['UPLOADED', 'SKIPPED'] for row in put)):
+                raise RuntimeError('stage_upload_incomplete')
+            selection = ', '.join((f'${i}::VARCHAR' for i in range(1, len(columns) + 1)))
+            if progress is not None:
+                progress['phase'] = 'copy_to_temporary'
+            cur.execute(f"COPY INTO {temp} FROM (\n                SELECT {selection}, '{checksum}', METADATA$FILE_ROW_NUMBER,\n                    '{run_id}', CURRENT_TIMESTAMP()\n                FROM {stage_path}/{name}.gz)\n                FILE_FORMAT=(FORMAT_NAME='PSET2_OULAD.RAW.OULAD_CSV_V1')\n                ON_ERROR='ABORT_STATEMENT' FORCE=TRUE")
+        copied = raw_target_counts(cur, temp, checksum)
+        if copied != {'rows': expected, 'unique_source_rows': expected, 'other_checksums': 0}:
+            raise RuntimeError('copy_reconciliation_failed')
+        try:
+            if progress is not None:
+                progress['phase'] = 'publish_transaction'
+            cur.execute('BEGIN')
+            cur.execute(f'DELETE FROM {table}')
+            cur.execute(f'INSERT INTO {table} SELECT * FROM {temp}')
+            raw_audit(cur, name, checksum, run_id, attempt, 'LOADED', expected, expected)
+            cur.execute('COMMIT')
+        except Exception:
+            cur.execute('ROLLBACK')
+            raise
+        finally:
+            cur.execute(f'DROP TABLE IF EXISTS {temp}')
+        final = raw_target_counts(cur, table, checksum)
+        if final != copied:
+            raise RuntimeError('published_reconciliation_failed')
+        return {'file': name, 'status': 'LOADED', **final}
+
+
+def ingestar_raw(execution_id,archivo='all',forzar=False):
+    import logging,uuid
+    validar_execution_id(execution_id)
+    if archivo not in ['all',*ARCHIVOS_RAW]:raise ValueError('Archivo no permitido')
+    logging.disable(logging.CRITICAL)
+    report={'checked_at_utc':ahora(),'run_id':execution_id,'attempt_id':uuid.uuid4().hex,
+            'status':'failed','mode':'load','source_partition':archivo,'files':[]}
+    try:
+        with conectar_raw() as conn:
+            with conn.cursor() as cur:
+                ctx=cur.execute('SELECT CURRENT_USER(),CURRENT_ROLE(),CURRENT_DATABASE(),CURRENT_SCHEMA(),CURRENT_WAREHOUSE()').fetchone()
+                if tuple(ctx)!=CTX_RAW:raise RuntimeError('unexpected_session_context')
+            if not os.statvfs(INGESTA_DATA).f_flag & os.ST_RDONLY:raise RuntimeError('source_not_read_only')
+            files=raw_verified_files(archivo)
+            report['source_manifest_sha256']=sha256(INGESTA_DATA/'manifest.json')
+            with conn.cursor() as cur:
+                raw_ensure_managed(cur,'INGESTION_LOG',
+                    'SOURCE_FILE VARCHAR, SOURCE_SHA256 VARCHAR, RUN_ID VARCHAR, ATTEMPT_ID VARCHAR, STATUS VARCHAR, EXPECTED_ROWS NUMBER, ACTUAL_ROWS NUMBER, RECORDED_AT TIMESTAMP_LTZ',
+                    'pset2.raw.ingestion-log.v1')
+                cur.execute("CREATE STAGE IF NOT EXISTS OULAD_FILES COMMENT='pset2.raw.stage.v1'")
+                cur.execute('''CREATE FILE FORMAT IF NOT EXISTS OULAD_CSV_V1 TYPE=CSV COMPRESSION=AUTO SKIP_HEADER=1
+                    FIELD_OPTIONALLY_ENCLOSED_BY='"' EMPTY_FIELD_AS_NULL=FALSE NULL_IF=()
+                    ERROR_ON_COLUMN_COUNT_MISMATCH=FALSE ENCODING='UTF8' ''')
+            for name,meta,columns in files:
+                report['active_file']=name
+                report['files'].append(raw_load_file(conn,name,meta,columns,execution_id,report['attempt_id'],forzar,report))
+            if archivo=='all':report['source_value_checks']=raw_verify_source_values(conn)
+            report.update(status='ok',datasets_read_only=True,phase='completed')
+    except Exception as exc:
+        report.update(error_class=type(exc).__name__)
+        if isinstance(getattr(exc,'errno',None),int):report['errno']=exc.errno
+    report['finished_at_utc']=ahora()
+    guardar_informe(INGESTA_RAW/(execution_id+'_'+report['attempt_id']+'.json'),report)
+    if report['status']!='ok':raise RuntimeError('Ingesta fallida; consultar informe privado agregado')
+    return report
+
+
+def validar_solicitud_job(data):
+    if not isinstance(data,dict) or set(data)!={'execution_id'}:raise ValueError('Solicitud inválida')
+    return validar_execution_id(data['execution_id'])
+
+
+def comando_ingesta(componente,job_id):
+    """Lista cerrada de ejecutables y argumentos, sin shell ni comandos suministrados."""
+    import sys
+    if not re.fullmatch(r'[a-f0-9]{32}',job_id):raise ValueError('Identificador del trabajo inválido')
+    if componente=='dbt':return [sys.executable,'/workspace/dbt/bootstrap.py','build-gold']
+    if componente!='spark':raise ValueError('Componente no permitido')
+    return ['/opt/spark/bin/spark-submit','--master','local[2]','--driver-memory','1g','--jars',
+        '/opt/spark/oulad-jars/spark-snowflake_2.12-3.2.3-spark_3.5.jar,/opt/spark/oulad-jars/snowflake-jdbc-4.4.1.jar,/opt/spark/oulad-jars/parquet-avro-1.13.1.jar',
+        '--conf','spark.ui.enabled=false','--conf','spark.eventLog.enabled=false',
+        '--conf','spark.sql.shuffle.partitions=16','--conf','spark.sql.adaptive.enabled=true',
+        '--conf','spark.redaction.regex=(?i)secret|password|token|access.?key|pem_private_key|sfurl|account',
+        '/workspace/spark/build_obt.py','--action','build-obt','--run-id',job_id]
+
+
+def ejecutar_proceso_ingesta(args,log,timeout):
+    import subprocess,signal
+    with Path(log).open('w') as output:
+        Path(log).chmod(0o600)
+        proc=subprocess.Popen(args,stdout=output,stderr=subprocess.STDOUT,start_new_session=True)
+        try:return proc.wait(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            os.killpg(proc.pid,signal.SIGTERM)
+            try:proc.wait(timeout=10)
+            except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);proc.wait()
+            return 124
+
+
+def trabajo_ingesta(componente,job,artifacts):
+    import sys,time
+    jobs=artifacts/'runner-jobs';deadline=time.monotonic()+1200
+    code=ejecutar_proceso_ingesta(comando_ingesta(componente,job['job_id']),jobs/(job['job_id']+'.log'),1200)
+    if code:return {'status':'failed','returncode':code}
+    if componente=='spark':
+        result=json.loads((Path('/workspace/output')/(job['job_id']+'.json')).read_text())
+        result['returncode']=code
+        return result
+    data=json.loads((artifacts/'target/run_results.json').read_text())
+    nodes=[{k:r[k] for k in ['unique_id','status','execution_time','failures']} for r in data['results']]
+    if not nodes or any(r['status'] not in ['success','pass'] for r in nodes):raise ValueError('dbt incompleto')
+    result={'status':'ok','returncode':code,'results':nodes,'models_succeeded':sum(r['status']=='success' for r in nodes),
+            'tests_passed':sum(r['status']=='pass' for r in nodes),'elapsed_seconds':round(data['elapsed_time'],2),'quality':{}}
+    for layer,action in [('bronze','quality-export'),('silver','quality-export-silver'),('gold','quality-export-gold')]:
+        log=jobs/(job['job_id']+'-'+layer+'.log')
+        code=ejecutar_proceso_ingesta([sys.executable,'/workspace/dbt/bootstrap.py',action],log,max(1,int(deadline-time.monotonic())))
+        if code:return {'status':'failed','returncode':code,'phase':'quality_'+layer}
+        metrics=json.loads(log.read_text().strip())
+        if not isinstance(metrics,list) or not all(set(m)=={'dataset','metric','value','denominator'} for m in metrics):raise ValueError('Exportación inválida')
+        result['quality'][layer]=metrics
+    return result
+
+
+def servir_jobs_ingesta(componente):
+    from concurrent.futures import ThreadPoolExecutor
+    from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
+    import threading,secrets
+    if componente not in ['dbt','spark']:raise ValueError('Componente inválido')
+    token=os.environ['PSET4_INGESTA_TOKEN']
+    if len(token)<32:raise ValueError('Configurar secreto interno de ingesta')
+    artifacts=Path('/workspace/artifacts');jobs=artifacts/'runner-jobs';jobs.mkdir(parents=True,exist_ok=True)
+    lock=threading.RLock();pool=ThreadPoolExecutor(max_workers=1)
+    for path in jobs.glob('*.json'):
+        state=json.loads(path.read_text())
+        if state['state'] in ['RUNNING','QUEUED']:
+            state.update(state='FAILED',finished_at_utc=ahora(),category='worker_restarted');guardar_informe(path,state)
+    def run(job,path):
+        with lock:job.update(state='RUNNING',started_at_utc=ahora());guardar_informe(path,job)
+        try:report=trabajo_ingesta(componente,job,artifacts)
+        except Exception as exc:report={'status':'failed','error_class':type(exc).__name__}
+        with lock:
+            job.update(state='SUCCESS' if report['status']=='ok' else 'FAILED',finished_at_utc=ahora())
+            report.update(component=componente,execution_id=job['execution_id'],job_id=job['job_id'],attempt=job['attempt'],
+                          started_at_utc=job['started_at_utc'],finished_at_utc=job['finished_at_utc'],codigo_sha256=sha256(__file__))
+            folder=ROOT/'.local/ingesta/pipeline'/job['execution_id']
+            guardar_informe(folder/(componente+'_attempt_'+str(job['attempt'])+'.json'),report)
+            guardar_informe(folder/(componente+'.json'),report);guardar_informe(path,job)
+    class Handler(BaseHTTPRequestHandler):
+        def log_message(self,*args):pass
+        def send(self,status,data):
+            body=json.dumps(data).encode();self.send_response(status);self.send_header('Content-Type','application/json')
+            self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body)
+        def authorized(self):return secrets.compare_digest(self.headers.get('X-Ingesta-Token',''),token)
+        def do_GET(self):
+            if self.path=='/health':return self.send(200,{'status':'ok','component':componente})
+            if not self.authorized():return self.send(401,{'error':'unauthorized'})
+            match=re.fullmatch(r'/jobs/([A-Za-z0-9_-]{1,100})',self.path)
+            if not match:return self.send(404,{'error':'unknown_route'})
+            with lock:
+                path=jobs/(match[1]+'.json')
+                return self.send(200,json.loads(path.read_text())) if path.exists() else self.send(404,{'error':'unknown_job'})
+        def do_POST(self):
+            if not self.authorized():return self.send(401,{'error':'unauthorized'})
+            if self.path!='/jobs':return self.send(404,{'error':'unknown_route'})
+            try:
+                length=int(self.headers.get('Content-Length','0'))
+                if not 0<length<=1024:raise ValueError('Tamaño inválido')
+                identifier=validar_solicitud_job(json.loads(self.rfile.read(length)))
+            except Exception:return self.send(400,{'error':'invalid_request'})
+            with lock:
+                path=jobs/(identifier+'.json');prev=json.loads(path.read_text()) if path.exists() else None
+                if prev and prev['state'] in ['QUEUED','RUNNING','SUCCESS']:return self.send(200,prev)
+                attempt=prev['attempt']+1 if prev else 1
+                job={'execution_id':identifier,'component':componente,'attempt':attempt,'state':'QUEUED',
+                     'job_id':identidad([identifier,componente,attempt])[:32],'created_at_utc':ahora()}
+                guardar_informe(path,job);pool.submit(run,job.copy(),path);self.send(202,job)
+    ThreadingHTTPServer(('0.0.0.0',8090),Handler).serve_forever()
+
+
+def ejecutar_job_ingesta(componente,execution_id):
+    import time
+    validar_execution_id(execution_id)
+    if componente not in ['dbt','spark']:raise ValueError('Componente no permitido')
+    base='http://'+componente+':8090'
+    def request(path,data=None):
+        req=urllib.request.Request(base+path,data=None if data is None else json.dumps(data).encode(),
+            headers={'Content-Type':'application/json','X-Ingesta-Token':os.environ['PSET4_INGESTA_TOKEN']})
+        with urllib.request.urlopen(req,timeout=20) as response:return json.load(response)
+    state=request('/jobs',{'execution_id':execution_id});deadline=time.monotonic()+1300
+    while time.monotonic()<deadline:
+        state=request('/jobs/'+execution_id)
+        if state['state'] in ['SUCCESS','FAILED']:
+            if state['state']!='SUCCESS':raise RuntimeError('Trabajo fallido; revisar informe agregado')
+            return state
+        time.sleep(3)
+    raise TimeoutError('Revisar el trabajo existente antes de crear otra ejecución')
+
+
+def verificar_informes_ingesta(raw,dbt,spark,manifest,contract,manifest_sha):
+    """Puerta de calidad: no aceptar solo códigos de salida o contadores parciales."""
+    if not all(r['status']=='ok' for r in [raw,dbt,spark]):raise ValueError('Etapa fallida')
+    if raw['mode']!='load':raise ValueError('Modo Raw inválido')
+    selected=set(ARCHIVOS_RAW) if raw['source_partition']=='all' else {raw['source_partition']}
+    if selected-set(ARCHIVOS_RAW) or {r['file'] for r in raw['files']}!=selected or len(raw['files'])!=len(selected):raise ValueError('Fuentes incompletas')
+    for r in raw['files']:
+        if r['status'] not in ['NOOP','LOADED'] or r['rows']!=r['unique_source_rows'] or r['rows']!=manifest['files'][r['file']]['rows'] or r['other_checksums']!=0:raise ValueError('Raw sin reconciliar')
+    if raw['source_manifest_sha256']!=manifest_sha or spark['source_manifest_sha256']!=manifest_sha:raise ValueError('Manifiesto distinto')
+    if not dbt['results'] or any(r['status'] not in ['success','pass'] for r in dbt['results']):raise ValueError('dbt incompleto')
+    if dbt['models_succeeded']!=23 or dbt['tests_passed']!=168:raise ValueError('Contrato dbt incompleto')
+    if dbt['execution_id']!=spark['execution_id'] or raw['run_id']!=dbt['execution_id']:raise ValueError('Ejecuciones distintas')
+    if not raw['finished_at_utc']<=dbt['started_at_utc']<dbt['finished_at_utc']<=spark['started_at_utc']<spark['finished_at_utc']:raise ValueError('Orden de etapas inválido')
+    for name in ['published','population_key_sets_equal','readback_all_columns_equal','gold_source_sha256_verified','target_and_withdrawal_excluded']:
+        if spark[name] is not True:raise ValueError('Spark sin reconciliar: '+name)
+    if spark['output_columns']!=contract['output_columns'] or set(spark['output_columns'])&set(contract['forbidden_columns']):raise ValueError('Contrato de features inválido')
+    if spark['temporal_tests_passed']!=len(contract['cutoff_days']) or sorted(r['cutoff_day'] for r in spark['per_cutoff'])!=contract['cutoff_days']:raise ValueError('Cortes incompletos')
+    if spark['rows']!=spark['unique_keys'] or spark['rows']!=sum(r['rows'] for r in spark['per_cutoff']):raise ValueError('Claves OBT incompletas')
+    gold={(r['dataset'],r['metric']):r['value'] for r in dbt['quality']['gold']}
+    for r in spark['per_cutoff']:
+        if not r['future_perturbation_unchanged'] or r['rows']!=gold[('eligibility_day_'+str(r['cutoff_day']),'expected_enrollments')]:raise ValueError('Población o temporalidad inválida')
+    return {'status':'ok','execution_id':dbt['execution_id'],'raw_files':raw['files'],'raw_selected_rows':sum(r['rows'] for r in raw['files']),
+            'dbt_models_succeeded':dbt['models_succeeded'],'dbt_tests_passed':dbt['tests_passed'],'obt_rows':spark['rows'],
+            'obt_columns':len(spark['output_columns']),'obt_unique_keys':spark['unique_keys'],'stage_order_verified':True,
+            'temporal_tests_passed':spark['temporal_tests_passed'],'readback_all_columns_equal':True,
+            'content_sha256_by_cutoff':spark['content_sha256_by_cutoff'],'per_cutoff':spark['per_cutoff'],
+            'spark_run_id':spark['run_id'],'source_manifest_sha256':manifest_sha}
+
+
+def verificar_ingesta(execution_id):
+    validar_execution_id(execution_id)
+    folder=ROOT/'.local/ingesta/pipeline'/execution_id
+    raw=max((json.loads(p.read_text()) for p in INGESTA_RAW.glob(execution_id+'_*.json')),key=lambda r:r['finished_at_utc'])
+    dbt=json.loads((folder/'dbt.json').read_text());spark=json.loads((folder/'spark.json').read_text())
+    result=verificar_informes_ingesta(raw,dbt,spark,json.loads((INGESTA_DATA/'manifest.json').read_text()),
+        json.loads((ROOT/'spark/feature-contract.json').read_text()),sha256(INGESTA_DATA/'manifest.json'))
+    result.update(checked_at_utc=ahora(),codigo_sha256=sha256(__file__))
+    guardar_informe(folder/'verification.json',result)
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('--ingestar', action='store_true')
+    group.add_argument('--servir-jobs', choices=['dbt','spark'])
+    group.add_argument('--ejecutar-job', choices=['dbt','spark'])
+    group.add_argument('--verificar-ingesta', action='store_true')
+    parser.add_argument('--source-file', choices=['all',*ARCHIVOS_RAW], default='all')
+    parser.add_argument('--forzar-recarga', action='store_true')
     group.add_argument('--registrar-cohorte', type=Path)
     group.add_argument('--ejemplo', type=Path)
     group.add_argument('--preparar-plan', action='store_true')
@@ -545,6 +902,13 @@ def main():
     parser.add_argument('--cohorte-id', default='ejemplo-api')
     parser.add_argument('--base-local', type=Path, default=ROOT / '.local/operacion.sqlite')
     args = parser.parse_args()
+    if args.servir_jobs:
+        servir_jobs_ingesta(args.servir_jobs);return
+    if args.ingestar or args.ejecutar_job or args.verificar_ingesta:
+        if args.ingestar:result=ingestar_raw(args.execution_id,args.source_file,args.forzar_recarga)
+        elif args.ejecutar_job:result=ejecutar_job_ingesta(args.ejecutar_job,args.execution_id)
+        else:result=verificar_ingesta(args.execution_id)
+        print(json.dumps(result,ensure_ascii=False));return
     if args.reentrenar:
         data={'operacion':args.reentrenar,'execution_id':args.execution_id,
               'decision':os.environ.get('PSET4_DECISION'),'motivo':os.environ.get('PSET4_MOTIVO'),
