@@ -120,7 +120,7 @@ docker compose exec -T kestra python3 -m src.datos --preparar-plan --base-local 
 
 Kestra queda en `http://localhost:8094`, con usuario `admin@psets.local` y la contraseña privada configurada. Importar `kestra/produccion_lotes.yml` y ejecutar con `liberar_targets=false` conserva los resultados ocultos. El flujo recorre L01-L08 en orden y llama a la API internamente; tras una respuesta durable carga `PSET2_OULAD.ANALYTICS.PREDICCIONES`. Reintentar no asigna cupos nuevos. Una diferencia en una clave ya publicada aborta la carga, sin sobrescribirla.
 
-Son ocho despachos de control de la presentación 2014J, ya examinada retrospectivamente en PSet 03. Los módulos ordenados se reparten circularmente en cuatro ondas de ediciones completas. Días simulados de despacho: 14–17 y 28–31, con features congeladas en 14/28. Las demoras de 0..3 días son un supuesto de cola; no equivalen a ocho semestres independientes. La política experimental conserva 10 % por edición y reparto 25/75, sin afirmar aprobación institucional ni cumplimiento de la meta de negocio.
+Son ocho despachos de control de la presentación 2014J, ya examinada retrospectivamente en PSet 03. Los módulos ordenados se reparten circularmente en cuatro ondas de ediciones completas. Días simulados de despacho: 14–17 y 28–31, con features congeladas en 14/28. Las demoras de 0..3 días son un supuesto de cola; no equivalen a ocho semestres independientes. La política experimental conserva 10 % por edición y reparto 25/75, sin afirmar aprobación institucional. La meta se evaluó retrospectivamente a igual cupo, como se detalla al final de este documento.
 
 Las solicitudes no contienen target. `ETIQUETAS` se materializa aparte solo cuando el reloj simulado alcanza fin de período +14 días; es una demora supuesta, porque OULAD no publica el instante real de disponibilidad. El flujo puede avanzar explícitamente al día 283 con `liberar_targets=true`, después de completar las ocho predicciones. El timestamp real de inferencia y el día simulado se guardan por separado. Los flujos también ejecutan el monitoreo antes y después de la disponibilidad de etiquetas.
 
@@ -144,7 +144,7 @@ Validación ejecutada: 69 pruebas completas aprobadas localmente y en Docker. Se
 docker compose up -d --build --wait api api_deriva monitoreo tablero kestra
 ```
 
-El tablero está en `http://localhost:8504`; la API del escenario sintético usa `http://localhost:8006`. El monitor no publica un puerto al host. El servicio API conserva su registro local y carece de credenciales Snowflake; el worker de monitoreo realiza las consultas cloud. El tablero lee solo CSV de `docs/`, sin claves. El Compose usa `!override` para separar los puertos de las dos API y requiere una versión de Compose que lo admita. La integración de Spark y MLflow dentro del Compose único todavía está pendiente.
+El tablero está en `http://localhost:8504`; la API del escenario sintético usa `http://localhost:8006`. El monitor no publica un puerto al host. El servicio API conserva su registro local y carece de credenciales Snowflake; el worker de monitoreo realiza las consultas cloud. El tablero lee CSV de `docs/` y agregados privados de `.local/negocio/`, montados de solo lectura y sin claves. El Compose usa `!override` para separar los puertos de las dos API y requiere una versión de Compose que lo admita. La integración de Spark y MLflow dentro del Compose único todavía está pendiente.
 
 Importar primero `kestra/reentrenamiento.yml`, después `kestra/monitoreo.yml` y luego `kestra/produccion_lotes.yml`. Este último llama al monitor después de cada predicción. Ejecutar con `plan_id=oulad-2014j-deriva-v1` utiliza un SQLite separado, conserva las matrículas y cupos originales y modifica únicamente L06 y L07: permuta vectores completos de features dentro de cada edición, con semilla `5041+orden`, y suma 120 a `studied_credits`. Las etiquetas permanecen iguales y no participan de la alteración. Las demografías de esos dos lotes son sintéticas; la evaluación de equidad posterior usará los controles originales. El control no se sobrescribe.
 
@@ -175,7 +175,7 @@ cp .local/predicciones-escenarios.csv docs/predicciones.csv
 
 Para reconstruir deliberadamente la referencia, con el snapshot y los OOF privados originales: `PYTHONPATH=. .venv/bin/python -m monitoreo.deriva --preparar-referencia ../pset_3/.local`. La ejecución ordinaria usa la referencia publicada y funciona sin importar módulos históricos.
 
-El reentrenamiento reserva L08 y excluye todas sus personas de la ventana. No mezcla control y escenario sintético como muestras independientes. El escenario presupuestario del 30 %, la equidad y la evaluación final del resultado de negocio siguen pendientes.
+El reentrenamiento reserva L08 y excluye todas sus personas de la ventana. No mezcla control y escenario sintético como muestras independientes. La auditoría de equidad y la evaluación de negocio con escenario del 30 % están documentadas; permanecen pendientes la integración completa y la comunicación.
 
 
 ## Reentrenamiento y revisión humana
@@ -246,9 +246,9 @@ La auditoría original por discapacidad declarada y sus criterios de revisión e
 El análisis se reproduce con `python -m monitoreo.deriva --etica <directorio_privado> --codigo-etica <SHA_DE_CODIGO>` dentro del worker con credenciales Snowflake; usa únicamente controles y etiquetas ya maduras. La evaluación de negocio quedó calculada; notebooks, Compose único y comunicación siguen pendientes.
 
 
-### Imagen ética activa y comprobación del interruptor
+### Despliegue ético y comprobación del interruptor (histórico)
 
-La imagen activa y fijada en `.env.example` es `ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:e32f542e7320ae939625586d5ce8776fd1ac1933b596cb62b7676e98973ed2a3`, publicada desde el commit `6c392a3fc7d86e0774fc207d37f19bbc66768c07` mediante el [CD aprobado](https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44722770969). La API, API sintética, monitor y tablero quedaron healthy con esa referencia. Se conservaron versiones, runs y snapshots de los modelos y todos los conteos de los SQLite operativos; los únicos campos nuevos en `/modelo` explicitan el método de priorización.
+La imagen usada en la demostración ética fue `ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:e32f542e7320ae939625586d5ce8776fd1ac1933b596cb62b7676e98973ed2a3`, publicada desde el commit `6c392a3fc7d86e0774fc207d37f19bbc66768c07` mediante el [CD aprobado](https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44722770969). La API, API sintética, monitor y tablero quedaron healthy con esa referencia. Se conservaron versiones, runs y snapshots de los modelos y todos los conteos de los SQLite operativos; los únicos campos nuevos en `/modelo` explicitan el método de priorización.
 
 La prueba HTTP utilizó un servicio aislado con esa misma imagen y `PSET4_FORCE_FALLBACK` en secuencia 0→1→0, recreando el contenedor al cambiar la configuración. Produjo 160 predicciones sintéticas: normal (40), respaldo en semanas 2/4 (80), y reactivado (40). El respaldo reservó 1+3 cupos de su propia cohorte, mantuvo la validación 422 y devolvió las respuestas anteriores sin recalcular. La reactivación tampoco reemplazó respuestas históricas de respaldo. La puntuación técnica constante quedó marcada como no individual. La instancia de prueba se retiró y sus datos no entran a Snowflake ni a los CSV de negocio.
 
@@ -260,3 +260,10 @@ El champion sigue en versión 1, el candidato de semana 4 continúa rechazado y 
 El control original cumple la meta: **420 Fail frente a 314** del estático, con **920 cupos**, +33,76 % relativo. Son 106 casos netos por matrícula, sin aumentar cupos. L03 empata; L07 bajo deriva queda por debajo del estático. La bolsa futura ilustrativa de 920 permite adelantar 274 y conserva 646; no se demuestra ahorro. [Comparación completa, rondas y escenarios](docs/cambios.md#resultado-de-negocio-focalización-oportunidad-y-presupuesto-20-nov-2026).
 
 La evaluación se reproduce con `python -m src.reentrenar --evaluar-negocio <directorio_privado> --codigo-negocio <SHA_DEL_CODIGO>` dentro del worker. Solo lee Snowflake/Registry, usa los estáticos congelados y los scores históricos, sin entrenar ni modificar registros. En el tablero, la comparación se muestra por escenario y horizonte; el grupo de datos se mantiene separado entre control y deriva. Las alternativas de presupuesto y calendario son contrafactuales de análisis, no cambios aprobados de la operación.
+
+
+### Despliegue de la evaluación de negocio
+
+Imagen vigente y fijada en `.env.example`: `ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:ee4e0da32b14bb5254463229dd40c31483118ef57360657a84ece166cff4b9f6`, commit `eb8da65b6a7fcaa8f9ec4a19a2fcfbf9cfd18119`, [CD aprobado](https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44734850139). Las 69 pruebas completas aprobaron en CI y en la imagen publicada. Los cuatro servicios quedaron healthy por digest; modelos y conteos durables se conservaron. El tablero se verificó con control y deriva: 106 y 54 Fail adicionales netos, respectivamente, sin escribir en Snowflake. [Guía para consultar e interpretar el tablero](docs/guia_usuario.md#comparación-de-negocio-en-el-tablero).
+
+Siguiente etapa: integración de ingesta, Spark y MLflow en el Compose único, notebooks reproducibles y entregables de comunicación. La evaluación retrospectiva no sustituye la validación institucional ni un piloto de impacto.

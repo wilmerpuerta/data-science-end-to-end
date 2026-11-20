@@ -468,3 +468,10 @@ docker compose run --rm --no-deps --entrypoint python monitoreo -m src.reentrena
 ```
 
 La salida privada contiene `lotes`, `meta`, `presupuestos`, `finanzas`, `selecciones`, `reentrenamiento` y `linaje` en JSON y tablas agregadas CSV. Guarda hashes de entradas/targets maduros, pipelines estáticos, snapshots, runs y código. No reemplaza los cinco CSV históricos de la rúbrica. El tablero lee únicamente agregados locales montados de solo lectura, sin credenciales cloud, y muestra el contraste por lote, la mejora y los comparadores por horizonte. No se cambian alias, cupos operativos ni el reparto de la API.
+
+
+## Publicación y comprobación del resultado de negocio (20-nov-2026)
+
+[PR #3](https://github.com/wilmerpuerta/data-science-end-to-end/pull/3) integrado con sus controles aprobados. Imagen `ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:ee4e0da32b14bb5254463229dd40c31483118ef57360657a84ece166cff4b9f6`, revisión `eb8da65b6a7fcaa8f9ec4a19a2fcfbf9cfd18119`, [CD](https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44734850139). Se aprobaron 69 pruebas completas en CI y en la imagen final. API, API sintética, monitor y tablero están healthy con el mismo digest y revisión OCI. El tablero mostró 106 y 54 TP netos adicionales en control y deriva, sin excepciones y usando agregados de solo lectura.
+
+Se conservaron íntegros los dos registros SQLite, los tres champions versión 1 y el candidato de semana 4 rechazado. Snowflake mantiene 36.646 predicciones, 32 eventos de monitoreo y cuatro de reentrenamiento. La evaluación no entrenó, cambió alias ni escribió registros cloud; no se alteró la política experimental 10 % y reparto 25/75. La bolsa del 30 % sigue siendo un supuesto de análisis. Se conserva respaldo privado de agregados, linaje, registros y evidencias de ejecución, fuera de Git. El siguiente bloque es integración completa y comunicación; esta comprobación no cierra aún el PSet 04.

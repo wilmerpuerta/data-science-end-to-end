@@ -1,6 +1,6 @@
 # PSet 04: proyecto final de apoyo académico preventivo
 
-Estado: API batch y modelos tempranos implementados, con 69 pruebas completas aprobadas en el entorno del proyecto y en Docker. Control y escenario sintético están ejecutados; el challenger ya se comparó y rechazó por decisión humana; Kestra terminó en SUCCESS. CD/GHCR y rollback técnico verificados; auditoría ética y respaldo demostrados; la integración final sigue pendiente.
+Estado: API batch y modelos tempranos implementados, con 69 pruebas completas aprobadas en el entorno del proyecto y en Docker. Control y escenario sintético están ejecutados; el challenger ya se comparó y rechazó por decisión humana; Kestra terminó en SUCCESS. CD/GHCR y rollback técnico verificados; auditoría ética y respaldo demostrados; evaluación de negocio completada (420 frente a 314 Fail, +33,76 % con iguales 920 cupos); la integración final sigue pendiente.
 
 La [rúbrica original](CD-PSet-4.pdf) exige integrar los PSets 01-04 en una carpeta `proyecto_final/`, con infraestructura, API, pruebas, simulación, monitoreo, reentrenamiento y comunicación. La [extracción del enunciado](enunciado.md) conserva su contenido textual.
 
@@ -22,7 +22,7 @@ La [rúbrica original](CD-PSet-4.pdf) exige integrar los PSets 01-04 en una carp
 - [Matriz de la rúbrica](docs/matriz-rubrica.md).
 - [Recursos y estructura propuesta](docs/recursos.md).
 
-El prototipo usa matrícula-asignatura y capacidad experimental del 10 % por edición sobre elegibles de día 14; no representan capacidad institucional aprobada. El 30 % es un escenario presupuestario. El reparto 25/75 de las pruebas aún no se selecciona para producción. Ya se integraron dbt/Spark, se prepararon las versiones y fixtures y se implementó la API. El siguiente punto es integrar la ingesta y el registro con Snowflake/Kestra, y construir la simulación temporal. La menor proporción histórica de FP en semana 4 orienta la comparación, sin garantizar el nivel futuro de error. No se ha aprobado ni desplegado un modelo temprano.
+El prototipo usa matrícula-asignatura y capacidad experimental del 10 % por edición sobre elegibles de día 14; no representan capacidad institucional aprobada. El 30 % es un escenario presupuestario. El reparto 25/75 de las pruebas aún no se selecciona para producción. Ya se integraron dbt/Spark, se prepararon las versiones y fixtures y se implementó la API. La carga a Snowflake/Kestra y la simulación temporal de ambos escenarios están verificadas. El siguiente punto es integrar ingesta, Spark y MLflow en el Compose único, y completar notebooks y comunicación. La menor proporción histórica de FP en semana 4 orienta la comparación, sin garantizar el nivel futuro de error. Los modelos tempranos específicos están registrados y desplegados experimentalmente en versión 1; no hay aprobación institucional de uso ni promoción del candidato rechazado.
 
 La entrega se está construyendo en [proyecto_final](../proyecto_final/README.md), con el árbol exacto de la rúbrica. [Cambios y decisiones](../proyecto_final/docs/cambios.md) identifica lo implementado y lo pendiente. Las carpetas anteriores conservarán sus entregas e historial. El champion actual del PSet 03 corresponde al día 56 y no se presentará como un modelo validado para los días 14 o 28.
 
