@@ -290,3 +290,75 @@ def test_migracion_de_telemetria_preserva_registros_historicos(tmp_path):
     with almacen.conexion() as db:
         rows=db.execute('SELECT codigo,plan_id FROM peticiones ORDER BY id').fetchall()
     assert [tuple(r) for r in rows]==[(422,None),(200,'plan')]
+
+
+def test_promocion_exige_superar_sigma_con_iguales_cupos():
+    from src.reentrenar import regla_promocion
+    a={'cupos':30,'fail_base':100,'tp':20}
+    assert not regla_promocion(a,{**a,'tp':22},.02)['elegible_promocion']
+    assert regla_promocion(a,{**a,'tp':23},.02)['elegible_promocion']
+    assert not regla_promocion(a,{**a,'tp':19},.02)['elegible_promocion']
+    with pytest.raises(ValueError):regla_promocion(a,{**a,'cupos':31},.02)
+    with pytest.raises(ValueError):regla_promocion(a,a,float('nan'))
+
+
+def test_regla_sin_fail_no_inventa_mejora():
+    from src.reentrenar import regla_promocion
+    a={'cupos':10,'fail_base':0,'tp':0}
+    result=regla_promocion(a,a,.02)
+    assert result['ganancia_cobertura'] is None and not result['elegible_promocion']
+
+
+def test_reserva_excluye_personas_otros_cortes_y_etiquetas_futuras(tmp_path):
+    import pandas as pd
+    from copy import deepcopy
+    from src.datos import construir_lotes
+    from src.reentrenar import preparar_ventana
+    rows=fuente_operativa()
+    for r in rows:r['id_student']=ord(r['code_module'][0])*100+int(r['enrollment_key'].split('-M')[1])
+    lotes=construir_lotes(rows);test=lotes[-1];reserve=set(test['manifiesto']['base']);personas=set(test['manifiesto']['personas'].values())
+    label={r['matricula']:{'target':'Fail','dia':283} for l in lotes for r in l['solicitud']['matriculas']}
+    first=lotes[4]['solicitud']['matriculas'][0];future=first['matricula'];label[future]['dia']=284
+    duplicated_person=lotes[5]['solicitud']['matriculas'][0];duplicated_person['persona']=next(iter(personas))
+    f=deepcopy(first['features'])
+    f['is_imd_missing']=bool(f['is_imd_missing'])
+    f['has_recorded_activity']=bool(f['has_recorded_activity'])
+    history=pd.DataFrame([{**f,'matricula':'hist-1','edicion':'H|2013J','persona':'old-person','target_class':'Approved'},
+                          {**f,'matricula':'hist-leak','edicion':'H|2013J','persona':next(iter(personas)),'target_class':'Fail'}])
+    train,audit=preparar_ventana(history,lotes,label,test,283)
+    assert not set(train.matricula)&reserve and not set(train.persona)&personas
+    assert future not in set(train.matricula) and 'hist-leak' not in set(train.matricula)
+    assert duplicated_person['matricula'] not in set(train.matricula)
+    assert audit['solapamiento_personas']==0 and audit['excluidas_historico']==1
+    assert not train.matricula.duplicated().any()
+    train.to_parquet(tmp_path/'ventana.parquet',index=False)
+    reloaded=pd.read_parquet(tmp_path/'ventana.parquet')
+    pd.testing.assert_frame_equal(train,reloaded)
+
+
+def test_politica_compartida_importable_sin_inicializar_api():
+    from api.esquemas import priorizar_cohorte as compartida
+    from api.main import priorizar_cohorte as servida
+    assert compartida is servida
+
+
+def test_aprobacion_no_puede_saltar_regla_ni_alias_ajeno():
+    from src.reentrenar import validar_decision
+    p={'champion_version':'1','challenger_version':'2','regla':{'elegible_promocion':False}}
+    assert validar_decision(p,'aprobar','Revisión','Responsable','1')=='BLOQUEADO_POR_REGLA'
+    assert validar_decision(p,'rechazar','No supera margen','Responsable','1')=='RECHAZADO'
+    with pytest.raises(ValueError):validar_decision(p,'aprobar','','Responsable','1')
+    with pytest.raises(ValueError):validar_decision(p,'aprobar','Revisión','Responsable','3')
+    p['regla']['elegible_promocion']=True
+    assert validar_decision(p,'aprobar','Supera margen','Responsable','1')=='PROMOVIDO'
+
+
+def test_referencia_cv_corresponde_a_politica_de_dos_rondas():
+    import json
+    from src.reentrenar import REF_REENTRENO,PROTOCOLO_REENTRENAMIENTO
+    from src.datos import identidad
+    ref=json.loads(REF_REENTRENO.read_text())
+    assert identidad({k:v for k,v in ref.items() if k!='id'})==ref['id']
+    assert ref['protocolo']==PROTOCOLO_REENTRENAMIENTO
+    assert len(ref['cv_politica']['DDD']['folds'])==5
+    assert ref['cv_politica']['DDD']['std']>0

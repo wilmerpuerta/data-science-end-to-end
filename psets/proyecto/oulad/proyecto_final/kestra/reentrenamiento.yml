@@ -1,0 +1,54 @@
+id: reentrenamiento
+namespace: pset4.oulad
+description: Challenger con parámetros congelados, comparación de negocio y aprobación humana real.
+concurrency:
+  limit: 1
+  behavior: QUEUE
+inputs:
+  - id: ciclo_id
+    type: SELECT
+    defaults: reentrenamiento-28-deriva-v1
+    values: [reentrenamiento-28-deriva-v1]
+tasks:
+  - id: preparar_y_comparar
+    type: io.kestra.plugin.scripts.shell.Commands
+    timeout: PT30M
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - python3 -m src.datos --reentrenar preparar --execution-id '{{ execution.id }}'
+    retry:
+      type: constant
+      interval: PT10S
+      maxAttempt: 2
+  - id: aprobacion
+    type: io.kestra.plugin.core.flow.Pause
+    onResume:
+      - id: decision
+        type: SELECT
+        values: [rechazar, aprobar]
+        defaults: rechazar
+        required: true
+        description: Revisar comparación y regla; aprobar solo si es elegible.
+      - id: responsable
+        type: STRING
+        required: true
+        description: Nombre del responsable que revisa la comparación.
+      - id: motivo
+        type: STRING
+        required: true
+        description: Justificación de la aprobación o rechazo.
+  - id: aplicar_decision
+    type: io.kestra.plugin.scripts.shell.Commands
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    env:
+      PSET4_DECISION: '{{ outputs.aprobacion.onResume.decision }}'
+      PSET4_RESPONSABLE: '{{ outputs.aprobacion.onResume.responsable }}'
+      PSET4_MOTIVO: '{{ outputs.aprobacion.onResume.motivo }}'
+    commands:
+      - python3 -m src.datos --reentrenar decidir --execution-id '{{ execution.id }}'
+    retry:
+      type: constant
+      interval: PT10S
+      maxAttempt: 2

@@ -2,7 +2,7 @@
 
 ## Estado de esta etapa
 
-Estado actual: API batch y modelos tempranos verificados; dbt, Spark y tres memos incorporados. La operación integral, la carga a Snowflake y la simulación final siguen pendientes. Las secciones iniciales conservan el registro del primer paso; el estado del servicio se detalla al final. La estructura final sigue el árbol de la rúbrica; las carpetas de trabajo y los entregables anteriores se preservan.
+Estado actual: API batch, Snowflake, ocho despachos por escenario, monitoreo y challenger comparado. Kestra está en pausa para una decisión humana; la integración y la comunicación finales siguen pendientes. Las secciones iniciales conservan el registro histórico; el estado vigente se detalla al final. La estructura final sigue el árbol de la rúbrica; las carpetas de trabajo y los entregables anteriores se preservan.
 
 ## Registro de observaciones y ajustes
 
@@ -169,3 +169,37 @@ Ejecución Kestra `2Zi1Y8NiKtYUv3BTtNLR7r` en SUCCESS: ocho lotes, sus revisione
 Los controles L02/L03 y L06/L07 ya muestran caídas frente a la CV condicional; son señales de generalización histórica que requieren revisar prevalencia y composición. No se adjudican al cambio sintético. Los controles L07/L08 tienen avisos PSI cercanos a 0,26; L08 no cae bajo el umbral AP y no propone entrenamiento. No se afirma una tasa cero de falsas alarmas ni que un control sea estacionario. Se conserva el umbral predeclarado y se propone calibrar persistencia y costo de avisos sobre datos futuros, sin retocar el criterio tras observar el benchmark.
 
 51 pruebas completas aprobaron localmente y dentro de Docker; la prueba del tablero con AppTest verificó ambos escenarios sin excepciones. Un bloqueo de lectura de cachés del entorno local se resolvió reinstalando las dependencias fijadas con copias completas; no cambió la fuente ni el entrenamiento. El Compose final aún debe incorporar Spark y MLflow; reentrenamiento, aprobación humana, CD/GHCR, comparación con el estático, equidad y comunicación siguen pendientes.
+
+
+## Reentrenamiento — protocolo previo a la comparación (19-nov-2026)
+
+Se congela `reentrenamiento-1` antes de ajustar el challenger. La ventana une el histórico de desarrollo purgado del PSet 03 y las matrículas recientes etiquetadas de semana 4 del plan de deriva, con igual peso y una fila por matrícula. Se reserva L08, el último lote etiquetado de ese corte por día de predicción; su cohorte completa, personas y contrapartes de otros cortes/escenarios quedan fuera del entrenamiento.
+
+La política de cupos se comparte desde `api/esquemas.py` entre servicio y evaluación, con reexportación compatible en `api/main.py`; se evita abrir la aplicación al evaluar. `src/pipeline.py` permanece idéntico. Se clona el pipeline completo del champion y se conservan sus hiperparámetros, sin tuning nuevo. La variación de referencia se obtiene de las predicciones OOF históricas de ambos cortes con el presupuesto compartido 25/75, condicionada al módulo de comparación. La sigma de cobertura DDD es 0,016598013644254363; es dispersión entre cinco folds, no un intervalo de confianza.
+
+Champion y challenger comparten el presupuesto y las propuestas de semana 2 ya registradas. La promoción requiere que la ganancia de cobertura supere estrictamente una sigma de esa política y una decisión humana posterior a la comparación. El predictor estático usa su propia política de dos rondas a igual cupo; se reporta por separado la meta de +10 % relativo. Los datos de comparación pertenecen a un benchmark ya inspeccionado y no se presentan como validación prospectiva nueva. La disponibilidad del histórico es un supuesto heredado de la simulación; no se reconstruyen fechas reales de publicación.
+
+La alerta madura del escenario solicita `kestra/reentrenamiento.yml` de forma idempotente. El flujo prepara y registra el challenger y se detiene en `aprobacion`, sin duración de reanudación automática. El worker verificará el estado y los inputs reales de la pausa en Kestra antes de aceptar una decisión. Un candidato que no cumpla la regla no puede promoverse aun si se intenta aprobarlo. El despliegue continuo de código/GHCR se mantiene como bloque posterior independiente de la aprobación del modelo.
+
+
+## Resultado del reentrenamiento y pausa humana (19-nov-2026)
+
+La alerta persistente madura de L07 solicitó automáticamente el ciclo a través del monitor (`7S73IBhts7SFxtS88K5Lys`, SUCCESS). El flujo `6lcaE9ak8kGv4myx06ZMMw` terminó `preparar_y_comparar` y quedó PAUSED en `aprobacion`, sin reanudación por tiempo. La comparación y la propuesta están listas para revisión; no se ha registrado aprobación ni rechazo y ningún alias champion se ha movido.
+
+La ventana contiene **24.376 filas**: 16.838 históricas de desarrollo y 7.538 recientes maduras de semana 4 del escenario sintético. Se excluyeron todas las 1.475 personas y matrículas de la cohorte reservada L08; el solapamiento por persona es cero. Las 95 filas recientes adicionales que no entran corresponden a personas de la reserva presentes en otras ediciones, y se excluyen por identidad, además de excluir el propio lote. No se duplica el control como entrenamiento independiente. La comparación usa 1.459 matrículas todavía elegibles en semana 4, con etiquetas sobre la base completa de 1.475 de semana 2 (363 Fail); conserva las 36 propuestas anteriores y utiliza 111 cupos nuevos, 147 acumulados por modelo. La política estática utiliza sus propias dos rondas y los mismos 147 cupos.
+
+| Política sobre L08 | Cupos acumulados | Fail focalizados (TP) | No-Fail focalizados (FP) | Cobertura Fail | Precisión al cupo |
+|---|---:|---:|---:|---:|---:|
+| Estática | 147 | 54 | 93 | 14,8760 % | 36,7347 % |
+| Champion vigente | 147 | 77 | 70 | 21,2121 % | 52,3810 % |
+| Challenger reentrenado | 147 | 81 | 66 | 22,3140 % | 55,1020 % |
+
+El incremento de cobertura es **1,1019 puntos porcentuales**, inferior a la sigma OOF predeclarada de **1,6598 puntos**. Se necesitan al menos siete TP adicionales para superarla estrictamente; se obtuvieron cuatro. **El candidato no es elegible para promoción; se recomienda rechazarlo y conservar la versión 1.** Su AP de semana 4 es 0,432826 frente a 0,433943 del champion; la regla principal usa valor de negocio, no selecciona automáticamente la mayor AP. Las mejoras relativas frente al estático son +42,59 % para el champion y +50 % para el candidato: ambas superan el objetivo +10 % en esta reserva, pero no sustituyen la comparación de promoción ni certifican el objetivo global del proyecto.
+
+Se ajustaron cinco folds agrupados por persona y un modelo final con el pipeline y los hiperparámetros del champion, sin tuning. Las métricas CV nuevas de cobertura son single-cut al 10 % y están etiquetadas con ese alcance; **no** se usan como sigma de promoción. Esta última procede de los cinco folds históricos de la política completa de dos rondas para DDD. Se conserva `src/pipeline.py` byte a byte. La simulación incluye datos inducidos y un benchmark 2014J previamente inspeccionado; esta reserva está fuera del entrenamiento de ambos modelos, pero no constituye una validación prospectiva nueva. La disponibilidad histórica se asume en el reloj simulado; no se conocen fechas institucionales reales de publicación.
+
+Trazabilidad: run `e0ca46ddc9a84d7eaeffa750633ee2ce`, tag `fase=reentrenamiento`, snapshot `ea52a9dc409630ab68d7154c12f7297d30903002755b2d888aeb1a2f7d7dafa5`, código de entrenamiento `6bb0d12`, referencia `1fc18b7cfd16bc54784995c4d2b90455331e32266452ee6cd6b01520e30c73e9`. Registry: `oulad-apoyo-academico-semana4-modelo@challenger` versión 2, `@champion` versión 1. El champion de semana 2 y el histórico de día 56 permanecen intactos. `docs/reentrenamientos.csv` exporta dos eventos inmutables (SOLICITADO/COMPARADO), con decisión y responsable vacíos; `docs/corridas.csv` conserva 384 runs, incluidos preparación y fallos históricos.
+
+La primera tarea necesitó cuatro intentos en la misma ejecución: se corrigieron manifiestos ausentes en la imagen y tipos booleano/número al persistir la ventana Parquet. Se preserva el historial de errores y reinicios. Esos errores ocurrieron antes del ajuste/logging y se obtuvo un solo run de reentrenamiento de este ciclo; no se repitió el ajuste para seleccionar resultados. La prueba de ventana incluye lectura y escritura Parquet para cubrir el fallo de tipos. **57 pruebas** aprobaron localmente y en Linux/Docker.
+
+No se ha ejecutado el paso de decisión. La rúbrica 7.2 exige «deténgase en una tarea en pausa hasta que una persona la apruebe o la rechace». La autorización general para comandos permite preparar esta comparación, pero la decisión sobre este candidato corresponde al responsable humano una vez revisado el resultado. Si se rechaza, se registrará el motivo y el champion quedará intacto. Una aprobación no elegible quedaría bloqueada por la regla. La demostración posterior de promoción/rollback debe estar identificada como prueba mecánica y no convertir este candidato en una mejora validada. CD/GHCR, Compose único, notebooks, subgrupos, escenarios presupuestarios y comunicación siguen pendientes.

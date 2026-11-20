@@ -304,13 +304,18 @@ def servir():
         def do_GET(self):
             self.send(200,{'estado':'ok'}) if self.path=='/salud' else self.send(404,{'error':'ruta_desconocida'})
         def do_POST(self):
-            if self.path!='/monitorear':return self.send(404,{'error':'ruta_desconocida'})
+            if self.path not in ['/monitorear','/reentrenar']:return self.send(404,{'error':'ruta_desconocida'})
             try:
                 size=int(self.headers.get('Content-Length','0'))
-                if not 0<size<=1024:raise ValueError('Tamaño inválido')
+                if not 0<size<=(8192 if self.path=='/reentrenar' else 1024):raise ValueError('Tamaño inválido')
                 data=json.loads(self.rfile.read(size))
-                if set(data)!={'plan_id','lote_id','fase'}:raise ValueError('Campos inválidos')
-                with lock:result=ejecutar_monitoreo(**data)
+                if self.path=='/monitorear':
+                    if set(data)!={'plan_id','lote_id','fase'}:raise ValueError('Campos inválidos')
+                    with lock:result=ejecutar_monitoreo(**data)
+                else:
+                    if set(data)!={'operacion','execution_id','decision','motivo','responsable'}:raise ValueError('Campos inválidos')
+                    from src.reentrenar import trabajar
+                    with lock:result=trabajar(**data)
                 self.send(200,result)
             except Exception as exc:
                 self.send(422 if isinstance(exc,ValueError) else 500,{'error_class':type(exc).__name__})
