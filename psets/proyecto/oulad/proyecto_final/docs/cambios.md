@@ -333,3 +333,138 @@ Imagen `ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:e32f542e7320ae93962
 Se usó la misma imagen, recreando el contenedor para leer la variable en cada fase. Las tres cohortes son sintéticas, con un SQLite separado y sin credenciales Snowflake en esa API. Hay 160 predicciones de prueba, ninguna incorporada al análisis de negocio ni al presupuesto del control. El contenedor se retiró. No se cambiaron aliases, modelos, hiperparámetros, particiones ni fuentes Gold; el candidato rechazado sigue rechazado. Los servicios operativos terminan con respaldo no forzado y supervisión humana de propuestas.
 
 Con esto quedan demostrados el interruptor, su reversibilidad y el efecto sobre lotes nuevos sin reescribir historia. Los criterios de retirada continúan como recomendaciones auditables para responsables; L06 requiere revisión y no hay una suspensión persistente automática de producción. La comparación estática por lote y el escenario del 30 % pertenecen a la siguiente etapa de resultado de negocio.
+
+
+## Protocolo previo al resultado de negocio (20-nov-2026)
+
+Se fija `negocio-operativo-1` antes de calcular el contraste completo. La comparación principal usa el control original, día 28 acumulado: longitudinal frente a estático con idéntica base Fail, corte, política y cupos; meta de al menos +10 % relativo (no 10 puntos porcentuales). La semana 2 es intermedia. Se reutilizan los dos estáticos HGB congelados y los scores longitudinales registrados, sin entrenamiento ni tuning. El replay de la política 25/75 debe reproducir exactamente las decisiones originales; L08 debe coincidir con la comparación de reentrenamiento ya cerrada.
+
+Se comparan políticas de una ronda al día 14, una al día 28 y dos rondas 25/75, manteniendo K por edición. Las alternativas son contrafactuales descriptivos; no se cambia la política activa por observar este benchmark reutilizado. Dummy/cola administrativa, estático y longitudinal permanecen distintos. La reactiva se calcula solo después del cierre+14 simulado con Fail ya conocidos y se informa como cobertura posterior, no como predicción o anticipación. No actuar tiene cero propuestas preventivas/reactivas en la cohorte; no elimina los canales habituales de apoyo. No se infieren Fail del semestre previo a partir de intentos anteriores.
+
+Se informarán propuestas nuevas y acumuladas, TP/FP/FN, precisión y cobertura, personas únicas y casos Fail ganados/perdidos frente al estático (la meta utiliza la diferencia neta). No se sumarán las dos rondas para inflar cobertura o contar dos veces propuestas previas. Plan control y deriva se evalúan separados. El entrenamiento se marcará en L07 sintético y la comparación/rechazo en L08; el candidato no reemplazará ningún score histórico.
+
+Para el 30 % se usa una bolsa reactiva futura **hipotética** igual a K por edición; la bolsa reactiva vigente se protege y su importe real es desconocido. El adelanto es floor(0,30 × R_futuro) por edición, y el saldo queda en R_futuro−adelanto. Se evalúan: solo adelanto si no hay bolsa preventiva financiada, y preventiva independiente K más adelanto. Se vuelve a ordenar cada cohorte con esos presupuestos; no se extrapolan TP/FP linealmente ni se consume presupuesto por fragmento. Un +10 % de detección a igual K no significa que hagan falta 10 % más cupos.
+
+Los escenarios contables suponen cupos de costo unitario comparable; no representan dinero aprobado ni gastos observados. Asistencia {0,1}, efectividad {0,1/4,1/2,1} y probabilidad de requerir apoyo reactivo tras Fail {0,1/2,1} son supuestos, no estimaciones. La reducción potencial de necesidad reactiva es TP × asistencia × efectividad × probabilidad reactiva; no se denomina Fail evitado. Se calcula demanda no cubierta por edición con saldos futuros, incluyendo efectividad cero. El umbral contable de equilibrio es una sensibilidad simplificada, no garantía de ahorro; costos, horas, aceptación y efecto tutorial requieren un piloto con la Universidad.
+
+
+## Resultado de negocio: focalización, oportunidad y presupuesto (20-nov-2026)
+
+Protocolo `negocio-operativo-1` congelado en `52bd9070ffd789a2a6c481ae12f4f0158574a2a8` antes del cálculo. Se reprodujeron exactamente las decisiones registradas del longitudinal y la comparación L08 del reentrenamiento. La evaluación es de solo lectura: 340 filas de lotes/agregados, 100 contrastes de la meta y 288 escenarios contables; cero entrenamientos y cero escrituras Snowflake. Las alternativas mantienen entradas, elegibilidad y resultados observados fijos; una intervención real podría cambiarlos, efecto que este replay no estima.
+
+### Respuesta al objetivo acordado
+
+En el **control original**, la política de dos rondas usa **920 cupos** sobre **1.947 Fail** en la cohorte base. El longitudinal prioriza **420 Fail** y el estático **314**. La mejora relativa de cobertura es **33,76 %** (`420/314−1`), superior al objetivo +10 %; la cobertura sube de **16,13 % a 21,57 %**, 5,44 puntos porcentuales. La meta exigía al menos 346 TP y se obtuvieron 420.
+
+| Comparador | Propuestas tempranas | TP tempranos | FP tempranos | Precisión al cupo | Cobertura temprana | Personas con propuesta | Fail priorizados después de conocer el resultado |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Longitudinal | 920 | 420 | 500 | 45,65 % | 21,57 % | 893 | No observado |
+| Estático HGB | 920 | 314 | 606 | 34,13 % | 16,13 % | 907 | No observado |
+| Dummy / cola administrativa | 920 | 187 | 733 | 20,33 % | 9,60 % | 916 | No observado |
+| Reactiva posterior | 0 | 0 | 0 | No definida | 0,00 % | 0 | 920 |
+| Sin acción del programa | 0 | 0 | 0 | No definida | 0,00 % | 0 | 0 |
+
+Las 106 detecciones adicionales son **netas y por matrícula-asignatura**, no necesariamente 106 personas. Se ganan 257 Fail que el estático no priorizó y se pierden 151 que sí priorizó: `257−151=106`. No se necesitan 106 cupos por encima de 920 para materializar esa mejor focalización. A igual cupo, el conteo de FP baja de 606 a 500 (106 menos); esto no demuestra 106 tutorías ahorradas. Las propuestas no acreditan aceptación ni tutorías realizadas.
+
+La proporción FP entre propuestas del longitudinal es 500/920=54,35 %; la FPR convencional es 500/7.284=6,86 %. Son denominadores distintos. Un FP solo significa no-Fail observado y puede incluir Withdrawn que también necesite apoyo. La meta no afirma que todo Fail habría sido evitable.
+
+La reactiva llega después del cierre+14 simulado, cuando ya conoce los Fail: puede priorizar 920 de ellos a esa capacidad, sin anticipación. Su precisión posterior es 100 % por construcción, no una predicción superior. No se reconstruye el apoyo al semestre previo: esa historia y su presupuesto real no se observan. La bolsa reactiva vigente permanece protegida en el diseño. «Sin acción» se refiere a este programa sobre la cohorte, no a la eliminación de las vías habituales de ayuda.
+
+### Resultado por lote y efecto de la deriva
+
+Cupos, TP y FP de semana 4 son **acumulados** sobre la base de semana 2 de esa onda. No sumar L01+L05, L02+L06, L03+L07 o L04+L08 como contactos independientes. Las filas de semana 2 utilizan solo su fracción inicial del mismo presupuesto.
+
+**Control original**
+
+| Lote | Corte | Cupos acumulados | TP longitudinal | TP estático | FP longitudinal | Mejora relativa | Meta +10 % |
+|---|---|---:|---:|---:|---:|---:|---|
+| L01 | Semana 2 | 33 | 19 | 13 | 14 | 46,15 % | Sí |
+| L02 | Semana 2 | 90 | 50 | 41 | 40 | 21,95 % | Sí |
+| L03 | Semana 2 | 67 | 26 | 26 | 41 | 0,00 % | No |
+| L04 | Semana 2 | 36 | 26 | 17 | 10 | 52,94 % | Sí |
+| L05 | Semana 4 | 136 | 66 | 43 | 70 | 53,49 % | Sí |
+| L06 | Semana 4 | 363 | 172 | 132 | 191 | 30,30 % | Sí |
+| L07 | Semana 4 | 274 | 105 | 85 | 169 | 23,53 % | Sí |
+| L08 | Semana 4 | 147 | 77 | 54 | 70 | 42,59 % | Sí |
+
+**Escenario sintético separado**
+
+| Lote | Corte | Cupos acumulados | TP longitudinal | TP estático | FP longitudinal | Mejora relativa | Meta +10 % |
+|---|---|---:|---:|---:|---:|---:|---|
+| L01 | Semana 2 | 33 | 19 | 13 | 14 | 46,15 % | Sí |
+| L02 | Semana 2 | 90 | 50 | 41 | 40 | 21,95 % | Sí |
+| L03 | Semana 2 | 67 | 26 | 26 | 41 | 0,00 % | No |
+| L04 | Semana 2 | 36 | 26 | 17 | 10 | 52,94 % | Sí |
+| L05 | Semana 4 | 136 | 66 | 43 | 70 | 53,49 % | Sí |
+| L06 | Semana 4 | 363 | 105 | 93 | 258 | 12,90 % | Sí |
+| L07 | Semana 4 | 274 | 69 | 73 | 205 | -5,48 % | No |
+| L08 | Semana 4 | 147 | 77 | 54 | 70 | 42,59 % | Sí |
+
+No se ocultan resultados desfavorables: L03 empata y no alcanza +10 %. En la deriva, L07 queda **69 frente a 73 TP**, −5,48 %, a iguales 274 cupos acumulados. El resultado global sintético sigue sobre la meta (**317 frente a 263 TP, +20,53 %**), pero pierde **103 TP** frente al longitudinal del control. El estático también se deteriora, porque la inducción modifica vectores completos de features y créditos; no es un experimento de cambios exclusivos en la actividad. Los escenarios no son poblaciones independientes y sus presupuestos o personas no se suman.
+
+**Retirada por valor de negocio:** ahora existen comparadores estáticos por lote, reemplazando esa carencia de la etapa previa. Solo L07 sintético es inferior; L06 sigue sobre el estático. No hay dos cohortes consecutivas por debajo que cumplan la regla persistente. La igualdad de L03 no es inferioridad estricta. La revisión de L07 y la revisión ética de acceso en L06 se mantienen; una mejora agregada no las cancela. No se observó un período posterior con un modelo reentrenado promovido.
+
+### Anticipación y elección de ronda
+
+| Escenario | Política temporal | Cupos totales | TP al terminar semana 4 | FP |
+|---|---|---:|---:|---:|
+| Control | solo_semana2 | 920 | 415 | 505 |
+| Control | dos_rondas | 920 | 420 | 500 |
+| Control | solo_semana4 | 920 | 426 | 494 |
+| Deriva | solo_semana2 | 920 | 415 | 505 |
+| Deriva | dos_rondas | 920 | 317 | 603 |
+| Deriva | solo_semana4 | 920 | 278 | 642 |
+
+A igual capacidad total, solo semana 4 obtiene 11 TP más que solo semana 2 en el control (426 frente a 415), con 11 FP menos. No se atribuye causalmente esa diferencia a mayor información: también cambia la elegibilidad y se usan modelos propios de cada corte. El reparto 25/75 logra 420 TP y adelanta **226 propuestas**, 121 con Fail posterior, con **14 días más de anticipación** que esperar semana 4 para la misma onda. Solo esperar semana 4 suma seis TP frente a dos rondas, pero pierde ese adelanto de contacto. En la deriva, dos rondas obtiene 317 TP frente a 278 al esperar toda la capacidad hasta semana 4. Es un análisis de sensibilidad, no una selección prospectiva de política óptima.
+
+El margen de las propuestas nuevas hasta cierre del módulo está entre **245 y 255 días** en semana 2 y **231 y 241** en semana 4, según módulo y cola simulada. Proviene de las duraciones de OULAD y no se traslada automáticamente al calendario de la Universidad. Tampoco garantiza disponibilidad de tutores o eficacia: los 21 días ilustrativos del PSet 03 no son una condición validada aquí. El reparto operativo 25/75 continúa experimental; no se cambia con este benchmark ya inspeccionado.
+
+### Reentrenamiento: dónde ocurrió y qué cambió
+
+El disparador fue la caída persistente madura del **L07 sintético**, al día simulado 283, después de haber realizado las ocho predicciones (días 14–31). Se reservó **L08** como último lote etiquetado por fecha de predicción para comparar. El challenger obtuvo **81 TP frente a 77** del champion; la regla exigía siete adicionales y obtuvo cuatro. Wilmer Puerta confirmó su rechazo.
+
+Ningún score histórico cambió y todas las predicciones de esta evaluación mantienen **versión 1**. El efecto observado del ciclo sobre el despliegue es **cero cambios de versión**, no un aumento atribuible de TP. El +33,76 % procede del longitudinal original frente al estático, no del candidato rechazado. No hay un período posterior con modelo nuevo en producción que permita estimar su efecto operativo.
+
+### Qué puede financiar un adelanto del 30 %
+
+Para ilustrar capacidad, se supone una bolsa reactiva futura igual a **920 cupos**, distribuida por edición como K. No es una cifra presupuestaria de la Universidad. `sum(floor(0,30×R_edición))` adelanta **274** y deja **646**; los redondeos permanecen en el saldo reactivo, no se pierde presupuesto. Si se moviera una bolsa única sin separación por edición serían 276: es otra regla, no la aplicada. La bolsa reactiva vigente no se toca y su importe sigue desconocido.
+
+| Escenario de financiación, control | Preventivos disponibles | TP longitudinal | FP longitudinal | Cobertura Fail | Reactivos futuros restantes |
+|---|---:|---:|---:|---:|---:|
+| Referencia K, prevención independiente | 920 | 420 | 500 | 21,57 % | 920 |
+| Solo adelanto, sin prevención financiada previa | 274 | 152 | 122 | 7,81 % | 646 |
+| Prevención K más adelanto | 1194 | 530 | 664 | 27,22 % | 646 |
+
+Se recalcularon los rankings, no se extrapolaron FP: con solo 274 cupos hay 122 FP; con 1.194 hay 664. El 30 % de una bolsa reactiva futura de 920 no financia los 920 cupos preventivos del benchmark. Si ya existe una bolsa preventiva independiente de 920, el adelanto la amplía a 1.194, con 110 TP adicionales y 164 FP adicionales frente a la referencia. Las bolsas preventivas y reactivas futuras suman 1.840 antes y después de esa transferencia; en el caso sin prevención previa suman 920. No se cuenta el mismo dinero/cupo como financiación y también como beneficio. Si los costos por tutoría preventiva/reactiva difieren, porcentajes monetarios no equivalen a estos porcentajes de cupos.
+
+### Sensibilidad de la necesidad reactiva futura
+
+Se conserva el target original. Se supone que una fracción `a` de propuestas se atiende, una efectividad hipotética `e` reduce necesidad reactiva y una fracción `q` de los Fail requeriría ese apoyo. La necesidad potencialmente reducida es `TP×a×e×q`; **no son Fail evitados medidos**. Cada celda de demanda no cubierta se calcula por edición, sin usar el sobrante de otro módulo. La tabla siguiente usa `a=q=1`, un extremo ilustrativo, con costos unitarios preventivo/reactivo iguales y la bolsa futura asumida de 920.
+
+| Financiación | Efectividad supuesta | Demanda reactiva no cubierta sin adelanto | Con adelanto |
+|---|---:|---:|---:|
+| solo_adelanto | 0,00 % | 1027 | 1301 |
+| solo_adelanto | 25,00 % | 1027 | 1263 |
+| solo_adelanto | 50,00 % | 1027 | 1225 |
+| solo_adelanto | 100,00 % | 1027 | 1149 |
+| preventiva_mas_adelanto | 0,00 % | 1027 | 1301 |
+| preventiva_mas_adelanto | 25,00 % | 922 | 1168.5 |
+| preventiva_mas_adelanto | 50,00 % | 817 | 1036 |
+| preventiva_mas_adelanto | 100,00 % | 608 | 771 |
+
+Con efectividad cero no se reduce necesidad y quedan 274 cupos reactivos menos. Aun con efectividad y asistencia 100 % y q=1, el caso de prevención independiente más adelanto pasa de 608 a 771 necesidades no cubiertas: adelanta 274 cupos pero suma 110 TP respecto de la prevención ya financiada. El equilibrio contable simplificado exigiría `e=274/110=2,49` con a=q=1, fuera de [0,1]; no es alcanzable bajo esos supuestos. En solo adelanto, `274/152=1,80` también supera 1. Esto no demuestra que el apoyo temprano carezca de valor: no se valoran timing, costos distintos, otros resultados o demanda real; demuestra que **no se puede justificar el adelanto como ahorro garantizado**. Se conservaron 288 combinaciones, incluidas asistencia cero, efectividad cero y q=0, 0,5 o 1; ninguna es una estimación causal.
+
+### ¿Valió la pena actuar según la predicción?
+
+**Sí hay evidencia retrospectiva de mejor focalización a igual capacidad:** el longitudinal supera al estático en 106 Fail netos en el control y cumple la meta acordada; la revisión puede adelantarse al período en curso. **No hay evidencia de que las tutorías se hayan realizado, evitado Fail o producido ahorro económico.** Antes de adoptar una transferencia presupuestaria, la Universidad debe validar capacidad realmente financiada, unidad de atención, costos, demanda reactiva, aceptación, efecto del apoyo y revisión de acceso de L06. La opción de más detección a igual cupo no requiere justificar automáticamente un presupuesto mayor.
+
+El benchmark 2014J fue inspeccionado antes: no es una validación prospectiva nueva ni ocho semestres independientes. La meta principal se fijó antes del cálculo y no se selecciona la variante más favorable para redefinirla. La incertidumbre de generalización e impacto requiere cohortes nuevas y un piloto; no se presentan p-valores ni intervalos como prueba institucional.
+
+### Reproducción y trazabilidad
+
+```sh
+# Desde proyecto_final/, con Registry y credenciales privadas de Snowflake configurados.
+docker compose run --rm --no-deps --entrypoint python monitoreo -m src.reentrenar --evaluar-negocio /app/.local/negocio --codigo-negocio <SHA_DEL_CODIGO>
+```
+
+La salida privada contiene `lotes`, `meta`, `presupuestos`, `finanzas`, `selecciones`, `reentrenamiento` y `linaje` en JSON y tablas agregadas CSV. Guarda hashes de entradas/targets maduros, pipelines estáticos, snapshots, runs y código. No reemplaza los cinco CSV históricos de la rúbrica. El tablero lee únicamente agregados locales montados de solo lectura, sin credenciales cloud, y muestra el contraste por lote, la mejora y los comparadores por horizonte. No se cambian alias, cupos operativos ni el reparto de la API.

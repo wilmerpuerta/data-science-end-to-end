@@ -7,9 +7,9 @@ Estado: meta principal confirmada de al menos +10 % relativo en cobertura de Fai
 - **Semana 2, día 14:** mayor anticipación para contactar e intervenir. El cupo inicial puede ser más restringido si la evidencia de focalización y el costo de priorizar casos sin Fail así lo justifican.
 - **Semana 4, día 28:** mayor información disponible y posibilidad de asignar el resto de los cupos, siempre que quede margen de intervención. El plazo debe validarse; los 21 días usados en PSet 03 eran ilustrativos.
 
-Se compararán políticas de una ronda y de dos rondas antes de fijar el reparto. En una política de dos rondas, las asignaciones de semana 2 consumen parte del mismo presupuesto preventivo y no se vuelven a contabilizar en semana 4. Un puntaje actualizado no implica por sí mismo cancelar apoyo ya asignado.
+Se compararon políticas de una ronda en cada corte y dos rondas 25/75; este último sigue como prototipo, sin selección prospectiva de un reparto óptimo. En una política de dos rondas, las asignaciones de semana 2 consumen parte del mismo presupuesto preventivo y no se vuelven a contabilizar en semana 4. Un puntaje actualizado no implica por sí mismo cancelar apoyo ya asignado.
 
-Cada corte que produzca asignaciones necesita un modelo validado para la información disponible en ese momento. El champion histórico del día 56 no se reutiliza como si fuera un modelo temprano. Se deberá definir la carga y trazabilidad de las versiones por corte antes de implementar el servicio.
+Cada corte usa un modelo temprano propio registrado; la API carga el champion correspondiente y registra su trazabilidad. El champion histórico del día 56 se preserva y no se utiliza como modelo temprano.
 
 ## Evidencia histórica disponible
 
@@ -45,12 +45,17 @@ Comparar los cortes y, si aplica, sus combinaciones con igual presupuesto total,
 3. Costo total preventivo y proporción atribuida a FP históricos como **proxy de focalización**. Ese componente ya forma parte del costo total y no se suma una segunda vez.
 4. Saldo reactivo futuro y escenarios de demanda, incluyendo ausencia de efecto preventivo.
 
-Reducir cupos en un ranking fijo puede reducir el número absoluto de FP y también el número de TP atendidos. La elección debe equilibrar focalización, cobertura, oportunidad y costo. El reparto entre semanas y una precisión mínima aceptable quedan por definir con estas comparaciones, antes de observar la simulación final.
+Reducir cupos en un ranking fijo puede reducir el número absoluto de FP y también el número de TP atendidos. La elección debe equilibrar focalización, cobertura, oportunidad y costo. Las variantes se fijaron antes del cálculo; el reparto óptimo y una precisión mínima aceptable institucional siguen pendientes de validación prospectiva.
 
-La capacidad por persona, matrícula-asignatura u hora sigue pendiente de especificación. Cambiar la unidad exige recalcular los indicadores; los resultados por matrícula anteriores no se convierten directamente en resultados por estudiante.
+El prototipo usa matrícula-asignatura y reporta personas únicas aparte. Su equivalencia a sesiones u horas sigue pendiente de validación institucional. Cambiar la unidad exige recalcular los indicadores; los resultados por matrícula anteriores no se convierten directamente en resultados por estudiante.
 
 ## Cómo interpretar el recurso empleado
 
 En la simulación retrospectiva, un FP identifica una selección cuyo target observado no es Fail. Permite analizar el costo de focalización, pero no demuestra que la persona careciera de toda necesidad de apoyo.
 
 En un piloto real, una persona que recibe tutoría y aprueba puede ser un éxito de la intervención. Su aprobación no basta para concluir que la tutoría fue innecesaria ni para separar prevención efectiva de una alerta incorrecta. Esa atribución requiere una evaluación causal; se mantendrá separada del monitoreo predictivo y se registrará la exposición a la intervención.
+
+
+## Resultado operativo actualizado
+
+A 920 cupos, dos rondas del longitudinal detectan 420 Fail y el estático 314: +33,76 % relativo, objetivo +10 % cumplido en el control retrospectivo. No equivale a ahorro observado ni a 106 estudiantes distintos. El adelanto ilustrativo por edición de una bolsa futura asumida de 920 es 274, con saldo 646. Sin otra bolsa preventiva, solo financia 274 propuestas (152 con Fail observado); con prevención independiente de 920, amplía a 1.194 (530 TP). Se recalcularon rankings y saldos, incluyendo efecto cero. [Resultados, límites y escenarios completos](../../proyecto_final/docs/cambios.md#resultado-de-negocio-focalización-oportunidad-y-presupuesto-20-nov-2026).
