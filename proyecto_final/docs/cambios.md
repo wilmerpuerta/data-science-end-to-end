@@ -2,7 +2,7 @@
 
 ## Estado de esta etapa
 
-Estado actual: API batch, Snowflake, ocho despachos por escenario, monitoreo y challenger comparado. Kestra está en pausa para una decisión humana; la integración y la comunicación finales siguen pendientes. Las secciones iniciales conservan el registro histórico; el estado vigente se detalla al final. La estructura final sigue el árbol de la rúbrica; las carpetas de trabajo y los entregables anteriores se preservan.
+Estado actual: API batch, Snowflake, ocho despachos por escenario, monitoreo y challenger comparado. El challenger fue rechazado por decisión humana y Kestra terminó en SUCCESS; la integración y la comunicación finales siguen pendientes. Las secciones iniciales conservan el registro histórico; el estado vigente se detalla al final. La estructura final sigue el árbol de la rúbrica; las carpetas de trabajo y los entregables anteriores se preservan.
 
 ## Registro de observaciones y ajustes
 
@@ -203,3 +203,16 @@ Trazabilidad: run `e0ca46ddc9a84d7eaeffa750633ee2ce`, tag `fase=reentrenamiento`
 La primera tarea necesitó cuatro intentos en la misma ejecución: se corrigieron manifiestos ausentes en la imagen y tipos booleano/número al persistir la ventana Parquet. Se preserva el historial de errores y reinicios. Esos errores ocurrieron antes del ajuste/logging y se obtuvo un solo run de reentrenamiento de este ciclo; no se repitió el ajuste para seleccionar resultados. La prueba de ventana incluye lectura y escritura Parquet para cubrir el fallo de tipos. **57 pruebas** aprobaron localmente y en Linux/Docker.
 
 No se ha ejecutado el paso de decisión. La rúbrica 7.2 exige «deténgase en una tarea en pausa hasta que una persona la apruebe o la rechace». La autorización general para comandos permite preparar esta comparación, pero la decisión sobre este candidato corresponde al responsable humano una vez revisado el resultado. Si se rechaza, se registrará el motivo y el champion quedará intacto. Una aprobación no elegible quedaría bloqueada por la regla. La demostración posterior de promoción/rollback debe estar identificada como prueba mecánica y no convertir este candidato en una mejora validada. CD/GHCR, Compose único, notebooks, subgrupos, escenarios presupuestarios y comunicación siguen pendientes.
+
+
+## Cierre del ciclo: rechazo humano registrado (19-nov-2026)
+
+Wilmer Puerta confirmó expresamente: «Estoy de acuerdo en rechazar por no alcanzar la métrica definida para el reemplazo». Se reanudó la pausa real de Kestra con `decision=rechazar`, `responsable=Wilmer Puerta` y el motivo: «Se rechaza el challenger por no alcanzar la métrica definida para el reemplazo: añade 4 TP, frente a los 7 mínimos exigidos, con los mismos 147 cupos. Se conserva el champion vigente».
+
+La ejecución `6lcaE9ak8kGv4myx06ZMMw` terminó **SUCCESS**: preparación/comparación SUCCESS, pausa reanudada SUCCESS y aplicación de decisión SUCCESS. El worker contrastó los inputs de la pausa contra la ejecución antes de registrar la decisión. El instante de reanudación guardado por Kestra es `2026-11-20T01:35:27.018796918` (UTC; 19-nov en Ecuador), y la solicitud se registró a `2026-11-20T01:35:42.637866+00:00`. El campo de usuario técnico de Kestra queda nulo en esta respuesta de la edición instalada; la responsabilidad de negocio se conserva explícitamente en `responsable` y la confirmación del usuario está respaldada de forma privada.
+
+El ciclo queda **RECHAZADO**, el champion de semana 4 permanece en **versión 1**, y la versión 2 conserva su alias challenger y el tag `estado_aprobacion=rechazado`. Se actualizó ese mismo tag en el run `e0ca46ddc9a84d7eaeffa750633ee2ce`. Los champions de semana 2 y día 56 permanecen intactos. No se entrenó otro modelo, no se repitió tuning y no se reconstruyó la imagen para aplicar esta decisión.
+
+`docs/reentrenamientos.csv` exporta cuatro eventos: SOLICITADO, COMPARADO, DECISION_SOLICITADA y DECIDIDO; el último incluye estado RECHAZADO, responsable, motivo y evidencia de reanudación. `docs/corridas.csv` conserva 384 runs y refleja el tag del rechazo. La API y el tablero mantienen el modelo activo y muestran la decisión exportada. El respaldo privado preserva tanto la pausa anterior como el cierre, el Registry, la ventana de entrenamiento, el modelo y las particiones.
+
+Este cierre demuestra el camino de **rechazo con supervisión humana** de la rúbrica 7.2. La demostración controlada de promoción/rollback, el CD/GHCR y los restantes bloques del proyecto siguen pendientes. No se promueve un candidato insuficiente para producir artificialmente evidencia de reemplazo.
