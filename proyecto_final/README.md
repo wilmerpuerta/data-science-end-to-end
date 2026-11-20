@@ -87,10 +87,10 @@ La API resuelve el alias en cada lote nuevo y fija una versión durante todo ese
 
 ## Reproducir las fixtures y exportar corridas
 
-Las fixtures ya están incluidas. Para reconstruirlas deliberadamente se necesitan el Registry y el snapshot privado original; la ruta es un insumo de preparación, no una dependencia de ejecución de la API:
+Las fixtures ya están incluidas. Para reconstruirlas deliberadamente se necesitan el Registry y el snapshot privado original; la ruta es un insumo de preparación, no una dependencia de ejecución de la API. Para estos comandos opcionales, restaurar el snapshot original, sus punteros y los OOF en `.local/modelado/`; no basta con crear una carpeta vacía:
 
 ```sh
-MLFLOW_TRACKING_URI=http://127.0.0.1:5004 .venv/bin/python -m src.reentrenar --preparar-servicio --origen-local ../pset_3/.local
+MLFLOW_TRACKING_URI=http://127.0.0.1:5004 .venv/bin/python -m src.reentrenar --preparar-servicio --origen-local .local/modelado
 # Versionar el código antes de registrar una referencia nueva.
 MLFLOW_TRACKING_URI=http://127.0.0.1:5004 .venv/bin/python -m src.reentrenar --registrar-referencia
 MLFLOW_TRACKING_URI=http://127.0.0.1:5004 .venv/bin/python -m src.reentrenar --exportar-corridas
@@ -173,7 +173,7 @@ cp .local/monitoreo-export/monitoreo.csv .local/monitoreo-export/alertas.csv doc
 cp .local/predicciones-escenarios.csv docs/predicciones.csv
 ```
 
-Para reconstruir deliberadamente la referencia, con el snapshot y los OOF privados originales: `PYTHONPATH=. .venv/bin/python -m monitoreo.deriva --preparar-referencia ../pset_3/.local`. La ejecución ordinaria usa la referencia publicada y funciona sin importar módulos históricos.
+Para reconstruir deliberadamente la referencia, restaurar el snapshot y los OOF privados originales en `.local/modelado/` y ejecutar: `PYTHONPATH=. .venv/bin/python -m monitoreo.deriva --preparar-referencia .local/modelado`. La ejecución ordinaria usa la referencia publicada y funciona sin importar módulos históricos.
 
 El reentrenamiento reserva L08 y excluye todas sus personas de la ventana. No mezcla control y escenario sintético como muestras independientes. La auditoría de equidad y la evaluación de negocio con escenario del 30 % están documentadas; permanecen pendientes los notebooks finales y la comunicación.
 
@@ -189,7 +189,7 @@ Con 147 cupos, el champion detecta 77 Fail, el challenger 81 y el estático 54. 
 Para reproducir la preparación privada en un entorno con los datos históricos restaurados, antes de solicitar un ciclo nuevo:
 
 ```sh
-PYTHONPATH=. .venv/bin/python -m src.reentrenar --preparar-recursos --origen-local ../pset_3/.local
+PYTHONPATH=. .venv/bin/python -m src.reentrenar --preparar-recursos --origen-local .local/modelado
 # Con Registry propio en 5004, Snowflake y los flujos importados:
 docker compose up -d --no-build --pull never --wait api api_deriva monitoreo tablero kestra
 docker compose exec -T monitoreo python -m src.datos --reentrenar solicitar
