@@ -36,11 +36,11 @@ Las fixtures se exportaron con `mlflow.sklearn.save_model`, con firma y `predict
 
 ## Ejecutar la API
 
-Para carga real por alias debe estar disponible el servidor del PSet 03 con sus artefactos y Registry, en `http://127.0.0.1:5001`. Dentro del contenedor se accede mediante `MLFLOW_TRACKING_URI=http://host.docker.internal:5001`; configurar otro destino si el servidor vive en otra máquina. La API no recibe claves Snowflake. Kestra realiza la carga periódica desde el registro durable local y concilia el lote antes de completarlo.
+Para carga real por alias se usa el servicio MLflow propio del Compose, accesible en `http://127.0.0.1:5004` desde el host y `http://mlflow:5000` entre contenedores. El Registry y sus artefactos se conservan en volúmenes del proyecto final. La API no recibe claves Snowflake. Kestra realiza la carga periódica desde el registro durable local y concilia el lote antes de completarlo.
 
 ```sh
 .venv/bin/python -m src.datos --ejemplo .local/ejemplo --cohorte-id ejemplo-modelo
-docker compose up -d --build --wait api
+docker compose up -d --no-build --pull never --wait api
 curl http://localhost:8004/salud
 curl 'http://localhost:8004/modelo?corte_dias=14'
 curl -X POST http://localhost:8004/predecir -H 'Content-Type: application/json' --data-binary @.local/ejemplo/semana2.json
@@ -90,10 +90,10 @@ La API resuelve el alias en cada lote nuevo y fija una versión durante todo ese
 Las fixtures ya están incluidas. Para reconstruirlas deliberadamente se necesitan el Registry y el snapshot privado original; la ruta es un insumo de preparación, no una dependencia de ejecución de la API:
 
 ```sh
-MLFLOW_TRACKING_URI=http://127.0.0.1:5001 .venv/bin/python -m src.reentrenar --preparar-servicio --origen-local ../pset_3/.local
+MLFLOW_TRACKING_URI=http://127.0.0.1:5004 .venv/bin/python -m src.reentrenar --preparar-servicio --origen-local ../pset_3/.local
 # Versionar el código antes de registrar una referencia nueva.
-MLFLOW_TRACKING_URI=http://127.0.0.1:5001 .venv/bin/python -m src.reentrenar --registrar-referencia
-MLFLOW_TRACKING_URI=http://127.0.0.1:5001 .venv/bin/python -m src.reentrenar --exportar-corridas
+MLFLOW_TRACKING_URI=http://127.0.0.1:5004 .venv/bin/python -m src.reentrenar --registrar-referencia
+MLFLOW_TRACKING_URI=http://127.0.0.1:5004 .venv/bin/python -m src.reentrenar --exportar-corridas
 ```
 
 La referencia CI se registra como `fase=preparacion_servicio`, sin entrenamiento y con su commit. `docs/corridas.csv` reúne las corridas del experimento definitivo del PSet 03 y del experimento operativo. La preparación valida snapshot y fuente y conserva el champion histórico; una versión temprana activa diferente no se reemplaza automáticamente.
@@ -114,7 +114,7 @@ La continuidad del PSet 02 utiliza `pset_2/` como referencia; el proyecto integr
 En `.env` local configurar dos contraseñas nuevas y las rutas absolutas a los archivos privados Snowflake existentes. No copiar sus contenidos al repositorio. Las variables `SNOWFLAKE_CONNECTION_HOST_PATH` y `SNOWFLAKE_PRIVATE_KEY_HOST_PATH` apuntan al JSON de conexión (`schema_version=1`, `account`, `private_key_passphrase`) y la clave cifrada. El rol de servicio es `PSET2_PIPELINE`, usuario `PSET2_SVC`, warehouse `PSET2_WH`; requiere crear las nuevas tablas identificadas dentro de `PSET2_OULAD.ANALYTICS`, schema ya autorizado para el servicio. El código rechaza objetos existentes con otra marca. Las capas históricas se consultan como fuentes.
 
 ```sh
-docker compose up -d --build --wait api postgres kestra
+docker compose up -d --no-build --pull never --wait api postgres kestra
 docker compose exec -T kestra python3 -m src.datos --preparar-plan --base-local /workspace/.local/operacion.sqlite
 ```
 
@@ -141,7 +141,7 @@ Validación actual: 84 pruebas completas aprobadas en Docker; CI también compru
 ## Monitoreo, deriva y tablero
 
 ```sh
-docker compose up -d --build --wait api api_deriva monitoreo tablero kestra
+docker compose up -d --no-build --pull never --wait api api_deriva monitoreo tablero kestra
 ```
 
 El tablero está en `http://localhost:8504`; la API del escenario sintético usa `http://localhost:8006`. El monitor no publica un puerto al host. El servicio API conserva su registro local y carece de credenciales Snowflake; el worker de monitoreo realiza las consultas cloud. El tablero lee CSV de `docs/` y agregados privados de `.local/negocio/`, montados de solo lectura y sin claves. El Compose usa `!override` para separar los puertos de las dos API y requiere una versión de Compose que lo admita. Spark y MLflow ya están integrados en este Compose; ver el procedimiento de infraestructura e ingesta al final.
@@ -175,7 +175,7 @@ cp .local/predicciones-escenarios.csv docs/predicciones.csv
 
 Para reconstruir deliberadamente la referencia, con el snapshot y los OOF privados originales: `PYTHONPATH=. .venv/bin/python -m monitoreo.deriva --preparar-referencia ../pset_3/.local`. La ejecución ordinaria usa la referencia publicada y funciona sin importar módulos históricos.
 
-El reentrenamiento reserva L08 y excluye todas sus personas de la ventana. No mezcla control y escenario sintético como muestras independientes. La auditoría de equidad y la evaluación de negocio con escenario del 30 % están documentadas; permanecen pendientes la integración completa y la comunicación.
+El reentrenamiento reserva L08 y excluye todas sus personas de la ventana. No mezcla control y escenario sintético como muestras independientes. La auditoría de equidad y la evaluación de negocio con escenario del 30 % están documentadas; permanecen pendientes los notebooks finales y la comunicación.
 
 
 ## Reentrenamiento y revisión humana
@@ -190,8 +190,8 @@ Para reproducir la preparación privada en un entorno con los datos históricos 
 
 ```sh
 PYTHONPATH=. .venv/bin/python -m src.reentrenar --preparar-recursos --origen-local ../pset_3/.local
-# Con Registry en 5001, Snowflake y los flujos importados:
-docker compose up -d --build --wait api api_deriva monitoreo tablero kestra
+# Con Registry propio en 5004, Snowflake y los flujos importados:
+docker compose up -d --no-build --pull never --wait api api_deriva monitoreo tablero kestra
 docker compose exec -T monitoreo python -m src.datos --reentrenar solicitar
 ```
 
@@ -243,7 +243,7 @@ La auditoría original por discapacidad declarada y sus criterios de revisión e
 
 `PSET4_FORCE_FALLBACK=1` activa, al recrear API/API sintética, una cola administrativa sin estimación individual. La respuesta añade `puntuacion_individual=false` y un mensaje operativo; el valor numérico técnico del Dummy no significa riesgo cero. Las respuestas previas permanecen inmutables. [Procedimiento para operar el interruptor](docs/guia_usuario.md#operación-del-respaldo-y-revisión-de-necesidades).
 
-El análisis se reproduce con `python -m monitoreo.deriva --etica <directorio_privado> --codigo-etica <SHA_DE_CODIGO>` dentro del worker con credenciales Snowflake; usa únicamente controles y etiquetas ya maduras. La evaluación de negocio quedó calculada; notebooks, Compose único y comunicación siguen pendientes.
+El análisis se reproduce con `python -m monitoreo.deriva --etica <directorio_privado> --codigo-etica <SHA_DE_CODIGO>` dentro del worker con credenciales Snowflake; usa únicamente controles y etiquetas ya maduras. La evaluación de negocio quedó calculada; notebooks y comunicación siguen pendientes; el Compose único ya está verificado.
 
 
 ### Despliegue ético y comprobación del interruptor (histórico)
