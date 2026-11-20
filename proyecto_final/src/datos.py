@@ -537,6 +537,7 @@ def main():
     group.add_argument('--exportar-predicciones', type=Path)
     group.add_argument('--exportar-escenarios', type=Path)
     group.add_argument('--monitorear-lote', choices=['todos',*[f'L{n:02}' for n in range(1,9)]])
+    group.add_argument('--reentrenar', choices=['solicitar','preparar','decidir','rollback'])
     parser.add_argument('--fase', choices=['prediccion','maduro'], default='prediccion')
     parser.add_argument('--plan', default=PLAN_CONTROL, choices=[PLAN_CONTROL, PLAN_DERIVA])
     parser.add_argument('--api-url', default=os.environ.get('PSET4_API_URL', 'http://api:8000'))
@@ -544,6 +545,14 @@ def main():
     parser.add_argument('--cohorte-id', default='ejemplo-api')
     parser.add_argument('--base-local', type=Path, default=ROOT / '.local/operacion.sqlite')
     args = parser.parse_args()
+    if args.reentrenar:
+        data={'operacion':args.reentrenar,'execution_id':args.execution_id,
+              'decision':os.environ.get('PSET4_DECISION'),'motivo':os.environ.get('PSET4_MOTIVO'),
+              'responsable':os.environ.get('PSET4_RESPONSABLE')}
+        url=os.environ.get('PSET4_MONITOR_URL','http://monitoreo:8090')+'/reentrenar'
+        request=urllib.request.Request(url,data=json.dumps(data).encode(),headers={'Content-Type':'application/json'})
+        with urllib.request.urlopen(request,timeout=1200) as response:print(json.dumps(json.load(response),ensure_ascii=False))
+        return
     if args.monitorear_lote:
         url = os.environ.get('PSET4_MONITOR_URL', 'http://monitoreo:8090')+'/monitorear'
         request = urllib.request.Request(url, data=json.dumps({'plan_id': args.plan, 'lote_id': args.monitorear_lote, 'fase': args.fase}).encode(), headers={'Content-Type':'application/json'})

@@ -31,3 +31,14 @@ tasks:
       type: constant
       interval: PT10S
       maxAttempt: 2
+
+  - id: disparar_ciclo
+    type: io.kestra.plugin.core.flow.If
+    condition: '{{ inputs.plan_id == "oulad-2014j-deriva-v1" and inputs.fase == "maduro" and (inputs.lote_id == "todos" or inputs.lote_id == "L07") }}'
+    then:
+      - id: solicitar_reentrenamiento
+        type: io.kestra.plugin.scripts.shell.Commands
+        taskRunner:
+          type: io.kestra.plugin.core.runner.Process
+        commands:
+          - python3 -m src.datos --reentrenar solicitar --execution-id '{{ execution.id }}'

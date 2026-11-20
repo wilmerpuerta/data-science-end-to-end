@@ -50,6 +50,8 @@ curl http://localhost:8004/metricas
 
 Documentación interactiva: `http://localhost:8004/docs`. El ejemplo registra 40 matrículas sintéticas, sin targets en las solicitudes. El valor de prueba reserva 1 cupo en semana 2 y 3 adicionales en semana 4. No se utiliza para estimar calidad o impacto educativo.
 
+Instrucciones del portal, ejemplos y solución de errores: [guía de usuario](docs/guia_usuario.md).
+
 `GET /salud` informa el estado de los modelos cargados sin depender de una consulta de red en cada sondeo. `GET /modelo` consulta el alias y muestra nombre, versión, run_id, corte y procedencia. `POST /predecir` acepta una cohorte completa registrada, devuelve probabilidad de Fail, ranking, decisión, acción, versión e ID, y persiste el resultado antes de responder. `GET /metricas` informa p50/p95, volumen y tasas 4xx/5xx. Campos ausentes, tipos, categorías, rangos, entradas no finitas y targets en las features se rechazan con 422 y el campo identificado.
 
 La carga de cohortes es una operación administrativa local; no se exponen endpoints públicos que permitan inventar un manifiesto o un presupuesto. Para un manifiesto procedente de la fuente confiable:

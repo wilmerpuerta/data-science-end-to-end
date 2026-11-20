@@ -120,6 +120,13 @@ services:
   monitoreo:
     image: ${PSET4_API_IMAGE:-proyecto-final-api:local}
     command: [python, -m, monitoreo.deriva, --servir]
+    environment:
+      MLFLOW_TRACKING_URI: ${MLFLOW_TRACKING_URI:-http://host.docker.internal:5001}
+      PSET4_KESTRA_URL: http://kestra:8080/api/v1/main
+      PSET4_KESTRA_USER: admin@psets.local
+      PSET4_KESTRA_PASSWORD: ${PSET4_KESTRA_PASSWORD:?Configurar secreto local}
+    extra_hosts:
+      - host.docker.internal:host-gateway
     volumes:
       - ./.local:/app/.local
       - type: bind
