@@ -41,3 +41,8 @@ Se añadió al README un recorrido único desde una copia nueva, con preparació
 La cadena se reprodujo desde una exportación limpia con recursos Snowflake existentes, no desde una cuenta vacía ni un clon remoto. Calendarios desactivados, backfill por fichero, escritor único coordinado, cobertura y exactitud externa desconocidas, costo monetario sin cuantificar y sincronización Colab de PSet 1 pendiente permanecen documentados. No se presenta un modelo predictivo entrenado ni impacto educativo medido.
 
 El informe de esta revisión y el inventario general se excluyen de package_sha256 para evitar una referencia circular. Este campo identifica el contenido de los demás candidatos inspeccionados. Con --entregables, el inventario general se actualiza después de cerrar el informe, conservando su checksum vigente. No certifica futuras modificaciones ni el resultado de un despliegue en GitHub.
+
+
+## Actualización de calendario — 20-nov-2026
+
+La validación anterior conserva el estado histórico de sus pruebas. Ahora `pset2-entrega` está levantado en modo cloud y el calendario padre está activo; Raw sigue sin calendario independiente. Una ejecución Schedule recuperó el 15-nov y terminó SUCCESS el 20-nov. El memo se revisó manteniendo seis páginas, con original preservado e identificación de hashes. [Corrección y evidencia](calendario-programado.md). No se repite ni reetiqueta la reproducción histórica como si incluyera estas modificaciones.

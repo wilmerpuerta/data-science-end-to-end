@@ -1,8 +1,8 @@
 {
   "status": "ok",
-  "files": 250,
-  "zip_bytes": 528263,
-  "zip_sha256": "f26a4214deb0282612e100a34798b7e062c708f2e796613e0d713bef2ba93e2f",
+  "files": 270,
+  "zip_bytes": 894433,
+  "zip_sha256": "612567d9c80e5d5c54e854178292638bd444f11791aa70e68623c5acf6ef64fa",
   "private_resources_included": false,
   "root": "pset_2"
 }

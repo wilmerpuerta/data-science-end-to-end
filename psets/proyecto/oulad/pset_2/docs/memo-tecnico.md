@@ -19,13 +19,13 @@ El generador calcula el espacio de cada página y rechaza desbordamientos antes 
 
 ## Alcance de la evidencia
 
-El memo describe la implementación y los resultados de los días 12 y 13 de noviembre de 2026. Conserva explícitos los límites: ensayos controlados de fallo, calendarios desactivados, backfill por fichero, cobertura y exactitud desconocidas, reproducción local con recursos Snowflake reutilizados y costo monetario sin medir. No hay entrenamiento ni publicación GitHub. El documento y sus scripts de exportación son posteriores a la instantánea de 214 archivos de la reproducción limpia y no se presentan como incluidos en esa prueba.
+El memo conserva los resultados de los días 12 y 13 de noviembre de 2026 y añade la revisión de calendario del 20-nov. El padre está activo y la ejecución Schedule recuperada del 15-nov terminó SUCCESS; Raw mantiene desactivado su trigger independiente. La prueba es un backfill del calendario, distinto de la recarga por fichero y de observar la fecha original en tiempo real. [Evidencia](calendario-programado.md). Se mantienen los límites de calidad, escritor único, reproducción con recursos Snowflake existentes y costo monetario desconocido. No hay entrenamiento. La documentación nueva es posterior a los 214 archivos de la reproducción histórica; no se afirma incluida en esa instantánea.
 
 ## Correspondencia con el enunciado y la rúbrica
 
 | Criterio | Página del memo | Evidencia complementaria |
 |---|---|---|
-| Kestra, ingesta y orquestación; 15 % | 1-2 | [Raw](ingesta-raw-verificacion.json), [pruebas integrales](pipeline-pruebas.json) |
+| Kestra, ingesta y orquestación; 15 % | 1-2 | [Raw](ingesta-raw-verificacion.json), [pruebas integrales](pipeline-pruebas.json), [cron y Schedule](calendario-verificacion.json) |
 | Calidad y limpieza; 20 % | 3 | [Bronze](calidad-bronze.json), [Silver](calidad-silver.json) |
 | dbt y capas; 15 % | 3-4 | [Build real de las tres capas](dbt-build-gold.json) |
 | Star schema; 15 % | 4 | [Modelado](gold.md), [métricas Gold](calidad-gold.json) |

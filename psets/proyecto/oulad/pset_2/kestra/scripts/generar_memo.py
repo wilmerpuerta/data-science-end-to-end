@@ -289,7 +289,7 @@ def main():
         c.line(MARGIN,41,WIDTH-MARGIN,41)
         c.setFont('Memo',8)
         c.setFillColor(MUTED)
-        c.drawString(MARGIN,27,'Wilmer Puerta | PSet 2 | 13 nov 2026')
+        c.drawString(MARGIN,27,'Wilmer Puerta | PSet 2 | Revisión 20 nov 2026')
         c.drawRightString(WIDTH-MARGIN,27,f'{number} / 6')
         c.showPage()
     c.save()

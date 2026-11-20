@@ -26,3 +26,8 @@ Comprobación repetible: `python3 kestra/scripts/verificar_paquete.py --infra`, 
 También se construyeron las tres imágenes desde sus nuevos contextos y se desplegaron las definiciones Raw e integral en Kestra, sin ejecutar cargas y con calendarios desactivados. La exportación de reproducción limpia quedó PREPARED y sus dos configuraciones Compose validaron. La copia local de pruebas quedó detenida conservando volúmenes; se vuelve a levantar con `infra.py up --local-only` o `--cloud` según la configuración. El stack histórico se conserva.
 
 El ZIP se descomprimió en una carpeta independiente y su verificador pasó sin Git ni dependencia de `pset-02/`. Se comprobaron CRC, manifiesto SHA-256, raíz única `pset_2/`, ausencia de archivos privados y un único PDF bajo `docs/`.
+
+
+## Actualización de calendario — 20-nov-2026
+
+La validación anterior conserva el estado histórico de sus pruebas. Ahora `pset2-entrega` está levantado en modo cloud y el calendario padre está activo; Raw sigue sin calendario independiente. Una ejecución Schedule recuperó el 15-nov y terminó SUCCESS el 20-nov. El memo se revisó manteniendo seis páginas, con original preservado e identificación de hashes. [Corrección y evidencia](calendario-programado.md). No se repite ni reetiqueta la reproducción histórica como si incluyera estas modificaciones.

@@ -24,7 +24,8 @@ Actualizado el 13-nov-2026. Se distingue comprobación local de resultados comun
 | Spark local | Trabajo real comprobado | Spark 3.5.6/Java 17, suma de rango y 32.593 matrículas; cinco checksums y montaje de solo lectura verificados |
 | dbt Core en Docker | Instalación comprobada | Core 1.10.13/adaptador Snowflake 1.10.2; conexión real, cinco vistas Bronze y perfil agregado; 45 tests aprobados |
 | Raw con Kestra | Implementado y comprobado | Cinco fuentes, 10.726.852 filas; reconciliación, cinco NOOP, retry controlado y backfill courses.csv |
-| Calendario Raw | Configurado, desactivado | Días 1 y 15, 09:00 America/Guayaquil; disparo periódico no probado ni activado |
+| Calendario integral | Activo y verificado | Días 1 y 15, 09:00 America/Guayaquil; Schedule SUCCESS mediante backfill del 15-nov, ejecutado el 20-nov; ver [evidencia](calendario-programado.md) |
+| Calendario Raw independiente | Desactivado | Raw se ejecuta dentro del padre, sin otro disparo periódico |
 | Bronze/Staging y calidad | Implementados y comprobados | dbt-build-bronze.json y calidad-bronze.json; cinco vistas, una tabla agregada, 45 tests aprobados |
 | Silver y consolidación | Implementados y comprobados | Siete tablas; 8.459.320 claves diarias, 39.605.099 clics; 101 tests Bronze/Silver aprobados en dos builds y 27 métricas idénticas. Ver dbt-build-silver.json, calidad-silver.json y repeticion-silver.json |
 | Gold dimensional | Implementado y comprobado | Cinco dimensiones, dos hechos, retiro/resultados separados y perfil de calidad; 168 tests Bronze/Silver/Gold aprobados en dos builds y 26 métricas idénticas; población por corte coincide con PSet 1. Ver dbt-build-gold.json, calidad-gold.json y repeticion-gold.json |

@@ -1,6 +1,6 @@
 # Pipeline reproducible para apoyo académico con OULAD
 
-Wilmer Puerta | PSet 2 | 13 de noviembre de 2026
+Wilmer Puerta | PSet 2 | Revisión: 20 de noviembre de 2026
 
 ## 1. Arquitectura implementada
 
@@ -56,7 +56,7 @@ La carga usa un stage y una tabla temporal gestionados. Tras COPY se comprueban 
 
 ### Frecuencia y backfill
 
-El cron 0 9 1,15 * * programa los días 1 y 15 a las 09:00, America/Guayaquil. Tanto el calendario Raw como el padre están desactivados; se probó el disparo manual por API, no un disparo del reloj. La cadena no necesita intervención entre etapas. En un histórico estático, repetir no implica recibir datos nuevos.
+El cron 0 9 1,15 * * está activo en el padre: días 1 y 15 a las 09:00, America/Guayaquil; Raw queda sin calendario independiente. Schedule creó 5Iuxh5EoC9h21NtOUObQuS al recuperar el 15-nov, 09:00 mediante backfill; se ejecutó el 20-nov, sin cambiar reloj ni cron. Un error de lectura de referencia exigió recuperar el archivo y reintentar solo el cierre; se conserva el fallo. Evidencia y tiempos: docs/calendario-verificacion.json [E7]. Repetir no implica datos nuevos.
 
 El backfill probado recargó courses.csv completo, 22 filas, con --force-reload. La unidad de reposición es fichero/checksum, no módulo-edición. La reproducción limpia forzó después la recarga de los cinco CSV. Para otro histórico se requiere identificar la nueva versión y reconciliar sus resultados; esta implementación mantiene una versión vigente por fuente.
 
@@ -169,25 +169,25 @@ Es una exportación limpia del árbol de trabajo, no un clon GitHub. Reutilizó 
 El README contiene el procedimiento completo: obtener los cinco CSV y verificar manifiesto; aprovisionar Snowflake; preparar claves y configuración privadas; preparar, construir y levantar Compose; desplegar y ejecutar Kestra. Los comandos siguientes se ejecutan desde la raíz, una vez preparada la configuración privada. El flujo integral ejecuta dbt y Spark sin intervención entre etapas [E6].
 
 ```bash
-python3 pset-02/scripts/infra.py prepare
-python3 pset-02/scripts/infra.py build --cloud
-python3 pset-02/scripts/infra.py up --cloud
-python3 pset-02/scripts/ejecutar_pipeline.py --deploy
-python3 pset-02/scripts/ejecutar_pipeline.py
+python3 pset_2/kestra/scripts/infra.py prepare
+python3 pset_2/kestra/scripts/infra.py build --cloud
+python3 pset_2/kestra/scripts/infra.py up --cloud
+python3 pset_2/kestra/scripts/ejecutar_pipeline.py --deploy
+python3 pset_2/kestra/scripts/ejecutar_pipeline.py
 ```
 
 ### Por qué batch; cuándo cambiaría
 
-OULAD es un histórico estático, sin fuente continua de eventos. El caso propuesto revisa cupos de apoyo en cortes quincenales; no existe una necesidad validada de reaccionar en segundos. Batch permite reconstruir cortes, conciliar versiones y ejecutar controles antes de publicar. El calendario es una configuración operativa desactivada, no evidencia de actualización del histórico.
+OULAD es un histórico estático, sin fuente continua de eventos. El caso propuesto revisa cupos de apoyo en cortes quincenales; no existe una necesidad validada de reaccionar en segundos. Batch permite reconstruir cortes, conciliar versiones y ejecutar controles antes de publicar. El calendario activo automatiza la revisión; no demuestra actualización del histórico.
 
 Streaming solo se justificaría con una fuente institucional continua y una intervención que demostrara necesitar menor latencia. Exigiría captura de eventos, reglas de tiempo de evento y llegadas tardías, deduplicación con identidad de evento, estado, seguridad y monitoreo de esa nueva fuente, y validación del beneficio frente al costo. No se implementó streaming.
 
 ### Limitaciones pendientes
 
-Cobertura de logs y exactitud externa desconocidas; retiro sin fecha y ambigüedad de repeticiones; disponibilidad histórica de atributos no certificada por un sistema en vivo. Backfill solo por fichero, calendario sin activación, un solo escritor coordinado y sin transacción global. No se midió costo monetario; X-Small con auto-suspend de 60 s no implica gratuidad. El timeout del warehouse requiere evidencia específica. No se probaron ARM ni mínimos universales. No hay entrenamiento, validación prospectiva o impacto educativo. GitHub queda para el cierre autorizado.
+Cobertura de logs y exactitud externa desconocidas; retiro sin fecha y ambigüedad de repeticiones; disponibilidad histórica de atributos no certificada en vivo. Recarga solo por fichero y escritor único sin transacción global. La prueba del calendario es una recuperación, no su llegada en tiempo real; la próxima fecha requiere equipo y servicios activos. No se midió costo monetario ni timeout efectivo del warehouse. No se probaron ARM ni mínimos universales. No hay entrenamiento, validación prospectiva o impacto educativo. Código y evidencia se publican en GitHub.
 
 ### Referencias y evidencia verificable
 
 R1. The Open University. OULAD: https://research.stem.open.ac.uk/ouanalyse/dataset/ y Kuzilek, Hlosta y Zdrahal (2017), DOI: 10.1038/sdata.2017.171. Manifiesto de esta copia: datasets/manifest.json.
 
-E1. docs/ingesta-raw-verificacion.json. E2. docs/calidad-bronze.json y docs/calidad-silver.json. E3. docs/calidad-gold.json, docs/obt-verificacion.json y spark/feature-contract.json. E4. docs/pipeline-pruebas.json. E5. docs/reproduccion-limpia.json y output/reproduction/849681d33298/. E6. README.md. Rutas E1-E6 relativas a pset-02/. Fuente de este documento: memo-pset2.md.
+E1. docs/ingesta-raw-verificacion.json. E2. docs/calidad-bronze.json y docs/calidad-silver.json. E3. docs/calidad-gold.json, docs/obt-verificacion.json y spark/feature-contract.json. E4. docs/pipeline-pruebas.json. E5. docs/reproduccion-limpia.json y docs/evidencia/reproduction/849681d33298/. E6. README.md. E7. docs/calendario-verificacion.json y docs/calendario-programado.md. Rutas relativas a pset_2/.

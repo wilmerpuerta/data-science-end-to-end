@@ -1,0 +1,59 @@
+{
+  "checked_at_utc": "2026-11-20T21:47:36.530071+00:00",
+  "execution_id": "5Iuxh5EoC9h21NtOUObQuS",
+  "state": "SUCCESS",
+  "flow": "pset2.oulad/oulad_pipeline",
+  "tasks": [
+    {
+      "task_id": "raw",
+      "state": "SUCCESS",
+      "attempts": 1,
+      "started_at": "2026-11-20T21:36:23.719804Z",
+      "finished_at": "2026-11-20T21:36:54.743783Z"
+    },
+    {
+      "task_id": "gate",
+      "state": "SUCCESS",
+      "attempts": 1,
+      "started_at": "2026-11-20T21:36:55.095207Z",
+      "finished_at": "2026-11-20T21:36:55.226871Z"
+    },
+    {
+      "task_id": "dbt",
+      "state": "SUCCESS",
+      "attempts": 1,
+      "started_at": "2026-11-20T21:36:55.269402Z",
+      "finished_at": "2026-11-20T21:38:47.664779Z"
+    },
+    {
+      "task_id": "spark",
+      "state": "SUCCESS",
+      "attempts": 1,
+      "started_at": "2026-11-20T21:38:48.596328Z",
+      "finished_at": "2026-11-20T21:44:13.531251Z"
+    },
+    {
+      "task_id": "verificar",
+      "state": "SUCCESS",
+      "attempts": 2,
+      "started_at": "2026-11-20T21:44:13.996980Z",
+      "finished_at": "2026-11-20T21:47:08.078200Z"
+    }
+  ],
+  "inputs": {
+    "force_reload": false,
+    "retry_probe": false,
+    "fail_after_raw": false,
+    "source_file": "all"
+  },
+  "trigger": {
+    "id": "revision_integral",
+    "type": "io.kestra.plugin.core.trigger.Schedule",
+    "variables": {
+      "date": "2026-11-15T09:00:00-05:00",
+      "previous": "2026-11-01T09:00:00-05:00",
+      "next": "2026-12-01T09:00:00-05:00"
+    }
+  },
+  "raw_execution_id": "2h7hAeixXhig6coSNWhVU2"
+}

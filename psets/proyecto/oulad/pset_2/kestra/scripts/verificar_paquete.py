@@ -39,7 +39,13 @@ def main():
  check('dbt_graph_acyclic',all(visit(n) for n in graph))
  check('docker_images_and_dependencies_pinned',all(re.search(r'^FROM \S+@sha256:[a-f0-9]{64}$',(BASE/f/'Dockerfile').read_text(),re.M) and '--require-hashes' in (BASE/f/'Dockerfile').read_text() for f in ['kestra/ingestion','dbt','spark']))
  template=(BASE/'.env.example').read_text();passwords=re.findall(r'^\w*PASSWORD=(.*)$',template,re.M);check('password_examples_are_placeholders',len(passwords)==2 and all(x=='EJEMPLO_NO_UTILIZAR' for x in passwords))
- migration=json.loads((BASE/'docs/reestructuracion.json').read_text());pdf=next(x for x in migration['files'] if x['after']=='docs/PSet2_memo_Puerta_Wilmer.pdf');check('approved_pdf_unchanged',sha(BASE/pdf['after'])==pdf['before_sha256'])
+ migration=json.loads((BASE/'docs/reestructuracion.json').read_text());pdf=next(x for x in migration['files'] if x['after']=='docs/PSet2_memo_Puerta_Wilmer.pdf')
+ preserved=sha(BASE/pdf['after'])==pdf['before_sha256']
+ revision=BASE/'docs/memo-revision-calendario.json'
+ if not preserved and revision.is_file():
+  r=json.loads(revision.read_text());calendar=json.loads((BASE/'docs/calendario-verificacion.json').read_text())
+  preserved=(r['previous_pdf_sha256']==pdf['before_sha256']==sha(BASE/r['previous_pdf']) and r['pdf_sha256']==sha(BASE/pdf['after']) and r['source_md_sha256']==sha(BASE/'docs/memo-pset2.md') and calendar['status']=='ok' and calendar['enabled'])
+ check('approved_pdf_preserved_or_documented_revision',preserved)
  if args.infra:
   for mode in ['--local-only','--cloud']:
    r=subprocess.run(['python3',str(BASE/'kestra/scripts/infra.py'),'validate',mode],capture_output=True,text=True);check('compose_'+mode[2:],r.returncode==0)

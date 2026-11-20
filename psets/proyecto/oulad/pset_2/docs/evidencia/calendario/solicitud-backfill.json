@@ -1,0 +1,35 @@
+{
+  "method": "PUT",
+  "path": "/api/v1/main/triggers",
+  "request": {
+    "tenantId": "main",
+    "namespace": "pset2.oulad",
+    "flowId": "oulad_pipeline",
+    "triggerId": "revision_integral",
+    "date": "2026-11-20T21:35:32Z",
+    "nextExecutionDate": "2026-12-01T14:00:00Z",
+    "disabled": false,
+    "backfill": {
+      "start": "2026-11-15T13:59:00Z",
+      "end": "2026-11-15T14:01:00Z",
+      "paused": false,
+      "inputs": {
+        "source_file": "all",
+        "force_reload": false,
+        "retry_probe": false,
+        "fail_after_raw": false
+      },
+      "labels": [
+        {
+          "key": "evidencia",
+          "value": "pset2-cron-backfill-15-nov-2026"
+        },
+        {
+          "key": "tipo_prueba",
+          "value": "recuperacion_calendario"
+        }
+      ]
+    }
+  },
+  "authentication_included": false
+}

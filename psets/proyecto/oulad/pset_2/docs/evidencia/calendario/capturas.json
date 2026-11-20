@@ -1,0 +1,16 @@
+[
+  {
+    "archivo": "cron-activo.png",
+    "url": "http://127.0.0.1:18090/ui/flows/edit/pset2.oulad/oulad_pipeline/triggers",
+    "fecha_utc": "2026-11-20T21:51:03.734Z",
+    "sha256": "f8a61f8658eddd1fc169e3b9ce0c151e4f28975f7fba58a3f3160fb4bf70ae52",
+    "origen": "Captura directa de Kestra mediante Chrome DevTools; recorte de viewport en cron-activo."
+  },
+  {
+    "archivo": "ejecucion-programada.png",
+    "url": "http://127.0.0.1:18090/ui/executions/pset2.oulad/oulad_pipeline/5Iuxh5EoC9h21NtOUObQuS",
+    "fecha_utc": "2026-11-20T21:51:10.893Z",
+    "sha256": "877ce1bf66fed0c971f722844566b3272ade73139e3516699cdd4478c4f0827f",
+    "origen": "Captura directa de Kestra mediante Chrome DevTools; recorte de viewport en cron-activo."
+  }
+]

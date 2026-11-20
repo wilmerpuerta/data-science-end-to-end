@@ -1,0 +1,11 @@
+{
+  "motivo": "Activar cron días 1 y 15 y documentar ejecución Schedule por recuperación de calendario; actualizar rutas de entrega.",
+  "fecha": "2026-11-20",
+  "previous_pdf": "docs/historial/PSet2_memo_Puerta_Wilmer_13nov2026.pdf",
+  "previous_pdf_sha256": "fb62e40e67957b292b9d93968a60ac5cfa95a246f8e720f03d34ff2b64b78cad",
+  "pdf_sha256": "51ea66b4a77dc00f11adf181437b856dd46fd50aab1c514c1fa837c6a208209d",
+  "source_md_sha256": "8cdd516f702fc2e32e3319e6f02a23f475ef0e82c0470271a8fd7c07ecc4376c",
+  "evidence": "docs/calendario-verificacion.json",
+  "pages": 6,
+  "previous_memo_preserved": true
+}
