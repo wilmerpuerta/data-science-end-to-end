@@ -2,7 +2,7 @@
 
 ## Estado de esta etapa
 
-Estado actual: API batch, Snowflake, ocho despachos por escenario, monitoreo y challenger comparado. El challenger fue rechazado por decisión humana, Kestra terminó en SUCCESS y el CD/GHCR con rollback técnico quedó verificado; la auditoría ética y el interruptor de respaldo quedaron verificados; integración y comunicación finales siguen pendientes. Las secciones iniciales conservan el registro histórico; el estado vigente se detalla al final. La estructura final sigue el árbol de la rúbrica; las carpetas de trabajo y los entregables anteriores se preservan.
+Estado actual: integración completa verificada con nueve servicios saludables, 84 pruebas, ingesta fuente→OBT, Registry propio y evidencias operativas conservadas. Memo técnico de 12 páginas, presentación de 12 diapositivas, anexos y guion de 6:35 preparados para revisión. Quedan notebooks 01-07, pitch histórico en PDF y grabar/publicar el video e insertar su URL. Las entradas anteriores se conservan como registro cronológico; el estado vigente se detalla al final.
 
 ## Registro de observaciones y ajustes
 
@@ -506,3 +506,20 @@ La nueva reproducción de infraestructura usa un solo Compose y el mismo orden d
 Nueve servicios saludables tras `docker compose up -d --no-build --pull never --wait`; cinco con digest/revisión OCI publicados. Se comprobaron código incorporado en dbt/Spark/Kestra, ausencia de sus binds de código y de puertos HTTP de los ejecutores al host. API y monitor resuelven `http://mlflow:5000`; la UI propia está en localhost:5004. Los datos originales siguen montados de solo lectura. Las credenciales se copiaron íntegramente a `.local/credenciales/`, sin retirar sus originales ni versionarlas.
 
 Se conservaron las filas de ambos SQLite, 36.646 predicciones / 32 eventos de monitoreo / cuatro eventos de reentrenamiento en Snowflake, y los hashes de todas las tablas del Registry frente al snapshot inicial. Los champions siguen en versión 1 y el challenger de semana 4 rechazado. El tablero confirmó 106 / 54 TP netos adicionales de control/deriva, sin errores. No se realizó entrenamiento, tuning, promoción ni consumo de API LLM. Se preservan fuente de datos, preparación, política y decisiones anteriores. Notebooks finales, memo, presentación y video siguen pendientes.
+
+
+## 2026-11-20 — Memo, presentación y guion de demostración
+
+Se prepararon `PSet4_memo_Puerta_Wilmer.pdf` (12 páginas) y `PSet4_presentacion_Puerta_Wilmer.pdf` (12 diapositivas), con fuentes de texto en `memo.md` y `presentacion.md`. `guion_video.md` distribuye nueve escenas en 6:35 minutos, con 25 segundos de margen, narración y comandos de ensayo. Los gráficos de los documentos son vectoriales; `arquitectura.png` y `modelo_dimensional.png` conservan vistas de alta resolución. Se renderizaron e inspeccionaron las páginas y diapositivas antes de incorporarlas a la entrega.
+
+La comunicación responde al objetivo de negocio con la misma población y capacidad: 420 frente a 314 TP, 106 matrículas netas adicionales, +33,76 % relativo con 920 cupos. Se muestran resultados por lote y se marcan L07 como disparador maduro y L08 como reserva de comparación, sin colocarlos falsamente como una promoción anterior a la inferencia. El reentrenamiento ocurrió después de las ocho predicciones; el candidato sumó cuatro TP cuando requería siete y se conserva el rechazo humano. La presentación recomienda ajustar y validar mediante un piloto supervisado; no afirma efectos causales ni ahorro por el escenario del 30 %.
+
+El memo incluye EDA y validación agrupada de PSet 03, selección por valor de negocio, prueba de GPT mediante prompting, modelos específicos de semanas 2/4, criterios de retirada y tasas de decisión por discapacidad. Distingue el predictor estático, el Dummy administrativo, no actuar y la atención reactiva posterior. Describe la brecha de cobertura de L06 y la necesidad de revisión humana, y conserva los supuestos y resultados desfavorables.
+
+Se capturó directamente GitHub Actions en Chrome: run 44781023359, revisión 03018cb, CI reutilizable y publicación en Success. La captura completa y su URL se conservan en `github_actions.png` y `evidencia_comunicacion.json`. La imagen activa se mantiene por el digest previamente comprobado; publicar documentación no promueve modelos ni cambia el entorno desplegado.
+
+`ejemplo_api.json` conserva solicitudes completas de semanas 2/4, respuestas HTTP 200 y error HTTP 422 reales, obtenidos con la imagen publicada y el Registry propio en un servicio aislado. Los IDs son sintéticos; sus features son valores repetidos de la muestra de desarrollo pública OULAD. El contenedor se retiró; no se cargaron filas a Snowflake ni se tocaron aliases operativos, entrenamiento, tuning o API LLM. El guion separa esta demostración, la recarga 1→2→1 con pesos idénticos y el interruptor de respaldo de la evaluación real de negocio.
+
+`PSet4_anexos_Puerta_Wilmer.pdf` reúne sin modificar los tres memos anteriores y una copia fechada de este registro. El límite de 12 páginas aplica al memo principal y excluye estos anexos. La convención `Puerta_Wilmer` se mantiene por indicación del autor, sin atribuir una excepción docente al requisito literal de dos apellidos.
+
+Pendiente para cerrar el PSet 04: notebooks 01-07 con salidas y Restart/Run All, pitch histórico en PDF, grabación de la demo de máximo siete minutos, publicación del enlace e incorporación de la URL real al memo y auditoría final de la rúbrica. El guion y el marcador explícito «pendiente de publicación» no sustituyen el video. No se declara completado el proyecto final.

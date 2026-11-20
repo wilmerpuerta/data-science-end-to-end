@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "estado": "documentos_preparados_para_revision",
+  "fecha": "2026-11-20",
+  "autor": "Wilmer Puerta",
+  "convencion_nombre": "Puerta_Wilmer por indicacion del autor; no se presume excepcion docente",
+  "documentos": {
+    "memo": {
+      "archivo": "PSet4_memo_Puerta_Wilmer.pdf",
+      "paginas": 12,
+      "sha256": "1e21d2ceec535a8258a017676d7b6421fa36a812d2551d35ac9525cacbe49909"
+    },
+    "presentacion": {
+      "archivo": "PSet4_presentacion_Puerta_Wilmer.pdf",
+      "paginas": 12,
+      "sha256": "3cf6c950117d3aaed490860d54fd83bbec34f6a1f14bc253d9a2b482a792c21f"
+    },
+    "anexos": {
+      "archivo": "PSet4_anexos_Puerta_Wilmer.pdf",
+      "paginas": 33,
+      "sha256": "8e05cf41abe310512ce846bc9343ae3884aa5635f6ec49594364e9d315086fc9"
+    }
+  },
+  "historicos_contenido_conservado": [
+    {
+      "memo": 1,
+      "paginas": 2,
+      "sha256_original": "f123d9523b22528a1c9ef3bcfc67712faece8b9be240022a541cd87ca744d205"
+    },
+    {
+      "memo": 2,
+      "paginas": 6,
+      "sha256_original": "fb62e40e67957b292b9d93968a60ac5cfa95a246f8e720f03d34ff2b64b78cad"
+    },
+    {
+      "memo": 3,
+      "paginas": 6,
+      "sha256_original": "108a70a93e74b150121382b5cd266e64e61cf40435eb0d4c01c5b1089c4393c6"
+    }
+  ],
+  "cambios_md_sha256": "01389d573c4aadade853591025b16e605b847a3fd5bf14aaef15e64aa283a0be",
+  "github_actions": {
+    "url": "https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44781023359",
+    "fecha": "2026-11-20T19:21:56.920Z",
+    "origen": "Captura directa de GitHub mediante Chrome DevTools",
+    "success_visible": true,
+    "archivo": "github_actions.png",
+    "sha256": "5737c1c8fa8f5545df2e56d59d42aa601bb2fdc71ed310776258d9de0911a4cb",
+    "archivo_extracto_memo": "github_actions_resumen.png",
+    "sha256_extracto": "f9b1a63e727a039fba8232ba6b7d2293acb56f6af0342dbaeecb2113a9f6370a"
+  },
+  "video": {
+    "duracion_objetivo_segundos": 395,
+    "limite_segundos": 420,
+    "palabras_narracion": 664,
+    "promedio_palabras_minuto": 100.86075949367088,
+    "video_grabado": false,
+    "video_url": null,
+    "escenas": [
+      {
+        "tiempo": "00:00-00:30",
+        "tema": "Infraestructura"
+      },
+      {
+        "tiempo": "00:30-01:25",
+        "tema": "Ingesta hasta OBT"
+      },
+      {
+        "tiempo": "01:25-02:15",
+        "tema": "Solicitud válida e inválida"
+      },
+      {
+        "tiempo": "02:15-02:50",
+        "tema": "Deriva y alerta"
+      },
+      {
+        "tiempo": "02:50-03:50",
+        "tema": "Reentrenamiento y pausa humana"
+      },
+      {
+        "tiempo": "03:50-04:40",
+        "tema": "Cambio de versión y rollback aislado"
+      },
+      {
+        "tiempo": "04:40-05:20",
+        "tema": "Interruptor de respaldo"
+      },
+      {
+        "tiempo": "05:20-06:05",
+        "tema": "Negocio y acceso"
+      },
+      {
+        "tiempo": "06:05-06:35",
+        "tema": "Trazabilidad y recomendación"
+      }
+    ]
+  },
+  "verificacion": {
+    "checks_aprobados": [
+      "memo_paginas",
+      "memo_sin_paginas_vacias",
+      "presentacion_paginas",
+      "presentacion_sin_paginas_vacias",
+      "anexos_paginas",
+      "anexos_sin_paginas_vacias",
+      "memo_marcador_video_honesto",
+      "memo_hitos_reentrenamiento_marcados",
+      "memo_no_confunde_promotion",
+      "prompting_factible_y_costo_beneficio",
+      "captura_ci_real_incorporada",
+      "historico_1_pagina_1_contenido_igual",
+      "historico_1_pagina_2_contenido_igual",
+      "historico_2_pagina_1_contenido_igual",
+      "historico_2_pagina_2_contenido_igual",
+      "historico_2_pagina_3_contenido_igual",
+      "historico_2_pagina_4_contenido_igual",
+      "historico_2_pagina_5_contenido_igual",
+      "historico_2_pagina_6_contenido_igual",
+      "historico_3_pagina_1_contenido_igual",
+      "historico_3_pagina_2_contenido_igual",
+      "historico_3_pagina_3_contenido_igual",
+      "historico_3_pagina_4_contenido_igual",
+      "historico_3_pagina_5_contenido_igual",
+      "historico_3_pagina_6_contenido_igual",
+      "anexo_incluye_ultimo_hito",
+      "ocho_despachos_control",
+      "cupos_iguales_por_lote",
+      "agregado_final_sin_doble_conteo",
+      "tp_fp_control",
+      "adelanto_redondeado_por_edicion",
+      "api_ejemplo_completo",
+      "api_propuestas_reales",
+      "guion_sintaxis_shell",
+      "guion_python_compila",
+      "guion_menor_siete_minutos",
+      "preparacion_conservada",
+      "memo_con_margenes"
+    ],
+    "visual": {
+      "memo_paginas": 12,
+      "presentacion_diapositivas": 12,
+      "anexos_nuevos_paginas": [
+        1,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33
+      ],
+      "historicos": "Mismos streams de contenido; vista general de las 14 paginas originales."
+    },
+    "api_demo": "200 y 422 reales; modelo publicado, SQLite aislado, IDs sinteticos, sin escritura Snowflake",
+    "nuevos_entrenamientos_tuning_llm": false
+  },
+  "negocio": {
+    "unidad": "matricula-asignatura",
+    "benchmark": "2014J previamente inspeccionado; ocho despachos, no semestres independientes",
+    "cupos": 920,
+    "fail_base": 1947,
+    "tp_longitudinal": 420,
+    "tp_estatico": 314,
+    "tp_netos_adicionales": 106,
+    "mejora_relativa": 0.33757961783439483,
+    "fail_evitados_observados": null,
+    "tutorias_realizadas_observadas": null,
+    "ahorro_observado": null,
+    "presupuesto": "30% hipotetico por edicion: adelanto274, saldo646",
+    "por_lote": [
+      {
+        "lote": "L01",
+        "corte": 14,
+        "cupos_acumulados": 33,
+        "tp_longitudinal": 19,
+        "tp_estatico": 13,
+        "fp_longitudinal": 14
+      },
+      {
+        "lote": "L02",
+        "corte": 14,
+        "cupos_acumulados": 90,
+        "tp_longitudinal": 50,
+        "tp_estatico": 41,
+        "fp_longitudinal": 40
+      },
+      {
+        "lote": "L03",
+        "corte": 14,
+        "cupos_acumulados": 67,
+        "tp_longitudinal": 26,
+        "tp_estatico": 26,
+        "fp_longitudinal": 41
+      },
+      {
+        "lote": "L04",
+        "corte": 14,
+        "cupos_acumulados": 36,
+        "tp_longitudinal": 26,
+        "tp_estatico": 17,
+        "fp_longitudinal": 10
+      },
+      {
+        "lote": "L05",
+        "corte": 28,
+        "cupos_acumulados": 136,
+        "tp_longitudinal": 66,
+        "tp_estatico": 43,
+        "fp_longitudinal": 70
+      },
+      {
+        "lote": "L06",
+        "corte": 28,
+        "cupos_acumulados": 363,
+        "tp_longitudinal": 172,
+        "tp_estatico": 132,
+        "fp_longitudinal": 191
+      },
+      {
+        "lote": "L07",
+        "corte": 28,
+        "cupos_acumulados": 274,
+        "tp_longitudinal": 105,
+        "tp_estatico": 85,
+        "fp_longitudinal": 169
+      },
+      {
+        "lote": "L08",
+        "corte": 28,
+        "cupos_acumulados": 147,
+        "tp_longitudinal": 77,
+        "tp_estatico": 54,
+        "fp_longitudinal": 70
+      }
+    ]
+  },
+  "linaje": {
+    "fuentes_agregadas_sha256": {
+      "pset_3/docs/modelos/resultados.json": "769c91709b35eff388c187d13935e00bd63e52455038dba7bd0ab0b4d234e444",
+      "pset_3/docs/negocio/finalistas.json": "061b81ba86a37f5ae1f484532be5f6a9126487e4b82cbac2e29fc0cf3ae6c80f",
+      "pset_3/docs/seleccion/evaluacion.json": "318bac537899821648054b638bd363f3b940ddaa357b4ff54bbd7556ae1f1358",
+      "pset_3/docs/anticipacion/resultados.json": "ca2725800e774928b39bd28bf648bafde1137e5ed2e1f802b361c8024ccb0080",
+      "pset_3/docs/eda/resumen.json": "ff9230f2bd4684b69459e1be155079d3914887fe07fb27845c8d9ce7bbd21f06",
+      "proyecto_final/docs/monitoreo.csv": "cd0cdfc00cad0ef5b6d1099d3deda07c882873e4eede97b610babbd1250f781a",
+      "proyecto_final/docs/alertas.csv": "d4808661d428419b9830162e140f7e7874e6aaa4b7c392ae7369da2a0fe962da",
+      "proyecto_final/docs/reentrenamientos.csv": "eaad34d7ceee857cfd470891bdff8269c2e7482ebf97ecc33e41fe46b2f154fa",
+      ".local/negocio/lotes.json": "bd9bd7044d2a5fb4703c3f36e2227fecd66eb38516ed8b0a76654d0325f45fb7",
+      ".local/negocio/meta.json": "04985c6e7133b0370e313946df3a046d338fb50705d26bad2ab9dd9369815aa0",
+      ".local/negocio/presupuestos.json": "9ecb9e67920aac3d731bcea77809e18d9555f6b6712c289ae88b151b6e9a16de",
+      ".local/etica/subgrupos.json": "24bce1db2db5d6ced02cfbf04c9a6efeddb1f93d4ae8a023d3991f37864ca7ef",
+      ".local/etica/brechas.json": "e0b50bda31f0f8d2cab58c9f3c6a4aa914f59c92fb84e7b8ecf60005dd27aed0"
+    },
+    "ingesta_ejecucion": "2sQlV9Hreu3bWXWi7MtYRE",
+    "obt_sha256_por_corte": {
+      "28": "ad7fc9fb0696d2c1a45da251d7b5432da155741ef1ad31bdb1e3601689cf6af0",
+      "14": "106029f6653ce3ce8bc2ac3ca528bd3e6e2ec7b5c999e8c7a910e148306de765",
+      "42": "6cd15278feedecdf2f7d6cc6e0dc6bec406c91b45b89e021b4a7456a46cf873c",
+      "56": "05d4f7c0a3e29e3ef7a4b3885f8b4a07605958e6c9a580c5bb3a536b2dd0228b"
+    },
+    "imagen_activa": "ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:c8c922877eeaa909c9463deaa877e3908451e1e373e5b9eeff10ed7b58ab5c96",
+    "preparacion_pipeline_sha256": "2e45d564d37ff34de666adaa09c5d440cd61f7c7c16378ea354cf9cbbd3e10be"
+  },
+  "pendientes": [
+    "Notebooks 01-07 con salidas y Restart/Run All",
+    "Pitch historico en PDF",
+    "Grabar/publicar video y verificar acceso",
+    "Insertar URL real en el memo",
+    "Auditoria final de la rubrica"
+  ]
+}

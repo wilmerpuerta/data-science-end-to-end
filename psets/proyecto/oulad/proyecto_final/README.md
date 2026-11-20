@@ -1,6 +1,17 @@
 # Proyecto final: apoyo académico preventivo
 
-Estado: **servicio batch implementado y verificado**, con modelos específicos de semanas 2 y 4, contrato Pydantic, registro transaccional, respaldo, fixtures y CI. La carga Snowflake y los ocho despachos de control quedaron verificados (18.323 predicciones únicas). Monitoreo, deriva y tablero quedaron verificados con controles y un escenario sintético separado. El challenger se reentrenó, comparó y rechazó por decisión humana; Kestra terminó en SUCCESS y el champion permanece en versión 1. La imagen GHCR y la recarga/rollback técnica quedaron verificadas. El Compose único ya integra Kestra/PostgreSQL, dbt, Spark, MLflow propio, ambas API, monitor y tablero. La ingesta completa y la igualdad de la OBT frente al PSet 02 están verificadas. Notebooks y comunicación finales siguen pendientes.
+Estado: **servicio batch implementado y verificado**, con modelos específicos de semanas 2 y 4, contrato Pydantic, registro transaccional, respaldo, fixtures y CI. La carga Snowflake y los ocho despachos de control quedaron verificados (18.323 predicciones únicas). Monitoreo, deriva y tablero quedaron verificados con controles y un escenario sintético separado. El challenger se reentrenó, comparó y rechazó por decisión humana; Kestra terminó en SUCCESS y el champion permanece en versión 1. La imagen GHCR y la recarga/rollback técnica quedaron verificadas. El Compose único ya integra Kestra/PostgreSQL, dbt, Spark, MLflow propio, ambas API, monitor y tablero. La ingesta completa y la igualdad de la OBT frente al PSet 02 están verificadas. El memo técnico (12 páginas), la presentación ejecutiva (12 diapositivas), sus anexos y el guion de video están preparados para revisión. Quedan los notebooks finales, el pitch histórico en PDF y grabar/publicar el video e insertar su URL.
+
+## Documentos de comunicación
+
+- [Memo técnico: 12 páginas](docs/PSet4_memo_Puerta_Wilmer.pdf), con [fuente de texto](docs/memo.md).
+- [Presentación ejecutiva: 12 diapositivas](docs/PSet4_presentacion_Puerta_Wilmer.pdf), con [contenido editable](docs/presentacion.md).
+- [Anexos: memos PSet 01-03 y registro de cambios](docs/PSet4_anexos_Puerta_Wilmer.pdf).
+- [Guion y comandos de la demo: 6:35 minutos](docs/guion_video.md), con 25 segundos de margen hasta el límite de 7:00.
+- [Ejemplo completo de API y respuesta 422](docs/ejemplo_api.json), ejecutado con IDs sintéticos en un servicio aislado.
+- [Verificación documental y procedencia](docs/evidencia_comunicacion.json), [captura real de Actions](docs/github_actions.png), [arquitectura](docs/arquitectura.png) y [modelo dimensional](docs/modelo_dimensional.png).
+
+El guion no es una grabación: el video y su URL siguen pendientes. La narración y los resultados separan el rechazo real del challenger de la recarga/rollback mecánica en un nombre de prueba. El memo no declara el proyecto completo mientras falten los notebooks y la demo publicada. Los nombres `Puerta_Wilmer` mantienen la convención indicada por el autor; la rúbrica dice dos apellidos y no se presume una excepción docente.
 
 ## Objetivo de negocio
 
@@ -102,7 +113,7 @@ La referencia CI se registra como `fase=preparacion_servicio`, sin entrenamiento
 
 `.github/workflows/ci.yml` instala las dependencias fijadas, prueba con fixtures sin MLflow/Snowflake, construye la imagen y prueba dentro del contenedor en cada push/PR. En el fork del curso se mantiene una copia idéntica en `.github/workflows/ci.yml` de la raíz real del repositorio; GitHub no ejecuta por sí solo workflows dentro de una carpeta anidada. La prueba general del repositorio conserva el núcleo portable; las pruebas de fixtures nativas se ejecutan en el job dedicado con sus versiones y `PSET4_FULL_TESTS=1`.
 
-Pendientes: notebooks 01-07 reproducibles, cierre de CSV y trazabilidad, pitch histórico en PDF, memo, presentación y video. [Cambios y evidencias](docs/cambios.md) distingue lo comprobado de lo pendiente.
+Los cinco CSV y la trazabilidad operativa están publicados. Pendientes: notebooks 01-07 reproducibles, pitch histórico en PDF, grabación/publicación del video y su URL en el memo. [Cambios y evidencias](docs/cambios.md) distingue lo comprobado de lo pendiente.
 
 Referencias técnicas: [pruebas del ciclo de vida de FastAPI](https://fastapi.tiangolo.com/advanced/testing-events/), [validación estricta de Pydantic](https://pydantic.dev/docs/validation/latest/concepts/strict_mode/) y [alias del Model Registry](https://www.mlflow.org/docs/latest/registry/).
 
@@ -175,7 +186,7 @@ cp .local/predicciones-escenarios.csv docs/predicciones.csv
 
 Para reconstruir deliberadamente la referencia, restaurar el snapshot y los OOF privados originales en `.local/modelado/` y ejecutar: `PYTHONPATH=. .venv/bin/python -m monitoreo.deriva --preparar-referencia .local/modelado`. La ejecución ordinaria usa la referencia publicada y funciona sin importar módulos históricos.
 
-El reentrenamiento reserva L08 y excluye todas sus personas de la ventana. No mezcla control y escenario sintético como muestras independientes. La auditoría de equidad y la evaluación de negocio con escenario del 30 % están documentadas; permanecen pendientes los notebooks finales y la comunicación.
+El reentrenamiento reserva L08 y excluye todas sus personas de la ventana. No mezcla control y escenario sintético como muestras independientes. La auditoría de equidad y la evaluación de negocio con escenario del 30 % están documentadas; el memo, la presentación y el guion están preparados; permanecen pendientes los notebooks finales y el video publicado.
 
 
 ## Reentrenamiento y revisión humana
@@ -243,7 +254,7 @@ La auditoría original por discapacidad declarada y sus criterios de revisión e
 
 `PSET4_FORCE_FALLBACK=1` activa, al recrear API/API sintética, una cola administrativa sin estimación individual. La respuesta añade `puntuacion_individual=false` y un mensaje operativo; el valor numérico técnico del Dummy no significa riesgo cero. Las respuestas previas permanecen inmutables. [Procedimiento para operar el interruptor](docs/guia_usuario.md#operación-del-respaldo-y-revisión-de-necesidades).
 
-El análisis se reproduce con `python -m monitoreo.deriva --etica <directorio_privado> --codigo-etica <SHA_DE_CODIGO>` dentro del worker con credenciales Snowflake; usa únicamente controles y etiquetas ya maduras. La evaluación de negocio quedó calculada; notebooks y comunicación siguen pendientes; el Compose único ya está verificado.
+El análisis se reproduce con `python -m monitoreo.deriva --etica <directorio_privado> --codigo-etica <SHA_DE_CODIGO>` dentro del worker con credenciales Snowflake; usa únicamente controles y etiquetas ya maduras. La evaluación de negocio quedó calculada; el Compose único está verificado y los documentos de comunicación preparados; notebooks y video publicado siguen pendientes.
 
 
 ### Despliegue ético y comprobación del interruptor (histórico)
@@ -252,7 +263,7 @@ La imagen usada en la demostración ética fue `ghcr.io/wilmerpuerta/oulad-proye
 
 La prueba HTTP utilizó un servicio aislado con esa misma imagen y `PSET4_FORCE_FALLBACK` en secuencia 0→1→0, recreando el contenedor al cambiar la configuración. Produjo 160 predicciones sintéticas: normal (40), respaldo en semanas 2/4 (80), y reactivado (40). El respaldo reservó 1+3 cupos de su propia cohorte, mantuvo la validación 422 y devolvió las respuestas anteriores sin recalcular. La reactivación tampoco reemplazó respuestas históricas de respaldo. La puntuación técnica constante quedó marcada como no individual. La instancia de prueba se retiró y sus datos no entran a Snowflake ni a los CSV de negocio.
 
-El champion sigue en versión 1, el candidato de semana 4 continúa rechazado y el respaldo no está forzado en los servicios operativos. La señal de L06 queda para revisión académica; no se declara una aprobación institucional de equidad. El resultado de negocio y los escenarios presupuestarios están documentados; siguen pendientes notebooks y cierre de integración/comunicación.
+El champion sigue en versión 1, el candidato de semana 4 continúa rechazado y el respaldo no está forzado en los servicios operativos. La señal de L06 queda para revisión académica; no se declara una aprobación institucional de equidad. El resultado de negocio y los escenarios presupuestarios están documentados; la integración está verificada y los documentos de comunicación preparados; siguen pendientes notebooks y video publicado.
 
 
 ## Resultado de negocio
@@ -266,7 +277,7 @@ La evaluación se reproduce con `python -m src.reentrenar --evaluar-negocio <dir
 
 Imagen utilizada en la etapa de negocio: `ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:ee4e0da32b14bb5254463229dd40c31483118ef57360657a84ece166cff4b9f6`, commit `eb8da65b6a7fcaa8f9ec4a19a2fcfbf9cfd18119`, [CD aprobado](https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44734850139). Las 69 pruebas completas aprobaron en CI y en la imagen publicada. Los cuatro servicios quedaron healthy por digest; modelos y conteos durables se conservaron. El tablero se verificó con control y deriva: 106 y 54 Fail adicionales netos, respectivamente, sin escribir en Snowflake. [Guía para consultar e interpretar el tablero](docs/guia_usuario.md#comparación-de-negocio-en-el-tablero).
 
-La ingesta, Spark y MLflow ya quedaron integrados en el Compose único. Siguiente etapa: notebooks reproducibles y entregables de comunicación. La evaluación retrospectiva no sustituye la validación institucional ni un piloto de impacto.
+La ingesta, Spark y MLflow ya quedaron integrados en el Compose único. Siguiente etapa: notebooks reproducibles y grabar/publicar la demo a partir del guion. La evaluación retrospectiva no sustituye la validación institucional ni un piloto de impacto.
 
 ## Infraestructura única e ingesta reproducible
 
@@ -294,7 +305,7 @@ El flujo no aprende imputaciones ni modifica las features del PSet 03. Raw prese
 
 Para esta integración se hizo un backup SQLite online consistente y una copia independiente de todos los artefactos a los volúmenes propios `mlflow-backend` y `mlflow-artifacts`. Se comprobaron hashes de archivos y de tablas antes de cambiar la conexión. Se conservaron IDs de experimentos/runs, versiones, firmas, tags y aliases. Los servicios históricos y sus volúmenes se mantuvieron separados. Una migración futura debe hacerse hacia volúmenes vacíos y con un respaldo verificado; no debe superponer bases activas ni reemplazar alias por conveniencia.
 
-La conservación del Registry no es un nuevo entrenamiento ni una validación independiente. La integración de infraestructura tampoco constituye evidencia causal del efecto de tutorías. Para reconstruir el sistema en otra máquina hacen falta los datos originales, acceso de servicio a Snowflake y el registro/restauración del modelo; los notebooks y entregables de comunicación pendientes se identifican expresamente.
+La conservación del Registry no es un nuevo entrenamiento ni una validación independiente. La integración de infraestructura tampoco constituye evidencia causal del efecto de tutorías. Para reconstruir el sistema en otra máquina hacen falta los datos originales, acceso de servicio a Snowflake y el registro/restauración del modelo; los notebooks y el video publicado pendientes se identifican expresamente.
 
 
 ### Ejecución integrada comprobada
@@ -310,4 +321,4 @@ Referencia activa y fijada en `.env.example`: `ghcr.io/wilmerpuerta/oulad-proyec
 
 Los nueve servicios quedaron healthy con un solo comando de Compose. API, API sintética, monitor, tablero y MLflow usan el mismo digest y revisión OCI. Los tres ejecutores incorporan el `src/datos.py` verificado en sus imágenes y no montan código de carpetas históricas. Las credenciales de esta instalación están en `.local/credenciales/` con permisos restringidos, fuera de Git y del build, manteniendo los originales. Los archivos originales OULAD se mantienen como entrada de solo lectura en la ruta configurable.
 
-La verificación conservó los dos SQLite operativos, las tablas del Registry, champions versión 1 y candidato rechazado. El tablero siguió mostrando 106 y 54 Fail adicionales netos en control y deriva, respectivamente; la ingesta no cambió el resultado del modelo. La restauración o registro en un Registry nuevo, los notebooks 01-07 y los entregables de comunicación siguen siendo parte del cierre pendiente; no se declara completada toda la rúbrica.
+La verificación conservó los dos SQLite operativos, las tablas del Registry, champions versión 1 y candidato rechazado. El tablero siguió mostrando 106 y 54 Fail adicionales netos en control y deriva, respectivamente; la ingesta no cambió el resultado del modelo. La restauración o registro en un Registry nuevo, los notebooks 01-07 y la publicación del video siguen siendo parte del cierre pendiente; no se declara completada toda la rúbrica.

@@ -1,6 +1,6 @@
 # Plan de trabajo del PSet 04
 
-Estado: API batch y fixtures verificadas, 84 pruebas completas y verificación en Docker. La integración es parcial: dbt/Spark y memos presentes; API, Snowflake operativo y ocho lotes de control ejecutados con Kestra. Monitoreo, deriva, alertas y tablero verificados; challenger comparado y rechazado por decisión humana; CD/GHCR y rollback técnico verificados; auditoría ética y respaldo demostrados; evaluación de negocio y escenarios presupuestarios completados; Compose único y fuente→OBT verificados; notebooks y comunicación pendientes.
+Estado: API batch y fixtures verificadas, 84 pruebas completas y verificación en Docker. dbt/Spark y memos presentes; API, Snowflake operativo y ocho lotes de control ejecutados con Kestra. Monitoreo, deriva, alertas y tablero verificados; challenger comparado y rechazado por decisión humana; CD/GHCR y rollback técnico verificados; auditoría ética y respaldo demostrados; evaluación de negocio y escenarios presupuestarios completados; Compose único y fuente→OBT verificados; memo, presentación, anexos y guion preparados; notebooks, pitch histórico y video publicado pendientes.
 
 ## 0. Cerrar el protocolo operativo
 
@@ -67,3 +67,8 @@ Aceptación: evidencia de subgrupos, retirada y respaldo; tablas y gráficos por
 Ejecutar Restart/Run All de los notebooks finales. Exportar los cinco CSV de evidencia y la trazabilidad hasta Gold, snapshot, run y versión. Preparar documento técnico de hasta 12 páginas más anexos, presentación ejecutiva de 10-12 diapositivas y demo de hasta siete minutos con enlace accesible desde el memo.
 
 Aceptación: reproducción desde fuente hasta reentrenamiento; CI/CD e imagen publicados; video con ingesta, API válida/422, rollback, deriva, pausa humana e interruptor; auditoría literal de la rúbrica antes del cierre.
+
+
+### Avance de comunicación — 20-nov-2026
+
+Preparados para revisión: memo técnico de 12 páginas, presentación ejecutiva de 12 diapositivas, anexos con memos anteriores/cambios y guion de 6:35. Se verificaron legibilidad, cifras y ejemplos reales 200/422 aislados, y se incorporó captura auténtica de CI/CD. El guion preserva el rechazo del challenger y demuestra la recarga mecánica por separado. Faltan notebooks finales Restart/Run All, pitch histórico PDF, grabación/publicación de la demo y URL accesible dentro del memo; no se declara cerrado el paso 8.
