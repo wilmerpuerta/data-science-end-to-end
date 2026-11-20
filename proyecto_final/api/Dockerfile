@@ -3,6 +3,8 @@ ENV PYTHONPATH=/app PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 OMP_NUM_THREADS
 WORKDIR /app
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir --only-binary=:all: --require-hashes -r /tmp/requirements.txt && pip check
+COPY requirements.txt ./requirements.txt
+COPY api/Dockerfile ./api/Dockerfile
 COPY api/main.py api/esquemas.py ./api/
 COPY src/datos.py src/pipeline.py src/reentrenar.py ./src/
 COPY tests/test_contrato.py tests/test_modelo.py tests/test_comportamiento.py ./tests/

@@ -273,7 +273,7 @@ def preparar_recursos(origen_local):
     historico=frames[28].drop(columns=['p_fail']).copy()
     path=folder/'historico.parquet';historico.to_parquet(path,index=False)
     estaticos={str(c):json.loads((origen_local/'anticipacion'/f'boosting-{c}-estatico.json').read_text())['run_id'] for c in [14,28]}
-    codigo={str(p.relative_to(ROOT)):sha256(p) for p in [ROOT/'src/reentrenar.py',ROOT/'src/pipeline.py',ROOT/'api/esquemas.py',ROOT/'requirements.txt']}
+    codigo={str(p.relative_to(ROOT)):sha256(p) for p in [ROOT/'src/reentrenar.py',ROOT/'src/pipeline.py',ROOT/'api/esquemas.py',ROOT/'requirements.txt',ROOT/'api/Dockerfile']}
     info={'referencia_id':ref['id'],'snapshot_id':snapshot['id'],'historico_sha256':sha256(path),
           'filas_historico':len(historico),'estaticos':estaticos,'codigo_sha256':codigo,
           'git_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()}
