@@ -50,7 +50,7 @@ Los escenarios económicos incluirán efectividad cero. Si se presenta una estim
 
 ## Continuidad del modelado
 
-El champion del PSet 03 es HGB al día 56. Existen ensayos exploratorios de desarrollo para días 14 y 28, con parámetros de los finalistas, que sirven como antecedente. La selección de un corte temprano no significa que esos ensayos sean ya un modelo operativo registrado ni evidencia prospectiva independiente.
+El champion histórico del PSet 03 es HGB al día 56 y permanece intacto. Los modelos de semanas 2 y 4 ya se prepararon y registraron con nombres propios, snapshots y runs, y sus champions están en versión 1. El candidato reentrenado de semana 4 fue rechazado. Se reutiliza el benchmark 2014J ya inspeccionado, sin afirmar validación prospectiva nueva.
 
 Cada versión que produzca asignaciones deberá prepararse y validarse para su corte, conservar la preparación correspondiente y registrar datos, ventana, corte, código y parámetros. Se reutilizará el trabajo válido anterior sin repetir el tuning por defecto. Se preservarán los resultados y versiones históricos del PSet 03.
 
@@ -63,10 +63,10 @@ El proceso reactivo basado en reprobaciones anteriores solo podrá reconstruirse
 | Batch y apoyo durante el período actual | Acordados. |
 | Bolsas reactiva vigente y preventiva diferenciadas | Acordadas como diseño. |
 | Adelanto desde bolsa reactiva futura | Solicitud propuesta: hasta 30 % de cupos futuros; base y autorización institucional pendientes. |
-| Cortes funcionales | Semanas 2 y 4; reparto de cupos y política de asignación pendientes. |
+| Cortes funcionales | Semanas 2 y 4; 25/75 experimental operativo; variantes de una/dos rondas evaluadas, elección institucional pendiente. |
 | Unidad, costo y capacidad de atención | Prototipo: matrícula-asignatura y referencia experimental del 10 %; costos, horas y capacidad institucional pendientes. |
-| Márgenes de contacto y tutoría | Pendientes; los 21 días del PSet 03 eran ilustrativos. |
-| Disponibilidad temporal de etiquetas y datos | Por verificar; no inventar fechas de publicación. |
-| Umbrales de monitoreo, promoción y retirada | Por predeclarar antes de observar la simulación final. |
+| Márgenes de contacto y tutoría | Márgenes OULAD calculados por lote; plazo institucional pendiente. Los 21 días del PSet 03 eran ilustrativos. |
+| Disponibilidad temporal de etiquetas y datos | Verificados por reloj relativo: cierre+14 es un supuesto; fechas reales de publicación desconocidas. |
+| Umbrales de monitoreo, promoción y retirada | Protocolos de monitoreo, promoción, retirada y negocio predeclarados; referencias y resultados en proyecto_final/docs/cambios.md. |
 
 El análisis de FP, la interpretación del 30 % y las condiciones para elegir el reparto se detallan en [cortes y presupuesto](cortes-y-presupuesto.md).

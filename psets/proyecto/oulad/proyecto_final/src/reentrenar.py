@@ -681,6 +681,223 @@ def solicitar_ciclo(repo,execution_id):
     evento(repo,'SOLICITADO',result);return result
 
 
+# Protocolo fijado antes de calcular la comparación operativa y presupuestaria.
+PROTOCOLO_NEGOCIO = {
+    'version':'negocio-operativo-1', 'principal':'oulad-2014j-control-v1',
+    'estaticos':{'14':'096e4f590ff04551b5d8fa3d196713a7','28':'6e0b3d2b12cf481eb45221c7349b3dcb'},
+    'meta_relativa':'1/10', 'capacidad_referencia':'1/10', 'reparto_referencia':'1/4',
+    'tiempos':{'dos_rondas':'1/4','solo_semana2':'1','solo_semana4':'0'},
+    'adelanto':'3/10','bolsa_reactiva_futura':'Supuesto ilustrativo: igual K por edición que el presupuesto preventivo de referencia; no es presupuesto observado.',
+    'financiacion':['solo_adelanto','preventiva_mas_adelanto'],
+    'costos':'Una unidad por cupo preventivo y reactivo, solo para el escenario contable; costos monetarios y horas reales desconocidos.',
+    'asistencia':['0','1'],'efectividad':['0','1/4','1/2','1'],'probabilidad_reactiva':['0','1/2','1'],
+    'regla_reactiva':'Solo tras cierre+14 simulado, escoger Fail ya conocidos hasta K por edición; 0 cobertura preventiva. No reconstruye reprobaciones del semestre anterior.',
+    'sin_accion':'No propone apoyo preventivo ni reactivo para la cohorte evaluada; no implica eliminar los canales institucionales normales.',
+    'limitacion':'Comparación retrospectiva sobre 2014J ya inspeccionado; no prueba causalidad ni ahorro. Planes separados, cupos por matrícula, personas únicas aparte. Ninguna tutoría se observa.',
+    'reentrenamiento':'Marcar disparador L07 sintético, comparación L08 y rechazo; no sustituir scores registrados ni atribuir mejora operacional a un candidato no promovido.',
+}
+
+
+def priorizar_presupuesto(filas,base,corte,previos,presupuesto,fraccion):
+    """Ediciones completas y presupuestos exactos; no crea cupos por fragmento."""
+    from fractions import Fraction
+    from collections import Counter
+    from api.esquemas import Candidato,PoliticaCupos,priorizar_cohorte
+    counts=Counter(base.values())
+    if set(presupuesto)!=set(counts) or any(type(k) is not int or not 0<=k<=counts[e] for e,k in presupuesto.items()):
+        raise ValueError('Presupuesto inválido por edición')
+    seleccionadas=dict(previos);pred=[]
+    for e,n in sorted(counts.items()):
+        marco={k:v for k,v in base.items() if v==e};actual=[r for r in filas if r['edicion']==e]
+        p=PoliticaCupos(capacidad=(Fraction(presupuesto[e],n) if presupuesto[e] else Fraction(1,2*n)),fraccion_semana2=Fraction(fraccion),version='negocio-contrafactual-1')
+        result=priorizar_cohorte([Candidato(r['matricula'],r['edicion'],r['persona'],float(r['riesgo'])) for r in actual],
+            cohorte_base=marco,elegibles_actuales={r['matricula']:r['edicion'] for r in actual},
+            seleccionados_previos={k:v for k,v in previos.items() if v==e},corte_dias=corte,politica=p)
+        pred+=result['predicciones']
+        seleccionadas.update({r['matricula']:r['edicion'] for r in result['predicciones'] if r['consume_cupo_nuevo']})
+    return seleccionadas,pred
+
+
+def escenario_bolsas(fail,tp_antes,tp_despues,reactiva,adelanto,asistencia,efectividad,prob_reactiva):
+    """Capacidades y demanda esperada por edición; no son gastos ni Fail evitados."""
+    from fractions import Fraction
+    if not all(set(x)==set(fail) for x in [tp_antes,tp_despues,reactiva,adelanto]):raise ValueError('Ediciones incompatibles')
+    a,e,q=map(Fraction,[asistencia,efectividad,prob_reactiva])
+    if not all(0<=x<=1 for x in [a,e,q]):raise ValueError('Probabilidades fuera de rango')
+    prev=post=0;resto=0;evitados=0
+    for ed,f in fail.items():
+        v=[f,tp_antes[ed],tp_despues[ed],reactiva[ed],adelanto[ed]]
+        if any(type(x) is not int or x<0 for x in v) or max(tp_antes[ed],tp_despues[ed])>f or adelanto[ed]>reactiva[ed]:raise ValueError('Saldo o conteos inválidos')
+        demanda0=q*(f-a*e*tp_antes[ed]);demanda1=q*(f-a*e*tp_despues[ed]);saldo=reactiva[ed]-adelanto[ed]
+        prev+=max(0,demanda0-reactiva[ed]);post+=max(0,demanda1-saldo);resto+=max(0,saldo-demanda1)
+        evitados+=a*e*q*(tp_despues[ed]-tp_antes[ed])
+    delta=sum(tp_despues.values())-sum(tp_antes.values());movido=sum(adelanto.values())
+    return {'asistencia':str(a),'efectividad':str(e),'probabilidad_reactiva':str(q),
+        'reactiva_futura_inicial':sum(reactiva.values()),'adelanto':movido,'reactiva_futura_residual':sum(reactiva.values())-movido,
+        'demanda_no_cubierta_antes':float(prev),'demanda_no_cubierta_despues':float(post),'diferencia_no_cubierta':float(post-prev),
+        'capacidad_reactiva_sin_demanda':float(resto),'necesidad_reactiva_adicional_potencialmente_reducida':float(evitados),
+        'efectividad_equilibrio_contable':float(Fraction(movido,1)/(a*q*delta)) if a*q*delta>0 else None,
+        'bolsa_reactiva_vigente_modificada':False,'ahorro_observado':None,'fail_evitados_observados':None}
+
+
+def comparar_negocio_planes(planes):
+    """Recalcula decisiones alternativas sin usar targets para ordenar riesgo."""
+    from fractions import Fraction
+    from collections import Counter
+    from api.esquemas import evaluar_meta
+    rows=[];indices={};meta=[];finanzas=[];presupuestos=[];selecciones=[]
+    for plan_id,datos in planes.items():
+        lotes=sorted(datos['lotes'],key=lambda x:x['orden']);labels=datos['labels'];base_total={};personas={};ediciones={}
+        for l in lotes:
+            if l['corte']==14:
+                for r in l['filas']:
+                    if r['matricula'] in base_total:raise ValueError('Base duplicada')
+                    base_total[r['matricula']]=r['edicion'];personas[r['matricula']]=r['persona'];ediciones[r['matricula']]=r['edicion']
+        if not set(base_total)<=set(labels):raise ValueError('Faltan etiquetas maduras')
+        counts=Counter(base_total.values());k={e:int(n*Fraction(1,10)) for e,n in counts.items()};avance={e:int(v*Fraction(3,10)) for e,v in k.items()}
+        escenarios={'referencia':k,'solo_adelanto':avance,'preventiva_mas_adelanto':{e:k[e]+avance[e] for e in k}}
+        for ed in sorted(k):presupuestos.append({'plan_id':plan_id,'edicion':ed,'n_base':counts[ed],'k_referencia':k[ed],'reactiva_futura_supuesta':k[ed],
+            'adelanto30':avance[ed],'reactiva_futura_residual':k[ed]-avance[ed],'preventiva_con_adelanto':k[ed]+avance[ed]})
+        for capacidad,presupuesto in escenarios.items():
+            tiempos=PROTOCOLO_NEGOCIO['tiempos'] if capacidad=='referencia' else {'dos_rondas':'1/4'}
+            for tiempo,fraccion in tiempos.items():
+                politicas=['longitudinal','estatico','administrativo']+(['reactiva','sin_accion'] if capacidad=='referencia' and tiempo=='dos_rondas' else [])
+                for politica in politicas:
+                    estados={};items=[]
+                    for lote in lotes:
+                        coh=lote['cohorte_id'];cut=lote['corte'];base=lote['manifiesto']['base'];prev=estados.get(coh,{})
+                        actual=lote['filas'];p={ed:presupuesto[ed] for ed in set(base.values())}
+                        scores=[r['riesgo_longitudinal'] if politica=='longitudinal' else (r['riesgo_estatico'] if politica=='estatico' else 0.) for r in actual]
+                        if politica in ['reactiva','sin_accion']:p={ed:0 for ed in p}
+                        seleccion,pred=priorizar_presupuesto([{**r,'riesgo':s} for r,s in zip(actual,scores)],base,cut,prev,p,fraccion)
+                        estados[coh]=seleccion;nuevas={r['matricula'] for r in pred if r['consume_cupo_nuevo']}
+                        if capacidad=='referencia' and tiempo=='dos_rondas' and politica=='longitudinal':
+                            observado={r['matricula']:(r['decision_original'],r['consume_original']) for r in actual}
+                            assert all(observado[r['matricula']]==(r['decision'],r['consume_cupo_nuevo']) for r in pred),'La reproducción no coincide con las decisiones originales'
+                        tarde={}
+                        if politica=='reactiva' and cut==28:
+                            for ed in set(base.values()):
+                                ids=sorted(m for m,v in base.items() if v==ed and labels[m]=='Fail')[:presupuesto[ed]]
+                                tarde.update({m:ed for m in ids})
+                        tiempos_n=[lote['fuentes'][m]['fin_periodo']-lote['dia'] for m in nuevas]
+                        row={'plan_id':plan_id,'capacidad':capacidad,'tiempo':tiempo,'politica':politica,'cohorte_id':coh,'lote_id':lote['lote_id'],'corte':cut,
+                            'cupos_disponibles':sum(presupuesto[e] for e in set(base.values())),**metricas_negocio(seleccion,labels,base),
+                            'propuestas_nuevas':len(nuevas),'tp_nuevos':sum(labels[m]=='Fail' for m in nuevas),
+                            'personas_propuestas':len({personas[m] for m in seleccion}),'elegibles':len(actual),
+                            'proponer_tutoria':sum(r['decision']=='proponer_tutoria' for r in pred),'tutoria_ya_propuesta':sum(r['decision']=='tutoria_ya_propuesta' for r in pred),
+                            'seguimiento':sum(r['decision']=='seguimiento' for r in pred),'anticipacion_min_dias':min(tiempos_n) if tiempos_n else None,
+                            'anticipacion_max_dias':max(tiempos_n) if tiempos_n else None,'tp_reactivos_posteriores':len(tarde) if cut==28 and politica in ['reactiva','sin_accion'] else None,
+                            'personas_reactivas_posteriores':len({personas[m] for m in tarde}) if cut==28 and politica=='reactiva' else None,
+                            'reentrenamiento':'disparador_etiquetado_L07' if plan_id.endswith('deriva-v1') and lote['lote_id']=='L07' else ('comparacion_rechazada_L08' if plan_id.endswith('deriva-v1') and lote['lote_id']=='L08' else None)}
+                        row['fp_nuevos']=row['propuestas_nuevas']-row['tp_nuevos'];row['fn']=row['fail_base']-row['tp'];row['precision_nuevas']=row['tp_nuevos']/len(nuevas) if nuevas else None
+                        key=(plan_id,capacidad,tiempo,politica,coh,cut);indices[key]={'row':row,'sel':seleccion,'nuevas':nuevas,'base':base,'tarde':tarde}
+                        rows.append(row);items.append(indices[key])
+                    for cut in [14,28]:
+                        subset=[i for i in items if i['row']['corte']==cut];sel={m:e for i in subset for m,e in i['sel'].items()};new=set().union(*(i['nuevas'] for i in subset));late={m:e for i in subset for m,e in i['tarde'].items()}
+                        row={'plan_id':plan_id,'capacidad':capacidad,'tiempo':tiempo,'politica':politica,'cohorte_id':'GLOBAL','lote_id':'GLOBAL','corte':cut,
+                            'cupos_disponibles':sum(presupuesto.values()),**metricas_negocio(sel,labels,base_total),
+                            'propuestas_nuevas':len(new),'tp_nuevos':sum(labels[m]=='Fail' for m in new),'fp_nuevos':sum(labels[m]!='Fail' for m in new),
+                            'personas_propuestas':len({personas[m] for m in sel}),'elegibles':sum(i['row']['elegibles'] for i in subset),
+                            'tp_reactivos_posteriores':len(late) if cut==28 and politica in ['reactiva','sin_accion'] else None}
+                        row['fn']=row['fail_base']-row['tp'];row['precision_nuevas']=row['tp_nuevos']/len(new) if new else None
+                        key=(plan_id,capacidad,tiempo,politica,'GLOBAL',cut);indices[key]={'row':row,'sel':sel,'nuevas':new,'base':base_total,'tarde':late};rows.append(row)
+        for key,data in list(indices.items()):
+            if key[0]!=plan_id or key[3]!='longitudinal':continue
+            other=indices[(key[0],key[1],key[2],'estatico',key[4],key[5])];a,b=data['row'],other['row']
+            if a['cupos']!=b['cupos']:raise ValueError('Cupos efectivos no comparables')
+            gained={m for m in set(data['sel'])-set(other['sel']) if labels[m]=='Fail'};lost={m for m in set(other['sel'])-set(data['sel']) if labels[m]=='Fail'}
+            assert len(gained)-len(lost)==a['tp']-b['tp']
+            meta.append({k:a[k] for k in ['plan_id','capacidad','tiempo','cohorte_id','lote_id','corte']}|evaluar_meta(b['tp'],a['tp'],a['fail_base'],a['cupos'])|
+                        {'tp_ganados':len(gained),'tp_perdidos':len(lost),'personas_en_tp_ganados':len({personas[m] for m in gained})})
+        fails={ed:sum(labels[m]=='Fail' for m,v in base_total.items() if v==ed) for ed in k}
+        for capacidad in ['solo_adelanto','preventiva_mas_adelanto']:
+            for politica in ['longitudinal','estatico','administrativo']:
+                after=indices[(plan_id,capacidad,'dos_rondas',politica,'GLOBAL',28)]['sel']
+                before=indices[(plan_id,'referencia','dos_rondas',politica,'GLOBAL',28)]['sel'] if capacidad=='preventiva_mas_adelanto' else {}
+                tp0={ed:sum(labels[m]=='Fail' for m,v in before.items() if v==ed) for ed in k};tp1={ed:sum(labels[m]=='Fail' for m,v in after.items() if v==ed) for ed in k}
+                for a in PROTOCOLO_NEGOCIO['asistencia']:
+                    for e in PROTOCOLO_NEGOCIO['efectividad']:
+                        for q in PROTOCOLO_NEGOCIO['probabilidad_reactiva']:
+                            out=escenario_bolsas(fails,tp0,tp1,k,avance,a,e,q)
+                            out.update(plan_id=plan_id,capacidad=capacidad,politica=politica,tp_antes=sum(tp0.values()),tp_despues=sum(tp1.values()),
+                                preventiva_antes=sum(k.values()) if capacidad=='preventiva_mas_adelanto' else 0,
+                                preventiva_despues=sum(escenarios[capacidad].values()),propuestas_antes=len(before),propuestas_despues=len(after))
+                            assert out['preventiva_antes']+out['reactiva_futura_inicial']==out['preventiva_despues']+out['reactiva_futura_residual']
+                            finanzas.append(out)
+        for key,data in indices.items():
+            if key[0]==plan_id:selecciones.append({'clave':list(key),'matriculas':sorted(data['sel']),'matriculas_reactivas_posteriores':sorted(data['tarde'])})
+    return {'lotes':rows,'meta':meta,'finanzas':finanzas,'presupuestos':presupuestos,'selecciones':selecciones}
+
+
+def evaluar_negocio(destino,codigo):
+    """Compara registros inmutables y modelos estáticos congelados; sin fit ni writes SF."""
+    import re
+    import mlflow
+    import mlflow.sklearn
+    from .datos import conectar_snowflake,RepositorioSnowflake,PLAN_CONTROL,PLAN_DERIVA,ESQUEMA_OPERACION,identidad
+    if not re.fullmatch('[0-9a-f]{40}',codigo):raise ValueError('Se requiere commit del protocolo congelado')
+    destino=Path(destino);destino.mkdir(parents=True,exist_ok=True)
+    ref=json.loads((FIXTURES/'referencia.json').read_text());client=mlflow.MlflowClient();modelos={};model_info={}
+    for cut in [14,28]:
+        rid=PROTOCOLO_NEGOCIO['estaticos'][str(cut)];run=client.get_run(rid)
+        if run.info.status!='FINISHED' or run.data.params['cutoff_day']!=str(cut) or run.data.params['pipeline_sha256']!=ref['pipeline_sha256'] or run.data.params['snapshot_id']!=ref['modelos'][str(cut)]['snapshot_id']:
+            raise ValueError('Modelo estático o snapshot incompatible')
+        folder=destino/'modelos'/str(cut);folder.mkdir(parents=True,exist_ok=True)
+        path=mlflow.artifacts.download_artifacts(run_id=rid,artifact_path='pipeline',dst_path=str(folder))
+        modelo=mlflow.sklearn.load_model(path)
+        if not modelo.named_steps['features'].solo_estaticas:raise ValueError('El control debe usar solo variables estáticas')
+        modelos[cut]=modelo;model_info[str(cut)]={'run_id':rid,'snapshot_id':run.data.params['snapshot_id'],'split_id':run.data.params['split_id'],'model_pkl_sha256':sha256(Path(path)/'model.pkl')}
+        active=client.get_model_version_by_alias(NOMBRES[cut],'champion')
+        if active.run_id!=FUENTES[cut] or str(active.version)!='1':raise ValueError('Revisar protocolo: cambió el champion')
+    planes={};linajes={}
+    with conectar_snowflake() as conn:
+        repo=RepositorioSnowflake(conn)
+        for pid in [PLAN_CONTROL,PLAN_DERIVA]:
+            dia=repo.reloj(pid);plan=repo.contenido('PLANES',pid);lotes=[repo.contenido('LOTES_ENTRADA',pid,l['lote_id']) for l in plan['lotes']]
+            if any(l is None for l in lotes) or any(repo.contenido('LOTES_PROCESADOS',pid,l['lote_id']) is None for l in lotes):raise ValueError('Lotes pendientes')
+            with conn.cursor() as cur:
+                raw=cur.execute(f'SELECT MATRICULA,COHORTE_ID,LOTE_ID,CORTE,ENTRADAS,SALIDA,VERSION_MODELO,RUN_ID,RESPALDO FROM {ESQUEMA_OPERACION}.PREDICCIONES WHERE PLAN_ID=%s ORDER BY LOTE_ID,MATRICULA',(pid,)).fetchall()
+                labels=dict(cur.execute(f'SELECT MATRICULA,TARGET_CLASS FROM {ESQUEMA_OPERACION}.ETIQUETAS WHERE PLAN_ID=%s AND DIA_DISPONIBLE<=%s',(pid,dia)).fetchall())
+            if len(raw)!=sum(len(l['solicitud']['matriculas']) for l in lotes):raise ValueError('Predicciones incompletas')
+            base={k for l in lotes if l['corte']==14 for k in l['manifiesto']['base']}
+            if not base<=set(labels) or not set(labels.values())<={'Approved','Fail','Withdrawn'}:raise ValueError('Faltan targets maduros válidos')
+            serial=[]
+            for lote in lotes:
+                cut=lote['corte'];frame=_frame_lote(lote);proba=riesgos(modelos[cut],frame);static=dict(zip(frame.matricula,proba))
+                entries={r['matricula']:r for r in lote['solicitud']['matriculas']};filas=[]
+                subset=[r for r in raw if r[2]==lote['lote_id']]
+                if len(subset)!=len(entries) or {r[0] for r in subset}!=set(entries):raise ValueError('Lote registrado incompleto o duplicado')
+                for m,coh,lid,corte,entrada,salida,version,run,back in subset:
+                    feat=json.loads(entrada);out=json.loads(salida)
+                    if back or str(version)!='1' or run!=FUENTES[cut] or coh!=lote['cohorte_id'] or int(corte)!=cut or identidad(feat)!=identidad(entries[m]['features']) or out['matricula']!=m or out['edicion']!=entries[m]['edicion'] or out['persona']!=entries[m]['persona']:
+                        raise ValueError('Registro incompatible con el benchmark congelado')
+                    filas.append({'matricula':m,'edicion':out['edicion'],'persona':out['persona'],'riesgo_longitudinal':out['riesgo_fail'],
+                                  'riesgo_estatico':float(static[m]),'decision_original':out['decision'],'consume_original':out['consume_cupo_nuevo']})
+                lote['filas']=filas;serial+=filas
+            planes[pid]={'lotes':lotes,'labels':labels}
+            linajes[pid]={'dia_simulado':dia,'plan_sha256':identidad(plan),'datos_sha256':identidad(lotes),'etiquetas_maduras_sha256':identidad(labels),'n':len(raw)}
+        if planes[PLAN_CONTROL]['labels']!=planes[PLAN_DERIVA]['labels']:raise ValueError('Los escenarios deben conservar los mismos targets')
+        comparado=leer_evento(repo,'COMPARADO');decidido=leer_evento(repo,'DECIDIDO')
+    out=comparar_negocio_planes(planes)
+    if comparado is None or decidido is None or decidido['estado']!='RECHAZADO':raise ValueError('Verificar el cierre del reentrenamiento antes de atribuir efectos')
+    for name in ['longitudinal','estatico']:
+        row=next(r for r in out['lotes'] if r['plan_id']==PLAN_DERIVA and r['capacidad']=='referencia' and r['tiempo']=='dos_rondas' and r['lote_id']=='L08' and r['politica']==name)
+        fuente=comparado['modelos']['champion' if name=='longitudinal' else 'estatico']
+        if any(row[k]!=fuente[k] for k in ['tp','fp','cupos','fail_base']):raise ValueError('La comparación L08 no reproduce el ciclo anterior')
+    out['reentrenamiento']={'ciclo_id':CICLO,'disparador':'L07','comparacion':'L08','estado':'RECHAZADO','modelo':comparado['modelo'],
+        'run_id':comparado['run_id'],'modelos':comparado['modelos'],'regla':comparado['regla'],
+        'version_en_predicciones':'1','version_candidata':'2','scores_registrados_modificados':0,
+        'periodo_posterior_con_modelo_promovido_observado':False}
+    out['linaje']={'protocolo':PROTOCOLO_NEGOCIO,'protocolo_sha256':identidad(PROTOCOLO_NEGOCIO),'codigo_commit':codigo,
+        'codigo_sha256':{str(p.relative_to(ROOT)):sha256(p) for p in [Path(__file__),ROOT/'src/pipeline.py',ROOT/'api/esquemas.py']},
+        'planes':linajes,'estaticos':model_info,'longitudinales':FUENTES,'escrituras_snowflake':0,'entrenamientos_nuevos':0}
+    for name,value in out.items():
+        path=destino/(name+'.json');tmp=path.with_suffix('.json.tmp');tmp.write_text(json.dumps(value,ensure_ascii=False,indent=2,allow_nan=False)+'\n');tmp.replace(path)
+        if isinstance(value,list) and name!='selecciones':pd.DataFrame(value).to_csv(destino/(name+'.csv'),index=False)
+    return {'directorio':str(destino),'filas_lotes_globales':len(out['lotes']),'comparaciones_meta':len(out['meta']),
+            'escenarios_contables':len(out['finanzas']),'snapshot_estaticos':model_info,'escrituras_snowflake':0,'entrenamientos':0}
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     group=parser.add_mutually_exclusive_group(required=True)
@@ -689,6 +906,8 @@ def main():
     group.add_argument('--exportar-corridas',action='store_true')
     group.add_argument('--preparar-recursos',action='store_true')
     group.add_argument('--exportar-reentrenamientos',type=Path)
+    group.add_argument('--evaluar-negocio',type=Path)
+    parser.add_argument('--codigo-negocio')
     parser.add_argument('--origen-local',type=Path)
     args=parser.parse_args()
     if args.preparar_servicio or args.preparar_recursos:
@@ -697,6 +916,7 @@ def main():
         if result is not None:print(json.dumps(result,ensure_ascii=False))
     elif args.registrar_referencia:registrar_referencia()
     elif args.exportar_corridas:exportar_corridas()
+    elif args.evaluar_negocio:print(json.dumps(evaluar_negocio(args.evaluar_negocio,args.codigo_negocio or ''),ensure_ascii=False))
     else:
         from .datos import conectar_snowflake,RepositorioSnowflake
         with conectar_snowflake() as conn:print(json.dumps(exportar_reentrenamientos(RepositorioSnowflake(conn),args.exportar_reentrenamientos)))

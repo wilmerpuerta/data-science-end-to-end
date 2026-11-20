@@ -155,6 +155,7 @@ services:
       PSET4_TABLERO: '1'
     volumes:
       - ./docs:/app/docs:ro
+      - ./.local/negocio:/app/.local/negocio:ro
     ports:
       - 127.0.0.1:${PSET4_TABLERO_PORT:-8504}:8501
     healthcheck:

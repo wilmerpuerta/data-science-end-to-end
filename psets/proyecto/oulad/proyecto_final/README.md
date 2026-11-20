@@ -135,7 +135,7 @@ Los registros conservan entradas, salida, versión y run del modelo, snapshot, s
 
 Referencias: [conector Python de Snowflake](https://docs.snowflake.com/en/developer-guide/python-connector/python-connector-example) y [bucles de Kestra](https://kestra.io/docs/how-to-guides/loop).
 
-Validación ejecutada: 63 pruebas completas aprobadas localmente y en Docker. Se preservan los ocho controles y su repetición; el escenario de deriva completo terminó en SUCCESS. Hay 36.646 predicciones únicas entre ambos planes, 32 eventos de monitoreo y 28 alertas. `docs/predicciones.csv` incluye ambos planes; sus poblaciones y presupuestos se analizan por separado. La comparación de reentrenamiento sobre L08 incluye el estático con los mismos cupos; la evaluación final de todos los lotes sigue pendiente.
+Validación ejecutada: 69 pruebas completas aprobadas localmente y en Docker. Se preservan los ocho controles y su repetición; el escenario de deriva completo terminó en SUCCESS. Hay 36.646 predicciones únicas entre ambos planes, 32 eventos de monitoreo y 28 alertas. `docs/predicciones.csv` incluye ambos planes; sus poblaciones y presupuestos se analizan por separado. La comparación de reentrenamiento sobre L08 incluye el estático con los mismos cupos; la comparación completa por lote ya quedó calculada y documentada.
 
 
 ## Monitoreo, deriva y tablero
@@ -202,7 +202,7 @@ El rechazo/aprobación se registra desde la tarea Pause de Kestra con decisión,
 
 ## Publicación de código en GHCR
 
-`.github/workflows/cd.yml` publica en cada integración a `main`, después de ejecutar el CI reutilizable. Construye `linux/amd64`, ejecuta las 63 pruebas dentro de esa imagen exacta y solo entonces publica `ghcr.io/wilmerpuerta/oulad-proyecto-final-api:<SHA_COMPLETO_DEL_COMMIT>`. El resumen y el artefacto `imagen-publicada-<SHA>` guardan el digest, commit, plataforma y ejecución. Un fallo de CI, build o pruebas impide publicar.
+`.github/workflows/cd.yml` publica en cada integración a `main`, después de ejecutar el CI reutilizable. Construye `linux/amd64`, ejecuta las 69 pruebas dentro de esa imagen exacta y solo entonces publica `ghcr.io/wilmerpuerta/oulad-proyecto-final-api:<SHA_COMPLETO_DEL_COMMIT>`. El resumen y el artefacto `imagen-publicada-<SHA>` guardan el digest, commit, plataforma y ejecución. Un fallo de CI, build o pruebas impide publicar.
 
 Los workflows efectivos están en `.github/workflows/` de la raíz real del repositorio del curso; los de este directorio conservan la definición canónica para la entrega. `master` y su historial se conservan; `main` es la rama de integración del despliegue. El PR #1 se integró con las pruebas aprobadas; la imagen se publicó y descargó desde GHCR y se verificó en los cuatro servicios. El repositorio del curso conserva `master` como rama histórica y predeterminada; los cambios de este bloque están en `main`.
 
@@ -243,7 +243,7 @@ La auditoría original por discapacidad declarada y sus criterios de revisión e
 
 `PSET4_FORCE_FALLBACK=1` activa, al recrear API/API sintética, una cola administrativa sin estimación individual. La respuesta añade `puntuacion_individual=false` y un mensaje operativo; el valor numérico técnico del Dummy no significa riesgo cero. Las respuestas previas permanecen inmutables. [Procedimiento para operar el interruptor](docs/guia_usuario.md#operación-del-respaldo-y-revisión-de-necesidades).
 
-El análisis se reproduce con `python -m monitoreo.deriva --etica <directorio_privado> --codigo-etica <SHA_DE_CODIGO>` dentro del worker con credenciales Snowflake; usa únicamente controles y etiquetas ya maduras. La evaluación completa de negocio, notebooks, Compose único y comunicación siguen pendientes.
+El análisis se reproduce con `python -m monitoreo.deriva --etica <directorio_privado> --codigo-etica <SHA_DE_CODIGO>` dentro del worker con credenciales Snowflake; usa únicamente controles y etiquetas ya maduras. La evaluación de negocio quedó calculada; notebooks, Compose único y comunicación siguen pendientes.
 
 
 ### Imagen ética activa y comprobación del interruptor
@@ -252,4 +252,11 @@ La imagen activa y fijada en `.env.example` es `ghcr.io/wilmerpuerta/oulad-proye
 
 La prueba HTTP utilizó un servicio aislado con esa misma imagen y `PSET4_FORCE_FALLBACK` en secuencia 0→1→0, recreando el contenedor al cambiar la configuración. Produjo 160 predicciones sintéticas: normal (40), respaldo en semanas 2/4 (80), y reactivado (40). El respaldo reservó 1+3 cupos de su propia cohorte, mantuvo la validación 422 y devolvió las respuestas anteriores sin recalcular. La reactivación tampoco reemplazó respuestas históricas de respaldo. La puntuación técnica constante quedó marcada como no individual. La instancia de prueba se retiró y sus datos no entran a Snowflake ni a los CSV de negocio.
 
-El champion sigue en versión 1, el candidato de semana 4 continúa rechazado y el respaldo no está forzado en los servicios operativos. La señal de L06 queda para revisión académica; no se declara una aprobación institucional de equidad. Sigue pendiente el resultado completo de negocio, escenario presupuestario, notebooks y cierre de integración/comunicación.
+El champion sigue en versión 1, el candidato de semana 4 continúa rechazado y el respaldo no está forzado en los servicios operativos. La señal de L06 queda para revisión académica; no se declara una aprobación institucional de equidad. El resultado de negocio y los escenarios presupuestarios están documentados; siguen pendientes notebooks y cierre de integración/comunicación.
+
+
+## Resultado de negocio
+
+El control original cumple la meta: **420 Fail frente a 314** del estático, con **920 cupos**, +33,76 % relativo. Son 106 casos netos por matrícula, sin aumentar cupos. L03 empata; L07 bajo deriva queda por debajo del estático. La bolsa futura ilustrativa de 920 permite adelantar 274 y conserva 646; no se demuestra ahorro. [Comparación completa, rondas y escenarios](docs/cambios.md#resultado-de-negocio-focalización-oportunidad-y-presupuesto-20-nov-2026).
+
+La evaluación se reproduce con `python -m src.reentrenar --evaluar-negocio <directorio_privado> --codigo-negocio <SHA_DEL_CODIGO>` dentro del worker. Solo lee Snowflake/Registry, usa los estáticos congelados y los scores históricos, sin entrenar ni modificar registros. En el tablero, la comparación se muestra por escenario y horizonte; el grupo de datos se mantiene separado entre control y deriva. Las alternativas de presupuesto y calendario son contrafactuales de análisis, no cambios aprobados de la operación.
