@@ -102,7 +102,7 @@ La referencia CI se registra como `fase=preparacion_servicio`, sin entrenamiento
 
 `.github/workflows/ci.yml` instala las dependencias fijadas, prueba con fixtures sin MLflow/Snowflake, construye la imagen y prueba dentro del contenedor en cada push/PR. En el fork del curso se mantiene una copia idéntica en `.github/workflows/ci.yml` de la raíz real del repositorio; GitHub no ejecuta por sí solo workflows dentro de una carpeta anidada. La prueba general del repositorio conserva el núcleo portable; las pruebas de fixtures nativas se ejecutan en el job dedicado con sus versiones y `PSET4_FULL_TESTS=1`.
 
-Pendientes: ingesta integrada, Compose único con Kestra/Spark/MLflow/API/tablero, notebooks 01-07, análisis por subgrupos, CSV finales, pitch histórico en PDF, memo, presentación y video. [Cambios y evidencias](docs/cambios.md) distingue lo comprobado de lo pendiente.
+Pendientes: ingesta integrada, Compose único con Kestra/Spark/MLflow/API/tablero, notebooks 01-07, CSV finales, pitch histórico en PDF, memo, presentación y video. [Cambios y evidencias](docs/cambios.md) distingue lo comprobado de lo pendiente.
 
 Referencias técnicas: [pruebas del ciclo de vida de FastAPI](https://fastapi.tiangolo.com/advanced/testing-events/), [validación estricta de Pydantic](https://pydantic.dev/docs/validation/latest/concepts/strict_mode/) y [alias del Model Registry](https://www.mlflow.org/docs/latest/registry/).
 
@@ -135,7 +135,7 @@ Los registros conservan entradas, salida, versión y run del modelo, snapshot, s
 
 Referencias: [conector Python de Snowflake](https://docs.snowflake.com/en/developer-guide/python-connector/python-connector-example) y [bucles de Kestra](https://kestra.io/docs/how-to-guides/loop).
 
-Validación ejecutada: 57 pruebas completas aprobadas localmente y en Docker. Se preservan los ocho controles y su repetición; el escenario de deriva completo terminó en SUCCESS. Hay 36.646 predicciones únicas entre ambos planes, 32 eventos de monitoreo y 28 alertas. `docs/predicciones.csv` incluye ambos planes; sus poblaciones y presupuestos se analizan por separado. La comparación de reentrenamiento sobre L08 incluye el estático con los mismos cupos; la evaluación final de todos los lotes sigue pendiente.
+Validación ejecutada: 63 pruebas completas aprobadas localmente y en Docker. Se preservan los ocho controles y su repetición; el escenario de deriva completo terminó en SUCCESS. Hay 36.646 predicciones únicas entre ambos planes, 32 eventos de monitoreo y 28 alertas. `docs/predicciones.csv` incluye ambos planes; sus poblaciones y presupuestos se analizan por separado. La comparación de reentrenamiento sobre L08 incluye el estático con los mismos cupos; la evaluación final de todos los lotes sigue pendiente.
 
 
 ## Monitoreo, deriva y tablero
@@ -202,7 +202,7 @@ El rechazo/aprobación se registra desde la tarea Pause de Kestra con decisión,
 
 ## Publicación de código en GHCR
 
-`.github/workflows/cd.yml` publica en cada integración a `main`, después de ejecutar el CI reutilizable. Construye `linux/amd64`, ejecuta las 57 pruebas dentro de esa imagen exacta y solo entonces publica `ghcr.io/wilmerpuerta/oulad-proyecto-final-api:<SHA_COMPLETO_DEL_COMMIT>`. El resumen y el artefacto `imagen-publicada-<SHA>` guardan el digest, commit, plataforma y ejecución. Un fallo de CI, build o pruebas impide publicar.
+`.github/workflows/cd.yml` publica en cada integración a `main`, después de ejecutar el CI reutilizable. Construye `linux/amd64`, ejecuta las 63 pruebas dentro de esa imagen exacta y solo entonces publica `ghcr.io/wilmerpuerta/oulad-proyecto-final-api:<SHA_COMPLETO_DEL_COMMIT>`. El resumen y el artefacto `imagen-publicada-<SHA>` guardan el digest, commit, plataforma y ejecución. Un fallo de CI, build o pruebas impide publicar.
 
 Los workflows efectivos están en `.github/workflows/` de la raíz real del repositorio del curso; los de este directorio conservan la definición canónica para la entrega. `master` y su historial se conservan; `main` es la rama de integración del despliegue. El PR #1 se integró con las pruebas aprobadas; la imagen se publicó y descargó desde GHCR y se verificó en los cuatro servicios. El repositorio del curso conserva `master` como rama histórica y predeterminada; los cambios de este bloque están en `main`.
 
@@ -235,3 +235,12 @@ ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:bc5ff9e0b215795b3388bc4da52
 La prueba de recarga usó el modelo aislado `oulad-apoyo-academico-recarga-cd-semana2`: dos versiones de los mismos pesos históricos, marcadas como prueba, sin entrenamiento. Una instancia separada de la misma imagen observó 1→2→1 y produjo 120 predicciones sintéticas; conservaron imagen, contenedor y probabilidades. Los aliases operativos permanecieron en 1 durante toda la prueba y el candidato de semana 4 siguió rechazado. Las predicciones de prueba están en otro SQLite y no entran a Snowflake, presupuestos productivos ni CSV de negocio. Se retira la instancia aislada después de verificarla.
 
 Para revertir **código**, restaurar en `.env` el digest anterior conservado en el registro de despliegue y ejecutar `docker compose up -d --no-build --pull never --wait api api_deriva monitoreo tablero`; descargar antes esa referencia si no está en caché. Para revertir **modelo**, restaurar el alias a la versión previamente aprobada en el Registry; la API lo resuelve en el siguiente lote nuevo. No borrar volúmenes ni modificar el historial de predicciones. La decisión de modelo sigue separada de la publicación de código.
+
+
+## Ética y respaldo
+
+La auditoría original por discapacidad declarada y sus criterios de revisión están en [cambios y decisiones](docs/cambios.md#ética-operativa-resultados-y-responsabilidades-20-nov-2026). El agregado no cruza el límite experimental; L06 presenta una brecha de cobertura de −8,20 puntos y requiere revisión académica. No se afirma igualdad de oportunidades ni aceptación institucional. Los modelos y cupos se mantienen.
+
+`PSET4_FORCE_FALLBACK=1` activa, al recrear API/API sintética, una cola administrativa sin estimación individual. La respuesta añade `puntuacion_individual=false` y un mensaje operativo; el valor numérico técnico del Dummy no significa riesgo cero. Las respuestas previas permanecen inmutables. [Procedimiento para operar el interruptor](docs/guia_usuario.md#operación-del-respaldo-y-revisión-de-necesidades).
+
+El análisis se reproduce con `python -m monitoreo.deriva --etica <directorio_privado> --codigo-etica <SHA_DE_CODIGO>` dentro del worker con credenciales Snowflake; usa únicamente controles y etiquetas ya maduras. La evaluación completa de negocio, notebooks, Compose único y comunicación siguen pendientes.
