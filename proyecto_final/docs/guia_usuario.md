@@ -173,3 +173,12 @@ Las filas de semana 4 incluyen las propuestas conservadas de semana 2. No sumar 
 El tablero no modifica modelos, presupuestos o propuestas. Las comparaciones de calendario y del 30 % están en el [registro de cambios](cambios.md#resultado-de-negocio-focalización-oportunidad-y-presupuesto-20-nov-2026). Con la bolsa futura hipotética de 920 cupos, el adelanto es 274 por redondeo dentro de cada edición y quedan 646; no es ahorro observado ni aprobación presupuestaria. Las propuestas requieren revisión humana y no acreditan tutorías ni reprobaciones evitadas.
 
 Si no aparece la comparación, el responsable debe restaurar o generar los agregados privados de `.local/negocio/` siguiendo el README. El tablero lee esos archivos de solo lectura y no necesita claves Snowflake. No cargar datos privados en GitHub.
+
+
+## Infraestructura y consulta de ejecuciones de ingesta
+
+El [Registry propio](http://localhost:5004) conserva los modelos servidos por este proyecto. El puerto 5001 pertenece al servicio histórico; no cambiar sus aliases para operar el proyecto final. Swagger y el tablero mantienen sus direcciones habituales.
+
+En [Kestra](http://localhost:8094), abrir `pset4.oulad/ingesta` para consultar las cuatro etapas y sus logs agregados. La ejecución `2sQlV9Hreu3bWXWi7MtYRE` terminó SUCCESS y reconstruyó la misma OBT del PSet 02. Para una ejecución nueva, usar `source_file=all` y `force_reload=false`; ejecutarla reconstruye las capas y escribe su auditoría en Snowflake, por lo que no es una consulta de conectividad. No iniciar un escritor histórico en paralelo.
+
+Los servicios se levantan juntos desde `proyecto_final/` con `docker compose up -d --no-build --pull never --wait`, después de configurar el entorno, descargar la imagen y construir los ejecutores según el README. No borrar los volúmenes: guardan el historial de Kestra y el Registry. Las propuestas de tutoría siguen sujetas a revisión humana.
