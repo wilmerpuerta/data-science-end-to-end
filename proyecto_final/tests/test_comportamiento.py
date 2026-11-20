@@ -427,3 +427,73 @@ def test_retirada_separa_contrato_integridad_y_caida_del_servicio():
        'solicitudes':20,'tasa_5xx':.05}
     prev={**e,'cohorte_id':'previa','lote_id':'L05','dia_prediccion':28}
     assert {a['regla'] for a in evaluar_retirada(e,[prev])}=={'calidad','integridad_disponibilidad','sistema_persistente'}
+
+
+def test_presupuesto_exacto_por_edicion_y_cero_no_obtienen_cupos_por_fragmento():
+    from src.reentrenar import priorizar_presupuesto
+    rows=[{'matricula':f'{ed}-{i:02}','edicion':ed,'persona':f'P{i}','riesgo':.5} for ed,n in [('A',19),('B',21)] for i in range(n)]
+    base={r['matricula']:r['edicion'] for r in rows}
+    selected,_=priorizar_presupuesto(rows,base,14,{},dict(A=1,B=2),'1')
+    assert len(selected)==3
+    empty,_=priorizar_presupuesto(rows,base,14,{},dict(A=0,B=0),'1/4');assert empty=={}
+    with pytest.raises(ValueError,match='primera ronda'):priorizar_presupuesto(rows[:20],base,14,{},dict(A=1,B=2),'1')
+
+
+def test_adelanto_con_efectividad_cero_reduce_saldo_sin_inventar_ahorro():
+    from src.reentrenar import escenario_bolsas
+    x=escenario_bolsas({'A':100,'B':100},{'A':10,'B':10},{'A':30,'B':30},{'A':20,'B':20},{'A':6,'B':6},'1','0','1')
+    assert x['reactiva_futura_residual']==28 and x['adelanto']==12
+    assert x['necesidad_reactiva_adicional_potencialmente_reducida']==0
+    assert x['demanda_no_cubierta_antes']==160 and x['demanda_no_cubierta_despues']==172
+    assert x['ahorro_observado'] is None and x['fail_evitados_observados'] is None
+    assert x['bolsa_reactiva_vigente_modificada'] is False
+
+
+def test_saldos_futuros_no_se_compensan_entre_ediciones():
+    from src.reentrenar import escenario_bolsas
+    x=escenario_bolsas({'A':10,'B':100},{'A':0,'B':0},{'A':0,'B':0},{'A':20,'B':20},{'A':6,'B':6},'1','0','1')
+    assert x['demanda_no_cubierta_antes']==80 and x['demanda_no_cubierta_despues']==86
+    assert x['capacidad_reactiva_sin_demanda']==4
+
+
+def ejemplo_negocio():
+    order_long=[0,1,10,11]+[i for i in range(40) if i not in [0,1,10,11]]
+    order_static=[0,2,12,13]+[i for i in range(40) if i not in [0,2,12,13]]
+    base={f'M{i:02}':'A' for i in range(40)};lotes=[]
+    for cut,lid,day in [(14,'L01',14),(28,'L05',28)]:
+        rows=[]
+        for i in range(40):
+            m=f'M{i:02}';new=i in ([0] if cut==14 else [1,10,11])
+            rows.append({'matricula':m,'edicion':'A','persona':f'P{i//2}','riesgo_longitudinal':1-order_long.index(i)/40,
+                'riesgo_estatico':1-order_static.index(i)/40,'decision_original':'proponer_tutoria' if new else ('tutoria_ya_propuesta' if cut==28 and i==0 else 'seguimiento'),'consume_original':new})
+        lotes.append({'orden':1 if cut==14 else 5,'cohorte_id':'coh','corte':cut,'dia':day,'lote_id':lid,
+                      'manifiesto':{'base':base},'fuentes':{m:{'fin_periodo':100} for m in base},'filas':rows})
+    return {'plan-prueba':{'lotes':lotes,'labels':{f'M{i:02}':'Fail' if i<10 else 'Approved' for i in range(40)}}}
+
+
+def test_detecciones_adicionales_son_ganadas_menos_perdidas_no_solo_nuevas():
+    from src.reentrenar import comparar_negocio_planes
+    out=comparar_negocio_planes(ejemplo_negocio())
+    m=next(x for x in out['meta'] if x['capacidad']=='referencia' and x['tiempo']=='dos_rondas' and x['corte']==28 and x['cohorte_id']=='GLOBAL')
+    assert m['tp_ganados']==1 and m['tp_perdidos']==1 and m['tp_adicionales_netos']==0
+    assert m['cumple_meta'] is False and m['cupos_comunes']==4
+    row=next(x for x in out['lotes'] if x['politica']=='longitudinal' and x['capacidad']=='referencia' and x['tiempo']=='dos_rondas' and x['corte']==28 and x['cohorte_id']=='GLOBAL')
+    assert row['cupos']==4 and row['personas_propuestas']==2
+
+
+def test_rondas_no_suman_cobertura_dos_veces_y_reactiva_no_es_prediccion():
+    from src.reentrenar import comparar_negocio_planes
+    out=comparar_negocio_planes(ejemplo_negocio())
+    rows=[r for r in out['lotes'] if r['capacidad']=='referencia' and r['tiempo']=='dos_rondas' and r['cohorte_id']=='GLOBAL']
+    early=next(r for r in rows if r['corte']==14 and r['politica']=='longitudinal')
+    late=next(r for r in rows if r['corte']==28 and r['politica']=='longitudinal')
+    assert early['propuestas_nuevas']+late['propuestas_nuevas']==late['cupos']==4
+    assert late['tp']==2 and late['fail_base']==10 and late['cobertura']==.2
+    reactive=next(r for r in rows if r['corte']==28 and r['politica']=='reactiva')
+    assert reactive['tp']==0 and reactive['cobertura']==0 and reactive['tp_reactivos_posteriores']==4
+
+
+def test_escenario_rechaza_adelanto_mayor_que_bolsa_y_probabilidad_imposible():
+    from src.reentrenar import escenario_bolsas
+    with pytest.raises(ValueError):escenario_bolsas({'A':10},{'A':1},{'A':2},{'A':3},{'A':4},'1','1','1')
+    with pytest.raises(ValueError):escenario_bolsas({'A':10},{'A':1},{'A':2},{'A':3},{'A':1},'1','5/4','1')
