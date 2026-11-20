@@ -134,3 +134,12 @@ Estas métricas generales incluyen las pruebas manuales del servicio. Los CSV de
 No cambiar identificadores de cohortes reales para intentar reasignar cupos. Un lote ya procesado requiere revisión administrativa si se necesita corregirlo.
 
 Las solicitudes deben contener la cohorte completa del corte y no deben incluir resultados finales ni targets. Para datos reales, el responsable del pipeline debe preparar y registrar el manifiesto antes del uso del portal.
+
+
+## Revisión de un modelo reentrenado
+
+Swagger sirve para predicciones y consulta del modelo activo. La aprobación del candidato se realiza en [Kestra](http://localhost:8094), dentro de la ejecución del flujo `pset4.oulad/reentrenamiento`, tarea `aprobacion` en PAUSED. El tablero muestra el historial global de reentrenamientos y el [registro de cambios](cambios.md#resultado-del-reentrenamiento-y-pausa-humana-19-nov-2026) contiene la comparación para revisar.
+
+Antes de reanudar la pausa, revisar cupos iguales, TP, FP, cobertura, exclusión del lote reservado y cumplimiento de la regla. Completar `decision` (rechazar/aprobar), `responsable` y `motivo`. Reanudar registra una decisión real; no debe utilizarse como comprobación de conectividad. El worker verifica esos datos contra Kestra y evita promover un candidato que no cumple la regla. Después de decidir, consultar `GET /modelo`; la API resuelve el alias para cada lote nuevo sin reconstruir la imagen.
+
+El ciclo actual recomienda **rechazar**: añade cuatro TP y la regla exige al menos siete. Sigue pendiente de la decisión humana; el champion permanece en versión 1. La meta frente al estático y la regla de reemplazo del champion son comparaciones distintas.
