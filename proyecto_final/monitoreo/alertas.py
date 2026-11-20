@@ -55,3 +55,55 @@ def evaluar_alertas(metricas, historia=()):
             if sistema[campo] is not None and sistema[campo] > limite:
                 add('sistema',campo,sistema[campo],limite,'mínimo 20 solicitudes del lote','alta','operación de la plataforma','Revisar disponibilidad, capacidad y errores; evaluar respaldo.')
     return alertas, disparar
+
+
+# Protocolo independiente: no altera las referencias históricas monitoreo-1.
+PROTOCOLO_ETICA = {
+    'version': 'etica-operativa-1', 'plan': 'oulad-2014j-control-v1',
+    'atributo': 'disability', 'grupos': ['N', 'Y', 'sin_dato'],
+    'min_n': 200, 'min_fail': 20, 'min_no_fail': 20,
+    'brecha_cobertura': 0.05, 'brecha_fpr': 0.03, 'lotes_consecutivos': 2,
+    'comparacion': 'Diferencias absolutas Y-N a igual política, sobre cohortes base del día 14; denominadores completos y cupos por edición.',
+    'interpretacion': 'Umbrales de revisión de prototipo, no límites legales ni aprobación institucional. Cinco puntos de cobertura son cinco Fail adicionales sin propuesta por cada cien Fail; tres de FPR son tres propuestas adicionales por cada cien no-Fail.',
+    'limitacion': 'Resultados descriptivos del benchmark 2014J ya inspeccionado; sin intervalos de confianza ni inferencia causal. Matrículas de una persona no son independientes. Diferencias pueden reflejar prevalencia y composición de módulos.',
+    'supervision': 'Tutor revisa necesidades, accesibilidad, información insuficiente y contactos previos. Estudiante conserva canales de apoyo y puede solicitar revisión. No sanciones ni exclusión por falta de actividad o por grupo.',
+}
+
+
+def evaluar_retirada(evento, historia=()):
+    """Recomendaciones auditables; solo el fallo de carga activa el respaldo local.
+
+    La suspensión por desempeño/equidad requiere decisión del responsable y
+    operar el interruptor. No cambia aliases ni modifica eventos históricos.
+    """
+    p=PROTOCOLO_ETICA;out=[]
+    def add(regla,accion,responsable):
+        out.append({'regla':regla,'accion':accion,'responsable':responsable,'requiere_revision_humana':True})
+    if evento.get('errores_contrato',0)>0:
+        add('calidad','Bloquear el lote inválido y corregir fuente; no inferir ni usar el respaldo para eludir el contrato.','equipo de datos')
+    if evento.get('modelo_disponible') is False or evento.get('artefacto_integro') is False:
+        add('integridad_disponibilidad','Usar respaldo administrativo marcado y revisión humana; revisar Registry, firma e integridad antes de reactivar.','responsable del modelo y operación')
+    clave=lambda e:(e['dia_revision'],e['dia_prediccion'],e['lote_id'])
+    anteriores=sorted([e for e in historia if e['corte']==evento['corte'] and e['cohorte_id']!=evento['cohorte_id'] and clave(e)<clave(evento)],key=clave)
+    previo=anteriores[-1] if anteriores else None
+    def brecha(e):
+        return (e.get('equidad_evaluable') is True and
+                (abs(e['brecha_cobertura'])>p['brecha_cobertura']+1e-12 or abs(e['brecha_fpr'])>p['brecha_fpr']+1e-12))
+    if brecha(evento):
+        if previo and brecha(previo):
+            add('equidad_persistente','Suspender priorización automática en lotes nuevos y pasar a revisión administrativa; investigar accesibilidad, composición y errores antes de reactivar.','responsable académico y equipo del modelo')
+        else:add('equidad_revision','Revisar diferencias por edición, necesidades y accesibilidad; no ajustar umbrales con este mismo benchmark.','responsable académico')
+    def inferior(e):
+        a,b=e.get('tp_modelo'),e.get('tp_estatico')
+        k,j=e.get('cupos_modelo'),e.get('cupos_estatico')
+        f,g=e.get('fail_base_modelo'),e.get('fail_base_estatico')
+        comparables=all(type(v) is int and v>=0 for v in [a,b,k,j,f,g])
+        return (comparables and f==g and f>0 and k==j and max(a,b)<=min(k,f)
+                and e.get('etiquetas_completas') is True and e.get('reentrenamiento_evaluado') is True and a<b)
+    if inferior(evento) and previo and inferior(previo):
+        add('negocio_inferior','Retirar ranking del modelo de lotes nuevos y operar respaldo con revisión humana; revisar utilidad frente al estático.','responsable académico y del modelo')
+    def error_sistema(e):
+        return e.get('solicitudes',0)>=20 and e.get('tasa_5xx') is not None and e['tasa_5xx']>0.01
+    if error_sistema(evento) and previo and error_sistema(previo):
+        add('sistema_persistente','Restaurar servicio y evaluar respaldo; si la API no está disponible, pausar despachos y realizar revisión manual fuera del servicio.','operación de la plataforma')
+    return out

@@ -143,3 +143,20 @@ Swagger sirve para predicciones y consulta del modelo activo. La aprobación del
 Antes de reanudar la pausa, revisar cupos iguales, TP, FP, cobertura, exclusión del lote reservado y cumplimiento de la regla. Completar `decision` (rechazar/aprobar), `responsable` y `motivo`. Reanudar registra una decisión real; no debe utilizarse como comprobación de conectividad. El worker verifica esos datos contra Kestra y evita promover un candidato que no cumple la regla. Después de decidir, consultar `GET /modelo`; la API resuelve el alias para cada lote nuevo sin reconstruir la imagen.
 
 El ciclo `reentrenamiento-28-deriva-v1` fue **rechazado por Wilmer Puerta**: añade cuatro TP y la regla exige al menos siete. La pausa ya se reanudó con ese motivo, el flujo terminó en SUCCESS y el champion permanece en versión 1. Para consultar esta decisión, abrir la ejecución `6lcaE9ak8kGv4myx06ZMMw` y sus outputs; no volver a reanudar una ejecución terminada. La meta frente al estático y la regla de reemplazo del champion son comparaciones distintas.
+
+
+## Operación del respaldo y revisión de necesidades
+
+Cuando `respaldo=true`, `modelo.puntuacion_individual=false` y `criterio_priorizacion=orden_administrativo_matricula`, el servicio prepara una cola administrativa para revisión humana. El mensaje operativo aclara que no hay estimación individual. El valor numérico constante de `riesgo_fail` se conserva por compatibilidad con el Dummy histórico; **no significa que el estudiante tenga riesgo cero**. No usarlo para negar apoyo, sancionar o interpretar causas. El predictor estático usado para la meta +10 % es otro comparador y no es este respaldo.
+
+El operador habilita `PSET4_FORCE_FALLBACK=1` en el `.env` privado y aplica:
+
+```sh
+docker compose up -d --no-build --pull never --force-recreate --wait api api_deriva
+```
+
+Consultar `/salud` y `/modelo` y enviar únicamente lotes nuevos de cohortes confiables. El cambio se lee al iniciar el proceso: editar `.env` sin recrear los servicios no basta. El respaldo conserva el 10 % por edición, el reparto de rondas y las propuestas previas. No permite saltar validaciones ni reasignar cupos.
+
+Para reactivar el modelo, el responsable revisa la causa, corrige el problema y valida el servicio. Establecer `PSET4_FORCE_FALLBACK=0` y repetir el comando. Las peticiones de lotes ya registrados devuelven su respuesta original, incluso si cambió el interruptor; esto preserva el historial y evita consumir cupos de nuevo. Reenviar un lote no lo convierte en una predicción nueva.
+
+El tutor revisa necesidades, accesibilidad, cobertura de los registros y contactos previos antes de confirmar una propuesta. La ausencia de actividad puede reflejar problemas de datos o formas distintas de estudiar. Quien no recibe propuesta conserva los canales habituales de apoyo y puede solicitar revisión. La coordinación académica resuelve desacuerdos y registra el motivo de cualquier decisión final; la API registra propuestas, no acredita tutorías realizadas ni dispone de un módulo de apelaciones implementado.

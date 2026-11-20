@@ -167,3 +167,21 @@ def test_atribucion_operativa_de_solicitudes_validas_e_invalidas(servicio):
         rows=db.execute('SELECT codigo,plan_id,lote_id FROM peticiones').fetchall()
     assert [r['codigo'] for r in rows]==[422,200]
     assert all(r['plan_id']=='oulad-2014j-control-v1' and r['lote_id']=='L01' for r in rows)
+
+
+
+def test_interruptor_respaldo_no_declara_riesgo_individual_y_preserva_historia(tmp_path,monkeypatch):
+    monkeypatch.setenv('PSET4_FORCE_FALLBACK','1')
+    path=tmp_path/'interruptor.sqlite';app=crear_app(ruta_db=path,modo='fixture');registrar(app)
+    with TestClient(app) as c:
+        first=c.post('/predecir',json=datos()).json()
+        second=c.post('/predecir',json=datos(28)).json()
+        assert first['respaldo'] and first['modelo']['puntuacion_individual'] is False
+        assert first['modelo']['criterio_priorizacion']=='orden_administrativo_matricula'
+        assert 'no estima el riesgo individual' in first['mensaje_operativo']
+        assert first['nuevas_propuestas']==1 and second['nuevas_propuestas']==3
+        assert all(r['accion']=='revision_humana_de_respaldo' for r in first['predicciones'] if r['consume_cupo_nuevo'])
+    monkeypatch.setenv('PSET4_FORCE_FALLBACK','0');restored=crear_app(ruta_db=path,modo='fixture')
+    with TestClient(restored) as c:
+        assert c.get('/modelo').json()['modelos'][0]['puntuacion_individual'] is True
+        assert c.post('/predecir',json=datos()).json()==first
