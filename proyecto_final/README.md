@@ -222,9 +222,9 @@ GHCR puede exigir autenticación si el paquete permanece privado. Para descargar
 El despliegue de código no promueve modelos: el Registry mantiene sus aliases y la API los consulta para cada lote nuevo. El challenger rechazado continúa rechazado. La selección/promoción del modelo conserva su control de negocio y supervisión humana.
 
 
-### Imagen publicada y comprobada
+### Primer despliegue CD comprobado (19-nov-2026)
 
-Release verificado: `ghcr.io/wilmerpuerta/oulad-proyecto-final-api:97e9a18003554e1d0de5287fb87c0f23812557f5`. Referencia inmutable usada en los cuatro servicios y en `.env.example`:
+Primer release verificado: `ghcr.io/wilmerpuerta/oulad-proyecto-final-api:97e9a18003554e1d0de5287fb87c0f23812557f5`. Referencia histórica del primer despliegue:
 
 ```text
 ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:bc5ff9e0b215795b3388bc4da526ea6bece369404f8ed2c7b4a24d6fda16cae5
@@ -244,3 +244,12 @@ La auditoría original por discapacidad declarada y sus criterios de revisión e
 `PSET4_FORCE_FALLBACK=1` activa, al recrear API/API sintética, una cola administrativa sin estimación individual. La respuesta añade `puntuacion_individual=false` y un mensaje operativo; el valor numérico técnico del Dummy no significa riesgo cero. Las respuestas previas permanecen inmutables. [Procedimiento para operar el interruptor](docs/guia_usuario.md#operación-del-respaldo-y-revisión-de-necesidades).
 
 El análisis se reproduce con `python -m monitoreo.deriva --etica <directorio_privado> --codigo-etica <SHA_DE_CODIGO>` dentro del worker con credenciales Snowflake; usa únicamente controles y etiquetas ya maduras. La evaluación completa de negocio, notebooks, Compose único y comunicación siguen pendientes.
+
+
+### Imagen ética activa y comprobación del interruptor
+
+La imagen activa y fijada en `.env.example` es `ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:e32f542e7320ae939625586d5ce8776fd1ac1933b596cb62b7676e98973ed2a3`, publicada desde el commit `6c392a3fc7d86e0774fc207d37f19bbc66768c07` mediante el [CD aprobado](https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44722770969). La API, API sintética, monitor y tablero quedaron healthy con esa referencia. Se conservaron versiones, runs y snapshots de los modelos y todos los conteos de los SQLite operativos; los únicos campos nuevos en `/modelo` explicitan el método de priorización.
+
+La prueba HTTP utilizó un servicio aislado con esa misma imagen y `PSET4_FORCE_FALLBACK` en secuencia 0→1→0, recreando el contenedor al cambiar la configuración. Produjo 160 predicciones sintéticas: normal (40), respaldo en semanas 2/4 (80), y reactivado (40). El respaldo reservó 1+3 cupos de su propia cohorte, mantuvo la validación 422 y devolvió las respuestas anteriores sin recalcular. La reactivación tampoco reemplazó respuestas históricas de respaldo. La puntuación técnica constante quedó marcada como no individual. La instancia de prueba se retiró y sus datos no entran a Snowflake ni a los CSV de negocio.
+
+El champion sigue en versión 1, el candidato de semana 4 continúa rechazado y el respaldo no está forzado en los servicios operativos. La señal de L06 queda para revisión académica; no se declara una aprobación institucional de equidad. Sigue pendiente el resultado completo de negocio, escenario presupuestario, notebooks y cierre de integración/comunicación.
