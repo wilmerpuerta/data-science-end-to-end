@@ -19,6 +19,10 @@ Figura: Fail focalizados con iguales 920 propuestas, base de 1.947 Fail. La mejo
 | Juicio humano | La API propone; tutores revisan contexto y necesidad. No decide sanciones, causas ni la asignación institucional definitiva. |
 
 
+## Uso operativo del resultado
+
+El modelo prioriza contacto, y la coordinación confirma necesidad, disponibilidad y aceptación antes de asignar la atención. Entre las 920 propuestas, 500 corresponden a no-Fail: la proporción de falsas alertas es 54,35 %, diferente de la FPR poblacional. La mejora se evalúa a capacidad constante y requiere aceptar ese costo de revisión. El piloto deberá medir cuántas propuestas se convierten en contactos y tutorías, y comparar sus resultados con una alternativa de igual capacidad.
+
 **Estado de comunicación:** documentos para revisión. El video todavía no está grabado/publicado y los notebooks finales 01-07 siguen pendientes. Enlace de la demo: **pendiente de publicación**. No se declara cerrada toda la rúbrica.
 
 
@@ -66,6 +70,8 @@ Figura: Grano de actividad: matrícula-recurso-día. Las dimensiones no multipli
 | OBT: 108.277 filas × 35 columnas | Cortes 14/28/42/56; unicidad matrícula-corte, poblaciones idénticas a Gold, joins conciliados y sin target/retiro posterior. |
 
 
+El join de actividad se realiza después de fijar la población elegible. Así, una matrícula sin registros conserva su fila y sus contadores observados en cero; no desaparece del análisis por un inner join. Este orden protege precisamente al grupo que podría requerir contacto temprano y permite distinguir ausencia de eventos de una ausencia real de estudio.
+
 La ingesta comprueba bytes, SHA256, columnas y filas contra manifest.json. Una versión Raw reconciliada se registra como NOOP. Un backfill explícito prepara y valida una tabla temporal antes de publicar el archivo completo en transacción; un error revierte la publicación. No hay streaming porque las fuentes son archivos históricos sin calendario real de llegada.
 
 En la ejecución integrada **2sQlV9Hreu3bWXWi7MtYRE**, Raw, dbt, Spark y verificación terminaron SUCCESS a la primera: 23 modelos y 168 pruebas dbt, cuatro pruebas de perturbación futura y lectura de vuelta completa. Los hashes de los cuatro cortes coinciden con el PSet 02. Spark publica por staging/swap después de comprobar contenido.
@@ -93,6 +99,8 @@ El EDA de desarrollo al día 56 usó 16.331 matrículas y 15.482 personas. Encon
 
 
 La comparación supervisada usa los mismos cinco folds agrupados por persona y las mismas validaciones completas. Se separan desarrollo y 2014J y se excluyen del desarrollo las personas presentes en esa presentación. Transformaciones aprendidas e imputación se ajustan dentro de cada train-fold. ± es la desviación descriptiva entre pliegues, no un intervalo independiente. Las cifras anteriores corresponden a candidatos iniciales del día 56; no son las métricas operativas de semana 2 o 4.
+
+La AP evalúa el ordenamiento de los casos Fail a lo largo de los umbrales; la cobertura al cupo evalúa la decisión que efectivamente puede financiarse. Una familia puede mejorar el orden global y no identificar más Fail entre las primeras propuestas. Por eso, la selección conserva la cobertura como criterio principal y usa AP, dispersión, costo y trazabilidad para interpretar la conveniencia del candidato.
 
 ## Tuning decidido por el negocio
 
@@ -139,6 +147,8 @@ El modelo histórico del día 56 no se usa para puntuar semanas 2/4. Se reutiliz
 Día 14: a6c0b65d4e354ceaabfc565c88bfa0c2 | versión 1
 Día 28: 048df6920ba747d28d957b052e685666 | versión 1
 ```
+
+El reparto de dos rondas convierte el calendario en una decisión de capacidad: cada propuesta temprana reduce el saldo disponible para la segunda revisión. La observación adicional puede cambiar el orden de riesgo, pero la reserva anterior se conserva para sostener la continuidad del contacto. El beneficio de anticipar depende también de que exista un tutor disponible y de la aceptación del apoyo; esas variables no están en OULAD y deben medirse antes de adoptar un reparto institucional.
 
 ## Elección del calendario, con 920 cupos
 
@@ -202,6 +212,8 @@ type: missing
 
 El contrato se valida antes de recuperar una respuesta previa o consumir capacidad. Las solicitudes no transportan target ni resultado final; quien llama tampoco puede modificar la cuota de una cohorte existente. El registro confiable y el orden de las rondas son parte del contrato, no decisiones del consumidor.
 
+Ante una respuesta perdida, el consumidor debe reenviar la misma cohorte y corte. Un error 422 exige corregir el contrato; un 409 requiere conciliar el contenido o la secuencia. Cambiar el identificador no constituye una autorización para abrir capacidad adicional.
+
 El ejemplo se ejecutó con la imagen publicada, Registry propio y un SQLite separado, sin carga a Snowflake ni modificación de aliases. El contenedor de prueba se retiró. Las métricas de error/latencia de ese ejercicio no se incorporan a los lotes de negocio.
 
 
@@ -232,6 +244,8 @@ Digest activo: <font face="Courier" size="8">sha256:c8c922877eeaa909c9463deaa877
 | localhost:8004 / 8006 | API control / escenario sintético; /docs conserva el contrato. |
 | localhost:8504 | Tablero por escenario, lote y disponibilidad de etiquetas. |
 
+
+Esta separación permite corregir el servicio y probar su imagen sin convertir cada ajuste de código en un cambio de priorización. Para reproducir una decisión previa se necesitan tanto el artefacto del modelo como la versión del servicio y su política.
 
 **Fuera de CI:** credenciales/roles cloud, ingesta real, restauración del Registry, disponibilidad externa, escala de concurrencia, SLA y efecto de tutorías. Se verificaron localmente ingesta completa, nueve servicios saludables, código incorporado a ejecutores y copia del Registry (825 runs / 20.790 archivos). Ninguna prueba de fixture acredita desempeño prospectivo.
 
@@ -271,6 +285,8 @@ La inducción afecta L06/L07: permuta vectores completos dentro de edición (sem
 
 El umbral AP es media CV -2 desviaciones: regla operativa, no intervalo estadístico. KS/chi-cuadrado complementan el diagnóstico. Los controles también alertan; no se afirma tasa cero de falsas alarmas ni deriva conceptual causal. L07 sintético tuvo una petición atribuida, 0 errores 4xx/5xx y p50=p95=4.920,7 ms del batch: no acredita SLA. En controles históricos los errores no atribuibles quedan NULL, no cero.
 
+Investigar origen, mezcla de módulos y prevalencia orienta la respuesta; la alerta no identifica por sí sola la causa.
+
 
 <!-- SALTO DE PÁGINA -->
 
@@ -301,6 +317,8 @@ Kestra 6lcaE9ak8kGv4myx06ZMMw se detuvo en PAUSED. Wilmer Puerta confirmó recha
 | DECISION_SOLICITADA | Propuesta rechazar; pausa de aprobación real. |
 | DECIDIDO | RECHAZADO, responsable y motivo; alias operativo conservado. |
 
+
+La decisión protege al proyecto frente a reemplazos que añaden costo operativo sin una ganancia suficiente bajo su regla previa. Aunque el candidato reduce cuatro falsas alertas con los mismos cupos, esa mejora no alcanza el margen exigido para cambiar el modelo. Conservarlo registrado permite auditar el rechazo y contrastar la regla con evidencia futura.
 
 ## Recarga/rollback e interruptor: alcance de la evidencia
 
@@ -353,6 +371,8 @@ El agregado presenta una brecha de -2,91 puntos de cobertura Y frente a N; en L0
 
 AP y tasas de decisión usan elegibles del corte; cobertura/FPR de la tabla superior usan la base inicial. Una AP mayor en Y no garantiza igual acceso: la mezcla de módulos y prevalencia difieren.
 
+Antes del piloto, debe acordarse cómo informar la propuesta, obtener la aceptación y registrar su resolución. Ese seguimiento permitiría identificar si la pérdida de acceso aparece al priorizar, contactar o atender, tres momentos que el score por sí solo no distingue. La Universidad deberá evaluar esa trayectoria por grupo y atender la revisión de L06 antes de ampliar el uso del ranking. El registro debe distinguir una propuesta pendiente de una atención efectivamente realizada.
+
 FP: tiempo/cupo para Universidad y tutores, contacto y posible estigma para el estudiante; puede tratarse de Withdrawn que también necesite apoyo. FN: apoyo oportuno no ofrecido a quien termina en Fail. Los tutores revisan contexto y contactos; el estudiante conserva vías habituales y puede pedir revisión. El módulo institucional de atención, consentimiento y apelaciones no está implementado.
 
 
@@ -382,6 +402,8 @@ Figura: TP del longitudinal y estático con iguales cupos en cada onda/corte. L0
 
 L05-L08 acumulan las propuestas de L01-L04 de la misma onda: **no sumar ambos cortes**. El agregado final suma las cuatro ondas de semana 4. L03 empata; en L07 sintético hay 69 frente a 73 TP estáticos. El total sintético es 317 frente a 263 (+20,53 %), con pérdida de 103 TP frente al longitudinal del control; no se suman ambos escenarios.
 
+Los TP absolutos varían con el tamaño de la onda y su presupuesto: el valor de L06 no demuestra por sí solo un mejor modelo que en L03. La comparación conserva cohorte, corte y cupos; la revisión operativa considera también los errores y la referencia estática de cada onda. La cobertura facilita interpretar la detección en relación con los Fail disponibles.
+
 La cola administrativa logra 187 TP con 920 cupos. No actuar tiene cero propuestas tempranas. La política reactiva también anticipa cero: asigna 920 casos una vez conocido Fail al cierre+14 simulado, por construcción. Su precisión posterior no es una predicción comparable al horizonte temprano. El longitudinal propone para 893 personas distintas; matrícula y persona se reportan por separado.
 
 
@@ -405,6 +427,8 @@ Con asistencia y probabilidad reactiva iguales a uno, adelantar 274 para añadir
 ## Recomendación: ajustar y validar en un piloto supervisado
 
 Mantener el modelo vigente y la revisión humana; no promover el candidato rechazado. Revisar el acceso de L06 antes de uso institucional, acordar unidad/capacidad y calendario reales, y medir aceptación, atención, costos e impacto con nuevas cohortes. El resultado de focalización a igual capacidad no obliga a ampliar presupuesto ni justifica por sí solo adelantar 30 % o 50 %. El piloto debe poder operar respaldo y detener nuevas propuestas según las señales acordadas.
+
+El piloto debe fijar capacidad, responsables y qué resultado justificaría continuar, ajustar o detener la intervención. Registrar propuestas, contactos, aceptación y atenciones permitirá estimar costos y diseñar una evaluación posterior del efecto del apoyo.
 
 ## Limitaciones y pendientes de entrega
 
