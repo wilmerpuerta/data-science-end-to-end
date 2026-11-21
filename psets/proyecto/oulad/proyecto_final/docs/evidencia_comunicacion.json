@@ -8,8 +8,8 @@
     "memo": {
       "archivo": "PSet4_memo_Puerta_Wilmer.pdf",
       "paginas": 12,
-      "sha256": "db344084e8190d842007443d882a6f1db77376370e0598b95f58b8a9d1c2df14",
-      "source_md_sha256": "2f96833aaf8f504c1bd3a5c17a0cd2b5832155d02a037c5f3a35fdb5f9769a9e"
+      "sha256": "c696f97389a6bb099b914824554216e0ba77313b9240f4f66dde6688926cb6fc",
+      "source_md_sha256": "b4a586dd7944d3e7331066685e9d935ee853648cf4ca5ac8ee4ad1ea6ec62672"
     },
     "presentacion": {
       "archivo": "PSet4_presentacion_Puerta_Wilmer.pdf",
@@ -286,6 +286,121 @@
     "alcance": "Redacción de procedencia del memo y su fuente editorial. Presentación y guion revisados; sus textos ya atribuían los datos a OULAD.",
     "paginas_2_a_12_texto_y_geometria_conservados": true,
     "anexos_historicos_conservados": true,
-    "metricas_modelos_y_decisiones_conservados": true
+    "metricas_modelos_y_decisiones_conservados": true,
+    "alcance_temporal": "Verificación de la edición del 20-nov-2026, anterior a la ampliación del 21-nov-2026."
+  },
+  "fecha_ultima_revision": "2026-11-21",
+  "revision_ampliacion": {
+    "fecha": "2026-11-21",
+    "paginas": 12,
+    "paginas_ampliadas": [
+      1,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "pagina_2_contenido_y_pixeles_conservados": true,
+    "pie_actualizado_a_fecha_de_revision": true,
+    "todos_los_parrafos_previos_conservados": true,
+    "margen_inferior_por_pagina_pt": {
+      "1": 65.3897637795277,
+      "2": 56.8897637795277,
+      "3": 57.8897637795277,
+      "4": 57.3897637795277,
+      "5": 54.289763779527675,
+      "6": 64.48976377952769,
+      "7": 53.3897637795277,
+      "8": 57.8897637795277,
+      "9": 65.3897637795277,
+      "10": 59.3897637795277,
+      "11": 53.8897637795277,
+      "12": 56.3897637795277
+    },
+    "tamano_tipografia_conservado": true,
+    "checks": [
+      {
+        "pagina": 1,
+        "sin_recortes": true,
+        "tipografia_legible": true,
+        "revisada_visualmente": true
+      },
+      {
+        "pagina": 2,
+        "sin_recortes": true,
+        "tipografia_legible": true,
+        "revisada_visualmente": true
+      },
+      {
+        "pagina": 3,
+        "sin_recortes": true,
+        "tipografia_legible": true,
+        "revisada_visualmente": true
+      },
+      {
+        "pagina": 4,
+        "sin_recortes": true,
+        "tipografia_legible": true,
+        "revisada_visualmente": true
+      },
+      {
+        "pagina": 5,
+        "sin_recortes": true,
+        "tipografia_legible": true,
+        "revisada_visualmente": true
+      },
+      {
+        "pagina": 6,
+        "sin_recortes": true,
+        "tipografia_legible": true,
+        "revisada_visualmente": true
+      },
+      {
+        "pagina": 7,
+        "sin_recortes": true,
+        "tipografia_legible": true,
+        "revisada_visualmente": true
+      },
+      {
+        "pagina": 8,
+        "sin_recortes": true,
+        "tipografia_legible": true,
+        "revisada_visualmente": true
+      },
+      {
+        "pagina": 9,
+        "sin_recortes": true,
+        "tipografia_legible": true,
+        "revisada_visualmente": true
+      },
+      {
+        "pagina": 10,
+        "sin_recortes": true,
+        "tipografia_legible": true,
+        "revisada_visualmente": true
+      },
+      {
+        "pagina": 11,
+        "sin_recortes": true,
+        "tipografia_legible": true,
+        "revisada_visualmente": true
+      },
+      {
+        "pagina": 12,
+        "sin_recortes": true,
+        "tipografia_legible": true,
+        "revisada_visualmente": true
+      }
+    ],
+    "nuevos_entrenamientos_o_llamadas_llm": false,
+    "palabras_agregadas": 598,
+    "generator_sha256": "f54c638faaf868f7786c844e4f531c74d747c8e8cfddb65fa63c1cf7b39b8442",
+    "resumen": "Explicaciones ampliadas en las páginas 1 y 3-12; página 2 conservada. Mismas cifras, gráficos, tipografía y decisiones; márgenes inferiores equilibrados."
   }
 }

@@ -537,3 +537,10 @@ La corrección no cambia SQL, features, contrato, entrenamientos, aliases ni pre
 ## 2026-11-20 — Redacción de la procedencia en la comunicación final
 
 Se simplificó la atribución del conjunto de datos en el memo y su fuente editorial: The Open University (OULAD). El memo conserva 12 páginas; las páginas 2-12 mantienen texto y geometría. Se revisaron la presentación y el guion, cuyos textos ya identificaban OULAD como fuente. Se actualizaron el generador editorial y los hashes del memo para reproducir esta redacción. Se preservan resultados, criterios de negocio, modelos, decisiones y documentos históricos.
+
+
+## 2026-11-21 — Ampliación y equilibrio visual del memo
+
+Se amplió la explicación en las páginas 1 y 3-12, según el espacio disponible, manteniendo 12 páginas. Se desarrollan el uso de los cupos y los falsos positivos, el join que conserva matrículas sin actividad, la selección por cobertura al cupo, el reparto entre semanas, la operación ante errores API, la separación código/modelo, el diagnóstico de alertas, el rechazo del candidato, el seguimiento del acceso, la lectura de métricas por onda y el diseño del piloto. La página 2 conserva contenido y distribución; se actualiza la fecha del pie de revisión en todo el documento.
+
+Los párrafos anteriores, tablas, gráficos, cifras y decisiones se conservan. Se revisaron visualmente las 12 páginas y se comprobaron fuentes, límites y ausencia de recortes. Los márgenes de cierre quedan entre 53,4 y 65,4 puntos. No se cambia el tamaño de letra ni se introducen resultados experimentales; tampoco se repiten entrenamiento, tuning o llamadas a un LLM. Se actualizan la fuente editorial, el generador local y los hashes de comunicación.
