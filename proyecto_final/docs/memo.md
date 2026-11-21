@@ -1,6 +1,6 @@
 # 1. Problema y formulación final
 
-**Apoyo académico preventivo con capacidad limitada.** El proyecto prioriza matrículas que podrían terminar en Fail para proponer tutorías durante el período en curso. La Universidad es el escenario de decisión; los datos proceden de The Open University (OULAD), no de una cohorte institucional de USFQ.
+**Apoyo académico preventivo con capacidad limitada.** El proyecto prioriza matrículas que podrían terminar en Fail para proponer tutorías durante el período en curso. La Universidad es el escenario de decisión; los datos proceden de The Open University (OULAD).
 
 El criterio del negocio es mejorar al menos **10 % relativo la cobertura de Fail frente al predictor estático, con los mismos cupos**. La simulación original obtiene 420 frente a 314 Fail priorizados con 920 cupos: 106 netos adicionales (+33,76 %). Es evidencia retrospectiva de focalización, no de tutorías realizadas o reprobaciones evitadas.
 

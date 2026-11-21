@@ -8,7 +8,8 @@
     "memo": {
       "archivo": "PSet4_memo_Puerta_Wilmer.pdf",
       "paginas": 12,
-      "sha256": "1e21d2ceec535a8258a017676d7b6421fa36a812d2551d35ac9525cacbe49909"
+      "sha256": "db344084e8190d842007443d882a6f1db77376370e0598b95f58b8a9d1c2df14",
+      "source_md_sha256": "2f96833aaf8f504c1bd3a5c17a0cd2b5832155d02a037c5f3a35fdb5f9769a9e"
     },
     "presentacion": {
       "archivo": "PSet4_presentacion_Puerta_Wilmer.pdf",
@@ -277,5 +278,14 @@
     "Grabar/publicar video y verificar acceso",
     "Insertar URL real en el memo",
     "Auditoria final de la rubrica"
-  ]
+  ],
+  "revision_redaccion": {
+    "fecha": "2026-11-20",
+    "procedencia_datos": "The Open University (OULAD)",
+    "paginas_memo": 12,
+    "alcance": "Redacción de procedencia del memo y su fuente editorial. Presentación y guion revisados; sus textos ya atribuían los datos a OULAD.",
+    "paginas_2_a_12_texto_y_geometria_conservados": true,
+    "anexos_historicos_conservados": true,
+    "metricas_modelos_y_decisiones_conservados": true
+  }
 }
