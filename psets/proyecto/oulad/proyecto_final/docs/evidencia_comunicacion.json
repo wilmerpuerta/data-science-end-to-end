@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "estado": "documentos_preparados_para_revision",
+  "estado": "documentos_y_notebooks_verificados_video_pendiente",
   "fecha": "2026-11-20",
   "autor": "Wilmer Puerta",
   "convencion_nombre": "Puerta_Wilmer por indicacion del autor; no se presume excepcion docente",
@@ -8,8 +8,8 @@
     "memo": {
       "archivo": "PSet4_memo_Puerta_Wilmer.pdf",
       "paginas": 12,
-      "sha256": "c696f97389a6bb099b914824554216e0ba77313b9240f4f66dde6688926cb6fc",
-      "source_md_sha256": "b4a586dd7944d3e7331066685e9d935ee853648cf4ca5ac8ee4ad1ea6ec62672"
+      "sha256": "b9bc1d482d0e0d304edc7ccf243feb61db400d370c77d2ff966eb66353aa965b",
+      "source_md_sha256": "35018de8ca74be40452d566e9e15389d65245fc036f2bff8cd0625b600d99a2f"
     },
     "presentacion": {
       "archivo": "PSet4_presentacion_Puerta_Wilmer.pdf",
@@ -39,7 +39,7 @@
       "sha256_original": "108a70a93e74b150121382b5cd266e64e61cf40435eb0d4c01c5b1089c4393c6"
     }
   ],
-  "cambios_md_sha256": "01389d573c4aadade853591025b16e605b847a3fd5bf14aaef15e64aa283a0be",
+  "cambios_md_sha256": "dfa556ce492810b108503b9bbae5ecad71cf7fa8ae25eac79bc576ab3d1186ab",
   "github_actions": {
     "url": "https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44781023359",
     "fecha": "2026-11-20T19:21:56.920Z",
@@ -273,7 +273,6 @@
     "preparacion_pipeline_sha256": "2e45d564d37ff34de666adaa09c5d440cd61f7c7c16378ea354cf9cbbd3e10be"
   },
   "pendientes": [
-    "Notebooks 01-07 con salidas y Restart/Run All",
     "Pitch historico en PDF",
     "Grabar/publicar video y verificar acceso",
     "Insertar URL real en el memo",
@@ -289,7 +288,7 @@
     "metricas_modelos_y_decisiones_conservados": true,
     "alcance_temporal": "Verificación de la edición del 20-nov-2026, anterior a la ampliación del 21-nov-2026."
   },
-  "fecha_ultima_revision": "2026-11-21",
+  "fecha_ultima_revision": "2026-11-24",
   "revision_ampliacion": {
     "fecha": "2026-11-21",
     "paginas": 12,
@@ -402,5 +401,44 @@
     "palabras_agregadas": 598,
     "generator_sha256": "f54c638faaf868f7786c844e4f531c74d747c8e8cfddb65fa63c1cf7b39b8442",
     "resumen": "Explicaciones ampliadas en las páginas 1 y 3-12; página 2 conservada. Mismas cifras, gráficos, tipografía y decisiones; márgenes inferiores equilibrados."
+  },
+  "revision_negocio": {
+    "fecha": "2026-11-24",
+    "paginas_memo": 12,
+    "paginas_revisadas_visualmente": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "lenguaje": "Definiciones y lectura de tablas orientadas a decisiones de apoyo, capacidad, errores y presupuesto.",
+    "independencia": "2014J previamente observado: benchmark retrospectivo. Purgas y reserva L08 no restauran independencia. Cohorte futura sin consultar requerida.",
+    "modelos_y_decisiones_conservados": true,
+    "memo_pset3_historico_conservado": true,
+    "video_pendiente": true
+  },
+  "notebooks": {
+    "cantidad": 7,
+    "ejecucion": "Kernel nuevo por archivo, todas las celdas ejecutadas sin errores.",
+    "informe": "verificacion_notebooks.json",
+    "sha256": "ef1fb406dacafe1899ab50d5eb086def5a7b2878a256883569cfa6df364f3bfc"
+  },
+  "validacion_pset1": {
+    "estado": "verificado",
+    "informe": "validacion_pset1.json",
+    "sha256": "1d5044efdb31ee5dd3ee8c5ca58aa4455ca0f0d80d06acc3ab5a114934da780f",
+    "archivos": 5,
+    "matriculas": 32593,
+    "personas": 28785,
+    "filas_actividad": 10655280,
+    "originales_e_informes_historicos_conservados": true
   }
 }

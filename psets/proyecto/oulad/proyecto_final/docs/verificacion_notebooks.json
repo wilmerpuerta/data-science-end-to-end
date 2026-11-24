@@ -1,0 +1,67 @@
+{
+  "fecha": "2026-11-24",
+  "modo": "Kernel nuevo por notebook, ejecución secuencial completa; sin servicios externos ni ajuste de clasificadores.",
+  "notebooks": [
+    {
+      "notebook": "01_eda.ipynb",
+      "celdas_codigo": 4,
+      "errores": 0,
+      "sha256": "f0832acfed6b4d541f0392d36abc91db854a40ce016cad709c1eeb2b1760200a"
+    },
+    {
+      "notebook": "02_features.ipynb",
+      "celdas_codigo": 3,
+      "errores": 0,
+      "sha256": "07b42f98e36cb779d417cc4c5d4f714c0bd5ced52e81cbf619c6f0dd7d7755eb"
+    },
+    {
+      "notebook": "03_baseline_candidatos.ipynb",
+      "celdas_codigo": 3,
+      "errores": 0,
+      "sha256": "1fdd9b8aabb4c03fccb4dab97386b71649bbfdef4d9472eb8d5dd2a0dd9c2795"
+    },
+    {
+      "notebook": "04_tuning.ipynb",
+      "celdas_codigo": 3,
+      "errores": 0,
+      "sha256": "3dbd90ebfb3f4f1224dbe6438fddfc3d0b941a8852a51fa59c15e349b3d61c0f"
+    },
+    {
+      "notebook": "05_seleccion.ipynb",
+      "celdas_codigo": 3,
+      "errores": 0,
+      "sha256": "385828808bd723d2d4cada885082c3d59575e4b766a09a202f1875af30226047"
+    },
+    {
+      "notebook": "06_simulacion_produccion.ipynb",
+      "celdas_codigo": 3,
+      "errores": 0,
+      "sha256": "e94ca24961fd2ea1ff969e059d6506e56b794bb9be5e995f5de2b00e2dbcb158"
+    },
+    {
+      "notebook": "07_analisis_monitoreo.ipynb",
+      "celdas_codigo": 5,
+      "errores": 0,
+      "sha256": "c23799cfe9c54d6d97ac48d5a68e6fddd7dcb1632584887b20ac7cbe4dabd965"
+    }
+  ],
+  "codigo_sha256": {
+    "src/notebooks.py": "5ead95876b8deea46aa4abd0cff6088862e156d1417ea9d48c0996711a6a9e0c",
+    "src/pipeline.py": "2e45d564d37ff34de666adaa09c5d440cd61f7c7c16378ea354cf9cbbd3e10be"
+  },
+  "insumos_sha256": {
+    "evidencia_modelado.json": "98f0a3c85bf93f509f002e405a497c976112936a3143e8ea61e7d0cbeb9df9a2",
+    "validacion_pset1.json": "1d5044efdb31ee5dd3ee8c5ca58aa4455ca0f0d80d06acc3ab5a114934da780f",
+    "corridas.csv": "3e147f7c5925e3b981cbf6e0b3ca8cc8b808e036f3c2a417eb575f05a6cb9154",
+    "predicciones.csv": "943cc997c8eaff1c7f9a2d92c18cfdf4d34659d610ad77ace06284787d16efb0",
+    "monitoreo.csv": "cd0cdfc00cad0ef5b6d1099d3deda07c882873e4eede97b610babbd1250f781a",
+    "alertas.csv": "d4808661d428419b9830162e140f7e7874e6aaa4b7c392ae7369da2a0fe962da",
+    "reentrenamientos.csv": "eaad34d7ceee857cfd470891bdff8269c2e7482ebf97ecc33e41fe46b2f154fa"
+  },
+  "entorno": "Python 3.11.16; dependencias de requirements.txt; complemento Jupyter en notebooks/requirements.txt; sin Docker ni servicios cloud para esta reproducción.",
+  "pruebas_servicio": {
+    "aprobadas": 84,
+    "fallidas": 0,
+    "modo": "Entorno temporal, misma fuente Git de API/tests/pipeline; no nuevo despliegue."
+  }
+}

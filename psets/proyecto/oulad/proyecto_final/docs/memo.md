@@ -1,8 +1,8 @@
 # 1. Problema y formulación final
 
-**Apoyo académico preventivo con capacidad limitada.** El proyecto prioriza matrículas que podrían terminar en Fail para proponer tutorías durante el período en curso. La Universidad es el escenario de decisión; los datos proceden de The Open University (OULAD).
+**Apoyo académico preventivo con cupos limitados.** El proyecto ordena las matrículas según el riesgo de reprobar (Fail), para proponer tutorías durante el período en curso. Cada matrícula representa a un estudiante en una asignatura. La Universidad es el escenario de decisión; los datos proceden de The Open University (OULAD).
 
-El criterio del negocio es mejorar al menos **10 % relativo la cobertura de Fail frente al predictor estático, con los mismos cupos**. La simulación original obtiene 420 frente a 314 Fail priorizados con 920 cupos: 106 netos adicionales (+33,76 %). Es evidencia retrospectiva de focalización, no de tutorías realizadas o reprobaciones evitadas.
+El criterio del negocio es **detectar al menos 10 % más casos Fail que el modelo con datos de matrícula, sin aumentar los cupos**. Al añadir actividad digital, la simulación identifica 420 frente a 314 casos con 920 propuestas: 106 adicionales netos (+33,76 %). **2014J ya se había consultado: esta comparación es retrospectiva y no constituye una prueba final independiente.**
 
 Fail focalizados con iguales 920 propuestas, base de 1.947 Fail. La mejora relativa es (420/314 - 1), no 33,76 puntos de cobertura.
 
@@ -11,19 +11,19 @@ Figura: Fail focalizados con iguales 920 propuestas, base de 1.947 Fail. La mejo
 
 | Decisión de formulación | Elección final |
 |---|---|
-| Unidad y target | Matrícula-asignatura. Tres clases: Approved (Pass/Distinction), Fail y Withdrawn; Fail es la clase de interés. |
-| Horizonte | Features congeladas en días 14 y 28; resultado al cierre. Disponibilidad de etiqueta: cierre del módulo +14 días, supuesto explícito. |
+| Unidad y target | Matrícula en una asignatura. Tres resultados: aprobado, reprobado (Fail) y retirado. Se prioriza el riesgo de Fail. |
+| Horizonte | Información disponible en semanas 2 y 4; resultado al cierre. Se supone disponible 14 días después del fin del curso. |
 | Métricas | AP de Fail como diagnóstico técnico; cobertura y precisión a cupo efectivo para decidir. Personas únicas se informan aparte. |
 | Líneas base | Predictor estático para la meta; Dummy/cola administrativa para respaldo. Política reactiva posterior y no actuar, con horizonte separado. |
-| Umbral | Ranking por edición, no probabilidad 0,5. K=floor(0,10 × elegibles en día 14); primera ronda floor(0,25 K). |
+| Umbral | Lista ordenada por edición: cupos del 10 % de elegibles en semana 2, redondeados hacia abajo. Se reserva 25 % para la primera ronda. |
 | Juicio humano | La API propone; tutores revisan contexto y necesidad. No decide sanciones, causas ni la asignación institucional definitiva. |
 
 
 ## Uso operativo del resultado
 
-El modelo prioriza contacto, y la coordinación confirma necesidad, disponibilidad y aceptación antes de asignar la atención. Entre las 920 propuestas, 500 corresponden a no-Fail: la proporción de falsas alertas es 54,35 %, diferente de la FPR poblacional. La mejora se evalúa a capacidad constante y requiere aceptar ese costo de revisión. El piloto deberá medir cuántas propuestas se convierten en contactos y tutorías, y comparar sus resultados con una alternativa de igual capacidad.
+La tabla resume qué se decide, cuándo se decide y quién confirma la atención. La cobertura indica qué proporción de todos los Fail aparece entre las propuestas; la precisión indica cuántas propuestas corresponden a Fail. De 920 propuestas, 500 no terminan en Fail: 54,35 % requieren revisión sin confirmar ese resultado. La coordinación debe comprobar necesidad, disponibilidad y aceptación antes de asignar la tutoría. Detectar un caso no demuestra que se haya atendido ni evitado su reprobación.
 
-**Estado de comunicación:** documentos para revisión. El video todavía no está grabado/publicado y los notebooks finales 01-07 siguen pendientes. Enlace de la demo: **pendiente de publicación**. No se declara cerrada toda la rúbrica.
+**Estado de comunicación:** siete notebooks preparados con salidas verificadas. El video aún no se ha grabado ni publicado. Enlace de la demo: **pendiente de publicación**. La entrega conserva pendientes explícitos.
 
 
 <!-- SALTO DE PÁGINA -->
@@ -35,7 +35,7 @@ Flujo completo del proyecto. Kestra orquesta; Snowflake conserva capas y evidenc
 
 Figura: Flujo completo del proyecto. Kestra orquesta; Snowflake conserva capas y evidencia; MLflow versiona artefactos. La promoción exige decisión humana.
 
-Se eligió **batch por cohorte completa** porque el presupuesto depende de la edición y de las propuestas previas. Un endpoint por estudiante sin ese contexto permitiría fragmentar cupos. Un servicio online sería útil para consulta, pero tendría que consultar el mismo manifiesto confiable y estado transaccional; no se añadió otra regla de asignación.
+Se procesa **cada grupo completo de matrículas a la vez** (batch), porque los cupos pertenecen a una edición del curso y deben descontar las propuestas anteriores. Procesar estudiantes por separado podría repartir más cupos de los disponibles. El servicio recibe el grupo, calcula el orden de riesgo y propone contactos; una consulta individual tendría que respetar el mismo registro de capacidad.
 
 
 | Eslabón | Referencia y control |
@@ -47,7 +47,7 @@ Se eligió **batch por cohorte completa** porque el presupuesto depende de la ed
 | Auditoría posterior | MONITOREO, ALERTAS y REENTRENAMIENTOS vinculan plan/lote. La etiqueta se filtra por el reloj simulado antes de unirse. |
 
 
-La API usa SQLite como registro durable y outbox, con publicación posterior conciliada a Snowflake. Transacción, manifiesto de cohorte y hash de contenido preservan presupuesto e idempotencia. Una solicitud repetida devuelve los IDs, riesgos y versión originales; no consume otro cupo.
+La tabla vincula cada propuesta con sus datos y modelo. SQLite registra la operación y después la concilia con Snowflake. Reenviar el mismo grupo devuelve la respuesta original y no consume otro cupo; así se recuperan respuestas sin duplicar reservas.
 
 Un Compose propio levanta nueve servicios: Kestra, PostgreSQL, dbt, Spark, MLflow, dos API, monitor y tablero. El código de los ejecutores está incorporado a sus imágenes. Solo los workers necesarios montan claves cloud; API y tablero no reciben credenciales Snowflake.
 
@@ -70,9 +70,9 @@ Figura: Grano de actividad: matrícula-recurso-día. Las dimensiones no multipli
 | OBT: 108.277 filas × 35 columnas | Cortes 14/28/42/56; unicidad matrícula-corte, poblaciones idénticas a Gold, joins conciliados y sin target/retiro posterior. |
 
 
-El join de actividad se realiza después de fijar la población elegible. Así, una matrícula sin registros conserva su fila y sus contadores observados en cero; no desaparece del análisis por un inner join. Este orden protege precisamente al grupo que podría requerir contacto temprano y permite distinguir ausencia de eventos de una ausencia real de estudio.
+La tabla resume riesgos de calidad y controles. Primero se fija quién es elegible y después se une su actividad; quien no registra accesos conserva su fila con contadores en cero. Así no se excluye del análisis a un grupo que podría necesitar contacto. Ausencia de registros no demuestra ausencia de estudio.
 
-La ingesta comprueba bytes, SHA256, columnas y filas contra manifest.json. Una versión Raw reconciliada se registra como NOOP. Un backfill explícito prepara y valida una tabla temporal antes de publicar el archivo completo en transacción; un error revierte la publicación. No hay streaming porque las fuentes son archivos históricos sin calendario real de llegada.
+Antes de cargar se verifican contenido, tamaño, columnas y filas. Un archivo idéntico ya conciliado no se recarga (NOOP). Una recarga solicitada se valida en una tabla temporal y se publica completa; un error revierte la operación. Se usan lotes porque los archivos son históricos, sin llegada continua de registros.
 
 En la ejecución integrada **2sQlV9Hreu3bWXWi7MtYRE**, Raw, dbt, Spark y verificación terminaron SUCCESS a la primera: 23 modelos y 168 pruebas dbt, cuatro pruebas de perturbación futura y lectura de vuelta completa. Los hashes de los cuatro cortes coinciden con el PSet 02. Spark publica por staging/swap después de comprobar contenido.
 
@@ -84,10 +84,10 @@ Retries: Raw hasta tres intentos, dbt/Spark hasta dos; trabajos exitosos se reut
 
 # 4. EDA, candidatos y selección
 
-El EDA de desarrollo al día 56 usó 16.331 matrículas y 15.482 personas. Encontró 9.219 Approved, 4.918 Fail y 2.194 Withdrawn. Las colas largas de clics motivaron ensayar log1p sin borrar extremos; 432 matrículas sin registros tuvieron 75,69 % Fail frente a 28,88 % con registros. Esa asociación no prueba que la inactividad cause reprobación.
+La exploración de desarrollo al día 56 comprende 16.331 matrículas: 9.219 aprobadas, 4.918 reprobadas y 2.194 retiradas; corresponden a 15.482 personas. Entre 432 matrículas sin actividad registrada, 75,69 % termina en Fail, frente a 28,88 % con actividad. Esa asociación orienta una revisión de necesidad, pero no demuestra que la falta de acceso cause reprobación.
 
 
-| Familia / baseline | AP Fail CV | Cobertura CV al 10 % |
+| Modelo / referencia | Orden de riesgo (AP) | Fail detectados, cupo 10 % |
 |---|---|---|
 | Dummy | 0,3012 ± 0,0117 | 9,15 % ± 1,50 % |
 | Logística | 0,5687 ± 0,0245 | 22,92 % ± 0,80 % |
@@ -98,17 +98,17 @@ El EDA de desarrollo al día 56 usó 16.331 matrículas y 15.482 personas. Encon
 | GPT prompting | 0,3821 ± 0,0394 | 14,87 % ± 1,88 % |
 
 
-La comparación supervisada usa los mismos cinco folds agrupados por persona y las mismas validaciones completas. Se separan desarrollo y 2014J y se excluyen del desarrollo las personas presentes en esa presentación. Transformaciones aprendidas e imputación se ajustan dentro de cada train-fold. ± es la desviación descriptiva entre pliegues, no un intervalo independiente. Las cifras anteriores corresponden a candidatos iniciales del día 56; no son las métricas operativas de semana 2 o 4.
+La tabla compara los candidatos iniciales del día 56. Se valida cinco veces, separando personas: ninguna aparece en entrenamiento y validación a la vez. La imputación y el escalado se aprenden solo en el entrenamiento de cada ronda. El signo ± muestra cuánto varía el resultado entre esas cinco validaciones; no es una garantía de desempeño futuro. Estas cifras no corresponden todavía a semanas 2 y 4.
 
-La AP evalúa el ordenamiento de los casos Fail a lo largo de los umbrales; la cobertura al cupo evalúa la decisión que efectivamente puede financiarse. Una familia puede mejorar el orden global y no identificar más Fail entre las primeras propuestas. Por eso, la selección conserva la cobertura como criterio principal y usa AP, dispersión, costo y trazabilidad para interpretar la conveniencia del candidato.
+**Cómo leer la tabla:** cobertura es la proporción de Fail detectados al ofrecer cupos al 10 % de las matrículas; cuanto mayor, más casos caben en el mismo presupuesto. AP resume el orden de riesgo en toda la lista, no el porcentaje de tutorías útiles. Se elige por cobertura y se revisan estabilidad, costo y facilidad de operar; una AP mayor por sí sola no resuelve la decisión de negocio.
 
 ## Tuning decidido por el negocio
 
-Se probaron 30 configuraciones de Logística, HGB y GaussianNB: **90 en total**. HGB obtuvo la mayor cobertura CV media, 23,40 % (AP 0,5830); el finalista logístico alcanzó 23,24 %. La diferencia de 0,16 puntos es menor que la dispersión HGB de 0,93 puntos: se conserva la selección predeclarada, sin afirmar superioridad estadística estable.
+Se ajustaron 30 configuraciones por familia para Logística, HGB y GaussianNB: **90 en total**. HGB detectó en promedio 23,40 % de los Fail; Logística, 23,24 %. La diferencia de 0,16 puntos es menor que la variación de HGB entre validaciones (0,93 puntos). Se mantiene la selección registrada, con esa incertidumbre; no se afirma que HGB sea siempre mejor.
 
 Run final histórico del día 56: **fcd23ae22d6c46ffb41c1e4f23e1c02d**, Registry oulad-apoyo-academico-v2-modelo, versión 1. Tuning HGB: 160 iteraciones, learning_rate 0,02181, 7 hojas, min_samples_leaf 80; early_stopping desactivado. Los modelos tempranos se identifican por separado en la página siguiente.
 
-En 2014J, ya observado antes, HGB focalizó 465 Fail con 872 cupos al día 56 y Logística 477. No se reabre la selección hecha por CV tras mirar ese resultado; se necesita una cohorte prospectiva para contrastar la decisión.
+En 2014J, HGB detectó 465 Fail y Logística 477 con 872 cupos. **Ya conocíamos esa cohorte: no es una evaluación final independiente.** Separar personas o reconstruir el proyecto no borra ese conocimiento. Se conserva la selección por validación de desarrollo; una cohorte futura sin consultar debe confirmar su conveniencia.
 
 ## Prompting y modelo fundacional
 
@@ -120,10 +120,10 @@ Sí fue factible probar GPT mediante prompting: 18 ejemplos del train-fold (seis
 
 # 5. Modelos tempranos y fuga temporal
 
-El modelo histórico del día 56 no se usa para puntuar semanas 2/4. Se reutilizaron HGB específicos del corte temprano, con sus artefactos completos y firmas; no se repitió tuning para escoger un resultado favorable. Los comparadores estáticos conservan las mismas poblaciones y capacidad de cada política.
+Para proponer apoyo temprano se usan modelos específicos de semanas 2 y 4; el modelo del día 56 no puntúa esos cortes. Se conservan los artefactos y la preparación ya evaluados, sin repetir la búsqueda para escoger un resultado favorable. La tabla compara datos de matrícula frente a matrícula más actividad digital, con las mismas poblaciones y cupos.
 
 
-| Corte / modelo HGB | AP CV | Cobertura CV |
+| Corte / modelo HGB | Orden de riesgo (AP) | Cobertura CV |
 |---|---|---|
 | Día 14 estático | 0,3965 | 15,36 % |
 | Día 14 longitudinal | 0,4570 | 18,63 % |
@@ -148,7 +148,7 @@ Día 14: a6c0b65d4e354ceaabfc565c88bfa0c2 | versión 1
 Día 28: 048df6920ba747d28d957b052e685666 | versión 1
 ```
 
-El reparto de dos rondas convierte el calendario en una decisión de capacidad: cada propuesta temprana reduce el saldo disponible para la segunda revisión. La observación adicional puede cambiar el orden de riesgo, pero la reserva anterior se conserva para sostener la continuidad del contacto. El beneficio de anticipar depende también de que exista un tutor disponible y de la aceptación del apoyo; esas variables no están en OULAD y deben medirse antes de adoptar un reparto institucional.
+**Lectura de las tablas:** añadir actividad digital mejora la detección en ambos cortes de desarrollo. Cada propuesta de semana 2 consume parte del mismo presupuesto y se conserva en semana 4, aunque cambie el orden de riesgo. En la comparación de calendarios, TP son propuestas que después terminan en Fail y FP las que no. Esperar aporta más observación, pero deja menos tiempo para ofrecer apoyo; tutor disponible y aceptación también importan y deben medirse.
 
 ## Elección del calendario, con 920 cupos
 
@@ -160,7 +160,7 @@ El reparto de dos rondas convierte el calendario en una decisión de capacidad: 
 | Solo semana 4 | 426 | 494 | 11 TP más que semana 2; retrasa todas las propuestas iniciales. |
 
 
-Las 226 propuestas iniciales incluyen 121 Fail observados posteriormente y se adelantan 14 días respecto de esperar al corte de semana 4. El margen al fin del módulo es 245-255 días en semana 2 y 231-241 en semana 4, según duración del curso OULAD; no es un calendario universitario local. Las alternativas cambian modelos/elegibilidad, y fueron analizadas retrospectivamente: no prueban una política óptima ni el efecto de más datos.
+Las 226 propuestas iniciales incluyen 121 matrículas que después terminaron en Fail y permiten contactar 14 días antes. Según el curso OULAD, quedan 245-255 días hasta su fin en semana 2 y 231-241 en semana 4; no es un calendario local. El contraste entre calendarios es retrospectivo y también cambia elegibilidad/modelo: no demuestra una regla óptima ni una reducción causal de errores por esperar.
 
 
 <!-- SALTO DE PÁGINA -->
@@ -168,7 +168,7 @@ Las 226 propuestas iniciales incluyen 121 Fail observados posteriormente y se ad
 
 # 6. Servicio de predicción y contrato
 
-La API recibe la cohorte completa del corte; su manifiesto y base de presupuesto se registran desde una fuente confiable. La carga por alias se resuelve para cada lote nuevo y se fija una versión durante todo el lote. Los identificadores de persona permiten contar atención única aparte de matrícula-asignatura.
+La API es el servicio que recibe el grupo completo y devuelve las propuestas. Su registro previo fija quién es elegible y cuántos cupos comparte. Para cada lote nuevo se selecciona una versión de modelo, que permanece fija durante todo ese procesamiento. La identificación de personas permite distinguir estudiantes únicos de matrículas en distintas asignaturas.
 
 ## POST /predecir: fragmento ilustrativo del JSON
 
@@ -210,9 +210,9 @@ loc: [body, matriculas, 0, features, studied_credits]
 type: missing
 ```
 
-El contrato se valida antes de recuperar una respuesta previa o consumir capacidad. Las solicitudes no transportan target ni resultado final; quien llama tampoco puede modificar la cuota de una cohorte existente. El registro confiable y el orden de las rondas son parte del contrato, no decisiones del consumidor.
+La tabla distingue solicitudes correctas, datos incompletos y conflictos con una operación previa. El código 422 pide corregir los datos; el 409 pide revisar el grupo o el orden de las rondas. El servicio valida antes de reservar cupos. El usuario no puede enviar el resultado final ni cambiar la capacidad de un grupo ya registrado.
 
-Ante una respuesta perdida, el consumidor debe reenviar la misma cohorte y corte. Un error 422 exige corregir el contrato; un 409 requiere conciliar el contenido o la secuencia. Cambiar el identificador no constituye una autorización para abrir capacidad adicional.
+Si se pierde una respuesta, el usuario debe reenviar el mismo grupo y corte: recuperará la decisión anterior. Cambiar el identificador no autoriza cupos adicionales. El ejemplo de 40 matrículas comprueba que el servicio responde y respeta el presupuesto; sus identificadores son sintéticos y no sirve para estimar la calidad predictiva del modelo.
 
 El ejemplo se ejecutó con la imagen publicada, Registry propio y un SQLite separado, sin carga a Snowflake ni modificación de aliases. El contenedor de prueba se retiró. Las métricas de error/latencia de ese ejercicio no se incorporan a los lotes de negocio.
 
@@ -245,7 +245,7 @@ Digest activo: <font face="Courier" size="8">sha256:c8c922877eeaa909c9463deaa877
 | localhost:8504 | Tablero por escenario, lote y disponibilidad de etiquetas. |
 
 
-Esta separación permite corregir el servicio y probar su imagen sin convertir cada ajuste de código en un cambio de priorización. Para reproducir una decisión previa se necesitan tanto el artefacto del modelo como la versión del servicio y su política.
+La primera tabla separa actualizar el programa de reemplazar el modelo. Publicar código no cambia automáticamente el orden de riesgo: se exige una decisión humana. Para auditar una propuesta se conservan programa, modelo y política. La segunda tabla indica las consultas locales.
 
 **Fuera de CI:** credenciales/roles cloud, ingesta real, restauración del Registry, disponibilidad externa, escala de concurrencia, SLA y efecto de tutorías. Se verificaron localmente ingesta completa, nueve servicios saludables, código incorporado a ejecutores y copia del Registry (825 runs / 20.790 archivos). Ninguna prueba de fixture acredita desempeño prospectivo.
 
@@ -255,7 +255,7 @@ Esta separación permite corregir el servicio y probar su imagen sin convertir c
 
 # 8. Simulación, monitoreo y deriva
 
-Se construyeron ocho despachos de 2014J: cuatro ondas de ediciones completas en días 14-17 y 28-31, con features congeladas 14/28. La demora de 0-3 días es un supuesto de cola. Son ocho lotes, **no ocho semestres independientes**. Antes de la liberación simulada del target no se calcula AP ni se reentrena con sus etiquetas.
+Se simulan ocho despachos de 2014J: cuatro grupos de ediciones completas en semanas 2 y 4. El retraso de cero a tres días supone una cola; los datos permanecen congelados al corte. **No son ocho semestres independientes.** Antes de conocer el resultado final se revisan datos, sin calcular desempeño ni entrenar con esas etiquetas.
 
 AP sobre etiquetas maduras. El eje identifica el despacho, no la fecha de llegada del resultado. Cada punto tiene su referencia CV por corte/módulos; todos los scores servidos siguen en versión 1.
 
@@ -274,7 +274,7 @@ Figura: AP sobre etiquetas maduras. El eje identifica el despacho, no la fecha d
 | L08 | 28 | 1.459 | 111 | 0,4339 | 0,4339 |
 
 
-La inducción afecta L06/L07: permuta vectores completos dentro de edición (semilla 5041+orden) y suma 120 créditos. Conserva IDs, targets y cupos. Modifica también variables estáticas y demografías; estas últimas no se usan como equidad real. Hay 36.646 predicciones, 32 revisiones y 28 alertas (12 control, 16 sintético), con escenarios y presupuestos separados.
+La tabla separa datos originales del escenario alterado en L06/L07: se reordenan vectores completos y se añaden 120 créditos, conservando identificadores, resultados y cupos. Es una prueba artificial, no un cambio observado en estudiantes. Hay 36.646 predicciones, 32 revisiones y 28 alertas: 12 en control y 16 en el escenario alterado.
 
 
 | Señal | Ventana y destinatario | Respuesta |
@@ -283,7 +283,7 @@ La inducción afecta L06/L07: permuta vectores completos dentro de edición (sem
 | AP bajo referencia | Dos lotes maduros del mismo corte; modelo/coordinación | Revisar resultado y solicitar un candidato; la aprobación queda separada. |
 
 
-El umbral AP es media CV -2 desviaciones: regla operativa, no intervalo estadístico. KS/chi-cuadrado complementan el diagnóstico. Los controles también alertan; no se afirma tasa cero de falsas alarmas ni deriva conceptual causal. L07 sintético tuvo una petición atribuida, 0 errores 4xx/5xx y p50=p95=4.920,7 ms del batch: no acredita SLA. En controles históricos los errores no atribuibles quedan NULL, no cero.
+**Cómo actuar:** PSI mide cuánto cambia la distribución de los datos; una alerta pide investigar, no retirar automáticamente el modelo. Una AP baja en dos lotes comparables, con resultados finales disponibles, permite solicitar un candidato. Su umbral es una regla operativa basada en la variación histórica, no una garantía estadística. Una sola petición de L07 tardó 4.920,7 ms: no acredita un nivel de servicio; errores históricos no atribuibles quedan desconocidos, no en cero.
 
 Investigar origen, mezcla de módulos y prevalencia orienta la respuesta; la alerta no identifica por sí sola la causa.
 
@@ -293,7 +293,7 @@ Investigar origen, mezcla de módulos y prevalencia orienta la respuesta; la ale
 
 # 9. Reentrenamiento y decisión humana
 
-La revisión madura de L07 sintético disparó el ciclo cuando las etiquetas estaban disponibles (día simulado 283), después de las ocho predicciones. La ventana combina 16.838 filas históricas y 7.538 recientes maduras: **24.376 en total**. Excluye por persona a toda la reserva L08: 1.475 personas, solapamiento cero. No trata control y sintético como cohortes independientes.
+Cuando estuvieron disponibles los resultados finales de L07 alterado (día simulado 283), se solicitó revisar el modelo. El entrenamiento del candidato usó 16.838 filas históricas y 7.538 recientes: **24.376 en total**. Se excluyeron las 1.475 personas de L08 para comparar sin compartir estudiantes con ese entrenamiento. Esa reserva evita solapamiento directo, pero sigue perteneciendo a 2014J, ya conocido.
 
 
 | Comparador L08 | Cupos | TP | FP | Cobertura |
@@ -303,7 +303,7 @@ La revisión madura de L07 sintético disparó el ciclo cuando las etiquetas est
 | Candidato v2 | 147 | 81 | 66 | 22,31 % |
 
 
-Se mantuvieron pipeline e hiperparámetros del modelo vigente; cinco folds por persona y un ajuste final, **sin nuevo tuning**. La regla previa exige superar una sigma OOF de la política de dos rondas (1,6598 puntos de cobertura). La mejora fue 1,1019 puntos: cuatro TP adicionales cuando se requieren al menos siete. La AP tampoco mejoró (0,432826 frente a 0,433943).
+**Lectura de la tabla:** con los mismos 147 cupos, el candidato detecta 81 Fail frente a 77 del vigente: cuatro adicionales y cuatro falsas alertas menos. La regla previa exige superar la variación histórica (1,6598 puntos de cobertura), equivalente a siete casos más. Solo mejora 1,1019 puntos: no cumple. Se mantuvieron preparación e hiperparámetros, sin nueva búsqueda.
 
 ## Pausa real y rechazo registrado
 
@@ -318,7 +318,7 @@ Kestra 6lcaE9ak8kGv4myx06ZMMw se detuvo en PAUSED. Wilmer Puerta confirmó recha
 | DECIDIDO | RECHAZADO, responsable y motivo; alias operativo conservado. |
 
 
-La decisión protege al proyecto frente a reemplazos que añaden costo operativo sin una ganancia suficiente bajo su regla previa. Aunque el candidato reduce cuatro falsas alertas con los mismos cupos, esa mejora no alcanza el margen exigido para cambiar el modelo. Conservarlo registrado permite auditar el rechazo y contrastar la regla con evidencia futura.
+La tabla de eventos deja constancia de quién solicitó, comparó y decidió. Rechazar conserva la versión 1 y evita asumir el costo de un cambio cuya mejora no alcanza el margen acordado. El candidato queda registrado para auditoría; no se elimina su resultado ni se presenta como una promoción. La decisión humana y su motivo forman parte de la evidencia.
 
 ## Recarga/rollback e interruptor: alcance de la evidencia
 
@@ -337,7 +337,7 @@ El fallback usa el Dummy most_frequent histórico; riesgo_fail=0 es una compatib
 
 # 10. Ética, acceso y retirada
 
-El análisis por discapacidad declarada usa solo el control original y resultados maduros. N significa que no consta declaración, no que no existan necesidades. La base de semana 2 se mantiene al calcular cobertura/FPR acumuladas, incluyendo propuestas previas que ya no son elegibles en semana 4.
+La revisión de acceso utiliza los datos originales y resultados finales disponibles. N indica que no consta discapacidad declarada; no demuestra ausencia de necesidades. La cobertura y la tasa de falsas alarmas usan la población inicial, incluidas las propuestas de semana 2. La tabla compara a quién se logra priorizar y qué costo de revisión puede recaer en cada grupo.
 
 
 | Semana 4, control | Base | Fail | Cobertura | FPR |
@@ -348,7 +348,7 @@ El análisis por discapacidad declarada usa solo el control original y resultado
 | L06, Y | 346 | 87 | 14,94 % | - |
 
 
-El agregado presenta una brecha de -2,91 puntos de cobertura Y frente a N; en L06 llega a **-8,20 puntos** y activa revisión de acceso. No se acepta uso automático de esa onda sin revisar composición por módulo, accesibilidad y necesidades. Una señal no prueba discriminación causal; la falta de dos cohortes persistentes tampoco certifica equidad.
+La cobertura del grupo Y queda 2,91 puntos por debajo del grupo N en el total y **8,20 puntos en L06**: hay que revisar acceso, composición y necesidades antes de aplicar esa onda. FPR significa proporción de propuestas entre quienes no terminan en Fail; no es la proporción de falsas alertas dentro de la lista. La diferencia observada requiere revisión, pero no demuestra por sí sola discriminación causal.
 
 
 | Señal observable | Acción y responsable |
@@ -369,9 +369,9 @@ El agregado presenta una brecha de -2,91 puntos de cobertura Y frente a N; en L0
 | Y / 842 | 0,4281 | 6,77 % | 2,61 % | 90,62 % |
 
 
-AP y tasas de decisión usan elegibles del corte; cobertura/FPR de la tabla superior usan la base inicial. Una AP mayor en Y no garantiza igual acceso: la mezcla de módulos y prevalencia difieren.
+La tabla inferior muestra cómo se distribuyen las decisiones entre quienes siguen elegibles al día 28. Una AP mayor en Y no garantiza igual acceso. Sus denominadores difieren de los de cobertura/FPR de la tabla superior; no deben interpretarse como la misma tasa.
 
-Antes del piloto, debe acordarse cómo informar la propuesta, obtener la aceptación y registrar su resolución. Ese seguimiento permitiría identificar si la pérdida de acceso aparece al priorizar, contactar o atender, tres momentos que el score por sí solo no distingue. La Universidad deberá evaluar esa trayectoria por grupo y atender la revisión de L06 antes de ampliar el uso del ranking. El registro debe distinguir una propuesta pendiente de una atención efectivamente realizada.
+La tabla central fija cuándo corregir datos, activar respaldo o proponer suspender el ranking y quién revisa. El piloto debe registrar propuesta, contacto, aceptación y atención, para localizar dónde se pierde acceso. La revisión de L06 debe cerrarse antes de ampliar el uso institucional.
 
 FP: tiempo/cupo para Universidad y tutores, contacto y posible estigma para el estudiante; puede tratarse de Withdrawn que también necesite apoyo. FN: apoyo oportuno no ofrecido a quien termina en Fail. Los tutores revisan contexto y contactos; el estudiante conserva vías habituales y puede pedir revisión. El módulo institucional de atención, consentimiento y apelaciones no está implementado.
 
@@ -381,7 +381,7 @@ FP: tiempo/cupo para Universidad y tutores, contacto y posible estigma para el e
 
 # 11. Resultado de negocio por lote
 
-La comparación principal es el control original al finalizar ambas rondas: **420 vs 314 TP con 920 cupos**, coberturas 21,57 % vs 16,13 % sobre 1.947 Fail, +33,76 % relativo y +5,44 puntos. Los FP bajan de 606 a 500. Las 106 detecciones netas son matrículas: 257 ganadas menos 151 perdidas, no necesariamente 106 personas.
+Al terminar las dos rondas, añadir actividad digital permite proponer apoyo a **420 casos Fail frente a 314, con los mismos 920 cupos**. La cobertura pasa de 16,13 % a 21,57 %: +5,44 puntos o +33,76 % relativo. Las falsas alertas bajan de 606 a 500. Son 106 matrículas adicionales netas (257 ganadas menos 151 perdidas), no necesariamente 106 personas.
 
 TP del longitudinal y estático con iguales cupos en cada onda/corte. L07 maduro identifica el disparador; L08 es la reserva de comparación. Todos los puntos son v1: el reentrenamiento rechazado no cambió estos scores.
 
@@ -402,7 +402,7 @@ Figura: TP del longitudinal y estático con iguales cupos en cada onda/corte. L0
 
 L05-L08 acumulan las propuestas de L01-L04 de la misma onda: **no sumar ambos cortes**. El agregado final suma las cuatro ondas de semana 4. L03 empata; en L07 sintético hay 69 frente a 73 TP estáticos. El total sintético es 317 frente a 263 (+20,53 %), con pérdida de 103 TP frente al longitudinal del control; no se suman ambos escenarios.
 
-Los TP absolutos varían con el tamaño de la onda y su presupuesto: el valor de L06 no demuestra por sí solo un mejor modelo que en L03. La comparación conserva cohorte, corte y cupos; la revisión operativa considera también los errores y la referencia estática de cada onda. La cobertura facilita interpretar la detección en relación con los Fail disponibles.
+**Cómo leer gráfico y tabla:** TP cuenta propuestas que terminan en Fail; FP, las que tienen otro resultado. Cada fila compara el mismo grupo, corte y cupos. Un grupo grande puede tener más TP solo por su capacidad; no demuestra un mejor modelo. La cobertura mide detección respecto de todos sus Fail. Estos datos conocidos orientan un piloto, sin garantizar desempeño futuro.
 
 La cola administrativa logra 187 TP con 920 cupos. No actuar tiene cero propuestas tempranas. La política reactiva también anticipa cero: asigna 920 casos una vez conocido Fail al cierre+14 simulado, por construcción. Su precisión posterior no es una predicción comparable al horizonte temprano. El longitudinal propone para 893 personas distintas; matrícula y persona se reportan por separado.
 
@@ -420,9 +420,9 @@ La cola administrativa logra 187 TP con 920 cupos. No actuar tiene cero propuest
 | Prevención K + adelanto | 1.194 | 530 / 664 | 646 |
 
 
-La bolsa reactiva futura se supone igual a K por edición; el adelanto se redondea dentro de cada edición: 274, no 276 al agrupar todo. La bolsa reactiva vigente se protege y su importe es desconocido. Si no existe prevención financiada, el 30 % solo permite 274 cupos; no financia automáticamente las 920 propuestas del benchmark. Costos por atención, horas y demanda reales no se conocen.
+La tabla compara tres decisiones presupuestarias, no tres mejoras del mismo tamaño. Se supone una bolsa reactiva futura de 920 cupos; adelantar 30 % por edición permite 274 y deja 646 para después. La bolsa reactiva vigente se protege. Si no existe presupuesto preventivo independiente, ese adelanto no financia las 920 propuestas del análisis principal. Los costos por atención, horas y demanda reales son desconocidos.
 
-Con asistencia y probabilidad reactiva iguales a uno, adelantar 274 para añadir 110 TP sobre la prevención ya financiada exigiría efectividad 274/110=2,49 para compensar cupos bajo costo unitario igual, fuera de [0,1]. Con efectividad cero no se reduce necesidad y quedan menos cupos futuros. Las 288 sensibilidades son supuestos contables por edición, no efectos causales ni ahorro observado.
+Añadir el adelanto a una prevención ya financiada aumenta la detección de 420 a 530 Fail: 110 adicionales, a cambio de mover 274 cupos futuros. Con asistencia completa y costo unitario igual, ni una eficacia de 100 % compensaría esos 274 cupos solo con los 110 casos adicionales (274/110=2,49). Si el apoyo no tiene efecto, no baja la necesidad futura. Las 288 sensibilidades exploran supuestos; no son ahorro ni efecto causal observado.
 
 ## Recomendación: ajustar y validar en un piloto supervisado
 
@@ -432,14 +432,14 @@ El piloto debe fijar capacidad, responsables y qué resultado justificaría cont
 
 ## Limitaciones y pendientes de entrega
 
-2014J fue observado previamente y las ocho ondas no son semestres nuevos. La fecha real de etiquetas y el presupuesto institucional no están disponibles; hay deriva inducida y pocos eventos para SLA. La diferencia CV entre finalistas no demuestra superioridad estable. Faltan validación prospectiva, efecto tutorial y evaluación económica; los notebooks finales 01-07 y el pitch histórico en PDF no están cerrados.
+**2014J ya se había consultado y no es una prueba final independiente.** Las cifras retrospectivas pueden estar influidas por ese conocimiento. Repetir la ejecución, purgar personas o reservar L08 no elimina la limitación. El siguiente contraste debe fijar reglas y modelos antes de conocer una cohorte futura. Tampoco se han medido efecto tutorial, costo real o capacidad institucional. Los siete notebooks están verificados; faltan el video y el pitch histórico en PDF.
 
-**Demo:** guion de 6:35 min en docs/guion_video.md; grabación y enlace público/accesible todavía pendientes. No se presenta un enlace ficticio. Antes de entregar: grabar, comprobar acceso, insertar URL y revisar esta versión con los notebooks Restart/Run All.
+**Demo:** guion de 6:35 min en docs/guion_video.md. La grabación y su enlace accesible siguen pendientes. Antes de entregar, grabar, comprobar el acceso e insertar la URL; no se publica un enlace ficticio.
 
 
-| Pendiente | Cierre requerido |
+| Componente | Estado / cierre requerido |
 |---|---|
-| Notebooks 01-07 | Ejecutar Restart/Run All, guardar salidas y comprobar trazabilidad. |
+| Notebooks 01-07 | Siete ejecutados con kernel nuevo, salidas guardadas y auditoría PSet1 conciliada. |
 | Video / pitch histórico | Grabar demo accesible hasta 7 min; insertar URL; cerrar PDF del pitch histórico. |
 | Entrega | Revisar coherencia entre memo, presentación, cinco CSV y repositorio. |
 
