@@ -1,6 +1,6 @@
 # Proyecto final: apoyo académico preventivo
 
-Estado: **servicio batch implementado y verificado**, con modelos específicos de semanas 2 y 4, contrato Pydantic, registro transaccional, respaldo, fixtures y CI. La carga Snowflake y los ocho despachos de control quedaron verificados (18.323 predicciones únicas). Monitoreo, deriva y tablero quedaron verificados con controles y un escenario sintético separado. El challenger se reentrenó, comparó y rechazó por decisión humana; Kestra terminó en SUCCESS y el champion permanece en versión 1. La imagen GHCR y la recarga/rollback técnica quedaron verificadas. El Compose único ya integra Kestra/PostgreSQL, dbt, Spark, MLflow propio, ambas API, monitor y tablero. La ingesta completa y la igualdad de la OBT frente al PSet 02 están verificadas. El memo técnico (12 páginas), la presentación ejecutiva (12 diapositivas), sus anexos y el guion de video están preparados para revisión. Quedan los notebooks finales, el pitch histórico en PDF y grabar/publicar el video e insertar su URL.
+Estado: **servicio batch implementado y verificado**, con modelos específicos de semanas 2 y 4, contrato Pydantic, registro transaccional, respaldo, fixtures y CI. La carga Snowflake y los ocho despachos de control quedaron verificados (18.323 predicciones únicas). Monitoreo, deriva y tablero quedaron verificados con controles y un escenario sintético separado. El challenger se reentrenó, comparó y rechazó por decisión humana; Kestra terminó en SUCCESS y el champion permanece en versión 1. La imagen GHCR y la recarga/rollback técnica quedaron verificadas. El Compose único ya integra Kestra/PostgreSQL, dbt, Spark, MLflow propio, ambas API, monitor y tablero. La ingesta completa y la igualdad de la OBT frente al PSet 02 están verificadas. El memo técnico (12 páginas), la presentación ejecutiva (12 diapositivas), sus anexos y el guion de video están preparados para revisión. Los siete notebooks finales están ejecutados con salidas guardadas y la auditoría PSet1 está conciliada. Quedan el pitch histórico en PDF y grabar/publicar el video e insertar su URL.
 
 ## Documentos de comunicación
 
@@ -11,7 +11,7 @@ Estado: **servicio batch implementado y verificado**, con modelos específicos d
 - [Ejemplo completo de API y respuesta 422](docs/ejemplo_api.json), ejecutado con IDs sintéticos en un servicio aislado.
 - [Verificación documental y procedencia](docs/evidencia_comunicacion.json), [captura real de Actions](docs/github_actions.png), [arquitectura](docs/arquitectura.png) y [modelo dimensional](docs/modelo_dimensional.png).
 
-El guion no es una grabación: el video y su URL siguen pendientes. La narración y los resultados separan el rechazo real del challenger de la recarga/rollback mecánica en un nombre de prueba. El memo no declara el proyecto completo mientras falten los notebooks y la demo publicada. Los nombres `Puerta_Wilmer` mantienen la convención indicada por el autor; la rúbrica dice dos apellidos y no se presume una excepción docente.
+El guion no es una grabación: el video y su URL siguen pendientes. La narración y los resultados separan el rechazo real del challenger de la recarga/rollback mecánica en un nombre de prueba. El memo mantiene los pendientes de video publicado y pitch histórico; no declara cerrada toda la entrega. Los nombres `Puerta_Wilmer` mantienen la convención indicada por el autor; la rúbrica dice dos apellidos y no se presume una excepción docente.
 
 ## Objetivo de negocio
 
@@ -21,7 +21,7 @@ Control estático, Dummy y política reactiva son comparadores distintos. El ade
 
 ## Estructura y continuidad
 
-Se conserva el árbol de la rúbrica. `dbt/` y `spark/` conservan el SQL, las features y los contratos del PSet 02; sus Dockerfiles incorporan el código de los ejecutores; `src/pipeline.py` conserva byte a byte la preparación del PSet 03. Los tres memos anteriores están en `docs/historial/`; el pitch histórico y los notebooks integrados aún están pendientes. Las carpetas vacías usan `.gitkeep` solo para conservar su estructura. `.dockerignore` impide enviar entornos, credenciales y datos privados al build.
+Se conserva el árbol de la rúbrica. `dbt/` y `spark/` conservan el SQL, las features y los contratos del PSet 02; sus Dockerfiles incorporan el código de los ejecutores; `src/pipeline.py` conserva byte a byte la preparación del PSet 03. Los tres memos anteriores están en `docs/historial/`; el pitch histórico permanece pendiente. Los notebooks 01-07 están integrados, ejecutados y verificados. Las carpetas vacías usan `.gitkeep` solo para conservar su estructura. `.dockerignore` impide enviar entornos, credenciales y datos privados al build.
 
 Los champions tempranos reutilizan los artefactos completos del PSet 03. Se reentrenó un challenger de semana 4 conservando la preparación y los hiperparámetros, sin repetir tuning. Los nombres son `oulad-apoyo-academico-semana2-modelo@champion` y `oulad-apoyo-academico-semana4-modelo@champion`. Ambos se sirven por versiones iniciales específicas de su corte. El champion histórico del día 56 permanece intacto. Este uso es experimental y no constituye validación prospectiva independiente.
 
@@ -113,7 +113,7 @@ La referencia CI se registra como `fase=preparacion_servicio`, sin entrenamiento
 
 `.github/workflows/ci.yml` instala las dependencias fijadas, prueba con fixtures sin MLflow/Snowflake, construye la imagen y prueba dentro del contenedor en cada push/PR. En el fork del curso se mantiene una copia idéntica en `.github/workflows/ci.yml` de la raíz real del repositorio; GitHub no ejecuta por sí solo workflows dentro de una carpeta anidada. La prueba general del repositorio conserva el núcleo portable; las pruebas de fixtures nativas se ejecutan en el job dedicado con sus versiones y `PSET4_FULL_TESTS=1`.
 
-Los cinco CSV y la trazabilidad operativa están publicados. Pendientes: notebooks 01-07 reproducibles, pitch histórico en PDF, grabación/publicación del video y su URL en el memo. [Cambios y evidencias](docs/cambios.md) distingue lo comprobado de lo pendiente.
+Los cinco CSV y la trazabilidad operativa están publicados. Los notebooks 01-07 ya tienen salidas verificadas. Pendientes: pitch histórico en PDF, grabación/publicación del video y su URL en el memo. [Cambios y evidencias](docs/cambios.md) distingue lo comprobado de lo pendiente.
 
 Referencias técnicas: [pruebas del ciclo de vida de FastAPI](https://fastapi.tiangolo.com/advanced/testing-events/), [validación estricta de Pydantic](https://pydantic.dev/docs/validation/latest/concepts/strict_mode/) y [alias del Model Registry](https://www.mlflow.org/docs/latest/registry/).
 
@@ -186,7 +186,7 @@ cp .local/predicciones-escenarios.csv docs/predicciones.csv
 
 Para reconstruir deliberadamente la referencia, restaurar el snapshot y los OOF privados originales en `.local/modelado/` y ejecutar: `PYTHONPATH=. .venv/bin/python -m monitoreo.deriva --preparar-referencia .local/modelado`. La ejecución ordinaria usa la referencia publicada y funciona sin importar módulos históricos.
 
-El reentrenamiento reserva L08 y excluye todas sus personas de la ventana. No mezcla control y escenario sintético como muestras independientes. La auditoría de equidad y la evaluación de negocio con escenario del 30 % están documentadas; el memo, la presentación y el guion están preparados; permanecen pendientes los notebooks finales y el video publicado.
+El reentrenamiento reserva L08 y excluye todas sus personas de la ventana. No mezcla control y escenario sintético como muestras independientes. La auditoría de equidad y la evaluación de negocio con escenario del 30 % están documentadas; el memo, la presentación y el guion están preparados; los notebooks finales están verificados y el video publicado sigue pendiente.
 
 
 ## Reentrenamiento y revisión humana
@@ -254,7 +254,7 @@ La auditoría original por discapacidad declarada y sus criterios de revisión e
 
 `PSET4_FORCE_FALLBACK=1` activa, al recrear API/API sintética, una cola administrativa sin estimación individual. La respuesta añade `puntuacion_individual=false` y un mensaje operativo; el valor numérico técnico del Dummy no significa riesgo cero. Las respuestas previas permanecen inmutables. [Procedimiento para operar el interruptor](docs/guia_usuario.md#operación-del-respaldo-y-revisión-de-necesidades).
 
-El análisis se reproduce con `python -m monitoreo.deriva --etica <directorio_privado> --codigo-etica <SHA_DE_CODIGO>` dentro del worker con credenciales Snowflake; usa únicamente controles y etiquetas ya maduras. La evaluación de negocio quedó calculada; el Compose único está verificado y los documentos de comunicación preparados; notebooks y video publicado siguen pendientes.
+El análisis se reproduce con `python -m monitoreo.deriva --etica <directorio_privado> --codigo-etica <SHA_DE_CODIGO>` dentro del worker con credenciales Snowflake; usa únicamente controles y etiquetas ya maduras. La evaluación de negocio quedó calculada; el Compose único está verificado y los documentos de comunicación preparados; los notebooks están ejecutados y el video publicado sigue pendiente.
 
 
 ### Despliegue ético y comprobación del interruptor (histórico)
@@ -263,7 +263,7 @@ La imagen usada en la demostración ética fue `ghcr.io/wilmerpuerta/oulad-proye
 
 La prueba HTTP utilizó un servicio aislado con esa misma imagen y `PSET4_FORCE_FALLBACK` en secuencia 0→1→0, recreando el contenedor al cambiar la configuración. Produjo 160 predicciones sintéticas: normal (40), respaldo en semanas 2/4 (80), y reactivado (40). El respaldo reservó 1+3 cupos de su propia cohorte, mantuvo la validación 422 y devolvió las respuestas anteriores sin recalcular. La reactivación tampoco reemplazó respuestas históricas de respaldo. La puntuación técnica constante quedó marcada como no individual. La instancia de prueba se retiró y sus datos no entran a Snowflake ni a los CSV de negocio.
 
-El champion sigue en versión 1, el candidato de semana 4 continúa rechazado y el respaldo no está forzado en los servicios operativos. La señal de L06 queda para revisión académica; no se declara una aprobación institucional de equidad. El resultado de negocio y los escenarios presupuestarios están documentados; la integración está verificada y los documentos de comunicación preparados; siguen pendientes notebooks y video publicado.
+El champion sigue en versión 1, el candidato de semana 4 continúa rechazado y el respaldo no está forzado en los servicios operativos. La señal de L06 queda para revisión académica; no se declara una aprobación institucional de equidad. El resultado de negocio y los escenarios presupuestarios están documentados; la integración está verificada y los documentos de comunicación preparados; los notebooks están ejecutados y el video publicado sigue pendiente.
 
 
 ## Resultado de negocio
@@ -305,7 +305,7 @@ El flujo no aprende imputaciones ni modifica las features del PSet 03. Raw prese
 
 Para esta integración se hizo un backup SQLite online consistente y una copia independiente de todos los artefactos a los volúmenes propios `mlflow-backend` y `mlflow-artifacts`. Se comprobaron hashes de archivos y de tablas antes de cambiar la conexión. Se conservaron IDs de experimentos/runs, versiones, firmas, tags y aliases. Los servicios históricos y sus volúmenes se mantuvieron separados. Una migración futura debe hacerse hacia volúmenes vacíos y con un respaldo verificado; no debe superponer bases activas ni reemplazar alias por conveniencia.
 
-La conservación del Registry no es un nuevo entrenamiento ni una validación independiente. La integración de infraestructura tampoco constituye evidencia causal del efecto de tutorías. Para reconstruir el sistema en otra máquina hacen falta los datos originales, acceso de servicio a Snowflake y el registro/restauración del modelo; los notebooks y el video publicado pendientes se identifican expresamente.
+La conservación del Registry no es un nuevo entrenamiento ni una validación independiente. La integración de infraestructura tampoco constituye evidencia causal del efecto de tutorías. Para reconstruir el sistema en otra máquina hacen falta los datos originales, acceso de servicio a Snowflake y el registro/restauración del modelo; los notebooks ya están verificados y el video publicado continúa pendiente.
 
 
 ### Ejecución integrada comprobada
@@ -321,4 +321,34 @@ Referencia activa y fijada en `.env.example`: `ghcr.io/wilmerpuerta/oulad-proyec
 
 Los nueve servicios quedaron healthy con un solo comando de Compose. API, API sintética, monitor, tablero y MLflow usan el mismo digest y revisión OCI. Los tres ejecutores incorporan el `src/datos.py` verificado en sus imágenes y no montan código de carpetas históricas. Las credenciales de esta instalación están en `.local/credenciales/` con permisos restringidos, fuera de Git y del build, manteniendo los originales. Los archivos originales OULAD se mantienen como entrada de solo lectura en la ruta configurable.
 
-La verificación conservó los dos SQLite operativos, las tablas del Registry, champions versión 1 y candidato rechazado. El tablero siguió mostrando 106 y 54 Fail adicionales netos en control y deriva, respectivamente; la ingesta no cambió el resultado del modelo. La restauración o registro en un Registry nuevo, los notebooks 01-07 y la publicación del video siguen siendo parte del cierre pendiente; no se declara completada toda la rúbrica.
+La verificación conservó los dos SQLite operativos, las tablas del Registry, champions versión 1 y candidato rechazado. El tablero siguió mostrando 106 y 54 Fail adicionales netos en control y deriva, respectivamente; la ingesta no cambió el resultado del modelo. La restauración en otra máquina requiere sus recursos privados. Los notebooks 01-07 ya están verificados; la publicación del video sigue pendiente y no se declara completada toda la rúbrica.
+
+
+## Notebooks finales y validación de las fuentes (24-nov-2026)
+
+Los siete archivos incluyen explicaciones, cálculos y salidas guardadas. El ejecutor usa un kernel nuevo por notebook y el mismo intérprete con que se invoca. No depende de imports desde PSet1, PSet2, PSet3 o laboratorios, ni necesita servicios externos para reproducir esta evidencia.
+
+| Notebook | Qué recalcula o comprueba |
+|---|---|
+| `01_eda.ipynb` | Relectura completa de cinco CSV, huellas, claves, nulos, relaciones y poblaciones de PSet1; EDA del desarrollo del día 56. |
+| `02_features.ipynb` | Dos variables derivadas y 15 preparaciones (tres variantes × cinco folds); medianas solo del entrenamiento, personas separadas y exclusión de columnas futuras. |
+| `03_baseline_candidatos.ipynb` | Medias de cinco validaciones por candidato, referencias, costos registrados y alcance del prompting. |
+| `04_tuning.ipynb` | Medias de las 90 configuraciones, finalistas y diferencia frente a dispersión histórica. |
+| `05_seleccion.ipynb` | Evaluación retrospectiva registrada y probabilidades de ambos artefactos tempranos sobre las muestras de desarrollo incluidas. |
+| `06_simulacion_produccion.ipynb` | HTTP local con almacenamiento temporal: dos rondas, reenvío idéntico y 422; conciliación de 36.646 predicciones publicadas. |
+| `07_analisis_monitoreo.ipynb` | Resultados diferidos, alertas, regla real de rechazo, comparación de negocio a igual capacidad y brechas de acceso. |
+
+**2014J ya se había consultado y no es una prueba final independiente.** Evitar solapamiento de personas no elimina el conocimiento previo. Los resultados orientan un piloto; se debe fijar el protocolo antes de evaluar una cohorte futura sin consultar. El desarrollo histórico del día 56 purga las personas de prueba elegibles a ese corte; la preparación temprana usa su propia población/purga. No se intercambian sus denominadores.
+
+Desde `proyecto_final/`, después de instalar `requirements.txt`:
+
+```sh
+uv pip install --python .venv/bin/python -r notebooks/requirements.txt
+.venv/bin/python -m src.notebooks --ejecutar
+```
+
+Los notebooks 03-07 usan los cinco CSV públicos, `docs/evidencia_modelado.json` y las fixtures incluidas. Los 01-02 requieren restaurar los insumos privados verificados: los cinco CSV originales en `.local/datos/` y los bundles originales de snapshot/splits (punteros, manifiestos y archivos completos) en `.local/modelado/`. También pueden ubicarse fuera del proyecto mediante `PSET4_DATA_DIR` y `PSET4_MODELADO_DIR`. En esta entrega local ya están preparados; no se publican datos individuales ni credenciales. La auditoría contrasta contra las huellas originales y no acepta archivos diferentes silenciosamente. Fuente y licencia: [OULAD, The Open University](https://research.stem.open.ac.uk/ouanalyse/dataset/), CC BY 4.0.
+
+`docs/evidencia_modelado.json` conserva las métricas por fold, configuraciones y decisiones históricas, con fuentes y huellas. **Reproducir estos cálculos no vuelve a entrenar clasificadores ni repite el prompting**. Tampoco modifica aliases, la base operativa o los informes históricos de PSet1. Los procedimientos de ingesta, preparación, reentrenamiento y evaluación con servicios están documentados en las secciones anteriores; requieren restaurar sus recursos y no se disparan al abrir los notebooks.
+
+La evidencia de esta comprobación está en `docs/validacion_pset1.json` y `docs/verificacion_notebooks.json`. La auditoría confirma 32.593 matrículas y 10.655.280 filas de actividad. El conteo de duplicados dentro de bloques se informa como tal; la agregación global diaria pertenece a la validación Silver/Gold del pipeline.

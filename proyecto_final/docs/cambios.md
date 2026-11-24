@@ -2,7 +2,7 @@
 
 ## Estado de esta etapa
 
-Estado actual: integración completa verificada con nueve servicios saludables, 84 pruebas, ingesta fuente→OBT, Registry propio y evidencias operativas conservadas. Memo técnico de 12 páginas, presentación de 12 diapositivas, anexos y guion de 6:35 preparados para revisión. Quedan notebooks 01-07, pitch histórico en PDF y grabar/publicar el video e insertar su URL. Las entradas anteriores se conservan como registro cronológico; el estado vigente se detalla al final.
+Estado actual: integración completa verificada con nueve servicios saludables, 84 pruebas, ingesta fuente→OBT, Registry propio y evidencias operativas conservadas. Memo técnico de 12 páginas, presentación de 12 diapositivas, anexos y guion de 6:35 preparados para revisión. Los siete notebooks están ejecutados con salidas y PSet1 conciliado. Quedan pitch histórico en PDF y grabar/publicar el video e insertar su URL. Las entradas anteriores se conservan como registro cronológico; el estado vigente se detalla al final.
 
 ## Registro de observaciones y ajustes
 
@@ -544,3 +544,15 @@ Se simplificó la atribución del conjunto de datos en el memo y su fuente edito
 Se amplió la explicación en las páginas 1 y 3-12, según el espacio disponible, manteniendo 12 páginas. Se desarrollan el uso de los cupos y los falsos positivos, el join que conserva matrículas sin actividad, la selección por cobertura al cupo, el reparto entre semanas, la operación ante errores API, la separación código/modelo, el diagnóstico de alertas, el rechazo del candidato, el seguimiento del acceso, la lectura de métricas por onda y el diseño del piloto. La página 2 conserva contenido y distribución; se actualiza la fecha del pie de revisión en todo el documento.
 
 Los párrafos anteriores, tablas, gráficos, cifras y decisiones se conservan. Se revisaron visualmente las 12 páginas y se comprobaron fuentes, límites y ausencia de recortes. Los márgenes de cierre quedan entre 53,4 y 65,4 puntos. No se cambia el tamaño de letra ni se introducen resultados experimentales; tampoco se repiten entrenamiento, tuning o llamadas a un LLM. Se actualizan la fuente editorial, el generador local y los hashes de comunicación.
+
+
+## Notebooks, fuentes PSet1 y lectura de negocio (24-nov-2026)
+
+- Se integraron los siete notebooks en `proyecto_final/notebooks/`, con kernel nuevo, ejecución completa y salidas guardadas. `src/notebooks.py` permite repetirlos y genera un informe con las huellas de los notebooks ejecutados. La dependencia opcional de Jupyter permanece dentro de `notebooks/`.
+- Se releyeron los cinco originales: huellas y tamaños idénticos; claves, faltantes, relaciones, clases y poblaciones elegibles en 14/28/42/56 coinciden con PSet1. Son 32.593 matrículas, 28.785 personas y 10.655.280 filas de actividad; cero filas huérfanas o clics negativos. `docs/validacion_pset1.json` conserva la comprobación. No se sobrescribieron manifiesto ni informes históricos.
+- Se distinguen el desarrollo del día 56 y la preparación temprana: sus poblaciones elegibles y purgas no son intercambiables. Las transformaciones se verifican dentro de cada fold; la preparación original `src/pipeline.py` conserva sus bytes.
+- Los notebooks 03-04 recalculan métricas de folds y búsquedas ya registradas. El 05 verifica probabilidades de muestras de desarrollo; el 06 ejecuta HTTP con modelos exportados y SQLite temporal; el 07 reproduce rechazo, negocio, alertas y revisión de acceso. No se hicieron nuevas llamadas LLM, búsquedas ni entrenamientos de clasificadores.
+- Se atendió el feedback PSet3 en el memo final: lenguaje más directo, lectura de tablas orientada a decisiones, definición de cobertura/precisión/TP/FP/FPR y separación entre detección, atención e impacto. Se conserva en 12 páginas con gráficos vectoriales y revisión visual de todas las páginas.
+- Se hace explícito desde la primera página que 2014J es una evaluación retrospectiva conocida, no un hold-out independiente de un solo uso. Purga, nueva estructura y reserva L08 no borran el conocimiento previo. La validación independiente queda para una cohorte futura con protocolo fijado antes de ver sus resultados.
+- Las 84 pruebas del servicio aprobaron en una copia local fuera de la carpeta sincronizada. Se comprobó igualdad de los árboles Git de API, tests y pipeline con la fuente de trabajo; el entorno temporal evita bloqueos FileProvider de macOS. Esta ejecución no constituye un nuevo despliegue ni una validación prospectiva.
+- El memo PSet3 histórico se conserva como antecedente; sus limitaciones se incorporan a la interpretación del proyecto final. Pendientes de entrega: pitch histórico PDF, video/URL y auditoría final conjunta de la rúbrica.
