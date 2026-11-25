@@ -556,3 +556,8 @@ Los párrafos anteriores, tablas, gráficos, cifras y decisiones se conservan. S
 - Se hace explícito desde la primera página que 2014J es una evaluación retrospectiva conocida, no un hold-out independiente de un solo uso. Purga, nueva estructura y reserva L08 no borran el conocimiento previo. La validación independiente queda para una cohorte futura con protocolo fijado antes de ver sus resultados.
 - Las 84 pruebas del servicio aprobaron en una copia local fuera de la carpeta sincronizada. Se comprobó igualdad de los árboles Git de API, tests y pipeline con la fuente de trabajo; el entorno temporal evita bloqueos FileProvider de macOS. Esta ejecución no constituye un nuevo despliegue ni una validación prospectiva.
 - El memo PSet3 histórico se conserva como antecedente; sus limitaciones se incorporan a la interpretación del proyecto final. Pendientes de entrega: pitch histórico PDF, video/URL y auditoría final conjunta de la rúbrica.
+
+
+## Guía detallada para grabar la demo (24-nov-2026)
+
+Se añadió `docs/guia_grabacion_demo.md`: configuración de OBS, preparación del despliegue, API aislada con la imagen operativa, comandos completos, nueve escenas con resultados esperados, edición y publicación. La guía diferencia ingesta nueva, historial real de pausa/rechazo y recarga técnica 1→2→1 con pesos idénticos. Los ejemplos y el interruptor quedan en otro SQLite; la guía exige conservar los aliases operativos. El cierre del guion explicita la evaluación retrospectiva conocida de 2014J. Se validaron 20 bloques de shell, ocho fuentes Python y los enlaces locales; no se inició Docker, no se ejecutó ingesta ni se cambió el Registry durante esta preparación. El video y su URL continúan pendientes.

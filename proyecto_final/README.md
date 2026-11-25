@@ -8,6 +8,7 @@ Estado: **servicio batch implementado y verificado**, con modelos específicos d
 - [Presentación ejecutiva: 12 diapositivas](docs/PSet4_presentacion_Puerta_Wilmer.pdf), con [contenido editable](docs/presentacion.md).
 - [Anexos: memos PSet 01-03 y registro de cambios](docs/PSet4_anexos_Puerta_Wilmer.pdf).
 - [Guion y comandos de la demo: 6:35 minutos](docs/guion_video.md), con 25 segundos de margen hasta el límite de 7:00.
+- [Guía detallada para grabar la demo](docs/guia_grabacion_demo.md): OBS, preparación, comandos por escena, comprobaciones y exportación.
 - [Ejemplo completo de API y respuesta 422](docs/ejemplo_api.json), ejecutado con IDs sintéticos en un servicio aislado.
 - [Verificación documental y procedencia](docs/evidencia_comunicacion.json), [captura real de Actions](docs/github_actions.png), [arquitectura](docs/arquitectura.png) y [modelo dimensional](docs/modelo_dimensional.png).
 
