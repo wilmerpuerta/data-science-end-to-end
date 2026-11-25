@@ -2,6 +2,8 @@
 
 Duración objetivo: **6:35 minutos**, con 25 segundos de margen hasta el máximo de 7:00. Idioma: español. El archivo es un guion; el video y su enlace todavía no están publicados.
 
+La [guía detallada de grabación](guia_grabacion_demo.md) contiene preparación de OBS, comandos por escena, resultados esperados y solución de problemas.
+
 ## Preparación antes de grabar
 
 Usar `proyecto_final/`. Dejar descargadas las imágenes, construidos los ejecutores y disponibles las pestañas de Kestra (8094), MLflow (5004), API (8004), tablero (8504) y GitHub Actions. No mostrar `.env`, claves, archivos privados ni cabeceras de autenticación. No usar `docker compose down -v`.
@@ -64,7 +66,7 @@ No ejecutar de nuevo reentrenamiento para obtener un resultado distinto ni reanu
 
 **En pantalla:** Mostrar run/version/snapshot/Gold en un registro y concluir. Pestaña GitHub Actions Success e imagen publicada preparada.
 
-**Narración:** Cada predicción conserva su versión, run, snapshot, política y fuente Gold; el código se publica después de aprobar las pruebas. La decisión de cambiar el modelo permanece separada y humana. Recomiendo ajustar y validar en un piloto supervisado: revisar acceso, acordar capacidad y medir aceptación, costos e impacto antes de escalar. Los documentos y el repositorio contienen la evidencia y las limitaciones.
+**Narración:** Cada predicción conserva modelo, versión, run, snapshot y fuente Gold. El código se publica tras superar las pruebas; cambiar un modelo requiere una decisión humana. 2014J ya se había consultado: los resultados son retrospectivos. Recomiendo un piloto con cohortes nuevas, revisión de acceso y medición de aceptación, costos e impacto antes de escalar.
 
 ## Comandos para infraestructura y consulta
 
