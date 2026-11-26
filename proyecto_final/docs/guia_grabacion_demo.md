@@ -55,151 +55,33 @@ Esperar `modelo_cargado: true`, `respaldo: false` en los modelos y versión `1` 
 
 ## 3 Preparar las herramientas de la demo
 
-Si un comando devuelve un error o un resultado distinto del esperado, resolverlo antes de continuar con la siguiente prueba.
-
-Todos los bloques siguientes se pegan en **la misma Terminal**, desde `proyecto_final/`. Las variables y funciones permanecen disponibles mientras esa Terminal siga abierta. Se usa la imagen real del contenedor operativo y su red, sin mostrar el contenido de `.env`.
-
-Pegar primero este bloque completo:
+El puerto 8010 corresponde a un contenedor adicional: `docker compose up` levanta los nueve servicios del proyecto, pero no crea por sí solo esta API de ensayo. Desde `proyecto_final/`, ejecutar:
 
 ```sh
-DEMO_RUN="video-$(date +%Y%m%d-%H%M%S)"
-DEMO_ROOT="$PWD/.local/demo-video/$DEMO_RUN"
-DEMO_CONTAINER="pset4-$DEMO_RUN"
-DEMO_IMAGE=$(docker inspect "$(docker compose ps -q api)" --format '{{.Image}}')
-DEMO_NETWORK=$(docker inspect "$(docker compose ps -q mlflow)" \
-  --format '{{json .NetworkSettings.Networks}}' | \
-  python3 -c 'import json,sys; n=json.load(sys.stdin); assert len(n)==1, "Revisar red MLflow"; print(next(iter(n)))')
-mkdir -p "$DEMO_ROOT"
-
-# Una cohorte nueva por prueba. El SQLite queda exclusivamente en DEMO_ROOT.
-demo_generar() {
-  docker run --rm --mount "type=bind,source=$DEMO_ROOT,target=/app/.local" \
-    "$DEMO_IMAGE" python -m src.datos \
-    --ejemplo "/app/.local/$1" --cohorte-id "$DEMO_RUN-$1"
-}
-
-# Retira únicamente el contenedor que esta sesión identificó como propio.
-demo_detener() {
-  local marca
-  if docker container inspect "$DEMO_CONTAINER" >/dev/null 2>&1; then
-    marca=$(docker inspect "$DEMO_CONTAINER" --format '{{index .Config.Labels "oulad.demo"}}')
-    if [ "$marca" != "$DEMO_RUN" ]; then
-      echo 'Nombre ocupado por otro contenedor; detener y revisar.'
-      return 1
-    fi
-    docker rm -f "$DEMO_CONTAINER"
-  fi
-}
-
-# Argumento: 0 = modelo; 1 = respaldo. Solo recrea el contenedor aislado.
-demo_iniciar() {
-  case "$1" in 0|1) ;; *) echo 'Usar 0 o 1'; return 1 ;; esac
-  demo_detener || return 1
-  docker run -d --name "$DEMO_CONTAINER" --label "oulad.demo=$DEMO_RUN" \
-    --network "$DEMO_NETWORK" --memory 1536m -p 127.0.0.1:8010:8000 \
-    --mount "type=bind,source=$DEMO_ROOT,target=/app/.local" \
-    -e MLFLOW_TRACKING_URI=http://mlflow:5000 \
-    -e MLFLOW_HTTP_REQUEST_TIMEOUT=10 -e MLFLOW_HTTP_REQUEST_MAX_RETRIES=0 \
-    -e PSET4_MODEL_MODE=mlflow -e PSET4_DB_PATH=/app/.local/operacion.sqlite \
-    -e PSET4_CAPACITY=0.10 -e PSET4_WEEK2_SHARE=0.25 \
-    -e PSET4_FORCE_FALLBACK="$1" \
-    "$DEMO_IMAGE" python /app/.local/servicio.py
-}
-
-# Muestra solo los campos necesarios; la respuesta íntegra se guarda.
-demo_enviar() {
-  local semana
-  case "$2" in 14) semana=2 ;; 28) semana=4 ;; *) echo 'Usar corte 14 o 28'; return 1 ;; esac
-  curl -fsS -X POST http://127.0.0.1:8010/predecir \
-    -H 'Content-Type: application/json' \
-    --data-binary "@$DEMO_ROOT/$1/semana$semana.json" \
-    -o "$DEMO_ROOT/$1/respuesta-$2.json" || return 1
-  python3 - "$DEMO_ROOT/$1/respuesta-$2.json" <<'PY'
-import json,sys
-r=json.load(open(sys.argv[1])); m=r['modelo']
-print(json.dumps({'cohorte':r['cohorte_id'], 'respuestas':len(r['predicciones']),
-  'nuevas_propuestas':r['nuevas_propuestas'], 'respaldo':r['respaldo'],
-  'modelo':m.get('nombre'), 'version':m.get('version'), 'run_id':m.get('run_id'),
-  'puntuacion_individual':m.get('puntuacion_individual')},ensure_ascii=False,indent=2))
-print(json.dumps(r['predicciones'][0],ensure_ascii=False,indent=2))
-PY
-}
-
-# Cambia exclusivamente el alias del nombre técnico de prueba.
-demo_alias() {
-  case "$1" in 1|2) ;; *) echo 'Usar versión 1 o 2'; return 1 ;; esac
-  docker compose exec -T -e DEMO_VERSION="$1" monitoreo python - <<'PY'
-import os,mlflow
-name='oulad-apoyo-academico-recarga-cd-semana2'
-c=mlflow.MlflowClient()
-a,b=[c.get_model_version(name,v) for v in ['1','2']]
-assert a.run_id==b.run_id=='a6c0b65d4e354ceaabfc565c88bfa0c2'
-assert a.source==b.source, 'Los artefactos de prueba deben coincidir'
-real=['oulad-apoyo-academico-semana2-modelo','oulad-apoyo-academico-semana4-modelo']
-antes={n:str(c.get_model_version_by_alias(n,'champion').version) for n in real}
-assert set(antes.values())=={'1'}, 'Revisar el estado operativo antes de grabar'
-v=os.environ['DEMO_VERSION']; assert v in {'1','2'}
-c.set_registered_model_alias(name,'champion',v)
-assert antes=={n:str(c.get_model_version_by_alias(n,'champion').version) for n in real}
-print({'nombre_tecnico':name,'version':v,'modelos_operativos_sin_cambios':antes})
-PY
-}
+source src/demo_video.sh
 ```
 
-Crear la referencia y el servidor de demostración. Este servidor usa el nombre técnico aislado para semana 2; sus dos versiones tienen el mismo artefacto que el modelo real. Semana 4 consulta su modelo vigente. No modifica los aliases operativos.
+El comando verifica el Registry sin modificar aliases, recupera o crea una sesión local, prepara las cohortes sintéticas e inicia la API con la imagen del servicio operativo. Espera la carga y muestra `API de ensayo disponible: http://localhost:8010/docs`.
+
+Comprobar antes de grabar:
 
 ```sh
-python3 - "$DEMO_ROOT" <<'PY'
-from pathlib import Path
-import json,sys
-p=Path(sys.argv[1])
-r=json.loads(Path('tests/fixtures/referencia.json').read_text())
-r['modelos']['14']['nombre']='oulad-apoyo-academico-recarga-cd-semana2'
-(p/'referencia.json').write_text(json.dumps(r))
-(p/'servicio.py').write_text("""from pathlib import Path
-import json,os,uvicorn
-from api.main import crear_app,ProveedorModelos
-p=Path('/app/.local')
-r=json.loads((p/'referencia.json').read_text())
-provider=ProveedorModelos(r,modo='mlflow',forzar_respaldo=os.environ.get('PSET4_FORCE_FALLBACK','0')=='1')
-app=crear_app(ruta_db=p/'operacion.sqlite',proveedor=provider)
-uvicorn.run(app,host='0.0.0.0',port=8000)
-""")
-PY
-
-demo_alias 1
-```
-
-**Continuar solo si el último comando pasa y confirma ambos modelos operativos en `1`.** Si falta el nombre técnico o difieren sus artefactos, revisar esa preparación; no sustituirlo por el candidato rechazado.
-
-Después ejecutar:
-
-```sh
-demo_generar normal
-demo_generar version1
-demo_generar version2
-demo_generar rollback
-demo_generar respaldo
-demo_generar reactivado
-demo_iniciar 0
-```
-
-Esperar el arranque y consultar:
-
-```sh
-curl -fsS 'http://127.0.0.1:8010/modelo?corte_dias=14' | python3 -m json.tool
 curl -fsS http://127.0.0.1:8010/salud | python3 -m json.tool
+curl -fsS 'http://127.0.0.1:8010/modelo?corte_dias=14' | python3 -m json.tool
 ```
 
-Se debe ver el **nombre técnico**, versión `1`, el run `a6c0b65d…`, `respaldo: false` y `modelo_cargado: true`. Si todavía no responde, esperar y repetir la consulta; si el problema persiste, revisar `docker logs --tail 40 "$DEMO_CONTAINER"` antes de grabar.
+Se espera `modelo_cargado: true`, nombre técnico `oulad-apoyo-academico-recarga-cd-semana2`, versión `1` y `respaldo: false`. Semana 4 consulta el modelo vigente. El nombre técnico tiene dos versiones con el mismo artefacto; sus cambios posteriores se hacen explícitamente mediante `demo_alias`.
 
-Registrar la identidad inicial del contenedor:
+La sesión guarda solicitudes y respuestas en `.local/demo-video/video-<fecha-hora>/`, con SQLite separado. El archivo privado `.local/demo-video/sesion.env` permite retomar sus variables. **Si cierras Terminal, vuelve a entrar a `proyecto_final/` y ejecuta `source src/demo_video.sh`.** Recuperará la sesión y cargará de nuevo `demo_enviar`, `demo_alias`, `demo_iniciar` y `demo_detener`. El script no reinicia un contenedor de ensayo que ya está corriendo.
+
+Continuar en esa misma Terminal con las escenas. No enviar todavía `normal`, `version1`, `version2`, `rollback`, `respaldo` o `reactivado`. Para ensayar sin consumir las solicitudes previstas para la grabación:
 
 ```sh
-docker inspect "$DEMO_CONTAINER" --format '{{.Id}} {{.Image}}' > "$DEMO_ROOT/contenedor-inicial.txt"
+demo_generar ensayo
+demo_enviar ensayo 14
 ```
 
-No enviar todavía las cohortes reservadas para las escenas. Si necesitas ensayar, generar otra con `demo_generar ensayo` y usar `demo_enviar ensayo 14`. Para repetir todo desde cero después de cerrar Terminal, volver a iniciar el procedimiento: cada sesión tendrá un directorio nuevo.
+Si un comando devuelve error, resolverlo antes de continuar. El script verifica la identidad del contenedor antes de retirarlo y no administra los servicios Compose. Si al recuperar una sesión el respaldo estaba activado, sus funciones quedan cargadas; usar `demo_iniciar 0` y esperar el modelo para volver al estado normal.
 
 ## 4 Preparar y grabar la ingesta nueva
 
@@ -450,3 +332,12 @@ Ambos modelos operativos deben seguir en `1`, sin respaldo forzado. Conservar `D
 | El video supera siete minutos | Recortar navegación repetida y acelerar esperas señaladas; conservar las demostraciones y resultados exigidos. |
 
 La revisión de esta guía es de comandos, código y coherencia con el proyecto. El ensayo en vivo debe confirmar la disponibilidad de Docker, las imágenes, el Registry, Kestra y Snowflake en el momento de grabar.
+
+
+## 9 Encontrar una ejecución nueva en GitHub Actions
+
+Encender Docker o consultar Swagger no dispara GitHub Actions. Los workflows se ejecutan por eventos de GitHub: CI admite push, pull request y ejecución manual; CD se publica por push a `main` después de las pruebas.
+
+Abrir **Actions → proyecto-final-ci** y localizar el commit que se está mostrando. Para la ejecución manual, usar **Run workflow** y seleccionar **main**, cuando el botón esté disponible. Si la interfaz no muestra el botón por estar consultando la rama predeterminada histórica `master`, revisar el workflow de `main`; el disparo por API sobre `main` permite comprobar esa revisión sin sobrescribir `master`.
+
+En una corrida, abrir el job `api` y los pasos de pruebas e imagen. Esperar **Success** antes de presentarlo como aprobado. Los pasos sin desplegar muestran logs de CI; las peticiones locales de la demo quedan en el contenedor aislado y no aparecen en los logs de GitHub. El commit, la corrida y la imagen publicada deben identificarse por separado.

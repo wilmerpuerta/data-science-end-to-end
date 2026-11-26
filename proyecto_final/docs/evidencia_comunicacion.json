@@ -39,7 +39,7 @@
       "sha256_original": "108a70a93e74b150121382b5cd266e64e61cf40435eb0d4c01c5b1089c4393c6"
     }
   ],
-  "cambios_md_sha256": "75b6c884ce87c11edb0c3954ad7e16aa0102d7bfa92f7f223406b904ee89e2a8",
+  "cambios_md_sha256": "4b248658fd3b80b3f314ab74ddff04bcc98d12f95b31c0883a243ce696a7408b",
   "github_actions": {
     "url": "https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44781023359",
     "fecha": "2026-11-20T19:21:56.920Z",
@@ -288,7 +288,7 @@
     "metricas_modelos_y_decisiones_conservados": true,
     "alcance_temporal": "Verificación de la edición del 20-nov-2026, anterior a la ampliación del 21-nov-2026."
   },
-  "fecha_ultima_revision": "2026-11-24",
+  "fecha_ultima_revision": "2026-11-26",
   "revision_ampliacion": {
     "fecha": "2026-11-21",
     "paginas": 12,
@@ -442,13 +442,13 @@
     "originales_e_informes_historicos_conservados": true
   },
   "guia_grabacion": {
-    "fecha": "2026-11-24",
+    "fecha": "2026-11-26",
     "archivo": "guia_grabacion_demo.md",
-    "sha256": "95c0fe9c6685a2885dea52c62ebefbfc470fa52d7d04a5f00949f74397975133",
-    "guion_sha256": "c64b1d2a26e09c5eeb720d5d7350edc45b07907f14502a97243bf92db90bf748",
+    "sha256": "460a48aa0a1eb429f510c34ac4282b40454b3e5defee94e844228a8b99041a26",
+    "guion_sha256": "3d33ef0d302a5384d31b5db47a78f29a0bbe0f69f2673cc7afb8afc630611b45",
     "escenas": 9,
     "duracion_objetivo": "6:35",
     "duracion_maxima": "7:00",
-    "validacion": "20 bloques shell con zsh -n; 8 fuentes Python con ast.parse; enlaces locales comprobados. No ensayo en vivo ni cambios Registry."
+    "validacion": "Sintaxis shell y enlaces. Arranque real de API 8010 con Registry; recuperación de sesión y HTTP verificados. Ejemplos aislados, sin modificación de aliases."
   }
 }
