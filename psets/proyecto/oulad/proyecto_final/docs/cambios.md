@@ -561,3 +561,10 @@ Los párrafos anteriores, tablas, gráficos, cifras y decisiones se conservan. S
 ## Guía detallada para grabar la demo (24-nov-2026)
 
 Se añadió `docs/guia_grabacion_demo.md`: configuración de OBS, preparación del despliegue, API aislada con la imagen operativa, comandos completos, nueve escenas con resultados esperados, edición y publicación. La guía diferencia ingesta nueva, historial real de pausa/rechazo y recarga técnica 1→2→1 con pesos idénticos. Los ejemplos y el interruptor quedan en otro SQLite; la guía exige conservar los aliases operativos. El cierre del guion explicita la evaluación retrospectiva conocida de 2014J. Se validaron 20 bloques de shell, ocho fuentes Python y los enlaces locales; no se inició Docker, no se ejecutó ingesta ni se cambió el Registry durante esta preparación. El video y su URL continúan pendientes.
+
+
+## Arranque de la API de ensayo y ejecución manual de CI (26-nov-2026)
+
+El ensayo encontró los nueve servicios saludables y ningún contenedor asociado a 8010. Se añadió `src/demo_video.sh` para preparar y recuperar una sesión privada, registrar cohortes sintéticas e iniciar la API adicional con la misma imagen operativa. La carga consulta el Registry y conserva los aliases; las pruebas de recarga y respaldo siguen siendo acciones explícitas del ensayo. Swagger y salud quedaron comprobados en vivo con modelos cargados. Se simplificaron guía, guion y README para usar un único comando, incluso después de cerrar Terminal.
+
+La revisión de GitHub confirmó los commits publicados y los workflows activos, pero sin corridas asociadas a las últimas publicaciones. Se añadió `workflow_dispatch` a CI para solicitar una verificación explícita sobre `main`, conservando push/PR y la rama histórica `master`. Un servicio local no genera logs de Actions; la guía distingue ambos registros y exige identificar el commit de cada corrida. La publicación de código no cambia los modelos activos.

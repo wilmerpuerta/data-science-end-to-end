@@ -78,94 +78,13 @@ curl -s http://127.0.0.1:8004/salud
 curl -s "http://127.0.0.1:8004/modelo?corte_dias=14"
 ```
 
-## API aislada: preparación y llamadas
+## API aislada y sesión de ensayo
 
-El montaje siguiente queda en `.local/demo-video/api`, sin Snowflake. El contenedor nuevo usa los mismos modelos por alias, pero un SQLite separado. Si ya existe un contenedor con ese nombre, revisar su origen antes de retirarlo; estos comandos no administran los servicios Compose.
+Desde `proyecto_final/`, ejecutar `source src/demo_video.sh`. El script recupera la sesión privada e inicia el puerto 8010 si hace falta. Al abrir otra Terminal, volver a cargarlo antes de usar las funciones. Los nueve servicios Compose no incluyen este contenedor adicional.
 
-```sh
-DEMO_IMAGE=$(python3 -c 'from pathlib import Path; print(next(l.split("=",1)[1] for l in Path(".env").read_text().splitlines() if l.startswith("PSET4_API_IMAGE=")))')
-DEMO_ROOT="$PWD/.local/demo-video/api"
-mkdir -p "$DEMO_ROOT"
-docker run --rm --mount "type=bind,source=$DEMO_ROOT,target=/app/.local" \
-  "$DEMO_IMAGE" python -m src.datos --ejemplo /app/.local/normal \
-  --cohorte-id video-normal
-docker run -d --name pset4-video-api --network proyecto-final_default \
-  --memory 1536m -p 127.0.0.1:8010:8000 \
-  --mount "type=bind,source=$DEMO_ROOT,target=/app/.local" \
-  -e MLFLOW_TRACKING_URI=http://mlflow:5000 -e PSET4_MODEL_MODE=mlflow \
-  -e PSET4_DB_PATH=/app/.local/operacion.sqlite "$DEMO_IMAGE"
-# Esperar modelo_cargado=true.
-curl -s http://127.0.0.1:8010/salud
-curl -s -X POST http://127.0.0.1:8010/predecir \
-  -H "Content-Type: application/json" \
-  --data-binary @.local/demo-video/api/normal/semana2.json > .local/demo-video/valida.json
-python3 - <<'PYCODE'
-from pathlib import Path
-import json
-p=Path(".local/demo-video/api/normal/semana2.json")
-v=json.loads(p.read_text());del v["matriculas"][0]["features"]["studied_credits"]
-Path(".local/demo-video/invalida.json").write_text(json.dumps(v))
-r=json.loads(Path(".local/demo-video/valida.json").read_text())
-print({k:r[k] for k in ["respaldo","nuevas_propuestas"]})
-print(r["predicciones"][0])
-PYCODE
-curl -s -o .local/demo-video/422.json -w "%{http_code}\n" \
-  -X POST http://127.0.0.1:8010/predecir -H "Content-Type: application/json" \
-  --data-binary @.local/demo-video/invalida.json
-```
+La [guía de grabación](guia_grabacion_demo.md) contiene los comandos por escena: `demo_enviar normal 14`, solicitud inválida 422, `demo_alias 1`, `demo_alias 2`, regreso a `1`, respaldo con `demo_iniciar 1` y reactivación con `demo_iniciar 0`. Todos los ejemplos se guardan en el SQLite de la sesión, sin carga a Snowflake.
 
-Reenviar el mismo archivo válido devuelve su respuesta guardada. Para enseñar semana 4, usar el archivo `normal/semana4.json`; deben verse tres propuestas nuevas, no cuatro nuevas. El ejemplo completo usado para el memo está en `docs/ejemplo_api.json` y distingue IDs sintéticos de valores de features de desarrollo.
-
-## Recarga y rollback mecánicos sin promover el candidato
-
-El Registry verificado contiene `oulad-apoyo-academico-recarga-cd-semana2`, versiones 1 y 2 con el mismo run/artefacto, creado para esta prueba en la etapa CD. Comprobar antes que ambas versiones siguen apuntando al run `a6c0b65d4e354ceaabfc565c88bfa0c2`. **Si falta ese nombre o sus pesos difieren, detener el ensayo y revisar; no usar un modelo operativo como sustituto.**
-
-Preparar una referencia y un servidor aislados:
-
-```sh
-python3 - <<'PYCODE'
-from pathlib import Path
-import json
-p=Path(".local/demo-video/api")
-r=json.loads(Path("tests/fixtures/referencia.json").read_text())
-r["modelos"]["14"]["nombre"]="oulad-apoyo-academico-recarga-cd-semana2"
-(p/"referencia.json").write_text(json.dumps(r))
-(p/"servicio.py").write_text("from pathlib import Path\nimport json,os,uvicorn\nfrom api.main import crear_app,ProveedorModelos\np=Path('/app/.local')\nr=json.loads((p/'referencia.json').read_text())\napp=crear_app(ruta_db=p/'operacion.sqlite',proveedor=ProveedorModelos(r,modo='mlflow',forzar_respaldo=os.environ.get('PSET4_FORCE_FALLBACK','0')=='1'))\nuvicorn.run(app,host='0.0.0.0',port=8000)\n")
-PYCODE
-# Retira exclusivamente el contenedor aislado que acabamos de crear.
-docker rm -f pset4-video-api
-docker run -d --name pset4-video-api --network proyecto-final_default \
-  --memory 1536m -p 127.0.0.1:8010:8000 \
-  --mount "type=bind,source=$DEMO_ROOT,target=/app/.local" \
-  -e MLFLOW_TRACKING_URI=http://mlflow:5000 \
-  "$DEMO_IMAGE" python /app/.local/servicio.py
-```
-
-Cambiar solo el alias técnico con este comando, usando sucesivamente `1`, `2` y `1` en `v`. No editar el nombre constante. Consultar `/modelo?corte_dias=14` después de cada cambio y enviar una cohorte nueva generada con `--ejemplo` y nombres `video-v1`, `video-v2`, `video-rollback` (como en la preparación normal). No reutilizar un lote guardado para pretender que cambió su versión.
-
-```sh
-docker compose exec -T monitoreo python - <<'PYCODE'
-import mlflow
-name="oulad-apoyo-academico-recarga-cd-semana2"
-v="1"  # Secuencia de la grabación: 1, después 2, finalmente 1.
-assert v in {"1","2"}
-c=mlflow.MlflowClient()
-versions=[c.get_model_version(name,n) for n in ["1","2"]]
-assert all(m.run_id=="a6c0b65d4e354ceaabfc565c88bfa0c2" for m in versions)
-c.set_registered_model_alias(name,"champion",v)
-print({"modelo_aislado":name,"version":v})
-PYCODE
-curl -s "http://127.0.0.1:8010/modelo?corte_dias=14"
-docker inspect pset4-video-api --format '{{.Id}} {{.Image}}'
-```
-
-Registrar el ID e imagen antes y después: deben ser iguales. Restaurar siempre el alias técnico a `1` al terminar. Los aliases `oulad-apoyo-academico-semana2-modelo` y `oulad-apoyo-academico-semana4-modelo` permanecen en 1. La prueba histórica validada produjo 120 predicciones; los pesos iguales explican que las probabilidades no cambien. No llamar a `--reentrenar rollback` sobre el ciclo rechazado: exige una promoción humana previa y no corresponde a este caso.
-
-## Interruptor en la API aislada
-
-Preparar una cohorte nueva `video-respaldo` con `--ejemplo /app/.local/respaldo`. Recrear solo `pset4-video-api` con los mismos argumentos del servidor aislado y añadir `-e PSET4_FORCE_FALLBACK=1`. Esperar su inicio y enviar la cohorte nueva. Deben verse `respaldo=true`, `puntuacion_individual=false`, cola administrativa y cupos 1+3. El mensaje aclara que el score constante no es riesgo individual. Repetir el lote normal demuestra que no se reescribe su respuesta.
-
-Recrear la API aislada con `PSET4_FORCE_FALLBACK=0` y enviar una tercera cohorte nueva para mostrar reactivación. La recreación es necesaria porque el proceso lee el interruptor al iniciar; no afirmar que basta con editar un archivo. Al acabar: `docker rm -f pset4-video-api`. No aplicar el interruptor ni borrar SQLite en los servicios operativos.
+El nombre técnico de recarga conserva dos versiones con los mismos pesos. Una cohorte nueva por versión permite observar 1→2→1 sin recrear el contenedor durante esa escena. La escena del interruptor sí recrea exclusivamente la API de ensayo. No ejecutar rollback sobre el ciclo rechazado ni modificar aliases operativos. Al terminar, restaurar el alias técnico a `1` y ejecutar `demo_detener`.
 
 ## Pausa, rechazo y trazabilidad sin reabrir el ciclo
 
