@@ -1,0 +1,170 @@
+{
+  "fecha": "2026-11-27",
+  "alcance": "Integridad documental y estructura; enlaces Drive comprobados sin autenticación. Sin nueva ingesta, entrenamiento, tuning ni llamadas LLM.",
+  "archivos_requeridos": 42,
+  "archivos_presentes": 42,
+  "faltantes": [],
+  "documentos": {
+    "memo_paginas": 12,
+    "presentacion_diapositivas": 12,
+    "anexos_paginas": 41,
+    "pitch_historico_paginas": 6
+  },
+  "video": {
+    "fecha": "2026-11-27",
+    "url": "https://drive.google.com/file/d/11P7KdS9zWTNWfUkhNJrOdMeW7uvE2NG6/view?usp=sharing",
+    "file_id": "11P7KdS9zWTNWfUkhNJrOdMeW7uvE2NG6",
+    "archivo": "pset4_demo_video_Puerta_Wilmer.mp4",
+    "bytes": 382812302,
+    "duracion_segundos": 412.34,
+    "resolucion": [
+      1920,
+      1080
+    ],
+    "permisos": {
+      "type": "anyone",
+      "role": "reader",
+      "allowFileDiscovery": false
+    },
+    "verificacion_anonima": {
+      "viewer_http": 200,
+      "nombre_correcto": true,
+      "login_requerido": false,
+      "contenido_http": 206,
+      "mime_type": "video/mp4",
+      "rango_comprobado_bytes": 32,
+      "firma_ftyp": true
+    },
+    "mp4_local_versionado": false
+  },
+  "notebooks": {
+    "cantidad": 7,
+    "hashes_coinciden": true,
+    "errores_guardados": 0
+  },
+  "csv": {
+    "corridas.csv": "3e147f7c5925e3b981cbf6e0b3ca8cc8b808e036f3c2a417eb575f05a6cb9154",
+    "predicciones.csv": "943cc997c8eaff1c7f9a2d92c18cfdf4d34659d610ad77ace06284787d16efb0",
+    "monitoreo.csv": "cd0cdfc00cad0ef5b6d1099d3deda07c882873e4eede97b610babbd1250f781a",
+    "alertas.csv": "d4808661d428419b9830162e140f7e7874e6aaa4b7c392ae7369da2a0fe962da",
+    "reentrenamientos.csv": "eaad34d7ceee857cfd470891bdff8269c2e7482ebf97ecc33e41fe46b2f154fa"
+  },
+  "historial": [
+    {
+      "archivo": "PSet1_memo_Puerta_Wilmer.pdf",
+      "paginas": 2,
+      "sha256": "f123d9523b22528a1c9ef3bcfc67712faece8b9be240022a541cd87ca744d205",
+      "pagina_inicial_anexo": 2
+    },
+    {
+      "archivo": "PSet1_pitch_Puerta_Wilmer.pdf",
+      "paginas": 6,
+      "sha256": "a4e144c1bd7dea9d208ccda6bdba72853752da5f5802b32958ab865039a09ef2",
+      "pagina_inicial_anexo": 4
+    },
+    {
+      "archivo": "PSet2_memo_Puerta_Wilmer.pdf",
+      "paginas": 6,
+      "sha256": "fb62e40e67957b292b9d93968a60ac5cfa95a246f8e720f03d34ff2b64b78cad",
+      "pagina_inicial_anexo": 10
+    },
+    {
+      "archivo": "PSet3_memo_Puerta_Wilmer.pdf",
+      "paginas": 6,
+      "sha256": "108a70a93e74b150121382b5cd266e64e61cf40435eb0d4c01c5b1089c4393c6",
+      "pagina_inicial_anexo": 16
+    }
+  ],
+  "enlaces_pdf_paginas": [
+    1,
+    12
+  ],
+  "visual": {
+    "memo": [
+      1,
+      12
+    ],
+    "memo_cuerpo_paginas_2_11_pixel_igual_al_anterior": true,
+    "pitch_paginas": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "anexos_portada_y_registro": [
+      1,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41
+    ],
+    "historicos_streams_iguales": true
+  },
+  "archivos_sha256": {
+    "docker-compose.yml": "079bfb4efc0a6fbd20b1155690e246001c3cdb5002fa16b102f4ad4fda0a9758",
+    ".env.example": "a2b9571cb6c3174eebcb9aba3ed7131e4607601f68fbac788ab21f8e90b26e2f",
+    "requirements.txt": "cfc89d9ae41ac3a5b11add3c4a278a69d3b9bf4f52e1ea5b5996298714d98854",
+    "README.md": "9ba441dbb40e4d3f7d7f6805742f50bdf46a2d19a2c1d30eee6aa6160399dbaf",
+    ".github/workflows/ci.yml": "59a546240808cea721a6710c1d7540f628acedfa2f9da26ba2c8694e3bd891f1",
+    ".github/workflows/cd.yml": "0e3090915a27c94e2601b20d9a04dc16b5ffe4fe01e80a34a8d9cc255bd40926",
+    "kestra/ingesta.yml": "6d0a814c84f8ff880cded9757917617b21f9eb2dc7f150636de37824918d369f",
+    "kestra/produccion_lotes.yml": "80beca3c715df29df9d7656c2eaec51ea122cec27098ff461655226183ccb773",
+    "kestra/monitoreo.yml": "64411e937f605a3289f5b2f051dbf3db5d6f6f667335b2f4de6d2707ab525e0e",
+    "kestra/reentrenamiento.yml": "8690ab0b05d47b7ca6c46ff384c89f37e4fea1b4e0295371952764ccfd66218f",
+    "src/datos.py": "1dac56d26ee108230a396a5bc615beb81b389e5949996d00ba294d48c1391a15",
+    "src/pipeline.py": "2e45d564d37ff34de666adaa09c5d440cd61f7c7c16378ea354cf9cbbd3e10be",
+    "src/reentrenar.py": "522a1c1bc8cd4efc7e11f81380bb2aeb90af9555214c3d86744770e09d6a4485",
+    "api/Dockerfile": "176922e9a3cac7555f84751b5ff9d1aeff2ba4472e21d3cc80c32a0dda2bc9b6",
+    "api/main.py": "bf206627c629cf7d5c8ca8a35f4916dff7026bc47443823d06092b316958e3c1",
+    "api/esquemas.py": "3ae95b6adfa38fcfa37c30b5f14fe1aee24e7982af448dfc0a9d31234114ddc4",
+    "monitoreo/deriva.py": "9d554a53ca4ad20918fba61f940c48f9dececee752544d45d8c9c3ce13994aa1",
+    "monitoreo/alertas.py": "f00dfcc4991bea3062733912c12d34ef192c3b0af3872420a3f9472c35e65b4c",
+    "tests/test_contrato.py": "81c7bbfd28ce87280a64782af404b1d51db0c81816a4c2e8fa2a907d8f891643",
+    "tests/test_modelo.py": "9626f8ea70f1b307b7655b4256fa25f3dc0398884f29ef42aab4d0a712df032a",
+    "tests/test_comportamiento.py": "10d1b9b6a36bc8682719ffa5baec8b1b970793caaa00bdf34ca320a120e1a63d",
+    "docs/arquitectura.png": "f71c830930bccff0061b3d49abe725692a74d46e352f1cd8414b5cb6503880ec",
+    "docs/modelo_dimensional.png": "1b91879f5219846e479a5eed45896460b27f8f4b4b19647b45fd5f0643d6bc4e",
+    "docs/cambios.md": "151191944375945c9d75b18e641c92e11fe69c37a331c918c5d40b047d4b357b",
+    "docs/corridas.csv": "3e147f7c5925e3b981cbf6e0b3ca8cc8b808e036f3c2a417eb575f05a6cb9154",
+    "docs/predicciones.csv": "943cc997c8eaff1c7f9a2d92c18cfdf4d34659d610ad77ace06284787d16efb0",
+    "docs/monitoreo.csv": "cd0cdfc00cad0ef5b6d1099d3deda07c882873e4eede97b610babbd1250f781a",
+    "docs/alertas.csv": "d4808661d428419b9830162e140f7e7874e6aaa4b7c392ae7369da2a0fe962da",
+    "docs/reentrenamientos.csv": "eaad34d7ceee857cfd470891bdff8269c2e7482ebf97ecc33e41fe46b2f154fa",
+    "docs/PSet4_memo_Puerta_Wilmer.pdf": "c64b86cd663a3be5acb7e0733d8f923edc238b1fe05af503d0e9cc5a57687c8e",
+    "docs/PSet4_presentacion_Puerta_Wilmer.pdf": "3cf6c950117d3aaed490860d54fd83bbec34f6a1f14bc253d9a2b482a792c21f",
+    "docs/historial/PSet1_memo_Puerta_Wilmer.pdf": "f123d9523b22528a1c9ef3bcfc67712faece8b9be240022a541cd87ca744d205",
+    "docs/historial/PSet1_pitch_Puerta_Wilmer.pdf": "a4e144c1bd7dea9d208ccda6bdba72853752da5f5802b32958ab865039a09ef2",
+    "docs/historial/PSet2_memo_Puerta_Wilmer.pdf": "fb62e40e67957b292b9d93968a60ac5cfa95a246f8e720f03d34ff2b64b78cad",
+    "docs/historial/PSet3_memo_Puerta_Wilmer.pdf": "108a70a93e74b150121382b5cd266e64e61cf40435eb0d4c01c5b1089c4393c6",
+    "notebooks/01_eda.ipynb": "f0832acfed6b4d541f0392d36abc91db854a40ce016cad709c1eeb2b1760200a",
+    "notebooks/02_features.ipynb": "07b42f98e36cb779d417cc4c5d4f714c0bd5ced52e81cbf619c6f0dd7d7755eb",
+    "notebooks/03_baseline_candidatos.ipynb": "1fdd9b8aabb4c03fccb4dab97386b71649bbfdef4d9472eb8d5dd2a0dd9c2795",
+    "notebooks/04_tuning.ipynb": "3dbd90ebfb3f4f1224dbe6438fddfc3d0b941a8852a51fa59c15e349b3d61c0f",
+    "notebooks/05_seleccion.ipynb": "385828808bd723d2d4cada885082c3d59575e4b766a09a202f1875af30226047",
+    "notebooks/06_simulacion_produccion.ipynb": "e94ca24961fd2ea1ff969e059d6506e56b794bb9be5e995f5de2b00e2dbcb158",
+    "notebooks/07_analisis_monitoreo.ipynb": "c23799cfe9c54d6d97ac48d5a68e6fddd7dcb1632584887b20ac7cbe4dabd965"
+  },
+  "limites_conservados": [
+    "2014J histórico conocido, no prueba prospectiva independiente",
+    "Rechazo del candidato; rollback mecánico con pesos idénticos en nombre aislado",
+    "Tutorías, efecto causal y ahorro no observados; presupuesto hipotético"
+  ]
+}

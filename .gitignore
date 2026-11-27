@@ -45,3 +45,6 @@ proyecto_final/.local/
 # Modelos privados; únicamente las fixtures auditadas de CI se publican
 *.pkl
 !proyecto_final/tests/fixtures/**/model.pkl
+
+# Demo publicada por enlace; conservar el MP4 local sin versionar el binario.
+/proyecto_final/docs/pset4_demo_video_Puerta_Wilmer.mp4

@@ -23,7 +23,7 @@ Figura: Fail focalizados con iguales 920 propuestas, base de 1.947 Fail. La mejo
 
 La tabla resume qué se decide, cuándo se decide y quién confirma la atención. La cobertura indica qué proporción de todos los Fail aparece entre las propuestas; la precisión indica cuántas propuestas corresponden a Fail. De 920 propuestas, 500 no terminan en Fail: 54,35 % requieren revisión sin confirmar ese resultado. La coordinación debe comprobar necesidad, disponibilidad y aceptación antes de asignar la tutoría. Detectar un caso no demuestra que se haya atendido ni evitado su reprobación.
 
-**Estado de comunicación:** siete notebooks preparados con salidas verificadas. El video aún no se ha grabado ni publicado. Enlace de la demo: **pendiente de publicación**. La entrega conserva pendientes explícitos.
+**Video de la demo:** 6 min 52 s, publicado y accesible por enlace. <a href="https://drive.google.com/file/d/11P7KdS9zWTNWfUkhNJrOdMeW7uvE2NG6/view?usp=sharing" color="#087E8B"><u>Abrir video en Google Drive</u></a>. Notebooks e historial integrados en la entrega.
 
 
 <!-- SALTO DE PÁGINA -->
@@ -430,18 +430,18 @@ Mantener el modelo vigente y la revisión humana; no promover el candidato recha
 
 El piloto debe fijar capacidad, responsables y qué resultado justificaría continuar, ajustar o detener la intervención. Registrar propuestas, contactos, aceptación y atenciones permitirá estimar costos y diseñar una evaluación posterior del efecto del apoyo.
 
-## Limitaciones y pendientes de entrega
+## Limitaciones y cierre de entrega
 
-**2014J ya se había consultado y no es una prueba final independiente.** Las cifras retrospectivas pueden estar influidas por ese conocimiento. Repetir la ejecución, purgar personas o reservar L08 no elimina la limitación. El siguiente contraste debe fijar reglas y modelos antes de conocer una cohorte futura. Tampoco se han medido efecto tutorial, costo real o capacidad institucional. Los siete notebooks están verificados; faltan el video y el pitch histórico en PDF.
+**2014J ya se había consultado y no es una prueba final independiente.** Las cifras retrospectivas pueden estar influidas por ese conocimiento. Repetir la ejecución, purgar personas o reservar L08 no elimina la limitación. El siguiente contraste debe fijar reglas y modelos antes de conocer una cohorte futura. Tampoco se han medido efecto tutorial, costo real o capacidad institucional. Los siete notebooks, el video y los cuatro documentos históricos están incorporados.
 
-**Demo:** guion de 6:35 min en docs/guion_video.md. La grabación y su enlace accesible siguen pendientes. Antes de entregar, grabar, comprobar el acceso e insertar la URL; no se publica un enlace ficticio.
+**Demo publicada:** duración 6 min 52 s. Acceso sin autenticación verificado el 27-nov-2026.<br/><a href="https://drive.google.com/file/d/11P7KdS9zWTNWfUkhNJrOdMeW7uvE2NG6/view?usp=sharing" color="#087E8B"><u>https://drive.google.com/file/d/11P7KdS9zWTNWfUkhNJrOdMeW7uvE2NG6/view?usp=sharing</u></a>
 
 
 | Componente | Estado / cierre requerido |
 |---|---|
 | Notebooks 01-07 | Siete ejecutados con kernel nuevo, salidas guardadas y auditoría PSet1 conciliada. |
-| Video / pitch histórico | Grabar demo accesible hasta 7 min; insertar URL; cerrar PDF del pitch histórico. |
-| Entrega | Revisar coherencia entre memo, presentación, cinco CSV y repositorio. |
+| Video / historial | Video publicado (6:52), enlace verificado; tres memos y pitch histórico en PDF. |
+| Entrega | Memo de 12 páginas, presentación de 12 diapositivas y cinco CSV; trazabilidad verificada. |
 
 
-**Repositorio:** github.com/wilmerpuerta/data-science-end-to-end, rama main, psets/proyecto/oulad/proyecto_final. **Anexos:** PSet4_anexos_Puerta_Wilmer.pdf reúne los tres memos históricos y docs/cambios.md. Datos: OULAD, The Open University, CC BY 4.0, DOI 10.1038/sdata.2017.171. Evidencias: cinco CSV de docs/, snapshots y artefactos privados; los números de este memo no requieren nuevas llamadas a un LLM.
+**Repositorio:** github.com/wilmerpuerta/data-science-end-to-end, rama main, psets/proyecto/oulad/proyecto_final. **Anexos:** PSet4_anexos_Puerta_Wilmer.pdf reúne los tres memos, el pitch histórico y docs/cambios.md. Datos: OULAD, The Open University, CC BY 4.0, DOI 10.1038/sdata.2017.171. Evidencias: cinco CSV de docs/, snapshots y artefactos privados; los números de este memo no requieren nuevas llamadas a un LLM.

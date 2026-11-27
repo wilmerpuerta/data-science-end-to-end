@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "estado": "documentos_y_notebooks_verificados_video_pendiente",
+  "estado": "entregables_integrados_y_video_publicado",
   "fecha": "2026-11-20",
   "autor": "Wilmer Puerta",
   "convencion_nombre": "Puerta_Wilmer por indicacion del autor; no se presume excepcion docente",
@@ -8,8 +8,8 @@
     "memo": {
       "archivo": "PSet4_memo_Puerta_Wilmer.pdf",
       "paginas": 12,
-      "sha256": "b9bc1d482d0e0d304edc7ccf243feb61db400d370c77d2ff966eb66353aa965b",
-      "source_md_sha256": "35018de8ca74be40452d566e9e15389d65245fc036f2bff8cd0625b600d99a2f"
+      "sha256": "c64b86cd663a3be5acb7e0733d8f923edc238b1fe05af503d0e9cc5a57687c8e",
+      "source_md_sha256": "6b3a26cab47b0f80849241eaeb54321ef25e1715fdcda61ecb5d18119faf9dff"
     },
     "presentacion": {
       "archivo": "PSet4_presentacion_Puerta_Wilmer.pdf",
@@ -18,8 +18,16 @@
     },
     "anexos": {
       "archivo": "PSet4_anexos_Puerta_Wilmer.pdf",
-      "paginas": 33,
-      "sha256": "8e05cf41abe310512ce846bc9343ae3884aa5635f6ec49594364e9d315086fc9"
+      "paginas": 41,
+      "sha256": "f0ffe5feef5399ac056dfddaee7e08999ee85beae217f360d387548421048de2"
+    },
+    "pitch_historico": {
+      "archivo": "historial/PSet1_pitch_Puerta_Wilmer.pdf",
+      "paginas": 6,
+      "sha256": "a4e144c1bd7dea9d208ccda6bdba72853752da5f5802b32958ab865039a09ef2",
+      "origen": "pset-01/output/pitch/PSet1_pitch_Puerta_Wilmer.pptx",
+      "origen_sha256": "2f15b4fae45840464cd2a6ad03f7ffe2d48680a10b52ab154c5594f21aca5c5b",
+      "exportacion": "Microsoft PowerPoint; PDF normalizado; todos los textos verificados y fuente intacta."
     }
   },
   "historicos_contenido_conservado": [
@@ -39,7 +47,7 @@
       "sha256_original": "108a70a93e74b150121382b5cd266e64e61cf40435eb0d4c01c5b1089c4393c6"
     }
   ],
-  "cambios_md_sha256": "4b248658fd3b80b3f314ab74ddff04bcc98d12f95b31c0883a243ce696a7408b",
+  "cambios_md_sha256": "151191944375945c9d75b18e641c92e11fe69c37a331c918c5d40b047d4b357b",
   "github_actions": {
     "url": "https://github.com/wilmerpuerta/data-science-end-to-end/actions/runs/44781023359",
     "fecha": "2026-11-20T19:21:56.920Z",
@@ -51,13 +59,20 @@
     "sha256_extracto": "f9b1a63e727a039fba8232ba6b7d2293acb56f6af0342dbaeecb2113a9f6370a"
   },
   "video": {
-    "duracion_objetivo_segundos": 395,
+    "video_grabado": true,
+    "video_url": "https://drive.google.com/file/d/11P7KdS9zWTNWfUkhNJrOdMeW7uvE2NG6/view?usp=sharing",
+    "duracion_real_segundos": 412.34,
     "limite_segundos": 420,
-    "palabras_narracion": 664,
-    "promedio_palabras_minuto": 100.86075949367088,
-    "video_grabado": false,
-    "video_url": null,
-    "escenas": [
+    "cumple_duracion": true,
+    "resolucion": [
+      1920,
+      1080
+    ],
+    "audio": "AAC",
+    "acceso": "anyone/reader; HTTP 200 viewer y HTTP 206 rango MP4 sin autenticación",
+    "verificacion": "2026-11-27",
+    "guion_objetivo_segundos": 395,
+    "escenas_plan_original": [
       {
         "tiempo": "00:00-00:30",
         "tema": "Infraestructura"
@@ -94,7 +109,8 @@
         "tiempo": "06:05-06:35",
         "tema": "Trazabilidad y recomendación"
       }
-    ]
+    ],
+    "archivo_metadatos": "video_demo.json"
   },
   "verificacion": {
     "checks_aprobados": [
@@ -104,7 +120,7 @@
       "presentacion_sin_paginas_vacias",
       "anexos_paginas",
       "anexos_sin_paginas_vacias",
-      "memo_marcador_video_honesto",
+      "memo_video_publicado_enlace_clickable",
       "memo_hitos_reentrenamiento_marcados",
       "memo_no_confunde_promotion",
       "prompting_factible_y_costo_beneficio",
@@ -135,19 +151,16 @@
       "guion_python_compila",
       "guion_menor_siete_minutos",
       "preparacion_conservada",
-      "memo_con_margenes"
+      "memo_con_margenes",
+      "historial_pitch_pdf",
+      "video_acceso_anonimo",
+      "42_archivos_presentes"
     ],
     "visual": {
       "memo_paginas": 12,
       "presentacion_diapositivas": 12,
       "anexos_nuevos_paginas": [
         1,
-        16,
-        17,
-        18,
-        19,
-        20,
-        21,
         22,
         23,
         24,
@@ -159,9 +172,18 @@
         30,
         31,
         32,
-        33
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41
       ],
-      "historicos": "Mismos streams de contenido; vista general de las 14 paginas originales."
+      "historicos": "Tres memos byte a byte conservados; streams de los cuatro históricos iguales al incorporarlos en anexos.",
+      "pitch_historico_paginas": 6
     },
     "api_demo": "200 y 422 reales; modelo publicado, SQLite aislado, IDs sinteticos, sin escritura Snowflake",
     "nuevos_entrenamientos_tuning_llm": false
@@ -272,12 +294,7 @@
     "imagen_activa": "ghcr.io/wilmerpuerta/oulad-proyecto-final-api@sha256:c8c922877eeaa909c9463deaa877e3908451e1e373e5b9eeff10ed7b58ab5c96",
     "preparacion_pipeline_sha256": "2e45d564d37ff34de666adaa09c5d440cd61f7c7c16378ea354cf9cbbd3e10be"
   },
-  "pendientes": [
-    "Pitch historico en PDF",
-    "Grabar/publicar video y verificar acceso",
-    "Insertar URL real en el memo",
-    "Auditoria final de la rubrica"
-  ],
+  "pendientes": [],
   "revision_redaccion": {
     "fecha": "2026-11-20",
     "procedencia_datos": "The Open University (OULAD)",
@@ -288,7 +305,7 @@
     "metricas_modelos_y_decisiones_conservados": true,
     "alcance_temporal": "Verificación de la edición del 20-nov-2026, anterior a la ampliación del 21-nov-2026."
   },
-  "fecha_ultima_revision": "2026-11-26",
+  "fecha_ultima_revision": "2026-11-27",
   "revision_ampliacion": {
     "fecha": "2026-11-21",
     "paginas": 12,
@@ -444,11 +461,21 @@
   "guia_grabacion": {
     "fecha": "2026-11-26",
     "archivo": "guia_grabacion_demo.md",
-    "sha256": "460a48aa0a1eb429f510c34ac4282b40454b3e5defee94e844228a8b99041a26",
-    "guion_sha256": "3d33ef0d302a5384d31b5db47a78f29a0bbe0f69f2673cc7afb8afc630611b45",
+    "sha256": "d868e2c925bba14ab8030dccdf3a95284d36369c8a4882ad4f091dad24010ea6",
+    "guion_sha256": "761e2690a91c16325d0de71fdfa0e476303d62b2d9f468e47c09488a426338aa",
     "escenas": 9,
     "duracion_objetivo": "6:35",
     "duracion_maxima": "7:00",
     "validacion": "Sintaxis shell y enlaces. Arranque real de API 8010 con Registry; recuperación de sesión y HTTP verificados. Ejemplos aislados, sin modificación de aliases."
+  },
+  "verificacion_cierre": {
+    "informe": "verificacion_entrega.json",
+    "sha256": "9096c45cf482e3b6d9569c5bdb4be9ba595c4bf044c6fdbd356433d0b3108116",
+    "historial_completo": true,
+    "video_publicado": true,
+    "url_pdf_clickable": true,
+    "archivos_requeridos": 42,
+    "archivos_presentes": 42,
+    "historicos_sin_alteracion": true
   }
 }
