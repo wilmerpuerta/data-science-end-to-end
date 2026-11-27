@@ -1,0 +1,27 @@
+{
+  "fecha": "2026-11-27",
+  "url": "https://drive.google.com/file/d/11P7KdS9zWTNWfUkhNJrOdMeW7uvE2NG6/view?usp=sharing",
+  "file_id": "11P7KdS9zWTNWfUkhNJrOdMeW7uvE2NG6",
+  "archivo": "pset4_demo_video_Puerta_Wilmer.mp4",
+  "bytes": 382812302,
+  "duracion_segundos": 412.34,
+  "resolucion": [
+    1920,
+    1080
+  ],
+  "permisos": {
+    "type": "anyone",
+    "role": "reader",
+    "allowFileDiscovery": false
+  },
+  "verificacion_anonima": {
+    "viewer_http": 200,
+    "nombre_correcto": true,
+    "login_requerido": false,
+    "contenido_http": 206,
+    "mime_type": "video/mp4",
+    "rango_comprobado_bytes": 32,
+    "firma_ftyp": true
+  },
+  "mp4_local_versionado": false
+}

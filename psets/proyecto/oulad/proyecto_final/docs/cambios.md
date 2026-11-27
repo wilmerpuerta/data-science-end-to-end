@@ -2,7 +2,7 @@
 
 ## Estado de esta etapa
 
-Estado actual: integración completa verificada con nueve servicios saludables, 84 pruebas, ingesta fuente→OBT, Registry propio y evidencias operativas conservadas. Memo técnico de 12 páginas, presentación de 12 diapositivas, anexos y guion de 6:35 preparados para revisión. Los siete notebooks están ejecutados con salidas y PSet1 conciliado. Quedan pitch histórico en PDF y grabar/publicar el video e insertar su URL. Las entradas anteriores se conservan como registro cronológico; el estado vigente se detalla al final.
+Estado actual: integración completa verificada con nueve servicios saludables, 84 pruebas, ingesta fuente→OBT, Registry propio y evidencias operativas conservadas. Memo técnico de 12 páginas, presentación de 12 diapositivas, anexos y guion de 6:35 preparados para revisión. Los siete notebooks están ejecutados con salidas y PSet1 conciliado. El video de 6:52 está publicado e incorporado al memo; el pitch histórico se exportó a PDF y los anexos se actualizaron. Las entradas anteriores se conservan como registro cronológico; el estado vigente se detalla al final.
 
 ## Registro de observaciones y ajustes
 
@@ -568,3 +568,12 @@ Se añadió `docs/guia_grabacion_demo.md`: configuración de OBS, preparación d
 El ensayo encontró los nueve servicios saludables y ningún contenedor asociado a 8010. Se añadió `src/demo_video.sh` para preparar y recuperar una sesión privada, registrar cohortes sintéticas e iniciar la API adicional con la misma imagen operativa. La carga consulta el Registry y conserva los aliases; las pruebas de recarga y respaldo siguen siendo acciones explícitas del ensayo. Swagger y salud quedaron comprobados en vivo con modelos cargados. Se simplificaron guía, guion y README para usar un único comando, incluso después de cerrar Terminal.
 
 La revisión de GitHub confirmó los commits publicados y los workflows activos, pero sin corridas asociadas a las últimas publicaciones. Se añadió `workflow_dispatch` a CI para solicitar una verificación explícita sobre `main`, conservando push/PR y la rama histórica `master`. Un servicio local no genera logs de Actions; la guía distingue ambos registros y exige identificar el commit de cada corrida. La publicación de código no cambia los modelos activos.
+
+
+## Video publicado e historial completo (27-nov-2026)
+
+La demo `pset4_demo_video_Puerta_Wilmer.mp4` dura 412,34 segundos (6:52,34), tiene resolución 1920 × 1080 y una pista de audio AAC. Su enlace Google Drive se incorporó al memo y al README. El acceso se verificó mediante metadatos Drive (`anyone`, `reader`, sin descubrimiento público), una vista anónima HTTP 200 y un rango anónimo HTTP 206 del contenido `video/mp4`. El nombre y tamaño remoto coinciden con el archivo local; la comprobación de acceso no descargó todo el video. `docs/video_demo.json` conserva el enlace y la verificación. El MP4 permanece local, excluido de Git por su tamaño.
+
+El pitch original del PSet1 se exportó desde Microsoft PowerPoint a PDF (seis páginas) y se incorporó a `docs/historial/PSet1_pitch_Puerta_Wilmer.pdf`. No se cambió su contenido ni el PowerPoint original. Los tres memos históricos permanecen byte a byte intactos; las cifras vigentes están en el memo y la presentación finales. Los anexos se regeneraron con los cuatro históricos y este registro actualizado.
+
+Se conservaron las 12 páginas del memo y las 12 diapositivas de la presentación. Se verificaron los enlaces PDF, los 42 archivos requeridos, los siete notebooks con sus salidas y los cinco CSV. La revisión visual del video por fotogramas distingue infraestructura, ingesta, respuestas 200/422, monitoreo, pausa/rechazo, consulta de versiones, respaldo/reactivación y negocio; no constituye una evaluación nueva del desempeño ni una transcripción del audio. No se reentrenaron modelos ni se hicieron llamadas LLM. Se conserva el rechazo del candidato y la limitación de 2014J observado previamente.

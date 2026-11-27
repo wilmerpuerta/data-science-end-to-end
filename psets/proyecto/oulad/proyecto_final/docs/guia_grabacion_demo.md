@@ -6,6 +6,8 @@ Esta es una demostración local del despliegue con datos históricos OULAD. Los 
 
 El [guion de narración](guion_video.md) contiene el texto de cada escena. Esta guía añade la secuencia de preparación, comandos y resultados que debes comprobar. Los comandos que aparecen aquí se ejecutan cuando prepares la grabación; no se han iniciado servicios ni alterado aliases al redactar esta guía.
 
+**Grabación final publicada:** [ver demo](https://drive.google.com/file/d/11P7KdS9zWTNWfUkhNJrOdMeW7uvE2NG6/view?usp=sharing), 6:52,34. Acceso por enlace verificado el 27-nov-2026. Las instrucciones siguientes sirven para reproducir la grabación.
+
 ## 1 Preparar OBS y una prueba de veinte segundos
 
 1. Abrir [OBS Studio](https://obsproject.com/) y ejecutar el asistente de configuración para grabación.

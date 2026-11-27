@@ -1,6 +1,6 @@
 # Guion de video - PSet 04
 
-Duración objetivo: **6:35 minutos**, con 25 segundos de margen hasta el máximo de 7:00. Idioma: español. El archivo es un guion; el video y su enlace todavía no están publicados.
+Duración objetivo: **6:35 minutos**, con 25 segundos de margen hasta el máximo de 7:00. Idioma: español. La grabación final dura **6:52,34** y está [publicada en Google Drive](https://drive.google.com/file/d/11P7KdS9zWTNWfUkhNJrOdMeW7uvE2NG6/view?usp=sharing); el enlace figura en el memo. La escaleta original conserva su objetivo de 6:35.
 
 La [guía detallada de grabación](guia_grabacion_demo.md) contiene preparación de OBS, comandos por escena, resultados esperados y solución de problemas.
 
@@ -96,4 +96,4 @@ La demo diferencia dos evidencias: ciclo real con rechazo y recarga/rollback mec
 
 Revisar que la grabación final dure como máximo 7:00, que los números y los textos sean legibles y que no aparezcan secretos. Mantener los rótulos «espera acelerada», «cohorte sintética», «prueba de recarga con pesos idénticos» y «escenario presupuestario» cuando corresponda. No simular una ejecución o una pausa que no ocurrió.
 
-Publicar el video en una ubicación accesible al profesor, comprobar el enlace con un usuario sin permisos del autor e insertar la URL real en el memo y su fuente. Hasta entonces el documento conserva el texto «pendiente de publicación». El video no sustituye los notebooks finales Restart/Run All.
+El video final está publicado en el enlace indicado al inicio y en el memo. Se verificó el acceso sin autenticación el 27-nov-2026. La grabación dura 6:52,34; los siete notebooks conservan sus salidas de ejecución completa. Para una nueva edición, comprobar otra vez duración, permisos y coherencia del enlace antes de sustituir la entrega.
